@@ -1,7 +1,12 @@
 ---
 title: OpenCharly
 description: The candy factory for you and your agents — secure the room, not the candy.
-template: splash
+# `doc` rather than `splash`, deliberately: Starlight's getToC hard-codes the table of contents
+# to false for splash pages and ignores the `tableOfContents` frontmatter entirely, and
+# `hasSidebar` is likewise `template !== 'splash'`. So a splash landing page cannot have either
+# sidebar. The hero renders on whichever template carries a `hero:` block, so `doc` keeps the
+# landing hero while gaining the nav sidebar and the on-page TOC.
+template: doc
 # Starlight appends the site title to every page title, so a home page called "OpenCharly" on a
 # site called "OpenCharly" renders the tab as "OpenCharly | OpenCharly". Override the whole
 # <title> for this page only; every other page still gets the useful "Page | OpenCharly" form.
