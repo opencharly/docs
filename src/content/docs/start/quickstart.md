@@ -65,8 +65,9 @@ charly --repo opencharly/distro-fedora box build tutorial-shell
 The acceptance plan of every composed candy is baked into the result as an OCI label, so the image
 can be tested later without this repository.
 
-The `-C box/fedora` says which project directory to read. Boxes live in the `box/<distro>`
-submodules, and `-C` points `charly` at one.
+The `--repo opencharly/distro-fedora` says which project to read, fetched and cached for you — so
+this works with nothing but the `charly` binary installed, no clone required. If you *do* have the
+repository checked out, `-C box/fedora` points at the same project on disk.
 
 ## Enter it
 
