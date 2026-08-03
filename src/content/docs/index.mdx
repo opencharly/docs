@@ -2,6 +2,12 @@
 title: OpenCharly
 description: The candy factory for you and your agents — secure the room, not the candy.
 template: splash
+# Starlight appends the site title to every page title, so a home page called "OpenCharly" on a
+# site called "OpenCharly" renders the tab as "OpenCharly | OpenCharly". Override the whole
+# <title> for this page only; every other page still gets the useful "Page | OpenCharly" form.
+head:
+  - tag: title
+    content: OpenCharly — the candy factory for you and your agents
 hero:
   tagline: |
     Every other tool hands an agent a sandbox and then spends its effort taking things away.
