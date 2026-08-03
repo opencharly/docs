@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card** — a dedicated page describing what it does, how it is made, and how it should behave. The cards are the same ones an agent loads as skills while working on the project, published here unchanged.
 
-294 cards across 25 plugins, in four groups.
+295 cards across 25 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -201,6 +201,7 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [qemu-guest-agent](/recipes/distros/qemu-guest-agent/)
 - [rocm](/recipes/distros/rocm/)
 - [rpmfusion](/recipes/distros/rpmfusion/)
+- [tutorial-shell](/recipes/distros/tutorial-shell/)
 - [ubuntu](/recipes/distros/ubuntu/)
 - [ubuntu-builder](/recipes/distros/ubuntu-builder/)
 - [ubuntu-debootstrap](/recipes/distros/ubuntu-debootstrap/)

@@ -2,7 +2,7 @@
 title: The charly CLI
 description: How the command surface is put together — a small core spine and a large plugin-served catalog.
 sidebar:
-  order: 2
+  order: 3
 ---
 
 `charly` is one binary with a large command surface, and almost none of it is in the binary's own
