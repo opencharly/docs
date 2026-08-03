@@ -1,0 +1,79 @@
+# Build and deploy the site to Cloudflare Pages.
+#
+# WHY A WORKFLOW RATHER THAN CLOUDFLARE'S GIT INTEGRATION: connecting a Cloudflare Pages project
+# to a GitHub org requires an OAuth handshake that Cloudflare must initiate — there is no API for
+# it (POST .../pages/connections is 405, GET-only), just as GitHub exposes no API to create an App
+# installation. Both are third-party access grants that require a human at a consent screen. This
+# workflow reaches the same end state — production deploys on main, preview deploys on PRs —
+# using only an API token, which IS automatable.
+#
+# The trade-off is explicit: the Cloudflare token lives in this repo's Actions secrets. It is
+# scoped to Cloudflare Pages edit plus DNS edit on the opencharly.ai zone, and nothing else.
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Never let two deploys of the same ref race; the later one wins.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+# Only what the job uses. wrangler-action is given no gitHubToken, so it creates no GitHub
+# Deployment and posts no PR comment — granting deployments/pull-requests write would be
+# unused privilege.
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      # `npm ci` rather than `npm install`: it installs strictly from the committed lockfile and
+      # FAILS if package.json and the lockfile disagree. That is deliberate — a lockfile missing
+      # one of rolldown's optional platform bindings once shipped here and would have broken the
+      # deploy at install time, so this step is a real gate rather than a formality.
+      #
+      # It also supplies wrangler, which is a PINNED devDependency for that reason. Without it,
+      # wrangler-action falls back to `npm i wrangler@4` inside the checkout: an unpinned install
+      # outside the lockfile, in the job holding the Cloudflare token, which also mutates tracked
+      # package files and so stamps every deployment `commit_dirty: true`. Arguing for `npm ci`
+      # and then installing a floating dependency two steps later gives the rationale away.
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Build
+        run: npm run build
+
+      # The site's own link-integrity gate runs in the generator (`charly docs generate`), which
+      # lives in the charly superproject and is not available here. What this job can still prove
+      # is that the committed content builds cleanly from a clean install on a clean machine.
+      - name: Verify the build produced a site
+        run: |
+          test -f dist/index.html
+          echo "pages built: $(find dist -name '*.html' | wc -l)"
+
+      # A fork PR gets no secrets (the trigger is `pull_request`, not `pull_request_target`, so
+      # nothing leaks) — but without this guard the deploy step would FAIL on an empty token
+      # rather than skip, turning every fork contribution red for a reason the contributor
+      # cannot fix.
+      - name: Deploy to Cloudflare Pages
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >-
+            pages deploy dist
+            --project-name=opencharly-docs
+            --branch=${{ github.head_ref || github.ref_name }}
