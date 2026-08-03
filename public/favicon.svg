@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="OpenCharly">
+  <title>OpenCharly</title>
+  <!-- A candybox: a walled room you can hand over completely. The wrapper is the boundary;
+       the candy inside is the full toolset the boundary makes safe to hand over. -->
+  <rect width="64" height="64" rx="14" fill="#2b1b3d"/>
+  <rect x="14" y="22" width="36" height="28" rx="5" fill="#f4a4c0"/>
+  <path d="M14 30h36" stroke="#2b1b3d" stroke-width="3" stroke-linecap="round"/>
+  <path d="M32 22v28" stroke="#2b1b3d" stroke-width="3" stroke-linecap="round"/>
+  <path d="M32 22c-6-9-16-9-16-3 0 4 8 5 16 3zM32 22c6-9 16-9 16-3 0 4-8 5-16 3z" fill="#ffd166"/>
+</svg>
