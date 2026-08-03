@@ -49,7 +49,7 @@ composes has one too — [`ripgrep`](/reference/candy/ripgrep/), [`sshd`](/recip
 image as an OCI label:
 
 ```bash
-charly -C box/fedora box inspect tutorial-shell
+charly --repo opencharly/distro-fedora box inspect tutorial-shell
 ```
 
 That is what lets a pulled image be self-describing and self-testable without its source

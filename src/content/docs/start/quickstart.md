@@ -23,7 +23,6 @@ tutorial-shell:
             ...
         base: fedora
         candy:
-            - '@github.com/opencharly/charly/candy/supervisord:v2026.201.0706'
             - '@github.com/opencharly/charly/candy/ripgrep:v2026.201.0706'
             - '@github.com/opencharly/charly/candy/sshd:v2026.201.0706'
         plan:
@@ -41,8 +40,11 @@ Four things are going on, and they are the whole model:
   buildable container image. A node without `base:` would be a layer instead.
 - **`base: fedora`** points at another box defined next door, not an external registry image. A
   base can be either.
-- **the `candy:` list** composes three candies: a tool (`ripgrep`), a service (`sshd`), and the
-  container init that runs services (`supervisord`). Each installs one concern.
+- **the `candy:` list** composes two candies: a tool (`ripgrep`) and a service (`sshd`). Each
+  installs one concern — and note what is *absent*: an init. Because `sshd` declares a service,
+  charly resolves the init this target needs and brings it in for you (supervisord in a container;
+  nothing extra on a systemd machine, which already has one). You declare the service; the init
+  follows.
 - **`plan:`** is the acceptance spec, and it is mandatory. Note *what* it checks: not that `rg` and
   `sshd` are present — each candy's own plan already proves that, and those plans run against this
   same image — but that composing the service candy next to the init candy made `sshd` a
@@ -55,8 +57,8 @@ five minutes.
 ## Build it
 
 ```bash
-charly -C box/fedora box validate              # the schema gate — silence is the pass
-charly -C box/fedora box build tutorial-shell
+charly --repo opencharly/distro-fedora box validate              # the schema gate — silence is the pass
+charly --repo opencharly/distro-fedora box build tutorial-shell
 ```
 
 `box build` resolves the candy graph, generates a multi-stage Containerfile, and builds the image.
@@ -69,7 +71,7 @@ submodules, and `-C` points `charly` at one.
 ## Enter it
 
 ```bash
-charly -C box/fedora shell tutorial-shell
+charly --repo opencharly/distro-fedora shell tutorial-shell
 ```
 
 You are now inside the **candybox** — the running, isolated form of that box. There is no command
@@ -79,7 +81,7 @@ filter: `dnf` works, `rg` works, anything you install works. It runs rootless at
 ## Prove it
 
 ```bash
-charly -C box/fedora check box tutorial-shell     # run the baked plan against the image
+charly --repo opencharly/distro-fedora check box tutorial-shell     # run the baked plan against the image
 ```
 
 ```
@@ -90,7 +92,7 @@ The five skips are the `context: [runtime]` steps — a service cannot be runnin
 For those you need a deployment, which is what the bed does:
 
 ```bash
-charly -C box/fedora check run check-tutorial-shell
+charly --repo opencharly/distro-fedora check run check-tutorial-shell
 ```
 
 ```
@@ -116,13 +118,25 @@ declared `disposable: true`.
 
 The same candies are not tied to containers. Apply one directly to your workstation:
 
-```bash
-charly bundle add host ripgrep
-charly bundle del host        # reversed precisely, from a recorded ledger
+```yaml
+# a local: deploy nested INSIDE a disposable VM guest — the same candy,
+# applied to a machine instead of a container, touching nothing of yours
+check-docs-local:
+    vm:
+        from: eval-vm
+        disposable: true
+        lifecycle: dev
 ```
 
-Swap the substrate in a deploy and the same list installs into a VM guest over SSH, or generates
-Kubernetes manifests, or installs apps onto a phone. No second vocabulary.
+Swap the substrate and the same list installs into a VM guest over SSH, generates Kubernetes
+manifests, or installs apps onto a phone. No second vocabulary.
+
+:::caution[Point `local:` at a candybox, not at yourself]
+A `local:` deploy installs packages and systemd units onto whatever machine it targets. Nested in a
+disposable guest, as above, that is free to experiment with. Targeting `host: local` changes the
+machine you are sitting at — do that when you mean to, not while following a tutorial.
+:::
+
 [One recipe, many molds →](/concepts/02-one-recipe-many-molds/)
 
 ## Where to go next

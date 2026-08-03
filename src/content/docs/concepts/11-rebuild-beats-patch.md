@@ -40,9 +40,9 @@ Add the missing concern as a candy, compose it, rebuild:
 ```bash
 charly box new candy my-tool                          # scaffold the candy
 charly box add-candy tutorial-shell my-tool           # compose it into the box
-charly -C box/fedora box validate                     # the gate
-charly -C box/fedora box build tutorial-shell         # a fresh box, not a patched one
-charly -C box/fedora check run check-tutorial-shell     # prove it
+charly --repo opencharly/distro-fedora box validate                     # the gate
+charly --repo opencharly/distro-fedora box build tutorial-shell         # a fresh box, not a patched one
+charly --repo opencharly/distro-fedora check run check-tutorial-shell     # prove it
 ```
 
 Five commands, a few minutes, and the recipe still describes exactly what is running. Compare the

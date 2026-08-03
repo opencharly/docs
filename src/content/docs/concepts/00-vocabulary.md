@@ -27,8 +27,8 @@ redefining.
 ### box vs candybox, concretely
 
 ```bash
-charly -C box/fedora box build tutorial-shell   # produces a BOX     — an image, sitting in storage
-charly -C box/fedora shell tutorial-shell       # produces a CANDYBOX — a running, isolated room
+charly --repo opencharly/distro-fedora box build tutorial-shell   # produces a BOX     — an image, sitting in storage
+charly --repo opencharly/distro-fedora shell tutorial-shell       # produces a CANDYBOX — a running, isolated room
 ```
 
 The box is an artifact. The candybox is a place. When this site says safety lives at the
@@ -78,7 +78,6 @@ tutorial-shell:
             ...
         base: fedora
         candy:
-            - '@github.com/opencharly/charly/candy/supervisord:v2026.201.0706'
             - '@github.com/opencharly/charly/candy/ripgrep:v2026.201.0706'
             - '@github.com/opencharly/charly/candy/sshd:v2026.201.0706'
 ```

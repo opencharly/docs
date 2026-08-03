@@ -62,7 +62,6 @@ tutorial-shell:
             ...
         base: fedora
         candy:
-            - '@github.com/opencharly/charly/candy/supervisord:v2026.201.0706'
             - '@github.com/opencharly/charly/candy/ripgrep:v2026.201.0706'
             - '@github.com/opencharly/charly/candy/sshd:v2026.201.0706'
         plan:
@@ -74,9 +73,13 @@ tutorial-shell:
                     - contains: "[program:sshd]"
 ```
 
-Three candies, each teaching one distinct thing: `ripgrep` is a **tool** layer (packages and
-probes, no service); `sshd` is a **service** layer; `supervisord` is the container **init** that
-runs the service.
+Two candies, and they are the two kinds you will meet: `ripgrep` is a **tool** layer (packages and
+probes, no service); `sshd` is a **service** layer.
+
+Notice what the list does *not* contain: an init. `sshd` declares a service, so charly resolves
+whichever init this target needs and brings it in — supervisord for a container, nothing extra for
+a systemd machine, since systemd is already the init there. **You declare the service; the init
+follows, per target.** That is why the same two-candy list is correct for a pod and for a VM guest.
 
 The box's single check is worth reading closely, because it shows where a check *belongs*. It does
 not assert that `rg` and `sshd` are both present — each candy's own plan already proves that, and
@@ -87,20 +90,30 @@ behaviour's provider; put it on the composing box only when the claim is about t
 Build it, enter it, run it, prove it:
 
 ```bash
-charly -C box/fedora box validate                    # the schema gate — nothing runs until it passes
-charly -C box/fedora box build tutorial-shell        # → multi-stage Containerfile → image
-charly -C box/fedora shell tutorial-shell            # → you are inside the candybox
-charly -C box/fedora check run check-tutorial-shell    # → build, deploy, probe, fresh rebuild, tear down
+charly --repo opencharly/distro-fedora box validate                    # the schema gate — nothing runs until it passes
+charly --repo opencharly/distro-fedora box build tutorial-shell        # → multi-stage Containerfile → image
+charly --repo opencharly/distro-fedora shell tutorial-shell            # → you are inside the candybox
+charly --repo opencharly/distro-fedora check run check-tutorial-shell    # → build, deploy, probe, fresh rebuild, tear down
 ```
 
 ### The payoff: change the mold, keep the recipe
 
 The deploy names a substrate. Swap it and the same candies land somewhere else entirely:
 
-```bash
-charly bundle add host ripgrep      # the SAME candy — installed on your workstation, no container
-charly bundle del host              # reversed precisely, from the recorded ledger
+```yaml
+# a local: deploy nested INSIDE a disposable VM guest — the same candy,
+# applied to a machine instead of a container, touching nothing of yours
+check-docs-local:
+    vm:
+        from: eval-vm
+        disposable: true
+        lifecycle: dev
 ```
+
+The nesting is the point. A `local:` deploy installs packages and systemd units onto whatever
+machine it targets, so the honest way to demonstrate it — and the way this repository's own beds do
+it — is to point it at a disposable guest. Run it against your workstation only when you actually
+mean to change your workstation.
 
 | Substrate | Kind | What it means |
 |---|---|---|
@@ -134,12 +147,12 @@ Same file format, same validation, same acceptance plan as any other candy. See
 [authoring a plugin](/guides/authoring-a-plugin/) for the full model.
 
 :::tip[Yes, it comes with the kitchen sink]
-The catalog does not stop at three candies. At the other end of the spectrum sit the
+The catalog does not stop at two candies. At the other end of the spectrum sit the
 **kitchen-sink dev boxes** — [`fedora-coder`](/recipes/coder/fedora-coder/) and its
 [`arch`](/recipes/coder/arch-coder/), [`debian`](/recipes/coder/debian-coder/) and
 [`ubuntu`](/recipes/coder/ubuntu-coder/) siblings — around thirty candies each: five AI coding
 CLIs, every language runtime, the DevOps tooling, nested containers, rootless VMs. Same recipe
-format as the three-candy box above. A fully stocked kitchen really does ship with the sink.
+format as the two-candy box above. A fully stocked kitchen really does ship with the sink.
 :::
 
 ## If you know Dockerfiles and Ansible

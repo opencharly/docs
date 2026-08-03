@@ -47,13 +47,13 @@ charly box new candy my-tool
 charly candy add-rpm my-tool ripgrep
 charly candy set my-tool env.MY_VAR value
 charly box add-candy tutorial-shell my-tool
-charly -C box/fedora box validate
+charly --repo opencharly/distro-fedora box validate
 ```
 
 And when the agent wants to know whether its change worked, it runs what you would run:
 
 ```bash
-charly -C box/fedora check run check-tutorial-shell
+charly --repo opencharly/distro-fedora check run check-tutorial-shell
 ```
 
 ## If you know MCP

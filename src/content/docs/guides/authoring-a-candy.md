@@ -34,7 +34,7 @@ directories to `discover:` — is configured there.
 
 :::note[Where the repository's own boxes live]
 In the opencharly repository itself, boxes live in the `box/<distro>` git submodules rather than
-the main repo, which is why examples on this site say `charly -C box/fedora box build …`. Your own
+the main repo, which is why examples on this site say `charly --repo opencharly/distro-fedora box build …`. Your own
 project has no such split: `box/<name>/charly.yml` in your project root is the normal layout, and
 plain `charly box build <name>` finds it.
 :::
@@ -155,7 +155,7 @@ inline `content:` and stages it as a file, so you never need a shell heredoc.
 **Never split a service into `-host` and `-pod` sibling candies.** A candy that needs the same
 service under both supervisord and systemd declares *both forms in one `service:` list*, and the
 init system at deploy time picks. [`sshd`](/recipes/coder/sshd/) is the canonical example, and it
-is one of the three candies in the box the quickstart reads.
+is one of the two candies in the box the quickstart reads.
 
 ## Next
 

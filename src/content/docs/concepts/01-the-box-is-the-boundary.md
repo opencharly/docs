@@ -39,8 +39,8 @@ The [`tutorial-shell`](/reference/box/fedora/tutorial-shell/) box is an ordinary
 what handing one over looks like:
 
 ```bash
-charly -C box/fedora box build tutorial-shell
-charly -C box/fedora shell tutorial-shell
+charly --repo opencharly/distro-fedora box build tutorial-shell
+charly --repo opencharly/distro-fedora shell tutorial-shell
 ```
 
 You are now inside the candybox. There is no command filter between you and the system — `dnf`

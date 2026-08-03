@@ -71,18 +71,17 @@ The box below is real, shipped, and re-proven on every acceptance run — you ca
 [`tutorial-shell`](/reference/box/fedora/tutorial-shell/):
 
 ```bash
-charly -C box/fedora box validate                    # the schema gate — nothing runs until it passes
-charly -C box/fedora box build tutorial-shell        # → multi-stage Containerfile → image
-charly -C box/fedora shell tutorial-shell            # → you are inside the candybox
-charly -C box/fedora check run check-tutorial-shell    # → build, deploy, probe, fresh rebuild, tear down
+charly --repo opencharly/distro-fedora box validate                    # the schema gate — nothing runs until it passes
+charly --repo opencharly/distro-fedora box build tutorial-shell        # → multi-stage Containerfile → image
+charly --repo opencharly/distro-fedora shell tutorial-shell            # → you are inside the candybox
+charly --repo opencharly/distro-fedora check run check-tutorial-shell    # → build, deploy, probe, fresh rebuild, tear down
 ```
 
-Then change the mold and keep the recipe — `charly bundle add host ripgrep` applies the same candy
-to your workstation, with no container involved, and `charly bundle del host` reverses exactly what
-it did.
+Then change the mold and keep the recipe — the same candy list applies to a VM guest, a cluster, or
+a host. Swap the substrate in the deploy, not the recipe.
 
 <Aside type="tip" title="Yes, it comes with the kitchen sink">
-The three-candy box above is the small end. At the other sit the **kitchen-sink dev boxes** —
+The two-candy box above is the small end. At the other sit the **kitchen-sink dev boxes** —
 [`fedora-coder`](/recipes/coder/fedora-coder/) and its [`arch`](/recipes/coder/arch-coder/),
 [`debian`](/recipes/coder/debian-coder/) and [`ubuntu`](/recipes/coder/ubuntu-coder/) siblings —
 around thirty candies each: five AI coding CLIs, every language runtime, DevOps tooling, nested

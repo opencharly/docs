@@ -61,7 +61,7 @@ The same discipline covers the examples on this site. The box quoted throughout 
 box with a real bed in the acceptance roster:
 
 ```bash
-charly -C box/fedora check run check-tutorial-shell
+charly --repo opencharly/distro-fedora check run check-tutorial-shell
 ```
 
 If the documented example ever stops building or stops composing, that bed fails. A reader is not

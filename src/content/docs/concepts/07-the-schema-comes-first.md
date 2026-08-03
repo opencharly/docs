@@ -40,7 +40,7 @@ Validation is a **gate**, not a linter: every document is checked against one cl
 The gate runs before anything else, and it is the first command in any workflow:
 
 ```bash
-charly -C box/fedora box validate
+charly --repo opencharly/distro-fedora box validate
 ```
 
 Its silence is the pass. When it does speak, it speaks precisely — a field that is not in the

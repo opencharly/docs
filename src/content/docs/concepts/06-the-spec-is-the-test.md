@@ -69,7 +69,7 @@ the binary exists — it asserts the tool *behaves*, including the negative case
 Run the plan against the built image, in a disposable throwaway container:
 
 ```bash
-charly -C box/fedora check box tutorial-shell
+charly --repo opencharly/distro-fedora check box tutorial-shell
 ```
 
 ```

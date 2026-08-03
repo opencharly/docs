@@ -42,15 +42,15 @@ only holds on the first attempt never really held.
 Build a box twice with nothing changed in between, and the version label stays put:
 
 ```bash
-charly -C box/fedora box build tutorial-shell
-charly -C box/fedora box inspect tutorial-shell
+charly --repo opencharly/distro-fedora box build tutorial-shell
+charly --repo opencharly/distro-fedora box inspect tutorial-shell
 ```
 
 When a warning does appear — `referenced at multiple versions` — it is telling you two pins
 disagree about which version of a candy this project uses. Align them:
 
 ```bash
-charly -C box/fedora box reconcile
+charly --repo opencharly/distro-fedora box reconcile
 ```
 
 A warning is never an acceptable end state here. It is the mechanism reporting exactly the

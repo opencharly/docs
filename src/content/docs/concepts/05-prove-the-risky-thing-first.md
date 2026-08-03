@@ -43,7 +43,7 @@ full sequence — build, deploy, bring to steady state, run the acceptance plan,
 scratch, prove it again, tear everything down:
 
 ```bash
-charly -C box/fedora check run check-tutorial-shell
+charly --repo opencharly/distro-fedora check run check-tutorial-shell
 ```
 
 Compose the thing you are unsure about, point a `disposable: true` deploy at it, and run that

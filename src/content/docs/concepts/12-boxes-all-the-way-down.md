@@ -37,8 +37,8 @@ thing doing the testing are the same tool, at two levels of the same nesting.
 Boxes that carry the charly toolchain are ordinary boxes:
 
 ```bash
-charly -C box/fedora box build charly-fedora     # charly, built from source, inside a box
-charly -C box/fedora check run check-charly-fedora-pod
+charly --repo opencharly/distro-fedora box build charly-fedora     # charly, built from source, inside a box
+charly --repo opencharly/distro-fedora check run check-charly-fedora-pod
 ```
 
 Inside that candybox, `charly` behaves exactly as it does outside — it builds boxes, launches
