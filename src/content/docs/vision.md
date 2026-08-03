@@ -66,4 +66,4 @@ Every candy, every box, every probe serves one end: **to build a better candybox
 
 ---
 
-*The factory floor is documented in [README.md](https://github.com/opencharly/charly#readme); the house rules in [CLAUDE.md](https://github.com/opencharly/charly/blob/main/CLAUDE.md); every candy and box has a recipe card in [plugins/README.md](/recipes/). Dated history lives — and only lives — in each repo's [CHANGELOG/](https://github.com/opencharly/charly/tree/main/CHANGELOG), one file per CalVer version.*
+*The factory floor is documented in [README.md](https://github.com/opencharly/charly#readme); the house rules in [CLAUDE.md](https://github.com/opencharly/charly/blob/main/CLAUDE.md); every candy and box has a recipe card in [plugins/README.md](/recipes/) — all of it published, and generated rather than retyped, at [opencharly.ai](https://opencharly.ai). Dated history lives — and only lives — in each repo's [CHANGELOG/](https://github.com/opencharly/charly/tree/main/CHANGELOG), one file per CalVer version.*
