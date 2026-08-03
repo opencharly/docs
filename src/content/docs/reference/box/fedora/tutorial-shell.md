@@ -18,9 +18,10 @@ init-polymorphism example (one `service:` list carrying both a `use_packaged:`
 systemd form and a custom `exec:` supervisord form, so the same candy runs under
 either init); `supervisord` is the container init that actually runs the service.
 Kept deliberately small: every line of this box is quoted on the documentation
-site, so it must stay readable end to end. The box's own plan asserts the
-CROSS-CANDY invariant the composed candies cannot assert individually — that the
-tool layer and the service layer landed in ONE image together.
+site, so it must stay readable end to end. The box's own plan asserts exactly one
+thing — the WIRING composition produces, namely that the service candy became a
+supervisord program. Co-residence is already proven by the composed candies' own
+plans running against this same image, so the box does not restate it.
 
 ## Composition
 

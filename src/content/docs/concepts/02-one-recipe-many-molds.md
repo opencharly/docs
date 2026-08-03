@@ -66,19 +66,23 @@ tutorial-shell:
             - '@github.com/opencharly/charly/candy/ripgrep:v2026.201.0706'
             - '@github.com/opencharly/charly/candy/sshd:v2026.201.0706'
         plan:
-            - check: composition landed both the tool candy and the service candy in one image — rg and sshd are on PATH together
-              id: tutorial-shell-composition
-              exit_status: 0
-              stdout:
-                - contains: /usr/bin/rg
-                - contains: sshd
-              command: command -v rg && command -v sshd
+            - check: composing the service candy next to the init candy wired sshd into the assembled supervisord config — a program block neither candy produces on its own
+              id: tutorial-shell-service-wired-into-init
+              file:
+                file: /etc/supervisord.conf
+                contains:
+                    - contains: "[program:sshd]"
 ```
 
 Three candies, each teaching one distinct thing: `ripgrep` is a **tool** layer (packages and
 probes, no service); `sshd` is a **service** layer; `supervisord` is the container **init** that
-runs the service. The box's own check asserts the one thing neither candy can assert alone — that
-they landed in the same image.
+runs the service.
+
+The box's single check is worth reading closely, because it shows where a check *belongs*. It does
+not assert that `rg` and `sshd` are both present — each candy's own plan already proves that, and
+both plans run against this same image. It asserts the one thing composition itself produced: that
+`sshd` became a *supervisord program*. Neither candy can claim that alone. Put a check on the
+behaviour's provider; put it on the composing box only when the claim is about the composition.
 
 Build it, enter it, run it, prove it:
 
@@ -86,7 +90,7 @@ Build it, enter it, run it, prove it:
 charly -C box/fedora box validate                    # the schema gate — nothing runs until it passes
 charly -C box/fedora box build tutorial-shell        # → multi-stage Containerfile → image
 charly -C box/fedora shell tutorial-shell            # → you are inside the candybox
-charly -C box/fedora check run tutorial-shell-dev    # → build, deploy, probe, fresh rebuild, tear down
+charly -C box/fedora check run check-tutorial-shell    # → build, deploy, probe, fresh rebuild, tear down
 ```
 
 ### The payoff: change the mold, keep the recipe

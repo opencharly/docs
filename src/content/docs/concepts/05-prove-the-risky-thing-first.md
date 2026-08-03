@@ -43,7 +43,7 @@ full sequence — build, deploy, bring to steady state, run the acceptance plan,
 scratch, prove it again, tear everything down:
 
 ```bash
-charly -C box/fedora check run tutorial-shell-dev
+charly -C box/fedora check run check-tutorial-shell
 ```
 
 Compose the thing you are unsure about, point a `disposable: true` deploy at it, and run that
@@ -51,7 +51,7 @@ before the design depends on the answer. The bed backing the example on this sit
 shape — quoted from `box/fedora/charly.yml`:
 
 ```yaml
-tutorial-shell-dev:
+check-tutorial-shell:
     pod:
         image: tutorial-shell
         disposable: true
@@ -61,7 +61,7 @@ tutorial-shell-dev:
             opencharly.ai quotes verbatim in its quickstart and concepts curriculum. ...
         plan:
             - check: the sshd service the service candy declared is running under the supervisord init in the live pod
-              id: tutorial-shell-dev-service-running
+              id: check-tutorial-shell-service-running
               service:
                 service: sshd
                 running: true

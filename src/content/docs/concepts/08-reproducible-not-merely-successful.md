@@ -61,10 +61,10 @@ deploys, proves, then runs a fresh `charly update` (destroy, rebuild, recreate) 
 whole plan *again* before tearing down:
 
 ```
-[check-live]          PASS after 15.792s
-[update]              PASS after 1m0.956s
-[check-live-rebuild]  PASS after 15.623s
-[cleanup]             PASS after 5.542s
+[check-live]          PASS after 16s
+[update]              PASS after 63s
+[check-live-rebuild]  PASS after 16s
+[cleanup]             PASS after 6s
 PASS (steps=13)
 ```
 

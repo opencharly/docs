@@ -53,7 +53,7 @@ charly -C box/fedora box validate
 And when the agent wants to know whether its change worked, it runs what you would run:
 
 ```bash
-charly -C box/fedora check run tutorial-shell-dev
+charly -C box/fedora check run check-tutorial-shell
 ```
 
 ## If you know MCP

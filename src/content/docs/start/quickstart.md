@@ -10,8 +10,9 @@ charly stops making sense three commands in.
 
 ## The file
 
-This is [`tutorial-shell`](/reference/box/fedora/tutorial-shell/), quoted in full from
-`box/fedora/box/tutorial-shell/charly.yml`. It is a real box in the repository, and a
+This is [`tutorial-shell`](/reference/box/fedora/tutorial-shell/), excerpted from
+`box/fedora/box/tutorial-shell/charly.yml` — everything but the long `description:` body and the
+explanatory comments. It is a real box in the repository, and a
 [check bed](/concepts/09-disposability-is-the-license/) re-proves it on every acceptance run:
 
 ```yaml
@@ -26,13 +27,12 @@ tutorial-shell:
             - '@github.com/opencharly/charly/candy/ripgrep:v2026.201.0706'
             - '@github.com/opencharly/charly/candy/sshd:v2026.201.0706'
         plan:
-            - check: composition landed both the tool candy and the service candy in one image — rg and sshd are on PATH together
-              id: tutorial-shell-composition
-              exit_status: 0
-              stdout:
-                - contains: /usr/bin/rg
-                - contains: sshd
-              command: command -v rg && command -v sshd
+            - check: composing the service candy next to the init candy wired sshd into the assembled supervisord config — a program block neither candy produces on its own
+              id: tutorial-shell-service-wired-into-init
+              file:
+                file: /etc/supervisord.conf
+                contains:
+                    - contains: "[program:sshd]"
 ```
 
 Four things are going on, and they are the whole model:
@@ -43,9 +43,11 @@ Four things are going on, and they are the whole model:
   base can be either.
 - **the `candy:` list** composes three candies: a tool (`ripgrep`), a service (`sshd`), and the
   container init that runs services (`supervisord`). Each installs one concern.
-- **`plan:`** is the acceptance spec, and it is mandatory. This one asserts a cross-candy
-  invariant — that the tool and the service landed in the *same* image, which neither candy can
-  assert on its own.
+- **`plan:`** is the acceptance spec, and it is mandatory. Note *what* it checks: not that `rg` and
+  `sshd` are present — each candy's own plan already proves that, and those plans run against this
+  same image — but that composing the service candy next to the init candy made `sshd` a
+  **supervisord program**. A check belongs on the behaviour's provider; it belongs on the composing
+  box only when the claim is about the composition itself.
 
 New to the vocabulary? [The words](/concepts/00-vocabulary/) defines candy, box and candybox in
 five minutes.
@@ -81,25 +83,25 @@ charly -C box/fedora check box tutorial-shell     # run the baked plan against t
 ```
 
 ```
-25 steps: 20 passed, 0 failed, 5 skipped
+24 steps: 19 passed, 0 failed, 5 skipped
 ```
 
 The five skips are the `context: [runtime]` steps — a service cannot be running inside an image.
 For those you need a deployment, which is what the bed does:
 
 ```bash
-charly -C box/fedora check run tutorial-shell-dev
+charly -C box/fedora check run check-tutorial-shell
 ```
 
 ```
-[image-build]         PASS after 2m5.252s
-[check-image]         PASS after 15.563s
-[deploy-add]          PASS after 15.979s
-[start]               PASS after 9.347s
-[check-live]          PASS after 15.792s
-[update]              PASS after 1m0.956s
-[check-live-rebuild]  PASS after 15.623s
-[cleanup]             PASS after 5.542s
+[image-build]         PASS after 36s
+[check-image]         PASS after 17s
+[deploy-add]          PASS after 16s
+[start]               PASS after 9s
+[check-live]          PASS after 16s
+[update]              PASS after 63s
+[check-live-rebuild]  PASS after 16s
+[cleanup]             PASS after 6s
 PASS (steps=13)
 ```
 

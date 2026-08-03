@@ -80,7 +80,7 @@ charly -C box/fedora check box tutorial-shell
   ...
   SKIP  check service=sshd  context [runtime] not active in box mode
 
-25 steps: 20 passed, 0 failed, 5 skipped
+24 steps: 19 passed, 0 failed, 5 skipped
 ```
 
 Steps marked `context: [runtime]` skip here by design — a service cannot be running in an image.

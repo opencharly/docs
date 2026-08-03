@@ -23,7 +23,7 @@ So disposability is a **first-class, explicitly declared property**, and the dec
 load-bearing:
 
 ```yaml
-tutorial-shell-dev:
+check-tutorial-shell:
     pod:
         image: tutorial-shell
         disposable: true
@@ -48,7 +48,7 @@ rather than reckless: an agent that can destroy and rebuild freely, but only whe
 On a disposable deploy, the destroy-and-rebuild cycle runs unattended:
 
 ```bash
-charly update tutorial-shell-dev     # destroy → rebuild → recreate → start
+charly update check-tutorial-shell     # destroy → rebuild → recreate → start
 ```
 
 Run the same command against a deploy without the flag and charly will not do it unprompted. There
@@ -58,13 +58,13 @@ This is also what makes the acceptance gate affordable. Every bed run ends by de
 built:
 
 ```bash
-charly -C box/fedora check run tutorial-shell-dev
+charly -C box/fedora check run check-tutorial-shell
 ```
 
 ```
-[update]              PASS after 1m0.956s
-[check-live-rebuild]  PASS after 15.623s
-[cleanup]             PASS after 5.542s
+[update]              PASS after 63s
+[check-live-rebuild]  PASS after 16s
+[cleanup]             PASS after 6s
 PASS (steps=13)
 ```
 
