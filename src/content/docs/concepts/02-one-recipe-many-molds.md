@@ -24,8 +24,10 @@ only a candy list plus a starting point, the same list can be applied somewhere 
 at all: a host, a VM guest, a phone. You are always applying candies; only the substrate changes.
 
 Every substrate consumes the same intermediate representation, so adding one does not add a
-vocabulary. And deploys are reversible by construction — each applied step records how to undo
-itself, and teardown replays that ledger backwards rather than making a best-effort guess.
+vocabulary. Reversal is part of that IR rather than bolted on per substrate: a step can record the
+operation that undoes it. You see this most directly on the host target, where those recorded
+operations go into an install ledger and `charly bundle del host` replays it backwards instead of
+making a best-effort guess at cleanup.
 
 ## In practice
 

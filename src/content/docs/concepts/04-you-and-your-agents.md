@@ -58,10 +58,18 @@ charly -C box/fedora check run tutorial-shell-dev
 
 ## If you know MCP
 
-The server is generated, not curated. Each leaf command becomes a tool with its flags as the input
-schema, so the tool list is exactly the CLI. `--read-only` filters by the command's own
-destructiveness rather than by an allowlist someone maintains, and containers can additionally
-provide their own MCP servers, auto-discovered by consumers through the `mcp_provide:` declaration.
+The **tool list** is generated, not curated. Each leaf command becomes a tool with its flags as the
+input schema, so the catalogue is exactly the CLI and cannot lag behind it.
+
+The **destructive classification is not** generated — it is an explicit, hand-maintained list of
+mutating tool paths (the lifecycle, config, secrets, deploy, build, VM and settings families).
+Destructive tools are registered with a `DestructiveHint` annotation and left in place, on the
+assumption that the client runtime acts on the hint; `--read-only` skips registering them entirely,
+which is the setting to use for an untrusted or network-exposed deployment. Worth knowing that the
+list is maintained by hand: a genuinely new mutating verb is safe only once it has been added to it.
+
+Containers can additionally provide their own MCP servers, auto-discovered by consumers through the
+`mcp_provide:` declaration.
 
 ## See also
 
