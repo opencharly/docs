@@ -24,9 +24,11 @@ WHY IT CLONES rather than copying the docs/ submodule out of the working tree: a
 candy's copy: source may not traverse above its own directory (`..` is rejected at
 validate time), and there is no schema field for pointing a candy at a sibling
 directory. Cloning the published repository is the schema-legal path, and it happens
-to test the more useful thing — the exact source Cloudflare builds. The consequence is
-an ordering dependency: this candy builds against the docs repo's `main`, so docs
-content must land there before this box (and the check-docs bed above it) go green.
+to test the more useful thing — the exact source Cloudflare builds. It fetches an
+IMMUTABLE COMMIT (`DOCS_REF` below), never a branch: that is what keeps the clone
+layer's cache key moving with the pin. The consequence is an ordering dependency —
+docs content must be merged, and `DOCS_REF` re-pinned to that merge, before this box
+(and the check-docs bed above it) prove the new content.
 
 The checks below assert the site's SHAPE, not merely its existence: a generated CLI
 page, a candy page carrying its published acceptance plan, a recipe card from the
@@ -41,7 +43,8 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 
 | Intent | Step |
 |---|---|
-| `run` | clone the published documentation site source |
+| `run` | clone the published documentation site source at the pinned commit |
+| `check` | the cloned site is the pinned commit, not a stale cached layer |
 | `run` | install the site's node dependencies from the committed lockfile |
 | `run` | build the production site |
 | `check` | node is installed and reports a parseable major version |
