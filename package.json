@@ -1,0 +1,19 @@
+{
+  "name": "opencharly-docs",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Documentation site for OpenCharly, published at opencharly.ai",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.41.6",
+    "astro": "^7.1.6",
+    "sharp": "^0.35.3"
+  }
+}

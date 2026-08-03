@@ -1,0 +1,76 @@
+---
+title: OpenCharly
+description: The candy factory for you and your agents — secure the room, not the candy.
+template: splash
+hero:
+  tagline: |
+    Every other tool hands an agent a sandbox and then spends its effort taking things away.
+    OpenCharly does the opposite: it walls the room, then fills it with the whole candy store.
+  actions:
+    - text: Get started
+      link: /start/install/
+      icon: right-arrow
+    - text: Read the vision
+      link: /vision/
+      variant: minimal
+    - text: View on GitHub
+      link: https://github.com/opencharly/charly
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Secure the room, not the candy
+
+Safety in OpenCharly lives at the boundary of a **candybox** — a rootless container, an isolated
+VM, an encrypted volume — never in a shrunken toolset. A walled room you can hand over
+*completely* beats an empty sandbox you keep narrowing. Inside the box, you and your agents get
+the entire toolset; the walls are what make that safe.
+
+That single idea is why everything else looks the way it does.
+
+<CardGrid>
+  <Card title="Candies and boxes" icon="puzzle">
+    A **candy** installs one concern. A **box** is a container image composed from a list of
+    them. One declarative recipe, in one `charly.yml`.
+  </Card>
+  <Card title="One recipe, many molds" icon="seti:config">
+    The same recipe pours into an interactive shell, a managed pod, a Kubernetes cluster, a
+    bootable VM, an Android device, or your own workstation.
+  </Card>
+  <Card title="Built for two tasters" icon="star">
+    The same `charly` surface serves you at the keyboard and your agents driving the line.
+    The binary is also an MCP server, so an agent reaches every verb over the same RPC.
+  </Card>
+  <Card title="The spec is the test" icon="approve-check">
+    Every candy ships a runnable acceptance plan. What "working" means is written down and
+    executed, not asserted — and you can read it on every candy's page here.
+  </Card>
+</CardGrid>
+
+## The lifecycle
+
+`charly` is a production line with four stages, driven from one config and one mental model.
+
+| You want to… | You get | Stage |
+|---|---|---|
+| compose a reproducible box from a candy list | a `candy:` with `base:`, `charly box build` | **Build** |
+| run one or more containers as a managed pod | `kind: pod`, `charly bundle add`, `charly start` | **Run** |
+| apply the same candies to a host, VM, cluster or phone | `charly bundle add` + a substrate kind | **Deploy** |
+| prove a config actually works, end to end | a disposable check bed, `charly check run` | **Evaluate** |
+
+## Where to go next
+
+- **[Install](/start/install/)** — get `charly` onto your machine.
+- **[Quickstart](/start/quickstart/)** — build a box, run it, prove it works.
+- **[Concepts](/concepts/candies-and-boxes/)** — the handful of ideas that recur everywhere.
+- **[Recipe cards](/recipes/)** — every candy, box and verb has a dedicated page.
+- **[Provider index](/reference/providers/)** — what implements `cdp:`? Look it up.
+
+:::note[Most of this site writes itself]
+The reference and recipe-card sections are generated from the source repository by
+`charly docs generate` — from each candy's own `charly.yml`, each plugin's CUE schema, and the
+skill corpus. Nothing here is a hand-maintained copy of something that lives in the code, because
+a copy drifts and a projection cannot.
+:::
