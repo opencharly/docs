@@ -48,7 +48,7 @@ rather than reckless: an agent that can destroy and rebuild freely, but only whe
 On a disposable deploy, the destroy-and-rebuild cycle runs unattended:
 
 ```bash
-charly update check-tutorial-shell     # destroy → rebuild → recreate → start
+charly -C box/fedora update check-tutorial-shell   # destroy → rebuild → recreate → start
 ```
 
 Run the same command against a deploy without the flag and charly will not do it unprompted. There

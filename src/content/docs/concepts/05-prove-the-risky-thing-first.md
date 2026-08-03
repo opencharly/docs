@@ -56,22 +56,19 @@ check-tutorial-shell:
         image: tutorial-shell
         disposable: true
         lifecycle: dev
-        description: >-
-            Sole proof of the DOCUMENTED teaching example — the tutorial-shell box that
-            opencharly.ai quotes verbatim in its quickstart and concepts curriculum. ...
-        plan:
-            - check: the sshd service the service candy declared is running under the supervisord init in the live pod
-              id: check-tutorial-shell-service-running
-              service:
-                service: sshd
-                running: true
-              context:
-                - runtime
 ```
 
-Note what that check asserts: not that a file exists in the image, but that the service *came up*
-on a live deployment. That is the class of claim only a bed can settle — and the class most likely
-to be wrong.
+That is the whole declaration. It carries **no `plan:` of its own**, and the reason is the useful
+part: a bed's acceptance content is the *composed candies' own* probes, which already run against
+the live deployment. A bed adds steps only for a claim that needs a live deployment **and** that no
+composed candy already makes — elsewhere in that same file, `check-sway-browser-vnc-pod` does
+exactly that, adding browser and desktop probes against a running desktop.
+
+So what does running it prove? Not a step written here — the *sequence*: build the image, deploy
+it, reach steady state, run every composed candy's plan against the live pod, then destroy and
+rebuild it and run them all again. The riskiest assumption in that chain is whether these candies,
+at the versions they resolve to today, compose and come up together at all. No step you could
+author would answer that; only running it does.
 
 ## If you know integration testing
 

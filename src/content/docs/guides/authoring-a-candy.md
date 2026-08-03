@@ -132,7 +132,7 @@ charly check box my-shell      # runs the baked plan in a disposable container
 To prove the deployed behaviour too, declare a disposable bed in `charly.yml` and run it:
 
 ```yaml
-my-shell-dev:
+check-my-shell:
     pod:
         image: my-shell
         disposable: true
@@ -140,7 +140,7 @@ my-shell-dev:
 ```
 
 ```bash
-charly check run my-shell-dev
+charly check run check-my-shell
 ```
 
 `disposable: true` is what authorizes charly to destroy and rebuild the deployment unattended. It
