@@ -13,11 +13,14 @@ The site has two halves, and they are maintained very differently.
 **Hand-written** — the pages a website needs and a repository does not have:
 
 ```
-src/content/docs/index.mdx         the home page
 src/content/docs/start/            install, quickstart
 src/content/docs/concepts/         candies & boxes, candyboxing, lifecycle, RDD/ADE, schema
 src/content/docs/guides/           authoring a plugin, the CLI
 ```
+
+The home page used to be here. It is now generated from the superproject's `README.md`, because
+two thirds of it was README prose maintained twice across a submodule boundary — and had already
+drifted. To change the front page, change the README.
 
 **Generated** — everything that already exists in the source repository, projected rather than
 copied, because a copy drifts and a projection cannot:

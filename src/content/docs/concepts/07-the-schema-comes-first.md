@@ -61,13 +61,6 @@ charly migrate
 There is no migration ladder to walk and no ordering to get right — it is a single chain to the
 current schema version, and running it twice changes nothing.
 
-## If you know JSON Schema or OpenAPI
-
-CUE plays the same role, with one difference that drives the whole design: it is the *source*
-rather than a description. You are not writing a schema alongside types someone hand-wrote — the
-types are cast from the schema, along with the validator and the docs. When those three can only
-be generated, "the schema is out of date" stops being a possible state.
-
 ## See also
 
 - **[The migrate command](/recipes/build/migrate/)** — the schema floor and the migration table.

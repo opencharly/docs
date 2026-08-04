@@ -52,16 +52,6 @@ sandbox the agent and `charly` run in, the prompt, the plateau count and the wat
 bed's own `plan:` is the scored content. `charly check run` then runs the loop instead of a single
 pass.
 
-## If you know Docker-in-Docker
-
-The familiar version is a privileged special case, tolerated for CI and fenced off from everything
-else. Here nesting is not a special case: it is the same rootless container model applied twice,
-which is why the inner level gets the full toolset rather than a restricted one.
-
-The part with no common analogue is the feedback direction — the inner level's *acceptance verdict*
-deciding what the next iteration does. That is the flywheel the vision is really about, and it is
-the last tenet because everything else is what makes it safe.
-
 ## Where next
 
 That is the twelve. From here:

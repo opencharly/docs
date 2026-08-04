@@ -55,13 +55,6 @@ charly --repo opencharly/distro-fedora box inspect tutorial-shell
 That is what lets a pulled image be self-describing and self-testable without its source
 repository, which the next pages build on.
 
-## If you know `docker inspect`
-
-Same instinct, more content. Beyond the usual config, a charly image carries `ai.opencharly.*`
-labels for its declared capabilities: ports, services, volumes, environment contracts — and
-`ai.opencharly.description`, which holds the full acceptance plan of every composed candy. So
-"what does this image claim to do, and how would I check?" is answerable from the image alone.
-
 ## See also
 
 - **[Recipe cards](/recipes/)** — the full catalog.

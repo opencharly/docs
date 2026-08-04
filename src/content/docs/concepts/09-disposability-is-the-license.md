@@ -75,15 +75,6 @@ box before this destroy-and-rebuild leg.
 Five minutes, and nothing survives it. A verification you can run that freely is one you actually
 run.
 
-## If you know cattle-not-pets
-
-Same instinct, with the sharp edge filed off. The usual version is a convention — a naming scheme,
-a tag, a shared understanding about which hosts are safe to reap — and conventions are exactly
-what a tired human or an over-eager agent misreads at 2am.
-
-Here it is a declaration in the config, checked by the tool, with no inference path around it.
-"Which of these can I destroy?" has a mechanical answer.
-
 ## See also
 
 - **[The box is the boundary](/concepts/01-the-box-is-the-boundary/)** — what disposability licenses.
