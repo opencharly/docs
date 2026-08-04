@@ -26,8 +26,10 @@ Scaffold it:
 
 ```bash
 charly box new project my-project
-cd my-project
 ```
+
+Every command below names that project with `-C`, so none of them depends on which directory you
+are standing in.
 
 `charly.yml` is the only filename charly knows. Everything else — which files to `import:`, which
 directories to `discover:` — is configured there.
@@ -42,8 +44,8 @@ plain `charly box build <name>` finds it.
 ## A candy that installs one concern
 
 ```bash
-charly box new candy my-tool
-charly candy add-rpm my-tool ripgrep
+charly -C my-project box new candy my-tool
+charly -C my-project candy add-rpm my-tool ripgrep
 ```
 
 The editor verbs go through the YAML *node* API, so comments and key order survive every edit —
@@ -107,7 +109,7 @@ the candy directory and the builder stage is detected automatically. Do not reac
 ## Compose it into a box
 
 ```bash
-charly box new box my-shell --base fedora --candy my-tool
+charly -C my-project box new box my-shell --base fedora --candy my-tool
 ```
 
 Or write it directly — a box is the same `candy:` keyword plus a `base:`:
@@ -124,9 +126,9 @@ my-shell:
 ## Build and prove
 
 ```bash
-charly box validate            # the gate — silence is the pass
-charly box build my-shell
-charly check box my-shell      # runs the baked plan in a disposable container
+charly -C my-project box validate            # the gate — silence is the pass
+charly -C my-project box build my-shell
+charly -C my-project check box my-shell      # runs the baked plan in a disposable container
 ```
 
 To prove the deployed behaviour too, declare a disposable bed in `charly.yml` and run it:
@@ -140,7 +142,7 @@ check-my-shell:
 ```
 
 ```bash
-charly check run check-my-shell
+charly -C my-project check run check-my-shell
 ```
 
 `disposable: true` is what authorizes charly to destroy and rebuild the deployment unattended. It

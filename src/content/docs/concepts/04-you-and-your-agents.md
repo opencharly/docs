@@ -32,35 +32,37 @@ YAML by regenerating it destroys comments and key order; charly's editor verbs g
 
 ## In practice
 
-Expose the whole CLI over RPC — from inside a project, since `mcp` is an out-of-process command
-plugin that charly loads from the project's own `candy/plugin-mcp`:
+Expose the whole CLI over RPC. `mcp` is an out-of-process command plugin, discovered from a
+project's `candy/plugin-mcp` rather than compiled in — so point charly at a project that provides
+it. `--repo` does that without a checkout:
 
 ```bash
-git clone https://github.com/opencharly/charly && cd charly
-
-charly mcp serve                 # Streamable HTTP or stdio
-charly mcp serve --read-only     # filters the destructive tools out
+charly -C /path/to/a/charly/project mcp serve               # Streamable HTTP or stdio
+charly -C /path/to/a/charly/project mcp serve --read-only   # filters the destructive tools out
 ```
 
-Run outside a project that provides the plugin, `charly mcp serve` exits 80 — the verb is not
-compiled into the binary, it is discovered.
+`mcp` is discovered from that project's `candy/plugin-mcp`, so `-C` must name a project providing
+it. `--repo` does not reach this verb — it resolves after the CLI grammar is built — which is a
+known gap rather than the intended design.
+
+The verb set is not fixed at build time. Run against a project without that candy and the verb
+simply is not there.
 
 Author a candy the way an agent would — the same verbs you would use by hand, with comments and
 key order preserved across every edit:
 
 ```bash
-git clone https://github.com/opencharly/distro-fedora && cd distro-fedora
-
-charly box new candy my-tool
-charly candy add-rpm my-tool ripgrep
-charly candy set my-tool env.MY_VAR value
-charly box add-candy tutorial-shell my-tool
-charly box validate
+charly box new project my-project
+charly -C my-project box new candy my-tool
+charly -C my-project candy add-rpm my-tool ripgrep
+charly -C my-project candy set my-tool env.MY_VAR value
+charly -C my-project box new box my-shell --base fedora --candy my-tool
+charly -C my-project box validate
 ```
 
-Every verb here writes to the project in the current directory, so the sequence runs against a
-clone you own. `--repo` is the read-only counterpart — it resolves a published project into a
-cache, and a scaffold in your working directory is invisible to it, so the two never mix.
+`-C` names the project every verb acts on, so nothing depends on which directory you are standing
+in. `--repo` is the read-only counterpart: it resolves a *published* project into a cache, which is
+right for reading and wrong for editing — a scaffold written to your project is invisible to it.
 
 And when the agent wants to know whether its change worked, it runs what you would run:
 
