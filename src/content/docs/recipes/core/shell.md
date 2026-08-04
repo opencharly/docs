@@ -23,7 +23,7 @@ description: "MUST be invoked before any work involving: charly shell command, i
 | Run command | `charly shell <image> -c "cmd"` | Execute command and exit |
 | Force TTY | `charly shell <image> --tty -c "cmd"` | PTY allocation for automation |
 | Specific version | `charly shell <image> --tag v1.0.0` | Use specific image tag |
-| No devices | `charly shell <image> --no-autodetect` | Disable device auto-detection |
+| No devices | `charly shell <image> --no-auto-detect` | Disable device auto-detection |
 | Set env var | `charly shell <image> -e KEY=VALUE` | Inject environment variable |
 | Load env file | `charly shell <image> --env-file .env` | Load env from file |
 | Named instance | `charly shell <image> -i runner-1` | Use named instance |
@@ -107,7 +107,7 @@ Source: `sdk/deploykit/routes.go` (`GenerateTraefikRoutes` / `EmitTraefikRouteSt
 
 ## Device Auto-Detection
 
-By default, `charly shell` auto-detects available host devices and passes them through. Use `--no-autodetect` to disable.
+By default, `charly shell` auto-detects available host devices and passes them through. Use `--no-auto-detect` to disable.
 
 **Auto-detected devices:**
 - NVIDIA GPU (via `nvidia-smi`) -- `--gpus all` (Docker) or `--device nvidia.com/gpu=all` (Podman)
@@ -202,7 +202,7 @@ Use `charly cmd` for quick operations on running services. Use `charly shell -c`
 - [`/charly-automation:tmux`](/recipes/automation/tmux/) -- Typed persistent terminal sessions (survive disconnects and support TTY-dependent TUI programs)
 - [`/charly-core:service`](/recipes/core/service/) -- Starting background services before exec
 - [`/charly-core:start`](/recipes/core/start/) -- Same `appendAutoDetectedEnv()` injection at service-start time
-- [`/charly-core:charly-config`](/recipes/core/charly-config/) -- Deployment setup + same `appendAutoDetectedEnv()` at deploy time; `--no-autodetect` flag disables it
+- [`/charly-core:charly-config`](/recipes/core/charly-config/) -- Deployment setup + same `appendAutoDetectedEnv()` at deploy time; `--no-auto-detect` flag disables it
 - [`/charly-core:deploy`](/recipes/core/deploy/) -- `charly.yml` overlay applied to labels before shell spawns
 - [`/charly-check:cdp`](/recipes/check/cdp/) -- Chrome DevTools Protocol automation
 - [`/charly-check:wl`](/recipes/check/wl/) (sway subgroup) -- Sway compositor control
