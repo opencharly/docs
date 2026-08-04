@@ -62,11 +62,15 @@ charly --repo opencharly/distro-fedora check run check-tutorial-shell
 ```
 
 ```
+...
 [update]              PASS after 63s
 [check-live-rebuild]  PASS after 16s
 [cleanup]             PASS after 6s
 PASS (steps=13)
 ```
+
+Only the tail is shown — `...` stands for the nine earlier steps that build, deploy and probe the
+box before this destroy-and-rebuild leg.
 
 Five minutes, and nothing survives it. A verification you can run that freely is one you actually
 run.

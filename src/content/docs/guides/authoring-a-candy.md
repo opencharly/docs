@@ -107,7 +107,7 @@ the candy directory and the builder stage is detected automatically. Do not reac
 ## Compose it into a box
 
 ```bash
-charly box new box my-shell --base fedora --candy my-tool
+charly box new box my-shell --base fedora --candies my-tool
 ```
 
 Or write it directly — a box is the same `candy:` keyword plus a `base:`:

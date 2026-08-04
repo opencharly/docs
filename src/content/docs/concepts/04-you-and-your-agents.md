@@ -32,12 +32,18 @@ YAML by regenerating it destroys comments and key order; charly's editor verbs g
 
 ## In practice
 
-Expose the whole CLI over RPC:
+Expose the whole CLI over RPC — from inside a project, since `mcp` is an out-of-process command
+plugin that charly loads from the project's own `candy/plugin-mcp`:
 
 ```bash
+git clone https://github.com/opencharly/charly && cd charly
+
 charly mcp serve                 # Streamable HTTP or stdio
 charly mcp serve --read-only     # filters the destructive tools out
 ```
+
+Run outside a project that provides the plugin, `charly mcp serve` exits 80 — the verb is not
+compiled into the binary, it is discovered.
 
 Author a candy the way an agent would — the same verbs you would use by hand, with comments and
 key order preserved across every edit:

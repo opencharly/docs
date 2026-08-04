@@ -48,9 +48,12 @@ uniform enough to parse.
 
 ## Driving it from an agent
 
-The same binary is an MCP server, so every verb is reachable over RPC:
+The same binary is an MCP server, so every verb is reachable over RPC. `mcp` is itself an
+out-of-process command plugin, discovered from the project's `candy/plugin-mcp` rather than
+compiled in — so run it from inside a project that provides it, or it exits 80:
 
 ```bash
+git clone https://github.com/opencharly/charly && cd charly
 charly mcp serve
 ```
 

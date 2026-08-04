@@ -94,7 +94,7 @@ The five skips are three different things, and the distinction is worth reading:
 | Skipped | Why |
 |---|---|
 | `sshd-service-running`, `sshd-port-reachable`, and supervisord's control-socket check | `context: [runtime]` — a service cannot be running inside an image |
-| a `run:` step that creates an account | it mutates, and `check box` is verify-only |
+| a `run:` step that grants the uid-1000 account passwordless sudo | it mutates, and `check box` is verify-only |
 | an `agent-check:` step | it is graded by an agent, and no grader is bound here |
 
 Only the first group needs a deployment. That is what the bed provides:
@@ -109,11 +109,15 @@ charly --repo opencharly/distro-fedora check run check-tutorial-shell
 [deploy-add]          PASS after 16s
 [start]               PASS after 9s
 [check-live]          PASS after 16s
+...
 [update]              PASS after 63s
 [check-live-rebuild]  PASS after 16s
 [cleanup]             PASS after 6s
 PASS (steps=13)
 ```
+
+Eight of the thirteen steps are shown; `...` marks the elided ones (`config`,
+`bring-up-members`, `feature-run`, `feature-run-rebuild`, `cleanup-members`).
 
 One command: build, deploy, bring to steady state, run the plan, then **destroy and rebuild from
 scratch** and run it again, then tear everything down. That second `check-live-rebuild` is the
@@ -124,7 +128,9 @@ declared `disposable: true`.
 
 ## Change the mold
 
-The same candies are not tied to containers. Apply one directly to your workstation:
+The same candies are not tied to containers. A `local:` deploy applies them to a *machine* — and
+because that means real packages and real units on whatever it targets, this repository
+demonstrates it against a disposable VM guest rather than a workstation:
 
 ```yaml
 # a local: deploy nested INSIDE a disposable VM guest — the same candy,
@@ -134,7 +140,14 @@ check-docs-local:
         from: eval-vm
         disposable: true
         lifecycle: dev
+    check-docs-local-member:
+        local:
+            from: docs-local-app
 ```
+
+The `vm:` is the disposable guest; the member is the nested `local:` deploy. `docs-local-app`
+composes the same `ripgrep` candy that `tutorial-shell` builds into a container image. Point a
+`local:` deploy at your own machine only when you actually mean to change your own machine.
 
 Swap the substrate and the same list installs into a VM guest over SSH, generates Kubernetes
 manifests, or installs apps onto a phone. No second vocabulary.
