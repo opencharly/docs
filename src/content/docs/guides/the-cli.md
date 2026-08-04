@@ -48,7 +48,7 @@ uniform enough to parse.
 
 ## Driving it from an agent
 
-The same binary is an MCP server, so every verb is reachable over RPC. `mcp` is itself an
+The same binary is an MCP server, so every verb is reachable over RPC ([remote procedure call](/concepts/00-vocabulary/#the-abbreviations)). `mcp` is itself an
 out-of-process command plugin, discovered from a project's `candy/plugin-mcp` rather than compiled
 in — so point charly at a project that provides it. `--repo` does that with no checkout:
 

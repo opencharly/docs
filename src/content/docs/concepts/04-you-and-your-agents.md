@@ -1,6 +1,6 @@
 ---
 title: You and your agents
-description: One command surface, reachable from a shell or over RPC — with no second-class channel.
+description: One command surface, reachable from a shell or over RPC ([remote procedure call](/concepts/00-vocabulary/#the-abbreviations)) — with no second-class channel.
 sidebar:
   order: 4
 ---

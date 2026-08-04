@@ -46,7 +46,7 @@ composes has one too — [`ripgrep`](/reference/candy/ripgrep/), [`sshd`](/recip
 [provider index](/reference/providers/) maps every one to its owning plugin.
 
 **Ask the image.** The card is not the only copy — the acceptance plan travels *inside* the built
-image as an OCI label:
+image as an OCI label — a key/value pair carried inside the image itself, per the [Open Container Initiative](/concepts/00-vocabulary/#the-abbreviations) format:
 
 ```bash
 charly --repo opencharly/distro-fedora box inspect tutorial-shell

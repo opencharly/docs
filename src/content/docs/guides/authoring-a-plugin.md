@@ -69,7 +69,7 @@ plugin:
 ```
 
 charly fetches the repo, builds the provider binary on the host, and serves it out-of-process.
-Your plugin is a standalone Go module importing only the SDK (`github.com/opencharly/sdk`) —
+Your plugin is a standalone Go module importing only the SDK ([software development kit](/concepts/00-vocabulary/#the-abbreviations)) (`github.com/opencharly/sdk`) —
 never charly core. That import boundary is what keeps a plugin buildable outside this tree.
 
 Because it is out-of-tree, it will not appear in the [plugin reference](/reference/providers/) on

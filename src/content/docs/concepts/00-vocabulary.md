@@ -102,6 +102,27 @@ One recipe-card format describes an ingredient, a finished dish, and a new piece
 equipment. That is why there is no second vocabulary to learn — and why the core can stay tiny
 while the catalog grows.
 
+## The abbreviations
+
+Charly words are defined above. These are the industry and project abbreviations the rest of the
+site uses, each expanded once here so no page has to stop and explain it again.
+
+| Short | In full | What it means here |
+|---|---|---|
+| **OCI** | Open Container Initiative | the standard governing container image format and metadata. A candy's `plan:` ships as an OCI **label** — a key/value pair stored in the image itself, so it travels with the artifact |
+| **CUE** | *Configure, Unify, Execute* — a language, not an initialism you need to expand in speech | the schema language charly's config is defined in. One `.cue` file is the single source for both the Go types and the load-time validation, so a schema change cannot reach one without the other |
+| **IR** | intermediate representation | the shared install plan every substrate compiles to. A compiler term: the neutral form in the middle, produced once from your candy list and consumed by the container, VM, cluster, host and Android backends alike. It is why `pod:` → `vm:` is a keyword change |
+| **MCP** | Model Context Protocol | the open standard for exposing tools to an AI agent. `charly mcp serve` publishes the whole command tree over it |
+| **ADE** | Agent Driven Evaluation | this project's name for "the spec is the test" — every candy ships a runnable `plan:`, and an agent can both author and grade it |
+| **RDD** | Risk Driven Development | prove the riskiest assumption early, on a disposable bed, before building on it |
+| **SDD** | Schema Driven Design | the CUE schema comes first; schema-shaped Go is generated from it, never hand-written |
+| **CalVer** | calendar versioning | version numbers that are dates — `2026.216.1804` is day 216 of 2026 at 18:04. Every candy, box and release carries one |
+| **RPC** | remote procedure call | calling a function in another process as if it were local. Charly's plugins and its MCP surface both work this way |
+| **SDK** | software development kit | `github.com/opencharly/sdk`, the module a plugin imports to be a plugin |
+| **CDP** | Chrome DevTools Protocol | how the `cdp:` check verb drives and inspects a real browser inside a running candybox |
+| **VNC** | Virtual Network Computing | the remote-framebuffer protocol behind the `vnc:` verb, which lets a check assert what a desktop is actually displaying |
+| **ADB** | Android Debug Bridge | the tool the `adb:` verb uses to reach an Android device or emulator |
+
 ## A note on the names
 
 The confectionery names are not decoration; they are the schema. `candy:` is a real YAML keyword,
