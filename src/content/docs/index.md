@@ -100,13 +100,13 @@ built-in support for containers, VMs and Kubernetes that also happens to accept 
 is *kind-blind*: it knows how to load plugins, route a word to whichever one claims it, and carry
 generic data between them. It does not know what `pod:` means.
 
-Today's catalog registers **128 words across 80 plugin candies**:
+Today's catalog registers **129 words across 81 plugin candies**:
 
 | Class | How many | Examples |
 |---|---|---|
 | **deploy** substrates | 7 | `pod` `vm` `k8s` `local` `android` |
 | **kind** — the entity keywords themselves | 16 | `candy` `distro` `group` `builder` `agent` |
-| **verb** — probes a `plan:` can call | 41 | `file` `http` `cdp` `vnc` `adb` `kube` |
+| **verb** — probes a `plan:` can call | 42 | `file` `http` `cdp` `vnc` `adb` `kube` |
 | **command** — `charly` subcommands | 46 | `bundle` `check` `candy` `clean` |
 | **step** — install operations | 13 | `file` `service-custom` `reboot` |
 | **builder** — multi-stage build patterns | 5 | `pixi` `npm` `cargo` `aur` |
@@ -120,6 +120,61 @@ for additions to. A plugin lives either compiled into the binary or loaded from 
 `candy/` directory — including a project that is not this one, referenced by git URL. **You extend
 `charly` by writing candies, as many as you like**, and a substrate you invent is the same kind of
 thing as `pod:`.
+
+### The architecture, in one pass
+
+It is worth seeing how those pieces actually fit, because the shape explains what you can do with
+them.
+
+**1. Everything starts as one resolved project.** `charly` reads every `charly.yml` it discovers,
+follows `@github.com/...` references to other repositories, and resolves each entity to a pinned
+CalVer version. The result is a single in-memory project — your candies plus everyone else's,
+flattened, with no notion yet of building or deploying.
+
+**2. The core does not know what anything means.** What survives in `charly` itself is deliberately
+tiny: load plugins, look at a word and route it to whichever plugin claimed it, broker messages
+between them, and carry *generic envelopes* — data whose shape the core never inspects. There is no
+`pod` case in a switch statement anywhere in it. A test (`charly/import_purity_test.go`) fails the
+build if core code reaches for anything richer.
+
+**3. A plugin is reached the same way wherever it lives.** Of the 81 plugin candies, **53 are
+compiled into the binary and 28 run as separate processes** over gRPC. Both implement one
+`Provider` contract, so placement is an operational choice — startup cost against isolation — not
+an API difference. `deploy:pod`, `deploy:vm` and `deploy:local` are all out-of-process: the
+substrates people think of as "built in" are not even in the binary.
+
+**4. Two paths diverge, then one rejoins.** Building renders a multi-stage Containerfile from your
+candy list. Deploying compiles the *same* list into an **install plan** — the shared intermediate
+representation — which each substrate backend then realises its own way: a container image, an SSH
+session against a VM guest, a Kustomize tree, packages on a host, an APK install. This is the
+mechanism behind "swap the substrate, not the recipe". It is one data structure, and everything
+downstream consumes it.
+
+**5. The artifact carries its own description.** Capabilities and the acceptance plan are written
+into the image as `ai.opencharly.*` labels, so a pulled image can be inspected and tested by a
+machine that has never seen the source. The image is not an opaque blob with documentation
+elsewhere; the documentation is inside it.
+
+**6. The schema is upstream of all of it.** The `charly.yml` grammar is defined once in CUE. The Go
+types, the load-time validation, and the reference pages on opencharly.ai are all generated from
+that one definition — so a schema change cannot reach the code without reaching the docs.
+
+### What the shape makes possible
+
+Each of these is a consequence of the layout above rather than a separate feature:
+
+- **Invent a substrate.** Deploy targets are plugins with no privileged status. Something charly has
+  never heard of — a NAS, a router, a robot — is a plugin candy that consumes the install plan.
+- **Compose across organisations.** A candy reference is a git URL and a version. Your box can
+  compose someone else's candy without vendoring it, and `charly box reconcile` keeps the pins
+  aligned.
+- **Run charly inside charly.** The dev boxes contain rootless containers and rootless VMs, so a
+  candybox can build and deploy candyboxes. Verification becomes self-hosting rather than requiring
+  a privileged outer host.
+- **Hand the whole thing to an agent.** Because there is no automation-only path and every capability
+  is a plugin, an agent gets the same surface you do — including the ability to extend it.
+- **Prove it, disposably.** Any deploy marked `disposable: true` can be destroyed and rebuilt without
+  asking, which is what makes "test it for real" affordable enough to do on every change.
 
 That is the whole reason the core stays small while the catalog grows, and why there is no second
 vocabulary: extending the tool and using the tool are the same activity.
