@@ -40,19 +40,14 @@ going stale.
 
 ## In practice
 
-Regenerate the generated half from the sources:
+The mechanism is a regeneration step and a drift gate. In *this* repository they are
+`task docs:sync` and `task docs:drift` — repository-maintenance commands, run by whoever changes a
+source, from a charly checkout. They are named here because the tenet is about how this site stays
+honest, not because you run them: `charly docs` is an out-of-process plugin supplied by the charly
+project itself, so it is not part of an installed `charly`.
 
-```bash
-task docs:sync
-```
-
-Then prove it was already current — regeneration on a clean tree must change nothing:
-
-```bash
-task docs:drift
-```
-
-That command is the mechanism behind the tenet. If someone edits a generated page by hand, or
+`docs:sync` re-emits every generated page from its source. `docs:drift` re-emits into a scratch
+tree and fails if anything differs — regeneration on a clean tree must be a no-op. If someone edits a generated page by hand, or
 changes a candy's `description:` without regenerating, `docs:drift` fails. Staleness becomes a
 build failure rather than a discovery someone makes months later.
 

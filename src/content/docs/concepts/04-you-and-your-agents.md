@@ -37,13 +37,13 @@ project's `candy/plugin-mcp` rather than compiled in — so point charly at a pr
 it. `--repo` does that without a checkout:
 
 ```bash
-charly -C /path/to/a/charly/project mcp serve               # Streamable HTTP or stdio
-charly -C /path/to/a/charly/project mcp serve --read-only   # filters the destructive tools out
+charly --repo opencharly/charly mcp serve               # Streamable HTTP or stdio
+charly --repo opencharly/charly mcp serve --read-only   # filters the destructive tools out
 ```
 
-`mcp` is discovered from that project's `candy/plugin-mcp`, so `-C` must name a project providing
-it. `--repo` does not reach this verb — it resolves after the CLI grammar is built — which is a
-known gap rather than the intended design.
+`mcp` is an out-of-process command plugin, discovered from a project's `candy/plugin-mcp` rather
+than compiled in. `--repo` points charly at one without a checkout. The verb set is not fixed at
+build time — run against a project without that candy and the verb is not there.
 
 The verb set is not fixed at build time. Run against a project without that candy and the verb
 simply is not there.
