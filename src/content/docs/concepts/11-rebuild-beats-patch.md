@@ -58,13 +58,6 @@ The scaffolded candy will not pass the gate until it declares what it does and h
 even the quick fix arrives documented and verifiable. That is
 [the schema gate](/concepts/07-the-schema-comes-first/) doing its job.
 
-## If you know immutable infrastructure
-
-This is that principle carried down to the development loop rather than reserved for production
-rollout. The usual split — immutable in prod, hand-tuned while developing — is what produces
-environments nobody can reconstruct. Here the same disposable rebuild is the *cheap* path during
-authoring, so there is no moment where mutating the running thing is the convenient option.
-
 ## See also
 
 - **[Disposability is the license](/concepts/09-disposability-is-the-license/)** — why the rebuild is cheap.

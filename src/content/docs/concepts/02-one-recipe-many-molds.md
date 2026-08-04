@@ -165,16 +165,6 @@ CLIs, every language runtime, the DevOps tooling, nested containers, rootless VM
 format as the two-candy box above. A fully stocked kitchen really does ship with the sink.
 :::
 
-## If you know Dockerfiles and Ansible
-
-A Containerfile is a script: ordered, imperative, and specific to images. A candy list is a
-declaration, and the *same* declaration is what a host deploy consumes. So the thing you would
-normally solve twice — a Dockerfile for the image, a role or a setup script for the workstation —
-is written once here.
-
-The closest familiar analogue for the reversibility is a package manager's transaction log, except
-it covers files, services, and shell-profile edits too.
-
 ## See also
 
 - **[The words](/concepts/00-vocabulary/)** — candy, box, candybox, and the three roles.

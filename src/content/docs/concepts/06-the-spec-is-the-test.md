@@ -92,16 +92,6 @@ remaps:
 charly check live <deployment>
 ```
 
-## If you know goss or Serverspec
-
-The probe vocabulary will feel familiar — files, packages, services, ports, processes, commands,
-HTTP, DNS, mounts, users, kernel params — and the exit codes follow the same convention (`0` all
-passed, `1` infra error, `2` checks failed).
-
-Two differences matter. The plan lives *on the thing it describes* rather than in a separate spec
-file, so composing a candy composes its checks. And the same plan runs at three scopes — the built
-image, a live deployment, and a full disposable bed run — without being rewritten for each.
-
 ## See also
 
 - **[Prove the risky thing first](/concepts/05-prove-the-risky-thing-first/)** — the co-equal twin.

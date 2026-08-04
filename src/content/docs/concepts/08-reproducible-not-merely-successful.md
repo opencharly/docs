@@ -71,13 +71,6 @@ PASS (steps=13)
 That `check-live-rebuild` line is the tenet made mechanical. A box that passes the first
 `check-live` and fails the second was never tempered — it was lucky.
 
-## If you know reproducible builds
-
-The ambition is narrower and more practical than bit-for-bit reproducibility. The goal is that a
-rebuild from the same declared inputs yields an image that reports the same identity and passes
-the same acceptance plan — enforced by actually performing that rebuild in the gate, rather than
-asserted and hoped for.
-
 ## See also
 
 - **[Reconcile](/recipes/build/reconcile/)** — aligning cross-repo version pins.

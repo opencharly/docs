@@ -71,16 +71,6 @@ rebuild it and run them all again. The riskiest assumption in that chain is whet
 at the versions they resolve to today, compose and come up together at all. No step you could
 author would answer that; only running it does.
 
-## If you know integration testing
-
-The mechanics are familiar; the *timing* is the tenet. This is not a test suite you run after
-writing the code — it is evidence you gather before choosing the design, on the one or two
-assumptions where being wrong is fatal rather than annoying.
-
-The closest analogue is a spike solution in the XP sense, with one addition: the throwaway runs
-against a real, isolated system rather than a mocked one, because the questions worth spiking are
-usually about how real components interact.
-
 ## See also
 
 - **[The spec is the test](/concepts/06-the-spec-is-the-test/)** — RDD's co-equal twin.

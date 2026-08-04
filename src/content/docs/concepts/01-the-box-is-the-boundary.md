@@ -54,16 +54,6 @@ CLIs, language runtimes, DevOps tooling — and still runs at uid 1000 with the 
 command allowlist. It also runs *nested* rootless containers and rootless libvirt VMs inside
 itself, without additive capabilities.
 
-## If you know Docker
-
-You already have the mechanism; what changes is what you do with it. A hardened container image
-usually means a stripped one — distroless, no shell, no package manager. Here the container is
-the *boundary*, so the image is free to be generous: full shell, full package manager, and a
-`--rm` lifecycle that makes a bad outcome cost one rebuild.
-
-The thing that makes that trade sane is disposability, which gets its own page:
-[disposability is the license](/concepts/09-disposability-is-the-license/).
-
 ## See also
 
 - **[The words](/concepts/00-vocabulary/)** — box vs candybox, defined.

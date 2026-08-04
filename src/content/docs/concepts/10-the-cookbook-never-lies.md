@@ -62,14 +62,6 @@ charly --repo opencharly/distro-fedora check run check-tutorial-shell
 If the documented example ever stops building or stops composing, that bed fails. A reader is not
 the failure detector.
 
-## If you know docs-as-code
-
-This goes one step further than "docs live in the repo and get reviewed". Review catches wrong
-prose only when a reviewer happens to know better. Here the largest part of the corpus is not
-reviewed for accuracy at all — it is *generated*, so accuracy is a property of the pipeline. What
-remains hand-written is the narrative, where a human argument is the point and no projection is
-possible.
-
 ## See also
 
 - **[Every piece has a card](/concepts/03-every-piece-has-a-card/)** — what generation covers.
