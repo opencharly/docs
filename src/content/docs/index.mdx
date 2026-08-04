@@ -109,8 +109,8 @@ again, then tears everything down.
 
 **Podman and Docker are both first-class**, for building and for running, and the two are chosen
 independently — charly auto-detects what is installed, and either can be pinned per host. The mixed
-pair, build with Podman and run under Docker, is covered by a case in
-`charly/runtime_config_test.go`.
+pair, build with Podman and run under Docker, is asserted by `TestResolveRuntime_MixedEngines`,
+which fails if resolution ever collapses the two onto one engine.
 
 On a host with Podman and systemd, a `pod:` deploy is realised as **user-level systemd quadlets**:
 `charly config` generates one `charly-<name>.service` per deploy, carrying its ports, volumes,
