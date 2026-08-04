@@ -43,9 +43,10 @@ detail; this table deliberately does not restate it.
 
 Two habits are worth more than any table.
 
-**Check the binary first.** A stale `bin/charly` fails in ways that look like real bugs. Re-run
-`task build:binary` and compare `charly version` against your checkout before investigating
-further.
+**Check the binary first.** A stale `charly` fails in ways that look like real bugs. Run
+`charly version` and confirm it is the build you meant to be running — if you installed the
+package, that it matches the package you installed, and if two copies are on `$PATH`, which one
+`which charly` actually resolves to.
 
 **Let the box tell you what it claims.** Every image carries its own acceptance plan as an OCI
 label, so `charly check box <image>` and `charly check live <image>` will often name the broken

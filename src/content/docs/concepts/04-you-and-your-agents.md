@@ -41,10 +41,6 @@ charly --repo opencharly/charly mcp serve               # Streamable HTTP or std
 charly --repo opencharly/charly mcp serve --read-only   # filters the destructive tools out
 ```
 
-`mcp` is an out-of-process command plugin, discovered from a project's `candy/plugin-mcp` rather
-than compiled in. `--repo` points charly at one without a checkout. The verb set is not fixed at
-build time — run against a project without that candy and the verb is not there.
-
 The verb set is not fixed at build time. Run against a project without that candy and the verb
 simply is not there.
 

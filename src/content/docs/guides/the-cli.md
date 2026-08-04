@@ -56,10 +56,8 @@ in — so point charly at a project that provides it. `--repo` does that with no
 charly --repo opencharly/charly mcp serve
 ```
 
-`mcp` is an out-of-process command plugin, discovered from a project's `candy/plugin-mcp` rather
-than compiled in — so charly has to be pointed at a project that provides it. `--repo` does that
-with no checkout. The verb set is not fixed at build time: run against a project without that
-candy and the verb simply is not there.
+The verb set is not fixed at build time: run against a project without that candy and the verb
+simply is not there.
 
 An agent authoring a candy uses the same commands you would — `charly candy set`,
 `charly candy add-rpm`, `charly box write` — with comments and key order preserved across edits.

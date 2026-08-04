@@ -133,21 +133,28 @@ because that means real packages and real units on whatever it targets, this rep
 demonstrates it against a disposable VM guest rather than a workstation:
 
 ```yaml
-# a local: deploy nested INSIDE a disposable VM guest — the same candy,
-# applied to a machine instead of a container, touching nothing of yours
-check-docs-local:
-    vm:
-        from: eval-vm
+# charly.yml — a local: deploy nested INSIDE a disposable VM guest, so the
+# "machine" it changes is the guest and never yours
+check-group:
+    group:
         disposable: true
         lifecycle: dev
-    check-docs-local-member:
-        local:
-            from: docs-local-app
+    check-group-vm:
+        vm:
+            from: eval-vm
+        check-group-member:
+            local:
+                from: check-group-app
 ```
 
-The `vm:` is the disposable guest; the member is the nested `local:` deploy. `docs-local-app`
-composes the same `ripgrep` candy that `tutorial-shell` builds into a container image. Point a
-`local:` deploy at your own machine only when you actually mean to change your own machine.
+Tree position is what makes it safe: because `check-group-member` is nested *under* the `vm:`
+node, the `local:` deploy lands inside the guest rather than on the host. It carries no `host:`
+field at all — the venue comes from its parent. `check-group-app` is itself a `local:` template
+composing one candy that drops a marker file, and the bed asserts that marker exists **in the
+guest**.
+
+Point a `local:` deploy at your own machine only when you actually mean to change your own
+machine.
 
 Swap the substrate and the same list installs into a VM guest over SSH, generates Kubernetes
 manifests, or installs apps onto a phone. No second vocabulary.
