@@ -89,8 +89,15 @@ charly --repo opencharly/distro-fedora check box tutorial-shell     # run the ba
 24 steps: 19 passed, 0 failed, 5 skipped
 ```
 
-The five skips are the `context: [runtime]` steps — a service cannot be running inside an image.
-For those you need a deployment, which is what the bed does:
+The five skips are three different things, and the distinction is worth reading:
+
+| Skipped | Why |
+|---|---|
+| `sshd-service-running`, `sshd-port-reachable`, and supervisord's control-socket check | `context: [runtime]` — a service cannot be running inside an image |
+| a `run:` step that creates an account | it mutates, and `check box` is verify-only |
+| an `agent-check:` step | it is graded by an agent, and no grader is bound here |
+
+Only the first group needs a deployment. That is what the bed provides:
 
 ```bash
 charly --repo opencharly/distro-fedora check run check-tutorial-shell
