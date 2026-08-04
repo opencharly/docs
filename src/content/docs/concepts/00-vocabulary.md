@@ -61,8 +61,38 @@ A candy with only `package:` is usefully called a layer. Add `base:` and people 
 because now there is something to build. It did not change type — it gained a field. That is why
 `charly box build` and `charly box list candies` can operate on the same file without contradiction.
 
-This is also why the core stays small while the catalog grows: adding a verb to `charly` means
-authoring a candy, not modifying `charly`.
+### The vocabulary itself is open
+
+The third row is bigger than it looks, and it is the part people miss.
+
+**Every keyword on this site is registered by a plugin candy.** `charly` is not a program with
+built-in support for containers, VMs and Kubernetes that also accepts plugins. Its core is
+*kind-blind*: it loads plugins, routes a word to whichever one claims it, and carries generic data
+between them. It does not know what `pod:` means.
+
+Today's catalog registers **128 words across 80 plugin candies**:
+
+| Class | How many | Examples |
+|---|---|---|
+| **deploy** substrates | 7 | `pod` `vm` `k8s` `local` `android` |
+| **kind** — the entity keywords themselves | 16 | `candy` `distro` `group` `builder` `agent` |
+| **verb** — probes a `plan:` can call | 41 | `file` `http` `cdp` `vnc` `adb` `kube` |
+| **command** — `charly` subcommands | 46 | `bundle` `check` `candy` `clean` |
+| **step** — install operations | 13 | `file` `service-custom` `reboot` |
+| **builder** — multi-stage build patterns | 5 | `pixi` `npm` `cargo` `aur` |
+
+Read the second row again: **`candy:` itself is a plugin-provided kind**, registered by
+`candy/plugin-candy-kind`. The keyword this whole page is about is not privileged — it is a word
+some candy claimed. [The provider index](/reference/providers/) lists every one and its owner.
+
+So there is no fixed list of substrates, no fixed list of check verbs, and no built-in set to
+petition for additions to. A plugin lives either compiled into the binary or loaded from a project's
+own `candy/` directory — including a project that is not charly's, referenced by git URL. **You
+extend `charly` by writing candies, as many as you like**, and a substrate you invent is the same
+kind of thing as `pod:`.
+
+That is why the core stays small while the catalog grows, and why there is no second vocabulary:
+extending the tool and using the tool are the same activity.
 
 ## Nesting: where a deploy runs
 

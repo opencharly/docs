@@ -91,8 +91,38 @@ capabilities, and the words describe which ones it has."* A candy with nothing b
 usefully called a layer. Add `base:` and people will call it a box, because now you can build it.
 It did not change type; it gained a field.
 
-This is why there is no second vocabulary to learn, and why the core stays small while the catalog
-grows: adding a verb to `charly` is authoring a candy, not modifying `charly`.
+### And the vocabulary itself is open
+
+That third row is bigger than it looks, and it is the part people miss.
+
+**Every keyword in this document is registered by a plugin candy.** `charly` is not a program with
+built-in support for containers, VMs and Kubernetes that also happens to accept plugins. Its core
+is *kind-blind*: it knows how to load plugins, route a word to whichever one claims it, and carry
+generic data between them. It does not know what `pod:` means.
+
+Today's catalog registers **128 words across 80 plugin candies**:
+
+| Class | How many | Examples |
+|---|---|---|
+| **deploy** substrates | 7 | `pod` `vm` `k8s` `local` `android` |
+| **kind** — the entity keywords themselves | 16 | `candy` `distro` `group` `builder` `agent` |
+| **verb** — probes a `plan:` can call | 41 | `file` `http` `cdp` `vnc` `adb` `kube` |
+| **command** — `charly` subcommands | 46 | `bundle` `check` `candy` `clean` |
+| **step** — install operations | 13 | `file` `service-custom` `reboot` |
+| **builder** — multi-stage build patterns | 5 | `pixi` `npm` `cargo` `aur` |
+
+Read the second row again: **`candy:` itself is a plugin-provided kind**, registered by
+`candy/plugin-candy-kind`. The keyword this entire page is about is not privileged — it is a word
+some candy claimed.
+
+So there is no fixed list of substrates, no fixed list of check verbs, no built-in set to petition
+for additions to. A plugin lives either compiled into the binary or loaded from a project's own
+`candy/` directory — including a project that is not this one, referenced by git URL. **You extend
+`charly` by writing candies, as many as you like**, and a substrate you invent is the same kind of
+thing as `pod:`.
+
+That is the whole reason the core stays small while the catalog grows, and why there is no second
+vocabulary: extending the tool and using the tool are the same activity.
 
 ### The four stages
 
