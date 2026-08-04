@@ -15,14 +15,14 @@ head:
     content: OpenCharly — the fully stocked gourmet kitchen for you and your agents
 hero:
   tagline: |
-    Every other tool hands an agent a sandbox and then spends its effort taking things away.
-    OpenCharly does the opposite: it walls the room, then stocks it with everything.
+    The fully stocked gourmet kitchen for you and your agents — a tiny core, an all-you-can-eat
+    buffet.
   actions:
     - text: Get started
       link: /start/install/
       icon: right-arrow
-    - text: Read the vision
-      link: /vision/
+    - text: Quickstart
+      link: /start/quickstart/
       variant: minimal
     - text: View on GitHub
       link: https://github.com/opencharly/charly
@@ -39,18 +39,30 @@ that same list to a VM guest, a Kubernetes cluster, a host, or an Android device
 compiles to one shared install plan, so moving a deploy from a container to a VM is a keyword
 change rather than a rewrite.
 
-Every candy carries an acceptance plan, baked into the built image as an
-`ai.opencharly.description` OCI label — so an image can be tested later without its source repo,
-and a disposable **check bed** runs the full sequence in one command: build, check the image,
-deploy, reach steady state, check it live, destroy and rebuild from scratch, check it again, tear
-down.
+Every candy also carries an acceptance plan, baked into the built image as an
+`ai.opencharly.description` OCI label. The image can therefore be tested later, on a machine that
+has never seen its source repository.
 
-One file per entity, named `charly.yml`. One entity keyword, `candy:`. Every capability beyond the
-core — each verb, kind, probe, builder and command — is itself a candy carrying a `plugin:` block.
+## How it works
 
-## One candy, three roles
+### The words
 
-There is one `candy:` keyword, and what you put inside it decides what it is:
+Six terms, used precisely throughout. `box` and `candybox` are distinct, and are the pair most
+often used interchangeably. [Full glossary →](/concepts/00-vocabulary/)
+
+| Term | What it is | What it is *not* |
+|---|---|---|
+| **candy** | one entry in a `charly.yml` — the **only** entity kind there is | not "a layer", not "a package" |
+| **box** | a candy carrying `base:`/`from:` → a buildable **container image** | not the running thing |
+| **candybox** | a box in its **running, isolated form** — container, VM, or check bed. **The security boundary.** | not the image, not the config |
+| **check bed** | a deploy marked `disposable: true` — a candybox that exists to be destroyed | not a test file |
+| **plan** | the ordered acceptance spec a candy carries, baked into the image as an OCI label | not a build script |
+| **substrate** | where a deploy lands: `pod:` `vm:` `k8s:` `local:` `android:` | |
+
+### One keyword, three roles
+
+There is one entity keyword, `candy:`, and one filename, `charly.yml`. What you put inside the
+keyword decides what the entity is:
 
 | What it declares | What it is |
 |---|---|
@@ -58,64 +70,76 @@ There is one `candy:` keyword, and what you put inside it decides what it is:
 | …plus `base:` or `from:` | a **box** — a buildable container image |
 | …plus a `plugin:` block | a **plugin** — a new verb, kind or command for `charly` itself |
 
-One recipe-card format describes an ingredient, a finished dish, and a new piece of kitchen
-equipment. That is why the core stays tiny while the catalog grows — and why there is no second
-vocabulary to learn. [The words →](/concepts/00-vocabulary/)
+Every capability beyond the core is that third row. Verbs, deploy kinds, probes, builders and whole
+command trees are all plugin candies, which is why the core stays small while the catalog grows,
+and why there is no second vocabulary to learn.
 
-## Sixty seconds
+### The four stages
+
+<CardGrid>
+  <Card title="Build" icon="seti:config">
+    Write a `candy:` with a `base:` and a candy list; `charly box build <box>` renders a
+    multi-stage Containerfile and builds the image.
+  </Card>
+  <Card title="Run" icon="rocket">
+    `charly shell <box>` drops you inside the running **candybox** — the isolation boundary, not
+    the image.
+  </Card>
+  <Card title="Deploy" icon="puzzle">
+    Add a substrate keyword — `pod:` `vm:` `k8s:` `local:` `android:` — and the same candy list
+    installs there. One shared install plan underneath.
+  </Card>
+  <Card title="Evaluate" icon="approve-check">
+    Each candy's `plan:` is executable: `charly check box` at build scope, `charly check live`
+    against a running deployment.
+  </Card>
+</CardGrid>
+
+A **check bed** — a deploy marked `disposable: true` — runs all four in one command. `charly check
+run <bed>` builds the image, checks it, deploys it, waits for steady state, checks it live, then
+destroys and rebuilds from scratch and checks it again, then tears everything down.
+
+## A real box, end to end
 
 The box below is real, shipped, and re-proven on every acceptance run — you can read it at
-[`tutorial-shell`](/reference/box/fedora/tutorial-shell/):
+[`tutorial-shell`](/reference/box/fedora/tutorial-shell/). It composes two candies: `ripgrep`, a
+tool layer, and `sshd`, a service layer.
 
 ```bash
 charly --repo opencharly/distro-fedora box validate                    # the schema gate — nothing runs until it passes
 charly --repo opencharly/distro-fedora box build tutorial-shell        # → multi-stage Containerfile → image
 charly --repo opencharly/distro-fedora shell tutorial-shell            # → you are inside the candybox
-charly --repo opencharly/distro-fedora check run check-tutorial-shell    # → build, deploy, probe, fresh rebuild, tear down
+charly --repo opencharly/distro-fedora check run check-tutorial-shell  # → build, deploy, probe, fresh rebuild, tear down
 ```
+
+Note what the box does *not* declare: an init system. `sshd` declares a service, so charly resolves
+the init this target needs and installs it — supervisord for a container, nothing extra for a
+systemd machine. You declare the service; the init follows.
 
 Then change the mold and keep the recipe — the same candy list applies to a VM guest, a cluster, or
 a host. Swap the substrate in the deploy, not the recipe.
+[The full walkthrough →](/start/quickstart/)
 
 <Aside type="tip" title="Yes, it comes with the kitchen sink">
-The two-candy box above is the small end. At the other sit the **kitchen-sink dev boxes** —
+The box above has two candies. At the other end sit the **kitchen-sink dev boxes** —
 [`fedora-coder`](/recipes/coder/fedora-coder/) and its [`arch`](/recipes/coder/arch-coder/),
 [`debian`](/recipes/coder/debian-coder/) and [`ubuntu`](/recipes/coder/ubuntu-coder/) siblings —
-around thirty candies each: five AI coding CLIs, every language runtime, DevOps tooling, nested
-rootless containers, rootless VMs. Same recipe format, same four commands. A fully stocked kitchen
-really does ship with the sink.
+around thirty candies each: four AI coding CLIs, every language runtime, DevOps tooling, nested
+rootless containers and rootless VMs, all at uid 1000 with no `--privileged`. Same format, same
+commands. A fully stocked kitchen really does ship with the sink.
 </Aside>
-
-## The bet
-
-<CardGrid>
-  <Card title="Secure the room, not the candy" icon="approve-check">
-    Safety lives at the walls of the running **candybox** — never in a shrunken toolset. Inside
-    it, you and your agents get everything.
-  </Card>
-  <Card title="One recipe, many molds" icon="seti:config">
-    The same candy list pours into a shell, a managed pod, a cluster, a bootable VM, a phone, or
-    your own machine.
-  </Card>
-  <Card title="Built for two tasters" icon="star">
-    The same surface serves you at the keyboard and your agents over RPC — the binary is also an
-    MCP server, so nothing is automation-only.
-  </Card>
-  <Card title="The spec is the test" icon="puzzle">
-    Every candy ships a runnable acceptance plan, baked into the image. What "working" means is
-    executed, not asserted.
-  </Card>
-</CardGrid>
 
 ## Where to go next
 
 - **[Install](/start/install/)** — get `charly` onto your machine.
 - **[Quickstart](/start/quickstart/)** — read a real box, build it, prove it.
-- **[The words](/concepts/00-vocabulary/)** — candy, box, candybox: five minutes well spent.
+- **[The words](/concepts/00-vocabulary/)** — candy, box, candybox, precisely.
 - **[The concepts tour](/concepts/01-the-box-is-the-boundary/)** — twelve short pages, theory and a
-  runnable example each, in the order the project's own [vision](/vision/) states them.
+  runnable example each.
 - **[Recipe cards](/recipes/)** — every candy, box and verb has a dedicated page.
 - **[Provider index](/reference/providers/)** — what implements `cdp:`? Look it up.
+- **[The vision](/vision/)** and **[what it is reacting to](/grievances/)** — why the project looks
+  the way it does.
 
 :::note[Most of this site writes itself]
 The reference and recipe-card sections are generated from the source repository by

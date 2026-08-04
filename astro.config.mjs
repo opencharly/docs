@@ -38,6 +38,7 @@ export default defineConfig({
         },
         { label: 'Recipe cards', collapsed: true, items: [{ autogenerate: { directory: 'recipes' } }] },
         { label: 'The Vision', link: '/vision/' },
+        { label: 'What it is reacting to', link: '/grievances/' },
       ],
     }),
   ],
