@@ -2,12 +2,13 @@
 title: Authoring a plugin
 description: Every capability charly has is a plugin candy — including ones that live in no repository of ours.
 sidebar:
-  order: 1
+  order: 2
 ---
 
-> **A tiny kitchen, every candy a recipe.** Every capability the factory has — every verb, mold,
-> probe, builder, and command — is a candy speaking one shared SDK, so the candy store grows
-> without the kitchen growing.
+> **A gourmet kitchen: a tiny core, an all-you-can-eat buffet.** The core stays small on purpose —
+> a kernel that loads, composes, gates, builds, and dispatches, and nothing else. Every capability
+> the kitchen has — every verb, mold, probe, builder, and command — is a candy speaking one shared
+> SDK, so the buffet grows without the core growing.
 >
 > — [tenet: where the factory is heading](/vision/)
 

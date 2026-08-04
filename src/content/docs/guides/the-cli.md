@@ -2,7 +2,7 @@
 title: The charly CLI
 description: How the command surface is put together — a small core spine and a large plugin-served catalog.
 sidebar:
-  order: 2
+  order: 3
 ---
 
 `charly` is one binary with a large command surface, and almost none of it is in the binary's own
@@ -48,11 +48,16 @@ uniform enough to parse.
 
 ## Driving it from an agent
 
-The same binary is an MCP server, so every verb is reachable over RPC:
+The same binary is an MCP server, so every verb is reachable over RPC. `mcp` is itself an
+out-of-process command plugin, discovered from a project's `candy/plugin-mcp` rather than compiled
+in — so point charly at a project that provides it. `--repo` does that with no checkout:
 
 ```bash
-charly mcp serve
+charly --repo opencharly/charly mcp serve
 ```
+
+The verb set is not fixed at build time: run against a project without that candy and the verb
+simply is not there.
 
 An agent authoring a candy uses the same commands you would — `charly candy set`,
 `charly candy add-rpm`, `charly box write` — with comments and key order preserved across edits.

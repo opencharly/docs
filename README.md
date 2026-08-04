@@ -1,7 +1,7 @@
 # opencharly/docs
 
-The documentation site for [OpenCharly](https://github.com/opencharly/charly) — the candy
-factory for you and your agents. Published at **[opencharly.ai](https://opencharly.ai)**.
+The documentation site for [OpenCharly](https://github.com/opencharly/charly) — the fully
+stocked gourmet kitchen for you and your agents. Published at **[opencharly.ai](https://opencharly.ai)**.
 
 Built with [Starlight](https://starlight.astro.build/) on Astro, deployed by Cloudflare Pages on
 every push to `main`.

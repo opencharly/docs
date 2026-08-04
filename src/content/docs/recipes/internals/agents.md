@@ -40,7 +40,7 @@ points to it.
 | The default multi-agent execution model: orchestrator/teammate model-tier split, maximum parallelization, the slot budget, concurrent landing, the orchestrator's bidirectional verification duty, architectural-integrity ownership, the responsibility matrix and tie-breakers | [`references/orchestration-model.md`](/recipes/internals/agents/orchestration-model/) |
 | Program-wide alignment: the north-star protocol, the IOU register, per-merge measurement, migration-ledger discipline, crossed-ruling reconciliation, brief verification and stop-and-respawn, whack-a-mole escalation | [`references/program-discipline.md`](/recipes/internals/agents/program-discipline/) |
 | Bed-scoped parallel real-deployment testing: the concurrency ceilings (store lock, exclusive-resource tokens, long-bed ownership, shared-tree walks, per-worktree binaries) and their fixes; the charly binary in a multi-worktree setup; the binding rule for running a bed; implementation-workflow shape; speed levers | [`references/parallel-bed-testing.md`](/recipes/internals/agents/parallel-bed-testing/) |
-| Delegation as fresh context; teammate context lifecycle; the eight sub-agent operational invariants; the hooks doctrine (current hook inventory); agent lifecycle hygiene; the universal PR-gate audit; worktree/validator lifecycle | [`references/hooks-and-lifecycle.md`](/recipes/internals/agents/hooks-and-lifecycle/) |
+| Delegation as fresh context; teammate context lifecycle; the nine sub-agent operational invariants; the hooks doctrine (current hook inventory); agent lifecycle hygiene; the universal PR-gate audit; worktree/validator lifecycle | [`references/hooks-and-lifecycle.md`](/recipes/internals/agents/hooks-and-lifecycle/) |
 
 ## Cross-References
 

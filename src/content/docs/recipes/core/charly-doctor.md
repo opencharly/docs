@@ -107,7 +107,7 @@ AMD GPU detection also reports the GFX version (e.g., `gfx 11.0.0`) from KFD top
 
 **Why centralized:** DRINODE injection lives in the single `appendAutoDetectedEnv()` helper (now in `candy/plugin-deploy-pod`) so [`/charly-core:charly-config`](/recipes/core/charly-config/), [`/charly-core:start`](/recipes/core/start/), and [`/charly-core:shell`](/recipes/core/shell/) all produce the identical env set — a fix applied to one reaches all three. [`/charly-distros:nvidia`](/recipes/distros/nvidia/) and [`/charly-distros:rocm`](/recipes/distros/rocm/) ship no hardcoded render nodes in their charly.yml; they rely on this detection instead.
 
-**Disabling auto-detection:** Pass `--no-autodetect` to `charly config` to skip all of DRINODE, DRI_NODE, and HSA_OVERRIDE_GFX_VERSION injection. Useful when you want to set these values explicitly or test a candy without host device dependence. See [`/charly-core:charly-config`](/recipes/core/charly-config/) flag table.
+**Disabling auto-detection:** Pass `--no-auto-detect` to `charly config` to skip all of DRINODE, DRI_NODE, and HSA_OVERRIDE_GFX_VERSION injection. Useful when you want to set these values explicitly or test a candy without host device dependence. See [`/charly-core:charly-config`](/recipes/core/charly-config/) flag table.
 
 ## Output Format
 
@@ -130,7 +130,7 @@ Each check shows the binary path and version when available, or an install hint 
 ## Cross-References
 
 - [`/charly-automation:udev`](/recipes/automation/udev/) — install udev rules for GPU device access
-- [`/charly-core:charly-config`](/recipes/core/charly-config/) — `engine.build`, `engine.run`, `secret_backend` settings, `--no-autodetect` flag, DRINODE injection via `appendAutoDetectedEnv()`
+- [`/charly-core:charly-config`](/recipes/core/charly-config/) — `engine.build`, `engine.run`, `secret_backend` settings, `--no-auto-detect` flag, DRINODE injection via `appendAutoDetectedEnv()`
 - [`/charly-automation:enc`](/recipes/automation/enc/) — credential lookup path behind the Secret Service collection + keyring-index checks; iteration-capable ssClient; broken-collection troubleshooting
 - [`/charly-build:secrets`](/recipes/build/secrets/) — `charly secrets set/list/prune` commands referenced by the keyring-index remediation hint
 - [`/charly-build:settings`](/recipes/build/settings/) — `keyring_collection_label`, `secret_backend`, and other runtime config keys surfaced by the Secret Storage checks
