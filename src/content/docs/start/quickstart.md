@@ -139,6 +139,7 @@ check-group:
     group:
         disposable: true
         lifecycle: dev
+        ...
     check-group-vm:
         vm:
             from: eval-vm
