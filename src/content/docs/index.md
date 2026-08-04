@@ -68,20 +68,31 @@ isolation is a property of the *running* container or VM, which is also why it i
 agent everything inside one, and why `disposable: true` is a statement about a running thing rather
 than about a file.
 
-### One keyword, three roles
+### One keyword, and what you add to it
 
-There is one entity keyword, `candy:`, and one filename, `charly.yml`. What you put inside the
-keyword decides what the entity is:
+Here is the idea that causes the most confusion, so it is worth being exact.
 
-| What it declares | The role it plays | How it is used |
-|---|---|---|
-| `package:` / `plan:` / `service:` | a **layer** — one concern | listed in any box's `candy:` list |
-| …plus `base:` or `from:` | a **box** — a buildable image | `charly box build <name>` |
-| …plus a `plugin:` block | a **plugin** — a new verb, kind or command for `charly` itself | loaded on demand, or compiled in |
+There is one entity keyword, `candy:`, and one filename, `charly.yml`. You never declare *what
+kind* of thing you are writing. You add fields, and **each field adds a capability**:
 
-"Layer" and "box" are *roles*, not separate entity kinds — the same `candy:` keyword, distinguished
-only by what is inside it. Every capability beyond the core is that third row: verbs, deploy kinds,
-probes, builders and whole command trees are all plugin candies.
+| Add this | And the candy can also… |
+|---|---|
+| `package:` / `plan:` / `service:` | install one concern, and prove it — it can be listed in any box's `candy:` list |
+| `base:` or `from:` | be **built into a container image** of its own |
+| a `plugin:` block | **extend `charly` itself** with a new verb, kind or command |
+
+**These are cumulative, not a choice between three types.** "Layer", "box" and "plugin" are
+convenient names for what a candy can *do*, not categories it belongs to. Every one of the 86
+plugin candies in this repository is also a layer: it installs packages and ships its own `plan:`,
+*and* it registers a verb. Nothing about adding `plugin:` stops it being composable.
+
+So the honest mental model is not *"a candy is one of three things"* — it is *"a candy is a list of
+capabilities, and the words describe which ones it has."* A candy with nothing but `package:` is
+usefully called a layer. Add `base:` and people will call it a box, because now you can build it.
+It did not change type; it gained a field.
+
+This is why there is no second vocabulary to learn, and why the core stays small while the catalog
+grows: adding a verb to `charly` is authoring a candy, not modifying `charly`.
 
 ### The four stages
 
@@ -97,6 +108,40 @@ A **check bed** chains build, deploy and evaluate into one command — every sta
 deploys it, waits for steady state, checks it live, then destroys and rebuilds it from scratch and
 checks it again, then tears everything down.
 
+### Nesting: where a deploy runs
+
+The second thing worth being exact about, and it is a **different** idea from the one above.
+Capabilities compose a *candy*, at authoring time. Nesting places a *deploy*, at run time. A candy
+is never "inside" another candy; a deploy can be inside another deploy.
+
+There is no `nested:` field. **Nesting is position in the file** — indent one deploy under another
+and the inner one runs inside the outer one's venue:
+
+```yaml
+check-group:
+    group:
+        disposable: true
+        check-group-vm:
+            vm:
+                from: eval-vm          # a disposable VM guest
+            check-group-member:
+                local:                 # ← nested: this lands INSIDE the guest,
+                    from: check-group-app   #   not on your workstation
+```
+
+That is a real entry in this repository's `charly.yml`, abridged. The inner `local:` carries no
+`host:` field, and that is the point: it inherits the parent's venue rather than naming one.
+
+**Why this matters more than it looks.** A top-level `local:` deploy installs packages and systemd
+units onto *the machine charly is running on*. The same four lines, nested under a disposable
+`vm:`, install them into a throwaway guest instead. The authoring shape does not change — only its
+position in the tree does, and that position is the whole difference between editing your
+workstation and editing something you can destroy.
+
+**Nesting is not the same as membership.** A deploy indented under another *runs inside* it. A
+deploy listed as a sibling member *runs beside* it — a companion, reachable at `${HOST:<member>}`,
+sharing a lifecycle but not a machine. Children go in; siblings go next to.
+
 ### Where a running candybox actually lives
 
 **Podman and Docker are both first-class**, for building and for running, and the two are chosen
@@ -108,9 +153,7 @@ resolution ever collapses the two onto one engine.
 On a host with Podman and systemd, a `pod:` deploy is realised as **user-level systemd quadlets**.
 `charly config` generates one `charly-<name>.service` per deploy, carrying its ports, volumes,
 devices and security settings, and systemd starts it at boot. A deploy with encrypted volumes
-starts at boot too and then suspends until its key is available — unless there is no keyring
-backend to unlock, in which case there is nothing to wait for and it needs an explicit
-`charly start`.
+starts at boot too and then suspends until its key is available.
 
 Where Podman and systemd are not both present, the same deploy runs directly against the engine
 instead. You do not choose between the two: the deploy is described once, and `charly` resolves
@@ -205,7 +248,7 @@ charly --repo opencharly/distro-fedora check run check-tutorial-shell  # → bui
 
 That is the claim, so here is the evidence rather than the assertion. Both stanzas below are real
 entries in `box/fedora/charly.yml`, cut down to the lines that carry the point — the
-`description:` prose in both, and `check-fedora-vm`'s `lifecycle:`, `plan:` and `install_opts:`.
+`description:`, `lifecycle:` and `plan:` of both, plus `check-fedora-vm`'s `install_opts:`.
 That last one matters if you copy this: the real VM entry sets `allow_repo_changes`,
 `allow_root_tasks` and `skip_incompatible`, and a guest install needs those permissions. Read the
 entry, not this excerpt, before adapting it.

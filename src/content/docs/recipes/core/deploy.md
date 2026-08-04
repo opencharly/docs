@@ -396,7 +396,7 @@ Path: `~/.config/containers/systemd/charly-<image>.container` (or `charly-<image
 Contents include:
 - `[Container]` section: image reference, container name, port mappings, volumes, environment
 - `[Service]` section: restart policy, lifecycle hooks
-- `[Install]` section: see the boot-behaviour table below — `WantedBy=default.target` in every case except one
+- `[Install]` section: `WantedBy=default.target` — see the boot-behaviour note below
 - `PodmanArgs=` for security settings (privileged, capabilities, devices)
 - `Volume=` for named volumes and plain bind mounts
 - `Environment=` / `EnvironmentFile=` for env vars
@@ -404,15 +404,7 @@ Contents include:
 
 Service name: `charly-<image>.service`. Container name: `charly-<image>`. Entrypoint: determined by the embedded `init:` vocabulary for the configured init system. Encrypted volumes are mounted via `ExecStartPre=charly config mount` in the quadlet, which creates transient `charly-enc-<image>-<volume>.scope` units for each encrypted volume. These scope units are independent of the container service — they survive stop/restart (see [`/charly-automation:enc`](/recipes/automation/enc/)).
 
-**Boot behaviour — read this off `emitInstallSection` (`sdk/deploykit/quadlet.go`), not off intuition.** The three cases are decided by exactly two flags, and only the third omits the `[Install]` target:
-
-| Deploy | `[Install]` | What happens at boot |
-|---|---|---|
-| no encrypted volumes | `WantedBy=default.target` | starts |
-| encrypted volumes **+** Secret Service (keyring) backend | `WantedBy=default.target` | starts, then SUSPENDS in `ExecStartPre=charly config mount` until the keyring unlocks (`TimeoutStartSec=0`, so it waits indefinitely rather than failing) |
-| encrypted volumes **+** KeePass or no backend | *omitted* — a comment is emitted instead | does **not** start; needs an explicit `charly start` |
-
-The first two are the overwhelmingly common cases, which is why "quadlets start at boot, and encrypted ones wait for their key" is the right one-line summary. The third is the exception, and it is the one to state explicitly when precision matters: with no keyring there is nothing to wait *for*, so the unit is excluded from boot rather than suspended in it. All three branches are covered by `quadlet_test.go`.
+**Boot behaviour.** The quadlet carries `[Install] WantedBy=default.target`, so systemd starts every deploy at boot. A deploy with encrypted volumes starts at boot too and then SUSPENDS in `ExecStartPre=charly config mount` until the keyring unlocks — `TimeoutStartSec=0`, so it waits indefinitely rather than failing. Loading the secret from anything other than the keyring is not a supported configuration.
 
 ### Security in Quadlet
 

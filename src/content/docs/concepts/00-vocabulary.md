@@ -35,72 +35,69 @@ The box is an artifact. The candybox is a place. When this site says safety live
 boundary, it means the candybox's boundary — the kernel-enforced walls around the running thing —
 not anything about the image's contents.
 
-## One candy, three roles
+## Polymorphism: one keyword, added capabilities
 
-There is one `candy:` keyword. What you put *inside* it decides what it is:
+This is the single most common source of confusion, so it is worth stating carefully.
 
-| What the candy declares | What it is | How it is used |
-|---|---|---|
-| `package:` / `plan:` / `service:` | a **layer** — one concern | spliced into any box's `candy:` list |
-| …plus `base:` or `from:` | a **box** — a buildable image | `charly box build <name>` |
-| …plus a `plugin:` block | a **plugin** — extends `charly` itself with a new verb, kind or command | loaded on demand, or compiled into the binary |
+You never declare *what kind* of entity you are writing. There is one keyword, `candy:`. You add
+fields, and **each field adds a capability**:
 
-All three are real and shipped, and you can read each one on this site:
+| Add this | And the candy can also… |
+|---|---|
+| `package:` / `plan:` / `service:` | install one concern and prove it — it can be listed in any box's `candy:` list |
+| `base:` or `from:` | be **built into a container image** of its own |
+| a `plugin:` block | **extend `charly` itself** with a new verb, deploy kind or command |
 
-**A layer** — [`ripgrep`](/reference/candy/ripgrep/) installs one concern and proves it:
+**They accumulate. They are not a choice between three types.** *Layer*, *box* and *plugin* name
+what a candy can **do**, not a category it belongs to — and a candy routinely does more than one.
+Every plugin candy in the charly repository is also a layer: it installs packages and ships its own
+`plan:`, *and* it registers a verb. Adding `plugin:` did not stop it being composable.
 
-```yaml
-# candy/ripgrep/charly.yml
-ripgrep:
-    candy:
-        version: 2026.144.1443
-        description: |
-            Fast recursive text search (rg)
-            ...
-        package:
-            - ripgrep
-        plan:
-            - check: the rg binary is installed at /usr/bin/rg
-              file:
-                file: /usr/bin/rg
-                exists: true
-```
+So the accurate model is not *"a candy is one of three things"*. It is:
 
-**A box** — [`tutorial-shell`](/reference/box/fedora/tutorial-shell/) is the same keyword plus a
-`base:`, and a list of candies to compose:
+> **A candy is a set of capabilities, and these words describe which ones it has.**
 
-```yaml
-# box/fedora/box/tutorial-shell/charly.yml
-tutorial-shell:
-    candy:
-        description: |-
-            The teaching box behind opencharly.ai's quickstart — a minimal, real dev shell
-            ...
-        base: fedora
-        candy:
-            - '@github.com/opencharly/charly/candy/ripgrep:v2026.201.0706'
-            - '@github.com/opencharly/charly/candy/sshd:v2026.201.0706'
-```
+A candy with only `package:` is usefully called a layer. Add `base:` and people call it a box,
+because now there is something to build. It did not change type — it gained a field. That is why
+`charly box build` and `charly box list candies` can operate on the same file without contradiction.
 
-**A plugin** — [`plugin-example`](/reference/candy/plugin-example/) is the same keyword plus a
-`plugin:` block, and it teaches `charly` a new check verb:
+This is also why the core stays small while the catalog grows: adding a verb to `charly` means
+authoring a candy, not modifying `charly`.
+
+## Nesting: where a deploy runs
+
+A **different** idea, and conflating the two is the other half of the confusion. Capabilities
+compose a *candy*, at authoring time. Nesting places a *deploy*, at run time.
+
+> A candy is never inside another candy. A **deploy** can be inside another **deploy**.
+
+There is no `nested:` field. **Nesting is position in the file** — indent one deploy under another,
+and the inner one runs inside the outer one's venue:
 
 ```yaml
-# candy/plugin-example/charly.yml
-plugin-example:
-    candy:
-        version: 2026.176.1400
-        description: |-
-            Reference plugin candy for the `exampleprobe` check verb ...
-        plugin:
-            source: github.com/opencharly/charly/candy/plugin-example
-            providers:
-                - verb:exampleprobe
+check-group:
+    group:
+        disposable: true
+        check-group-vm:
+            vm:
+                from: eval-vm          # a disposable VM guest
+            check-group-member:
+                local:                 # ← nested: lands INSIDE the guest
+                    from: check-group-app
 ```
 
-One recipe-card format describes an ingredient, a finished dish, and a new piece of kitchen
-equipment. That is why there is no second vocabulary to learn — and why the core can stay tiny
-while the catalog grows.
+The inner `local:` carries no `host:` field. That is the mechanism: it inherits the parent's venue
+instead of naming one.
+
+**Why the distinction earns its place.** A top-level `local:` deploy installs packages and systemd
+units onto *the machine charly runs on*. The same four lines nested under a disposable `vm:` install
+them into a throwaway guest. Nothing about the authoring shape changes — only its position — and
+that position is the difference between editing your workstation and editing something built to be
+destroyed.
+
+**Nesting is not membership.** A deploy indented *under* another runs **inside** it. A deploy listed
+as a sibling member runs **beside** it — a companion, reachable at `${HOST:<member>}`, sharing a
+lifecycle but not a machine. Children go in; siblings go next to.
 
 ## The abbreviations
 

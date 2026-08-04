@@ -167,7 +167,7 @@ format as the two-candy box above. A fully stocked kitchen really does ship with
 
 ## See also
 
-- **[The words](/concepts/00-vocabulary/)** — candy, box, candybox, and the three roles.
+- **[The words](/concepts/00-vocabulary/)** — candy, box, candybox, plus polymorphism and nesting.
 - **[Candy reference](/reference/candy/ripgrep/)** — every defined candy, with its acceptance plan.
 - **[Box reference](/reference/box/fedora/tutorial-shell/)** — every defined box and what it composes.
 - **[The spec is the test](/concepts/06-the-spec-is-the-test/)** — what those `check:` steps are.
