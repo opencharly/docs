@@ -34,22 +34,19 @@ import { Card, CardGrid, Aside } from '@astrojs/starlight/components';
 
 ## What it is
 
-`charly` builds container images from a composable list of **candies**. That part will feel
-familiar. The part that usually does not: *the same list* also installs onto a VM guest, a
-Kubernetes cluster, your own workstation, or an Android device — and every piece of it carries a
-runnable acceptance test, so you can prove a deployment works instead of assuming it.
+`charly` is a CLI that builds container images from a declarative list of **candies**, and applies
+that same list to a VM guest, a Kubernetes cluster, a host, or an Android device. Every substrate
+compiles to one shared install plan, so moving a deploy from a container to a VM is a keyword
+change rather than a rewrite.
 
-## If you already run containers and VMs
+Every candy carries an acceptance plan, baked into the built image as an
+`ai.opencharly.description` OCI label — so an image can be tested later without its source repo,
+and a disposable **check bed** runs the full sequence in one command: build, check the image,
+deploy, reach steady state, check it live, destroy and rebuild from scratch, check it again, tear
+down.
 
-| You already use | For | charly's equivalent |
-|---|---|---|
-| a Containerfile | building an image | a `candy:` list on a `base:` |
-| docker-compose | several containers together | `kind: pod` — deployed as systemd quadlets |
-| Packer / cloud-init | building a VM guest | `kind: vm` — *the same candy list* |
-| Ansible / a setup script | configuring a host | `kind: local` — *the same candy list* |
-| — nothing you have — | proving the deploy actually works | a disposable **check bed** |
-
-That last row is the point. It is the line most toolchains leave empty.
+One file per entity, named `charly.yml`. One entity keyword, `candy:`. Every capability beyond the
+core — each verb, kind, probe, builder and command — is itself a candy carrying a `plugin:` block.
 
 ## One candy, three roles
 
