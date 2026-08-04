@@ -47,32 +47,37 @@ has never seen its source repository.
 
 ### The words
 
-Six terms, used precisely throughout. `box` and `candybox` are distinct, and are the pair most
-often used interchangeably. [Full glossary →](/concepts/00-vocabulary/)
+Seven terms, used precisely throughout. [Full glossary →](/concepts/00-vocabulary/)
 
-| Term | What it is | What it is *not* |
-|---|---|---|
-| **candy** | one entry in a `charly.yml` — the **only** entity kind there is | not "a layer", not "a package" |
-| **box** | a candy carrying `base:`/`from:` → a buildable **container image** | not the running thing |
-| **candybox** | a box in its **running, isolated form** — container, VM, or check bed. **The security boundary.** | not the image, not the config |
-| **check bed** | a deploy marked `disposable: true` — a candybox that exists to be destroyed | not a test file |
-| **plan** | the ordered acceptance spec a candy carries, baked into the image as an OCI label | not a build script |
-| **substrate** | where a deploy lands: `pod:` `vm:` `k8s:` `local:` `android:` | |
+| Term | What it is |
+|---|---|
+| **candy** | one entry in a `charly.yml`. The **only** entity kind there is — everything below is a candy, or a thing a candy produces |
+| **box** | a candy carrying `base:`/`from:`, so it builds into a **container image** |
+| **candybox** | a box in its **running, isolated form** — container, VM, or check bed |
+| **deploy** | a named placement of a box on a substrate, written as `pod:` `vm:` `k8s:` `local:` `android:` |
+| **bundle** | the set of deploys charly manages on this machine. `charly bundle add` puts a deploy in it |
+| **plan** | the ordered acceptance spec a candy carries, baked into its image as an OCI label |
+| **check bed** | a deploy marked `disposable: true`, which is what authorises charly to destroy and rebuild it unattended |
+
+Two of those are worth separating deliberately. **A box is an artifact; a candybox is a process.**
+Nothing about the image's contents makes it safe — a box is deliberately generous, full shell and
+package manager included. The isolation is a property of the *running* container or VM, which is
+why it is safe to hand an agent everything inside one.
 
 ### One keyword, three roles
 
 There is one entity keyword, `candy:`, and one filename, `charly.yml`. What you put inside the
 keyword decides what the entity is:
 
-| What it declares | What it is |
+| What it declares | The role it plays |
 |---|---|
-| `package:` / `plan:` / `service:` | a **layer** — one concern, composed into any box |
+| `package:` / `plan:` / `service:` | a **layer** — one concern, listed in any box's `candy:` list |
 | …plus `base:` or `from:` | a **box** — a buildable container image |
 | …plus a `plugin:` block | a **plugin** — a new verb, kind or command for `charly` itself |
 
-Every capability beyond the core is that third row. Verbs, deploy kinds, probes, builders and whole
-command trees are all plugin candies, which is why the core stays small while the catalog grows,
-and why there is no second vocabulary to learn.
+"Layer" and "box" are *roles*, not separate entity kinds — the same `candy:` keyword, distinguished
+only by what is inside it. Every capability beyond the core is that third row: verbs, deploy kinds,
+probes, builders and whole command trees are all plugin candies.
 
 ### The four stages
 
@@ -87,8 +92,7 @@ and why there is no second vocabulary to learn.
   </Card>
   <Card title="Deploy" icon="puzzle">
     Add a substrate keyword — `pod:` `vm:` `k8s:` `local:` `android:` — and the same candy list
-    installs there. Under **podman or docker**, and as **systemd quadlets** where the host supports
-    them.
+    installs there. One shared install plan underneath.
   </Card>
   <Card title="Evaluate" icon="approve-check">
     Each candy's `plan:` is executable: `charly check box` at build scope, `charly check live`
@@ -96,41 +100,47 @@ and why there is no second vocabulary to learn.
   </Card>
 </CardGrid>
 
-A **check bed** — a deploy marked `disposable: true` — runs all four in one command. `charly check
-run <bed>` builds the image, checks it, deploys it, waits for steady state, checks it live, then
-destroys and rebuilds from scratch and checks it again, then tears everything down.
+A **check bed** chains build, deploy and evaluate into one command — every stage above except
+**Run**, which is the interactive one. `charly check run <bed>` builds the image, checks it, deploys
+it, waits for steady state, checks it live, then destroys and rebuilds it from scratch and checks it
+again, then tears everything down.
 
 ### Where a running candybox lives
 
-**Podman and docker are both first-class**, for building and for running, and the two are chosen
-independently — charly auto-detects what is installed, and either can be pinned per host. Building
-with podman and running under docker is a supported combination.
+**Podman and Docker are both first-class**, for building and for running, and the two are chosen
+independently — charly auto-detects what is installed, and either can be pinned per host. The mixed
+pair, build with Podman and run under Docker, is covered by a case in
+`charly/runtime_config_test.go`.
 
-On a host with podman and systemd, a `pod:` deploy is realised as **user-level systemd quadlets**:
+On a host with Podman and systemd, a `pod:` deploy is realised as **user-level systemd quadlets**:
 `charly config` generates one `charly-<name>.service` per deploy, carrying its ports, volumes,
-devices and security settings, so `systemctl --user` manages it like any other user service and
-starts it at login. A deploy with encrypted volumes and no keyring backend is the exception — it
-omits `WantedBy=default.target` and waits for an explicit `charly start`, since nothing should try
-to mount an encrypted volume before there is a key for it.
+devices and security settings, and systemd starts it at boot. A deploy with encrypted volumes
+starts at boot too, then suspends until its encryption key is available.
 
-Where podman and systemd are not both present, the same deploy runs directly against the engine.
+Where Podman and systemd are not both present, the same deploy runs directly against the engine.
 You do not pick between the two — the deploy is described once and charly resolves what the host
 supports. [Deploy →](/recipes/core/deploy/)
 
-### Any harness, and no agent-only surface
-
-There is no automation-only API: the CLI *is* the surface, so anything that can run a command drives
-every stage above. `charly` additionally serves its whole command tree over **MCP** (Streamable HTTP
-or stdio) for any MCP-speaking client, and container-provided servers auto-discover through
-`mcp_provide:`. The project's rules are written the same way — `AGENTS.md` is the complete
-harness-neutral rulebook, and a per-harness file is an adapter of it rather than a second source of
-truth. [You and your agents →](/concepts/04-you-and-your-agents/)
-
 ## A real box, end to end
 
-The box below is real, shipped, and re-proven on every acceptance run — you can read it at
-[`tutorial-shell`](/reference/box/fedora/tutorial-shell/). It composes two candies: `ripgrep`, a
-tool layer, and `sshd`, a service layer.
+This is the whole of it — a real, shipped box, re-proven on every acceptance run and readable in
+full at [`tutorial-shell`](/reference/box/fedora/tutorial-shell/). Two candies: `ripgrep`, a tool
+layer, and `sshd`, a service layer.
+
+```yaml
+tutorial-shell:
+    candy:
+        base: fedora                 # another box, defined next door
+        candy:
+            - '@github.com/opencharly/charly/candy/ripgrep:v2026.201.0706'
+            - '@github.com/opencharly/charly/candy/sshd:v2026.201.0706'
+        plan:
+            - check: sshd was wired into the assembled supervisord config
+              file:
+                file: /etc/supervisord.conf
+                contains:
+                    - contains: "[program:sshd]"
+```
 
 ```bash
 charly --repo opencharly/distro-fedora box validate                    # the schema gate — nothing runs until it passes
@@ -140,11 +150,32 @@ charly --repo opencharly/distro-fedora check run check-tutorial-shell  # → bui
 ```
 
 Note what the box does *not* declare: an init system. `sshd` declares a service, so charly resolves
-the init this target needs and installs it — supervisord for a container, nothing extra for a
-systemd machine. You declare the service; the init follows.
+whichever init the *destination* needs — supervisord when this box is built as a container image,
+nothing extra when the same candies land on a systemd machine. You declare the service; the init
+follows from where it ends up.
 
-Then change the mold and keep the recipe — the same candy list applies to a VM guest, a cluster, or
-a host. Swap the substrate in the deploy, not the recipe.
+### Change the mold, keep the recipe
+
+That is the claim, so here is the evidence. Both stanzas are real entries in the same
+`box/fedora/charly.yml`, abridged only by cutting their prose descriptions:
+
+```yaml
+check-tutorial-shell:                # a CONTAINER
+    pod:
+        image: tutorial-shell
+        disposable: true
+
+check-fedora-vm:                     # a VM GUEST — same candy-reference form
+    vm:
+        from: fedora-vm
+        disposable: true
+        add_candy:
+            - '@github.com/opencharly/charly/candy/charly:v2026.201.0706'
+```
+
+The substrate is the keyword — `pod:` versus `vm:` — and the candies are named the same way on both
+sides. The VM stanza reaches its guest over SSH and installs packages there; the pod stanza builds an
+image. Neither the candy list nor its `@github…` pin format changes.
 [The full walkthrough →](/start/quickstart/)
 
 <Aside type="tip" title="Yes, it comes with the kitchen sink">
@@ -155,6 +186,20 @@ around thirty candies each: four AI coding CLIs, every language runtime, DevOps 
 rootless containers and rootless VMs, all at uid 1000 with no `--privileged`. Same format, same
 commands. A fully stocked kitchen really does ship with the sink.
 </Aside>
+
+## Any harness, and no agent-only surface
+
+There is no automation-only API: the CLI *is* the surface, so anything that can run a command drives
+every stage above. On top of that, `charly` serves its whole command tree over **MCP** (Streamable
+HTTP or stdio), so an MCP client sees charly's verbs as ordinary tools; container-provided servers
+auto-discover through `mcp_provide:`.
+
+The project's rules are written the same way. `AGENTS.md` is the complete, harness-neutral rulebook
+and is sufficient on its own; a per-harness file is an adapter of it, not a second source of truth.
+Supporting a new harness means adding an adapter, never porting the project. The skill tree at
+[opencharly/plugins](https://github.com/opencharly/plugins) installs into whichever harnesses have
+an adapter today — currently Claude Code, Codex and Kimi — and writes only target-repository files,
+never any user configuration. [You and your agents →](/concepts/04-you-and-your-agents/)
 
 ## Where to go next
 
@@ -169,8 +214,12 @@ commands. A fully stocked kitchen really does ship with the sink.
   the way it does.
 
 :::note[Most of this site writes itself]
-The reference and recipe-card sections are generated from the source repository by
-`charly docs generate` — from each candy's own `charly.yml`, each plugin's CUE schema, and the
-skill corpus. Nothing here is a hand-maintained copy of something that lives in the code, because
-a copy drifts and a projection cannot.
+The reference and recipe-card sections — the large majority of these pages — are generated from the
+source repository by `charly docs generate`, from each candy's own `charly.yml`, each plugin's CUE
+schema, and the skill corpus. They are projections of the code rather than descriptions of it, so
+they cannot drift out of step with it.
+
+This page is not one of them. It, the getting-started pages and the concepts curriculum are written
+by hand, and the parts of this page that also appear in the project's README are maintained in two
+places — which is exactly the arrangement the generated half exists to avoid.
 :::
