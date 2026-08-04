@@ -123,8 +123,9 @@ One command: build, deploy, bring to steady state, run the plan, then **destroy 
 scratch** and run it again, then tear everything down. That second `check-live-rebuild` is the
 interesting one — it is what separates "it worked once" from "it reproduces".
 
-This is the stage most toolchains do not have, and it is affordable only because the deploy is
-declared `disposable: true`.
+Rebuilding from scratch on every run is affordable only because the deploy is declared
+`disposable: true` — charly may destroy it without asking, so proving reproducibility costs one
+flag rather than a separate environment.
 
 ## Change the mold
 
