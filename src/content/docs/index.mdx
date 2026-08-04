@@ -87,7 +87,8 @@ and why there is no second vocabulary to learn.
   </Card>
   <Card title="Deploy" icon="puzzle">
     Add a substrate keyword — `pod:` `vm:` `k8s:` `local:` `android:` — and the same candy list
-    installs there. One shared install plan underneath.
+    installs there. Under **podman or docker**, and as **systemd quadlets** where the host supports
+    them.
   </Card>
   <Card title="Evaluate" icon="approve-check">
     Each candy's `plan:` is executable: `charly check box` at build scope, `charly check live`
@@ -98,6 +99,32 @@ and why there is no second vocabulary to learn.
 A **check bed** — a deploy marked `disposable: true` — runs all four in one command. `charly check
 run <bed>` builds the image, checks it, deploys it, waits for steady state, checks it live, then
 destroys and rebuilds from scratch and checks it again, then tears everything down.
+
+### Where a running candybox lives
+
+**Podman and docker are both first-class**, for building and for running, and the two are chosen
+independently — charly auto-detects what is installed, and either can be pinned per host. Building
+with podman and running under docker is a supported combination.
+
+On a host with podman and systemd, a `pod:` deploy is realised as **user-level systemd quadlets**:
+`charly config` generates one `charly-<name>.service` per deploy, carrying its ports, volumes,
+devices and security settings, so `systemctl --user` manages it like any other user service and
+starts it at login. A deploy with encrypted volumes and no keyring backend is the exception — it
+omits `WantedBy=default.target` and waits for an explicit `charly start`, since nothing should try
+to mount an encrypted volume before there is a key for it.
+
+Where podman and systemd are not both present, the same deploy runs directly against the engine.
+You do not pick between the two — the deploy is described once and charly resolves what the host
+supports. [Deploy →](/recipes/core/deploy/)
+
+### Any harness, and no agent-only surface
+
+There is no automation-only API: the CLI *is* the surface, so anything that can run a command drives
+every stage above. `charly` additionally serves its whole command tree over **MCP** (Streamable HTTP
+or stdio) for any MCP-speaking client, and container-provided servers auto-discover through
+`mcp_provide:`. The project's rules are written the same way — `AGENTS.md` is the complete
+harness-neutral rulebook, and a per-harness file is an adapter of it rather than a second source of
+truth. [You and your agents →](/concepts/04-you-and-your-agents/)
 
 ## A real box, end to end
 
