@@ -58,7 +58,8 @@ check-tutorial-shell:
         lifecycle: dev
 ```
 
-That is the whole declaration. It carries **no `plan:` of its own**, and the reason is the useful
+That is the whole of its deploy configuration — the node also carries a `description:`, elided here
+for length. What it carries **no** amount of is a `plan:` of its own, and the reason is the useful
 part: a bed's acceptance content is the *composed candies' own* probes, which already run against
 the live deployment. A bed adds steps only for a claim that needs a live deployment **and** that no
 composed candy already makes — elsewhere in that same file, `check-sway-browser-vnc-pod` does

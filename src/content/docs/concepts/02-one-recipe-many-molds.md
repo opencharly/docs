@@ -108,7 +108,14 @@ check-docs-local:
         from: eval-vm
         disposable: true
         lifecycle: dev
+    check-docs-local-member:
+        local:
+            from: docs-local-app
 ```
+
+`docs-local-app` is a `kind: local` template composing the same `ripgrep` candy that
+`tutorial-shell` builds into a container image. The member is the nested `local:` deploy; the `vm:`
+above it is the disposable guest it lands in.
 
 The nesting is the point. A `local:` deploy installs packages and systemd units onto whatever
 machine it targets, so the honest way to demonstrate it — and the way this repository's own beds do

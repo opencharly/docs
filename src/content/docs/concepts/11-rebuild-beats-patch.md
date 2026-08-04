@@ -35,17 +35,26 @@ about the recipe remaining the *only* description of it.
 
 ## In practice
 
-Add the missing concern as a candy, compose it, rebuild:
+Add the missing concern as a candy, compose it, rebuild. These commands EDIT a project, so they
+all run against one you own — clone the box repo first, and every command after it is bare:
 
 ```bash
-charly box new candy my-tool                          # scaffold the candy
-charly box add-candy tutorial-shell my-tool           # compose it into the box
-charly --repo opencharly/distro-fedora box validate                     # the gate
-charly --repo opencharly/distro-fedora box build tutorial-shell         # a fresh box, not a patched one
-charly --repo opencharly/distro-fedora check run check-tutorial-shell     # prove it
+git clone https://github.com/opencharly/distro-fedora && cd distro-fedora
+
+charly box new candy my-tool                  # scaffold the candy
+charly box add-candy tutorial-shell my-tool   # compose it into the box
+charly box validate                           # the gate
+charly box build tutorial-shell               # a fresh box, not a patched one
+charly check run check-tutorial-shell         # prove it
 ```
 
-Five commands, a few minutes, and the recipe still describes exactly what is running. Compare the
+`--repo` is read-only: it resolves a published project into a cache, so a scaffold written to your
+working directory is invisible to it. Mixing the two — editing locally, then validating with
+`--repo` — silently checks a project that does not contain your change. Editing verbs and `--repo`
+never belong in the same sequence.
+
+Five commands after the clone, a few minutes, and the recipe still describes exactly what is
+running. Compare the
 alternative — installing the tool inside the running container by hand — which works until the
 next `charly update` destroys it, and which leaves the box's own definition quietly wrong in the
 meantime.

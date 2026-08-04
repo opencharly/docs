@@ -43,12 +43,18 @@ Author a candy the way an agent would — the same verbs you would use by hand, 
 key order preserved across every edit:
 
 ```bash
+git clone https://github.com/opencharly/distro-fedora && cd distro-fedora
+
 charly box new candy my-tool
 charly candy add-rpm my-tool ripgrep
 charly candy set my-tool env.MY_VAR value
 charly box add-candy tutorial-shell my-tool
-charly --repo opencharly/distro-fedora box validate
+charly box validate
 ```
+
+Every verb here writes to the project in the current directory, so the sequence runs against a
+clone you own. `--repo` is the read-only counterpart — it resolves a published project into a
+cache, and a scaffold in your working directory is invisible to it, so the two never mix.
 
 And when the agent wants to know whether its change worked, it runs what you would run:
 
