@@ -51,23 +51,31 @@ charly docs generate --out docs/src/content/docs --root .
 
 ## What it emits
 
-The generator owns `index.md`, `vision.md`, `grievances.md`, `reference/` and `recipes/`. What
-stays hand-authored is the teaching narrative the repository has no equivalent of: `start/`,
-`concepts/` and `guides/`.
+The generator owns five top-level entries — `index.md`, `grievances.md`, `vision.md`,
+`reference/` and `recipes/` — and rewrites them wholesale each run, so a deleted source entity
+disappears from the site instead of lingering as an orphan page. (The table below expands
+`reference/` into its four sub-trees plus the single file `reference/providers.md`, so it runs to
+nine rows.) What stays hand-authored is the teaching narrative this repository has no equivalent
+of: `start/`, `concepts/` and `guides/`.
 
-**Deletion works, and it did not always.** Before emitting, the generator PRUNES every page in the
-output tree carrying the `DO-NOT-EDIT` header, then rewrites what it still produces — so a page it
-no longer emits does not come back. Until that pass existed the generator could only ADD: a page
-whose source was deleted stayed in the tree forever, and every gate above it read as a pass, since
-`task docs:drift` compares a regeneration against the committed tree and a stale page is identical
-in both. The header is the whole safety boundary — hand-authored pages do not carry it and are
-never touched, and a file is matched by reading it, never by its path.
+**Hand-authored pages are never WRITTEN — but they are read.** The boundary is the `DO-NOT-EDIT`
+header, not the path: the prune pass reads every `.md`/`.mdx` under `--out` and removes only those
+carrying it, so a page is matched by its content, never inferred from where it sits. The
+whole-site link gate then reads hand-authored pages too, deliberately — **a dead site-absolute
+link in a `concepts/` or `guides/` page fails generation**, exactly as it would in a generated one.
+Treating "hand-authored" as "the generator ignores it" is the trap; it will not overwrite your
+page, and it will refuse to build if you link somewhere that does not exist.
+
+The home page is the newest arrival and the one people get wrong: it used to be a hand-authored
+`index.mdx` restating `README.md`, and roughly two thirds of it was README prose maintained twice
+across a submodule boundary. It is now `index.md`, projected from `README.md`. **Edit the README,
+not the page.**
 
 | Tree | Source |
 |---|---|
-| `index.md` | `README.md`, H1 and tagline dropped (the hero renders it), `opencharly.ai` links made site-relative, site frontmatter assembled by the generator |
-| `vision.md` | `VISION.md` verbatim, repo-relative links rewritten for a web reader |
-| `grievances.md` | `GRIEVANCES.md` verbatim, same rewriting |
+| `index.md` | `README.md`, H1 and tagline dropped (the frontmatter title and hero render them), `https://opencharly.ai/…` links rewritten site-relative, and the repo-relative targets `AGENTS.md`, `plugins/README.md` and `CHANGELOG/README.md` repointed at GitHub or their site equivalent |
+| `grievances.md` | `GRIEVANCES.md`, H1 dropped, repo-relative links rewritten for a web reader |
+| `vision.md` | `VISION.md`, H1 dropped, repo-relative links rewritten for a web reader |
 | `reference/cli/` | one page per `command:` provider word |
 | `reference/candy/` | every defined candy: packages, services, and its `plan:` as an acceptance spec |
 | `reference/box/` | every defined box |
