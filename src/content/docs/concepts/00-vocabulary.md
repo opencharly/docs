@@ -175,12 +175,14 @@ wherever the outer deploy runs):
 check-group:
     group:
         disposable: true
-        check-group-vm:
-            vm:
-                from: eval-vm          # a disposable VM guest
-            check-group-member:
-                local:                 # ← nested: lands INSIDE the guest
-                    from: check-group-app
+        lifecycle: dev
+        ...
+    check-group-vm:
+        vm:
+            from: eval-vm
+        check-group-member:
+            local:
+                from: check-group-app
 ```
 
 The inner `local:` carries no `host:` field. That is the mechanism: it inherits the parent's venue
