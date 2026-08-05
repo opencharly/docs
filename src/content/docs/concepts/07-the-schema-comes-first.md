@@ -19,7 +19,7 @@ to the documentation, then to the migration — four hand-maintained copies of o
 apart at four different rates. The failure mode is familiar: a field the parser accepts, the
 validator ignores, and the docs never mention.
 
-Here the shape is defined once, in CUE, and everything that needs it is **generated** from that
+Here the shape is defined once, in CUE — a schema language whose name stands for *Configure, Unify, Execute* — and everything that needs it is **generated** from that
 single source: the Go types the code works with, the validation gate at the project door, the
 migration that modernises old configs, and the parameter tables you can read on this site.
 
