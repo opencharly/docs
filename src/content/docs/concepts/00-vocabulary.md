@@ -67,6 +67,61 @@ So the accurate model is: **a candy is a layer or a box, never both — and a la
 be a plugin.** That is also why `charly box build` and `charly box list candies` can act on the
 same file without contradiction: the file is a candy, and its `base:` decides which shape it is.
 
+### What each shape looks like
+
+All three are real and shipped, and you can read each one on this site:
+
+**A layer** — [`ripgrep`](/reference/candy/ripgrep/) installs one concern and proves it:
+
+```yaml
+# candy/ripgrep/charly.yml
+ripgrep:
+    candy:
+        version: 2026.144.1443
+        description: |
+            Fast recursive text search (rg)
+            ...
+        package:
+            - ripgrep
+        plan:
+            - check: the rg binary is installed at /usr/bin/rg
+              file:
+                file: /usr/bin/rg
+                exists: true
+```
+
+**A box** — [`tutorial-shell`](/reference/box/fedora/tutorial-shell/) is the same keyword plus a
+`base:`, and a list of candies to compose:
+
+```yaml
+# box/fedora/box/tutorial-shell/charly.yml
+tutorial-shell:
+    candy:
+        description: |-
+            The teaching box behind opencharly.ai's quickstart — a minimal, real dev shell
+            ...
+        base: fedora
+        candy:
+            - '@github.com/opencharly/charly/candy/ripgrep:v2026.201.0706'
+            - '@github.com/opencharly/charly/candy/sshd:v2026.201.0706'
+```
+
+**A plugin** — [`plugin-example`](/reference/candy/plugin-example/) is the layer shape plus a
+`plugin:` block, and it teaches `charly` a new check verb:
+
+```yaml
+# candy/plugin-example/charly.yml
+plugin-example:
+    candy:
+        version: 2026.176.1400
+        description: |-
+            Reference plugin candy for the `exampleprobe` check verb ...
+        plugin:
+            source: github.com/opencharly/charly/candy/plugin-example
+            providers:
+                - verb:exampleprobe
+```
+
 ### The vocabulary itself is open
 
 Every keyword in this document is registered by a plugin candy — and the most surprising one is
