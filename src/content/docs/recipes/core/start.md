@@ -122,4 +122,4 @@ charly start jupyter --build
 - [`/charly-image:image`](/recipes/image/image/) -- Box definitions (ports, volumes, env) in `charly.yml`
 - [`/charly-build:build`](/recipes/build/build/) -- Build the image you intend to start
 
-Live-deploy verification: see [/charly-check:check](/recipes/check/check/) (the 10 Testing Standards) and [/charly-internals:disposable](/recipes/internals/disposable/).
+Live-deploy verification: see [/charly-check:check](/recipes/check/check/) (the 11 Testing Standards) and [/charly-internals:disposable](/recipes/internals/disposable/).

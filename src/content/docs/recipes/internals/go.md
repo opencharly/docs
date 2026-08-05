@@ -23,7 +23,7 @@ The `charly` CLI is a Go program in the `charly/` directory. It uses the Kong CL
 
 | Topic | File |
 |---|---|
-| Architecture deep dives (unified YAML loader, Schema Driven Design pipeline + generation-coverage catalog, the `sdk/spec` package, namespace/remote-layer resolvers, Capabilities, the k8s/VM external substrates, YAML↔Go conventions, Kong parent+leaf commands, mode purity, the InstallPlan IR, the VM-path module topology, self-exec coordination) and the full file-by-file Source Code Map | [`references/source-map.md`](/recipes/internals/go/source-map/) |
+| Architecture deep dives (unified YAML loader, Schema Driven Design pipeline + generation-coverage catalog, the `spec/spec` package, namespace/remote-layer resolvers, Capabilities, the k8s/VM external substrates, YAML↔Go conventions, Kong parent+leaf commands, mode purity, the InstallPlan IR, the VM-path module topology, self-exec coordination) and the full file-by-file Source Code Map | [`references/source-map.md`](/recipes/internals/go/source-map/) |
 | The step-by-step recipe for changing the `charly.yml` schema (CUE is the single source of truth) | [`references/schema-change-recipe.md`](/recipes/internals/go/schema-change-recipe/) |
 | Design notes for the Go-side architecture not obvious from reading the source cold (Kong flag-namespace collision, env-var proxy for parent-flag detection, the `yaml.v3` Node API, scalar-to-sequence upgrades, the path-traversal guard, the two-step project-dir resolver) | [`references/implementation-insights.md`](/recipes/internals/go/implementation-insights/) |
 
@@ -56,8 +56,8 @@ project/
 │                              # Parsed by the SAME unified loader as any project
 │                              # charly.yml; a project ships none of it.
 ├── sdk/                       # Git submodule (github.com/opencharly/sdk) — the plugin
-│                              # contract module: root package sdk, sdk/kit, sdk/spec,
-│                              # sdk/proto, sdk/schema/*.cue, sdk/schemaconcat, sdk/vmshared;
+│                              # contract module: root package sdk, sdk/kit, spec/spec,
+│                              # spec/proto, spec/schema/*.cue, spec/schemaconcat, sdk/vmshared;
 │                              # its own Taskfile owns `task cue:gen` + `task proto:gen`
 ├── .build/                    # Generated Containerfiles (gitignored)
 ├── charly.yml                  # Image definitions
@@ -145,7 +145,7 @@ See the project rulebook's R9 mandate (`CLAUDE.md`/`AGENTS.md`). Applied to the 
   a synced host.
 
 The verification side (checking the deployed binary + deps on a live target)
-is [`/charly-check:check`](/recipes/check/check/) Standards 7–8; the dual-path `bin/charly` ↔
+is [`/charly-check:check`](/recipes/check/check/) Standards 7–9; the dual-path `bin/charly` ↔
 `candy/charly/bin/charly` gotcha is above and in [`/charly-tools:charly`](/recipes/tools/charly/).
 
 ## Style Guide
@@ -170,4 +170,4 @@ is [`/charly-check:check`](/recipes/check/check/) Standards 7–8; the dual-path
 
 **MUST be invoked** before reading or modifying Go source files. Invoke this skill BEFORE launching Explore agents on charly/ code.
 
-Live-deploy verification: see [`/charly-check:check`](/recipes/check/check/) (the 10 Testing Standards) and [`/charly-internals:disposable`](/recipes/internals/disposable/).
+Live-deploy verification: see [`/charly-check:check`](/recipes/check/check/) (the 11 Testing Standards) and [`/charly-internals:disposable`](/recipes/internals/disposable/).
