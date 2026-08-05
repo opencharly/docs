@@ -7,7 +7,7 @@ description: "A single-node k3s control plane that boots with ServiceLB, Traefik
 
 | | |
 |---|---|
-| **Version** | `2026.155.1203` |
+| **Version** | `2026.216.1851` |
 | **Repo** | superproject |
 
 A single-node k3s control plane that boots with ServiceLB, Traefik, and local-path-provisioner enabled by default.
@@ -28,7 +28,9 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 
 | Intent | Step |
 |---|---|
-| `run` | command=set -euo pipefail mkdir -p /etc/rancher/k3s # When running under supervisord (container pod), emit extra # config to make k3s tolerant of a rootless user namespace: # - snapshotter: fuse-overlayfs — kernel overlayfs can't nest # on podman's overlayfs (see "failed to mount overlay"). # - kubelet-arg feature-gates KubeletInUserNamespace=true — # kubelet tries to open /dev/kmsg to watch OOM events; # userns uid=0 → host uid=1000 can't access it; this gate # makes kubelet skip that check. # - kube-proxy-arg feature-gates KubeletInUserNamespace=true — # kube-proxy honours the same feature gate for its own # userns-aware paths. # VM and host deploys run with full kernel access and skip all # of these. if [ -f /etc/supervisord.conf ]; then cat >/etc/rancher/k3s/config.yaml <<YAML write-kubeconfig-mode: "0644" token: "${K3S_CLUSTER_TOKEN}" tls-san: - "${K3S_SERVER_HOSTNAME:-$(uname -n)}" disable: [] snapshotter: fuse-overlayfs kubelet-arg: - "feature-gates=KubeletInUserNamespace=true" kube-proxy-arg: - "feature-gates=KubeletInUserNamespace=true" YAML else cat >/etc/rancher/k3s/config.yaml <<YAML write-kubeconfig-mode: "0644" token: "${K3S_CLUSTER_TOKEN}" tls-san: - "${K3S_SERVER_HOSTNAME:-$(uname -n)}" disable: [] YAML fi chmod 0600 /etc/rancher/k3s/config.yaml |
+| `run` | install the cgroup cpuset pre-start guard the k3s service execs |
+| `run` | install the CRD-establishment wedge healer the k3s service execs after start |
+| `run` | render the k3s server config, adding rootless-userns tolerances under supervisord |
 | `check` | the k3s server config file is rendered with admin-only (0600) permissions |
 | `check` | the k3s control-plane binary the service execs is installed by the required k3s candy |
 | `check` | the cluster reports at least one Ready node |

@@ -7,7 +7,7 @@ description: "Drop /etc/check-local-marker on the host filesystem Used by the ch
 
 | | |
 |---|---|
-| **Version** | `2026.180.0001` |
+| **Version** | `2026.216.0700` |
 | **Repo** | superproject |
 
 Drop /etc/check-local-marker on the host filesystem
@@ -17,6 +17,19 @@ The write: task lands the marker via the kit walk's Op leg; an act-verb
 run-step (run: plugin: file) lands a second marker via the host's RunHostStep
 act-OpStep arm. Deploy-scope check probes run on the host (not in a container)
 to verify both markers are present after `charly bundle add`.
+A custom (non-packaged) systemd service: entry (#55 W3 B4 coverage) proves the
+render-service DISPATCH path a target:local/target:vm deploy-compile actually
+exercises: deploy-compile -> sdk/deploykit's CompileServiceSteps ->
+renderServiceViaSeam -> renderSeamCaller.renderService -> direct
+InvokeProvider(kind:init) + InvokeProvider(verb:egress) -> the rendered unit
+baked into the ServiceCustomStep and installed at the target's own MachineVenue
+apply. Writes a marker file on start (proves the unit actually ran) and stays
+running (proves systemctl reports it active) — a trivial sleep daemon, no real
+workload.
+
+## Services
+
+- `check-local-marker-daemon`
 
 ## Acceptance plan
 
