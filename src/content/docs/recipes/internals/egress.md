@@ -14,9 +14,9 @@ description: "CUE EGRESS validation — validating (and, where it adds value, ge
 > **M16 — egress is a PLUGIN.** The validation logic + the CUE schemas now live in the
 > COMPILED-IN `candy/plugin-egress` (serving `verb:egress` / `OpValidate`); the egress CUE files
 > moved to `candy/plugin-egress/egress-schemas/` (+ `vendor/cloud_config.cue`).
-> `charly/service_render.go` (merged from the deleted `charly/egress.go`) is now a THIN SHIM:
-> `ValidateEgress`/`ValidateEgressValue` keep their signatures and resolve `verb:egress` +
-> `Invoke(OpValidate, {kind,label,mode,data})` (plain host→plugin dispatch) — they still gate the
+> `candy/plugin-bundle/egress.go` (relocated from the deleted `charly/service_render.go`, K-wave 2
+> cone R2) is the THIN SHIM: `ValidateEgress`/`ValidateEgressValue` keep their signatures and Invoke
+> `verb:egress` `OpValidate` with `{kind,label,mode,data}` over the reverse channel — they still gate the
 > install-ledger record-write path (`spec.ValidateRecord`). `validateTextEgress` (the "text" mode
 > wrapper) is DELETED (#55 W3 B4): its sole caller, the deploy-time render-service seam, moved to
 > `sdk/deploykit`'s `renderSeamCaller.validateEgress` (a direct `verb:egress` `InvokeProvider`
@@ -43,7 +43,7 @@ charly's CUE work has two halves:
   chains it), kept honest by the reproducibility + parity tests. Owned by [`/charly-build:validate`](/recipes/build/validate/); the schema-change codegen
   recipe is [`/charly-internals:go`](/recipes/internals/go/) "Updating Go code when an ingress CUE schema
   changes".
-- **Egress** (`charly/egress.go`, this skill): validates the OUTPUT config charly
+- **Egress** (`candy/plugin-bundle/egress.go`, this skill): validates the OUTPUT config charly
   WRITES onto a system — the seed ISO's cloud-init, Kustomize manifests, quadlet
   and systemd units, the ssh_config fragment, the install ledger, libvirt domain
   XML, … — BEFORE the bytes are written. Ingress proves the input; egress proves
@@ -65,7 +65,7 @@ Dockerfile / systemd-INI / ssh_config. So egress validation is layered:
    rendered string (no unresolved `${VAR}`, required sections present).
 3. **XML** (libvirt) validates via CUE's experimental `xml+koala` decode.
 
-## The validator API — the `charly/egress.go` SHIM (M16)
+## The validator API — the `candy/plugin-bundle/egress.go` SHIM (M16)
 
 These three public functions keep their signatures; each resolves `verb:egress` + `Invoke(OpValidate,
 {kind,label,mode,data})` and turns the plugin's `{error}` verdict into a Go error. The plugin's
@@ -139,13 +139,13 @@ CLI (the [`/charly-tools:cue`](/recipes/tools/cue/) candy):
 | cloud-init **user-data** | `RenderCloudInit` (`cloud_init_render.go`) | `cloud_config` | vendored Canonical cloud-config (`egress-schemas/vendor/cloud_config.cue`, `#CloudConfig`) |
 | cloud-init **meta-data** | `RenderCloudInit` | `cloud_init_meta` | `egress-schemas/egress_cloud_init.cue` `#CloudInitMeta` |
 | cloud-init **network-config** | `RenderCloudInit` | `cloud_init_net` | `egress-schemas/egress_cloud_init.cue` `#NetworkConfigV2` |
-| **k8s manifests** (Deployment/StatefulSet/DaemonSet/Job/CronJob/Pod/Service/PVC/Ingress) | `materializeKustomize` → `writeK8sYAML` (`candy/plugin-kube/materialize.go` — PLUGIN-SIDE now, the former core `charly/k8s_generate.go` is deleted, K5-A item 6) | `k8s_object` | `egress-schemas/egress_k8s.cue` `#K8sObject` envelope (validates structure — the egress failure mode for machine-generated manifests; deep per-field types are an ingress concern) |
-| **k8s Kustomization** (base + overlay) | `GenerateK8sKustomize` → `writeK8sYAML` | `kustomization` | `egress-schemas/egress_k8s.cue` `#Kustomization` |
+| **k8s manifests** (Deployment/StatefulSet/DaemonSet/Job/CronJob/Pod/Service/PVC/Ingress) | `materializeKustomize` → `writeYAML` (`candy/plugin-kube/materialize.go` — PLUGIN-SIDE now, the former core `charly/k8s_generate.go` is deleted, K5-A item 6) | `k8s_object` | `egress-schemas/egress_k8s.cue` `#K8sObject` envelope (validates structure — the egress failure mode for machine-generated manifests; deep per-field types are an ingress concern) |
+| **k8s Kustomization** (base + overlay) | `GenerateK8sKustomize` → `writeYAML` | `kustomization` | `egress-schemas/egress_k8s.cue` `#Kustomization` |
 | **install-ledger deploy record** | `WriteDeployRecord` / `WriteDeployRecordVia` (`install_ledger.go`) | `deploy_record` | `egress-schemas/egress_ledger.cue` `#DeployRecord` (requires `deploy_id`/`target`/`deployed_at`; `image` optional — candy-only deploys leave it empty) |
 | **install-ledger candy record** | `WriteCandyRecord` / `AddCandyDeploymentVia` | `candy_record` | `egress-schemas/egress_ledger.cue` `#CandyRecord` (requires `candy`/`deployed_at`; steps/reverse_ops open) |
 | **traefik dynamic config** (`.build/<box>/traefik-routes.yml`) | `GenerateTraefikRoutes` (`sdk/deploykit/routes.go`, relocated in #67) | `traefik_routes` | `egress-schemas/egress_traefik.cue` `#TraefikRoutes` (hand-built YAML — non-empty Host rule / service / backend url; null routers/services when no route candies) |
 | **Containerfile** (`.build/<box>/Containerfile`) | `writeContainerfile` (`sdk/deploykit/generate.go`, relocated in #67) | `rendered_text` | `egress-schemas/egress_text.cue` `#RenderedText` (rejects the `<no value>` template-failure marker) |
-| **systemd/supervisord service units** | `RenderService` (`service_render.go`) | `rendered_text` | `egress-schemas/egress_text.cue` `#RenderedText` (same template-failure gate) |
+| **systemd/supervisord service units** | `RenderService` (`sdk/deploykit`'s `renderSeamCaller`, relocated in #55 W3 B4) | `rendered_text` | `egress-schemas/egress_text.cue` `#RenderedText` (same template-failure gate) |
 | **libvirt domain XML** | `RenderDomainXML` (`libvirt_yaml_bridge.go`) | `libvirt_domain_xml` | `egress-schemas/egress_libvirt_xml.cue` `#LibvirtDomainXML` (koala-shaped structural envelope — non-empty `$type`/`name.$$`/`memory.$$`; best-effort, libvirt `DomainDefineXML` is the authoritative gate) |
 
 ## Deliberately NOT egress-validated
@@ -195,12 +195,12 @@ The schemas + validation now live in `candy/plugin-egress` (M16):
 - [`/charly-build:validate`](/recipes/build/validate/) — the ingress side (`charly box validate`).
 - [`/charly-internals:cloud-init-renderer`](/recipes/internals/cloud-init-renderer/) — the first egress consumer (`RenderCloudInit`).
 - [`/charly-internals:install-plan`](/recipes/internals/install-plan/) + [`/charly-internals:local-infra`](/recipes/internals/local-infra/) — the DeployTargets/writers whose seams the egress gate plugs into.
-- [`/charly-internals:go`](/recipes/internals/go/) — the Go source map (`egress.go`, `cue_schema.go`).
+- [`/charly-internals:go`](/recipes/internals/go/) — the Go source map (`candy/plugin-bundle/egress.go`, `cue_schema.go`).
 
 ## When to Use This Skill
 
 Invoke before working on `candy/plugin-egress` (the validation logic + the egress CUE schemas
-under `candy/plugin-egress/egress-schemas/` incl. `vendor/cloud_config.cue`), the `charly/egress.go`
-in-core SHIM, the `ValidateEgress` path,
+under `candy/plugin-egress/egress-schemas/` incl. `vendor/cloud_config.cue`), the
+`candy/plugin-bundle/egress.go` SHIM, the `ValidateEgress` path,
 the `task cue:vendor` pipeline, or adding/validating any config file charly writes
 to a system.

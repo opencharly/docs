@@ -77,8 +77,9 @@ preemptible: <l|blk>  # LOAD-BEARING resource-arbitration. Default absent.
 
 `lifecycle: dev` does NOT make a deploy disposable. A reader
 might assume it would, so the anti-derivation invariant is enforced
-by `charly/classification.go` and a unit test
-`TestVmSpec_LifecycleAloneDoesNotAuthorize`. If you find yourself
+by `spec/spec/charly_methods.go` (`Deploy.IsDisposable()` / `Deploy.IsPreemptible()` —
+the former `charly/classification.go` is DELETED, K-wave 2) and a unit test
+`TestVmSpec_LifecycleAloneDoesNotAuthorize` (`charly/classification_test.go`). If you find yourself
 tempted to add "if lifecycle in {scratch,dev,test} then
 disposable=true": don't. That hidden logic is the entire failure
 mode this design avoids.
@@ -117,7 +118,9 @@ necessarily ephemeral; ephemeral resources are always disposable.
 A physical host resource can sometimes be held by only ONE deployment at a
 time — the canonical case is a GPU passed through to a VM via VFIO (exactly one
 VM can bind the card). `preemptible` (HOLDER side) + `requires_exclusive`
-(CLAIMANT side) let the resource arbiter (`charly/preempt.go`) free such a resource
+(CLAIMANT side) let the resource arbiter (the compiled-in `verb:arbiter`,
+`candy/plugin-preempt` — its only in-core caller is the op="remove" release
+bracket in `charly/host_build_pod_lifecycle_dispatch.go`) free such a resource
 on demand and give it back afterward.
 
 ```yaml
@@ -217,7 +220,7 @@ implies nor is implied by any other axis. A deploy may legitimately be BOTH
 preemptible (the arbiter stops it) AND disposable (R10 may rebuild it); a test
 holder is often both. Stopping a holder is graceful + reversible (disk + state
 preserved) — the OPPOSITE of `disposable`'s destroy authorization. Enforced by
-`charly/classification.go` (`IsPreemptible()` is independent of `IsDisposable()`).
+`spec/spec/charly_methods.go` (`Deploy.IsPreemptible()` is independent of `Deploy.IsDisposable()`).
 
 ## Where the fields live
 
@@ -255,7 +258,7 @@ Resolves `<name>` as either a kind:vm entity (vm.yml) or a deploys entry
 (charly.yml). It **NEVER refuses** on disposability: an explicit
 `charly update` rebuilds ANY target — for a non-disposable, non-ephemeral
 target it prints a one-line transparency note
-(`noteUpdateDisposability` in `charly/update_deploy_dispatch.go`) and
+(`noteUpdateDisposability` in `candy/plugin-pod/pod_cmd.go`) and
 proceeds. Sequence: destroy → rebuild → restart, ending in the shared
 `charly bundle add <node>` layer re-apply for every live substrate (so a
 config change — a newly-added layer or nested pod — takes effect on the
@@ -419,5 +422,6 @@ on shared hosts.
   `IsDisposable()` / `IsDisposableFields()`, never derive from
   lifecycle).
 
-Invoke this skill BEFORE reading `charly/classification.go` or the
+Invoke this skill BEFORE reading `spec/spec/charly_methods.go` (the
+`Deploy.IsDisposable()` / `Deploy.IsPreemptible()` predicates) or the
 related YAML files.

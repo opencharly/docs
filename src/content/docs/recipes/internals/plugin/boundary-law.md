@@ -77,7 +77,8 @@ piece LANDED (never a bare "moved" claim) and gives any REMAINDER its own E/M/B/
 inherited from the moved majority; a validator REJECTS a remainder whose only justification is a
 stays-core header, demanding call-chain evidence first; and the orchestrator audits every stays-claim
 against this boundary law with that evidence, never rubber-stamping the header. Precedent:
-`charly/host_build_deploy_add.go`'s header states the `charly bundle add` CLI moved to `command:bundle`
+the former `charly/host_build_deploy_add.go` (the `deploy-add` HostBuild seam, DELETED, K-wave 2)
+documented that the `charly bundle add` CLI moved to `command:bundle`
 (candy/plugin-bundle, P13) while the deploy KERNEL it drives "STAYS CORE" on exactly this "cannot cross
 the process boundary" claim — overruled as a boundary-law violation (the deploy-dispatch kernel is
 tracked K-wave residue, not permanent core). Full three-role breakdown: [`/charly-internals:agents`](/recipes/internals/agents/)
@@ -195,8 +196,9 @@ it does not consume the sdk mechanism libraries, and it contains zero aliases/sh
    mid-cutover crutch that keeps a capability call site in core; the fix is never an alias — it is moving
    the call site into its owning plugin. → P16 gate (c): the `charly/*_aliases.go` glob is empty.
 
-**Why the seams die.** Today's config-resolve / config-persist / oci-inspect
-seams exist only because plugins could not load the project or touch the store. Once the loader is
+**Why the seams die.** Today's oci-inspect seam (the config-resolve / config-persist seams are
+ALREADY DELETED — the consumers self-serve via `sdk/loaderkit`, K-wave 2 cone R2 bank D) exists
+only because plugins could not load the project or touch the store. Once the loader is
 `sdk/loaderkit` (the kind-blind parse) and state is the flock'd,
 any-process-safe `sdk/kit` state family (`filelock.go` + `install_ledger.go` + `deployconfig.go`), a
 plugin just loads the project itself — same filesystem, same library — and the seam

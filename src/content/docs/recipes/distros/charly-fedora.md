@@ -66,9 +66,10 @@ kernel `mount_too_revealing()` RCA.
 
 `charly-fedora` uses host networking (unlike `charly-arch`, which uses bridge)
 so the box can reach host services and the host namespace directly.
-charly-mcp's `rewriteMCPURLForHost` handles host-networked containers via
-`HostConfig.NetworkMode=host` detection (see
-`charly/mcp_client.go:lookupHostPort`), so host networking does not break
+charly-mcp's MCP URL rewriting (`candy/plugin-mcp/resolve.go`, the host-port
+mapping via the `cc.ResolveEndpoint` reverse-leg) handles host-networked containers via
+`HostConfig.NetworkMode=host` detection (see `sdk/kit/checkvars.go`'s
+`ContainerInspection.IsHostNetworked()`), so host networking does not break
 MCP URL rewriting. If you want charly-mcp on charly-fedora, compose it
 into the candy list — it will work on either networking mode.
 
@@ -126,7 +127,9 @@ The [`/charly-distros:nvidia`](/recipes/distros/nvidia/) candy provides NVIDIA G
 - `nvidia-container-toolkit` — CDI spec generation (driver userspace libs provided by CDI at runtime, matching host kernel module)
 - `libva-nvidia-driver` — VA-API acceleration
 
-`charly` automatically calls `EnsureCDI()` before launching GPU
+`charly` triggers CDI regeneration plugin-side (`pluginEnsureCDI` in
+`candy/plugin-preempt/holder_dispatch.go`, via `spec.GpuSwitchActionEnsureCDI` — the
+former in-core `EnsureCDI()` shim is DELETED, K-wave 2 cone R3) before launching GPU
 containers. GPU access works at any nesting depth.
 
 ## Verification
