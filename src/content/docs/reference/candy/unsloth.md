@@ -29,7 +29,7 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 | `run` | command=~/.pixi/envs/default/bin/python -m pip install --no-deps \ 'https://wheels.vllm.ai/f53fa26e05c476a43f6db048a9e3b43bcb2b72fb/vllm-0.19.1rc1.dev39%2Bgf53fa26e0.cu130-cp38-abi3-manylinux_2_35_x86_64.whl' |
 | `run` | command=~/.pixi/envs/default/bin/python /ctx/patch_vllm_size_nodes.py |
 | `check` | the vLLM 0.19.x cu130 nightly wheel is installed in the pixi default environment |
-| `check` | the candy exports UNSLOTH_SKIP_LLAMA_CPP_INSTALL=1 so the bundled llama.cpp build is skipped |
+| `check` | the candy exports UNSLOTH_SKIP_LLAMA_CPP_INSTALL=1 so the fleetdverb llama.cpp build is skipped |
 | `check` | the candy exports HF_HOME at the HuggingFace cache that backs the models volume |
 | `agent-check` | vLLM's compilation backend carries the _decompose_size_nodes fix (the x.size(dim) scalar guard) rather than the unpatched upstream code |
 | `check` | file=${HOME}/.pixi/envs/default/bin/python |

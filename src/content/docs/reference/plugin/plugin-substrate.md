@@ -30,12 +30,12 @@ The 5 SUBSTRATE structural deploy KINDS — pod / vm / k8s / local / android —
 ONE candy (C2-substrate; formerly the shared built-in standaloneKind). Each substrate kind is
 BOTH a standalone TEMPLATE (a bare `vm:`/`pod:` block → the typed template map uf.Pod/uf.VM/…,
 the PRIMARY VM authoring form) AND a DEPLOY (from:/image: cross-ref or resource members →
-uf.Bundle). Its value is RICH + core-referencing (#Vm/#Deploy/#LibvirtDomain/…), so — unlike
+uf.Fleet). Its value is RICH + core-referencing (#Vm/#Deploy/#LibvirtDomain/…), so — unlike
 group's small self-contained #GroupInput — it cannot be re-decoded from op.Params nor validated
 by a self-contained plugin schema. So the HOST pre-decodes the CANONICAL node via the core
-loader (buildBundleNode / decodeNodeValue — the single decode source of truth), validates its
+loader (buildFleetNode / decodeNodeValue — the single decode source of truth), validates its
 value against the KEPT #<Kind>Value core def, and threads it in op.Env; this plugin's OpLoad
-ECHOES it and the host folds the echo into uf.Bundle (deploy) or the typed template map
+ECHOES it and the host folds the echo into uf.Fleet (deploy) or the typed template map
 (template — the C2-substrate TEMPLATE fold arm extending F5's deploy-only fold), byte-equivalent
 to the former in-proc standaloneKind decode. COMPILED-IN (in the embedded compiled_plugins:),
 like the tier-1 kinds and group, because these 5 are core deploy primitives every box/submodule

@@ -26,7 +26,7 @@ at all: a host, a VM guest, a phone. You are always applying candies; only the s
 Every substrate consumes the same intermediate representation, so adding one does not add a
 vocabulary. Reversal is part of that IR rather than bolted on per substrate: a step can record the
 operation that undoes it. You see this most directly on the host target, where those recorded
-operations go into an install ledger and `charly bundle del host` replays it backwards instead of
+operations go into an install ledger and `charly fleet del host` replays it backwards instead of
 making a best-effort guess at cleanup.
 
 ## In practice

@@ -83,7 +83,7 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 	allow_insecure?: bool @go(AllowInsecure)
 	// no_follow_redirects — do not follow 3xx redirects (assert the first response).
 	no_follow_redirects?: bool @go(NoFollowRedir)
-	// ca_file — optional PEM CA bundle to trust for the request.
+	// ca_file — optional PEM CA fleet to trust for the request.
 	ca_file?: string @go(CAFile)
 }
 

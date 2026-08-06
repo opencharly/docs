@@ -27,7 +27,7 @@ group (resource members brought up ALONGSIDE on the shared network, no own workl
 OpLoad decodes the group's scalar config (disposable/lifecycle/description/…) from op.Params
 into a spec.Deploy and ATTACHES the AUTHORED members the host pre-decoded + threaded via
 op.Env (F5 authored-member input-threading), returning the complete spec.Deploy the host
-folds into uf.Bundle — byte-equivalent to the former builtin groupKind. COMPILED-IN (in the
+folds into uf.Fleet — byte-equivalent to the former builtin groupKind. COMPILED-IN (in the
 embedded compiled_plugins:), like the tier-1 kinds, because `group` is a core deploy
 primitive every box/submodule must always resolve; also serves out-of-process via cmd/serve.
 
@@ -51,7 +51,7 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 // real group authors them). The authored MEMBER children ride op.Env (host-pre-decoded, F5
 // authored-member input-threading), NOT this value. The complex lifecycle sub-objects
 // (ephemeral/preemptible) are PERMISSIVE here — validate_ephemeral validates them on the folded
-// uf.Bundle entry (the real deploy-level gate), and plan steps are validated by validateOps there too —
+// uf.Fleet entry (the real deploy-level gate), and plan steps are validated by validateOps there too —
 // so this def stays small, self-contained, and drift-free (no #Iterate/#Ephemeral/#Deploy clone).
 #GroupInput: {
 	// identity + description
@@ -60,17 +60,17 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 	// disposability + lifecycle (the fields real groups author: disposable/lifecycle/description)
 	disposable?: bool
 	lifecycle?:  string
-	// lifecycle sub-objects — permissive (validated by validate_ephemeral on the folded Bundle)
+	// lifecycle sub-objects — permissive (validated by validate_ephemeral on the folded Fleet)
 	ephemeral?:   {...}
 	preemptible?: {...}
 	// exclusive/shared host-resource arbitration on a group
 	requires_exclusive?: [...string]
 	requires_shared?: [...string]
 	// iterate — the AI-benchmark harness on a group bed (a folded data child, e.g. charly-cli).
-	// Permissive here — validateIterateBed validates it on the folded uf.Bundle entry (the real gate).
+	// Permissive here — validateIterateBed validates it on the folded uf.Fleet entry (the real gate).
 	iterate?: {...}
 	// direct plan steps on the group node (checks are usually on members; permitted + validated by
-	// validateOps on the folded Bundle entry)
+	// validateOps on the folded Fleet entry)
 	plan?: [...{...}]
 }
 ```

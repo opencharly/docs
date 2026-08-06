@@ -16,20 +16,44 @@ redefining.
 
 | Term | What it is | What it is *not* |
 |---|---|---|
-| **candy** | One entry in a `charly.yml` — the one kind you write for anything you **build**. Deploys are written with the substrate kinds below, and `candy:` is itself provided by a plugin rather than built in. | Not a deploy. Not the running thing. |
-| **box** | A candy that carries `base:` or `from:`, which makes it a buildable **container image**. | Not the running thing. |
-| **candybox** | A box in its **running, isolated form** — a rootless container, a VM, or a check bed. **This is the security boundary.** | Not the image. Not the config file. |
-| **check bed** | A deploy marked `disposable: true` — a candybox that exists in order to be destroyed. | Not a test file. |
-| **plan** | The ordered acceptance spec a candy carries, baked into the image as an OCI label — distinct from the install plan (the IR), the shared form every substrate compiles to (see the abbreviations below). | Not a build script. |
-| **deploy** | A named instance of a box, running on a substrate. | |
-| **bundle** | The set of deploys charly manages on this machine — `charly bundle add` puts a deploy in it. | |
-| **substrate** | Where a deploy lands: `pod:` `vm:` `k8s:` `local:` `android:`. | |
+| **candy** | The atomic unit of configuration in charly — the entity everything else is made of: boxes compose candies, deploys apply them, substrates realise them. | Not a deploy. Not the running thing. |
+| **layer** | A candy that installs one concern — carrying neither `base:` nor `from:`. | Not buildable on its own. |
+| **base** | A field on a candy that names a starting image — another box or a registry ref. Carrying `base:` makes a candy a **box**. | Not a deploy. |
+| **from** | A field with two uses: on a box, a **builder** reference (`builder:<word>`) for a multi-stage build; on a deploy, inherits a same-kind template. Carrying `from:` makes a candy a **box**. | |
+| **box** | A candy that composes other candies — the composite unit. A box names a starting point via **base** or **from** and stacks layers into a single entity that charly builds into an image or deploys onto a substrate. | Not the running thing. Not the built image. |
+| **image** | The built artifact a box produces — the generic word for what `box build` yields, stored in an image store or registry. | Not the authored box. |
+| **container image** | An image in the OCI container format — the artifact a `pod:` or `k8s:` deploy runs as a container. The same thing as an **OCI image**. | Not a vm image. |
+| **OCI image** | A container image, named after the Open Container Initiative format that defines it — synonymous with **container image**. | |
+| **candybox** | The running, isolated form of a box — a container, a VM guest, or a check bed. **This is the security boundary.** | Not the image. Not the config file. |
+| **container** | The running OCI process — the candybox's form on a `pod:` deploy. | Not the image, not the box. |
+| **substrate** | The destination kind a deploy lands on: `pod:` `vm:` `k8s:` `local:` `android:`. A substrate is a place, not an artifact: the image is the payload, the substrate is where it runs. | Not the image. |
+| **pod** | The container substrate — a `pod:` deploy runs a box's image as a container. | Not a Kubernetes Pod (the `k8s:` backend emits real ones). |
+| **vm** | The guest substrate — a `vm:` deploy boots a **vm image** as a rootless libvirt guest, reached over SSH. | |
+| **vm image** | The bootable disk a `vm:` deploy boots — a `cloud_image` qcow2 or a bootc image. A *different* artifact from a container image. | Not a container image. |
+| **k8s** | The Kubernetes substrate — a `k8s:` deploy emits a Kustomize overlay. | |
+| **local** | The host substrate — a `local:` deploy installs onto the machine charly runs on, or onto a remote machine when it carries **host**. | |
+| **android** | The device substrate — an `android:` deploy installs APKs onto a device or emulator. | |
+| **host** | A field on a `local:` deploy naming the machine to install onto — `host: local` (or absent) is the machine charly runs on, `host: <user@machine>` is an SSH target. | |
+| **deploy** | A named placement of a box on a substrate, written as `pod:` `vm:` `k8s:` `local:` `android:`. When running, its candybox is the live thing. | Not the box. Not the fleet. |
+| **fleet** | The set of deploys charly manages on this machine — the boxes deployed together, the way `docker compose` brings up a set of services. `charly fleet add` puts a deploy in it; `charly fleet del` reverses it. | Not the box. Not a single deploy. |
+| **plugin** | A candy that teaches charly a new word — it carries a `plugin:` block registering the words it provides, each of which is a **provider**. A plugin lives in the layer shape, but its role is extending charly, not installing a concern. | |
+| **provider** | A word a plugin registers, which routes to that plugin when charly sees it — a **kind**, **verb**, **command**, **step**, **builder**, or **substrate**. | |
+| **kind** | The class of a top-level name in a `charly.yml` — the entity keywords (`candy`, `distro`, `group`, `builder`, `agent`). | |
+| **verb** | A probe a `plan:` step can call — the check vocabulary (`file`, `http`, `cdp`, `vnc`, `adb`, `kube`). | |
+| **command** | A `charly` subcommand — the CLI vocabulary (`fleet`, `check`, `candy`, `clean`). | |
+| **step** | An install operation in a `plan:` — (`file`, `service-custom`, `reboot`). | |
+| **builder** | A multi-stage build pattern a box can select — (`pixi`, `npm`, `cargo`, `aur`). | |
+| **plan** | The ordered acceptance spec a candy carries, baked into its image as an OCI label — distinct from the **install plan**. | Not a build script. |
+| **install plan** | The target-neutral form of what a deploy installs — produced once from a box's candy list, then every substrate realises it its own way. It is why `pod:` → `vm:` is a keyword change, not a rewrite. | |
+| **IR** | Intermediate representation — the compiler term for the **install plan**: the neutral form in the middle of a compile, written once and lowered to each target. | |
+| **check bed** | A deploy marked `disposable: true` — a candybox that exists to be destroyed and rebuilt, which is what authorises charly to run an unattended full test cycle on it. | Not a test file. |
 
 ### box vs candybox, concretely
 
 ```bash
-charly --repo opencharly/distro-fedora box build tutorial-shell   # produces a BOX     — an image, sitting in storage
-charly --repo opencharly/distro-fedora shell tutorial-shell       # produces a CANDYBOX — a running, isolated room
+charly --repo opencharly/distro-fedora box build tutorial-shell     # produces a BOX     — the authored image, sitting in storage
+charly --repo opencharly/distro-fedora shell tutorial-shell         # produces a CANDYBOX — a running, isolated room
+charly --repo opencharly/distro-fedora fleet add tutorial-shell     # records a DEPLOY in the FLEET — a placement of that box
 ```
 
 The box is an artifact. The candybox is a place. When this site says safety lives at the
@@ -47,7 +71,7 @@ There is one entity keyword, `candy:`, and one filename, `charly.yml`. But a can
 | The candy carries | It is | And it may also carry |
 |---|---|---|
 | neither `base:` nor `from:` | a **layer** — one installable concern | `package:` `service:` `plan:`, and a `plugin:` block |
-| `base:` or `from:` | a **box** — a buildable container image | a `candy:` list of layers, `plan:` |
+| `base:` or `from:` | a **box** — a candy that composes other candies; `box build` turns it into a container image | a `candy:` list of layers, `plan:` |
 
 (`from:` inside a deploy or template means something different — it inherits a same-kind template
 rather than marking a buildable image; the nesting excerpt below shows that other use.)
@@ -136,7 +160,7 @@ Today's catalog registers **123 words across 73 plugin candies**:
 | **deploy** substrates | 5 | `pod` `vm` `k8s` `local` `android` |
 | **kind** — the entity keywords themselves | 14 | `candy` `distro` `group` `builder` `agent` |
 | **verb** — probes a `plan:` can call | 35 | `file` `http` `cdp` `vnc` `adb` `kube` |
-| **command** — `charly` subcommands | 45 | `bundle` `check` `candy` `clean` |
+| **command** — `charly` subcommands | 45 | `fleet` `check` `candy` `clean` |
 | **step** — install operations | 12 | `file` `service-custom` `reboot` |
 | **builder** — multi-stage build patterns | 4 | `pixi` `npm` `cargo` `aur` |
 | the build/load internals | 8 | `build:box` `loader:loader` `refs:refs` `terminal:tmux` |

@@ -39,7 +39,7 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 | `check` | OpenTofu from devops-tools runs and reports its version |
 | `check` | jq from devops-tools runs and reports its version |
 | `check` | the supervised hermes agent service is running on the live deployment |
-| `agent-check` | an operator can open a shell in the deployed box and launch the hermes agent together with any bundled AI CLI (claude/codex/gemini/forge) and developer tool from that one session |
+| `agent-check` | an operator can open a shell in the deployed box and launch the hermes agent together with any fleetdverb AI CLI (claude/codex/gemini/forge) and developer tool from that one session |
 | `check` | package=neovim |
 | `check` | file=/usr/local/bin/tofu |
 | `check` | file=/usr/bin/jq |

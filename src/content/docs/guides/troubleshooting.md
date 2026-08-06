@@ -15,7 +15,7 @@ detail; this table deliberately does not restate it.
 | Service won't start | `charly status <image>`, then `charly logs <image>` — [status](/recipes/core/charly-status/), [logs](/recipes/core/logs/) |
 | Quadlet out of sync with `charly.yml` | `charly config <image> --update-all` — [config](/recipes/core/charly-config/) |
 | Service built fine but is broken in production | `charly check live <image>` runs the baked plan against the running deployment — [check](/recipes/check/check/) |
-| `charly bundle add vm:<name>` errors "VM does not exist" | Run `charly vm create <name>` first — VM deploy does not auto-provision. [deploy](/recipes/core/deploy/) |
+| `charly fleet add vm:<name>` errors "VM does not exist" | Run `charly vm create <name>` first — VM deploy does not auto-provision. [deploy](/recipes/core/deploy/) |
 | Tunnel missing on a new instance | Tunnel config is `charly.yml`-only and is not inherited per instance — add it explicitly. [deploy](/recipes/core/deploy/) |
 | Encrypted volume locked at boot | `charly config mount` waits for keyring unlock automatically — [enc](/recipes/automation/enc/) |
 

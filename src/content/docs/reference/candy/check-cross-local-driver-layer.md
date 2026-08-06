@@ -15,7 +15,7 @@ Establishes a host venue for the check-cross-local-http bed's local
 DRIVER member: a `command:` check placed under this member runs on
 the host against a SEPARATE pod SUBJECT (cross-kind — local driver,
 pod subject). USER-level only (a marker under $HOME, no root/sudo/gates)
-so bringUpMembers applies it unattended via `charly bundle add`.
+so bringUpMembers applies it unattended via `charly fleet add`.
 
 ## Acceptance plan
 
