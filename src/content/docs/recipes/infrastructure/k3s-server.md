@@ -41,9 +41,9 @@ description: "k3s control-plane (server) node with ServiceLB, Traefik v2, and lo
 ## Operator setup — none required (auto-generated)
 
 `K3S_CLUSTER_TOKEN` auto-generates on first deploy. The resolver
-(`charly/layer_secrets.go` — `ensureCandySecret`) detects the missing
+(`sdk/deploykit/secret_candy_resolve.go` — `EnsureCandySecret`) detects the missing
 `secret_require:` entry, generates a 32-byte hex token via
-`generateAndStoreSecret`, and persists it to the active credential
+`GenerateAndStoreSecret` (`sdk/deploykit/secret_provision.go`), and persists it to the active credential
 backend (keyring / config-file fallback). Every subsequent
 `k3s-server` and `k3s-agent` deploy reads the same persisted value —
 zero operator setup, server and agents automatically share the token.
