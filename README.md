@@ -27,6 +27,7 @@ copied, because a copy drifts and a projection cannot:
 
 ```
 src/content/docs/vision.md               VISION.md, verbatim
+src/content/docs/liberation.md           LIBERATION.md, verbatim
 src/content/docs/reference/cli/          one page per command word
 src/content/docs/reference/candy/        every defined candy
 src/content/docs/reference/box/          every defined box
