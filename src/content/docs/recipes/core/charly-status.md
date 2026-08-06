@@ -71,10 +71,11 @@ forward with zero status-specific code.
   `[]spec.StatusNestedNode` shape the overlay folds, including the `--nested`
   live-probe leg (`ResolveDeployChain` + `NestedExecutor`, the SAME primitive
   `charly bundle add` / `charly check live parent.child` use).
-- `charly/status_substrate_host.go` — the generic `status-substrate` F10
-  host-builder, now a THIN forward (K6): resolve `verb:status-fanout`, thread
-  the reverse-channel executor, invoke, return the reply verbatim. No
-  status-specific logic remains in core.
+- `candy/plugin-status/command.go` (`hostStatusSubstrate`) — the generic
+  `status-substrate` F10 forward is DELETED with `charly/status_substrate_host.go`
+  (K-wave 2): `command:status` now `InvokeProvider(verb:status-fanout)` DIRECTLY over
+  the in-proc reverse channel, threads the executor, and returns the reply verbatim.
+  No status-specific logic remains in core.
 - `candy/plugin-substrate/status_flat.go` — `flatCollector.collectFlat` (the
   substrate fan-out + merge + sort) / `flatCollector.collectSingle`;
   `collectWord` (a DIRECT in-package call to `statusCollect` for ALL FIVE
@@ -113,7 +114,7 @@ forward with zero status-specific code.
 - `sdk/enginekit` — `EngineClient` (the only place that touches podman/docker),
   `ContainerSnapshot`, structured `PortMapping` — the sdk kit the substrate
   plugin's pod-live collection imports.
-- `sdk/spec/status_types.go` — `SubstrateKind` + `StatusFromState` (the shared
+- `spec/spec/status_types.go` — `SubstrateKind` + `StatusFromState` (the shared
   state-vocab mapper, single-sourced for every plugin collector + the host's
   enrichment).
 
@@ -352,4 +353,4 @@ charly status --json | jq '.[] | select(.nested) | .nested[].image'
 - [`/charly-core:logs`](/recipes/core/logs/) -- view service logs (via [`/charly-core:service`](/recipes/core/service/))
 - [`/charly-core:service`](/recipes/core/service/) -- full service lifecycle management
 
-Live-deploy verification: see [/charly-check:check](/recipes/check/check/) (the 10 Testing Standards) and [/charly-internals:disposable](/recipes/internals/disposable/).
+Live-deploy verification: see [/charly-check:check](/recipes/check/check/) (the 11 Testing Standards) and [/charly-internals:disposable](/recipes/internals/disposable/).

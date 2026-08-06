@@ -23,7 +23,7 @@ description: "MUST be invoked before any work involving: charly shell command, i
 | Run command | `charly shell <image> -c "cmd"` | Execute command and exit |
 | Force TTY | `charly shell <image> --tty -c "cmd"` | PTY allocation for automation |
 | Specific version | `charly shell <image> --tag v1.0.0` | Use specific image tag |
-| No devices | `charly shell <image> --no-autodetect` | Disable device auto-detection |
+| No devices | `charly shell <image> --no-auto-detect` | Disable device auto-detection |
 | Set env var | `charly shell <image> -e KEY=VALUE` | Inject environment variable |
 | Load env file | `charly shell <image> --env-file .env` | Load env from file |
 | Named instance | `charly shell <image> -i runner-1` | Use named instance |
@@ -103,11 +103,11 @@ How it works:
 
 This makes loopback-only services accessible through normal podman/docker port mappings and `tailscale serve`.
 
-Source: `sdk/deploykit/routes.go` (`GenerateTraefikRoutes` / `EmitTraefikRouteStage`, relocated from `charly/generate.go` in #67), `charly/layers.go` (`PortRelayYAML`).
+Source: `sdk/deploykit/routes.go` (`GenerateTraefikRoutes` / `EmitTraefikRouteStage`, relocated from `charly/generate.go` in #67), `sdk/deploykit/init.go` (`InitRenderRelayTemplate`, the relay-template renderer).
 
 ## Device Auto-Detection
 
-By default, `charly shell` auto-detects available host devices and passes them through. Use `--no-autodetect` to disable.
+By default, `charly shell` auto-detects available host devices and passes them through. Use `--no-auto-detect` to disable.
 
 **Auto-detected devices:**
 - NVIDIA GPU (via `nvidia-smi`) -- `--gpus all` (Docker) or `--device nvidia.com/gpu=all` (Podman)
@@ -124,7 +124,7 @@ When an AMD GPU is detected, `keep-groups` is auto-added to preserve host supple
 
 **Shared code path:** `charly shell` calls `appendAutoDetectedEnv()` in `candy/plugin-deploy-pod/config_setup_helpers.go` — the same function used by `charly config` and `charly start`. All three commands reach it through their own resolver file in that candy (`resolve_f12.go` for `shell`/`cmd`/`logs`, `config_setup.go` for `config`, `resolve.go` for `start`/`stop`), so they still produce an identical env set on every run. The DRINODE/HSA_OVERRIDE_GFX_VERSION/keep-groups injection logic moved wholesale from charly-core to `candy/plugin-deploy-pod` in the 2026-07-22 dead-code-radical-removal batch — the charly-core copies (`appendAutoDetectedEnv`/`appendGroupsForAMDGPU` in `charly/devices.go`) were deleted as unreached residue once the plugin took over the real call sites. See [`/charly-core:charly-doctor`](/recipes/core/charly-doctor/) (Hardware Detection) for the probe side, [`/charly-distros:nvidia`](/recipes/distros/nvidia/) (DRINODE Auto-Injection) for the NVIDIA consumer, and [`/charly-distros:rocm`](/recipes/distros/rocm/) (Runtime Environment) for the AMD consumer.
 
-Source: `candy/plugin-deploy-pod/config_setup_helpers.go` (`appendAutoDetectedEnv`, `appendGroupsForAMDGPU`) + `charly/devices.go` (`appendEnvUnique`, `LogDetectedDevices`, the embedded detection data tables — the residual core surface) + `charly/gpu_shim.go` (the `DetectHostDevices`/`DetectGPU`/`DetectAMDGPU` shims, which since C11 resolve+Invoke the compiled-in `candy/plugin-gpu`).
+Source: `candy/plugin-deploy-pod/config_setup_helpers.go` (`appendAutoDetectedEnv`, `appendGroupsForAMDGPU`) + `candy/plugin-deploy-pod/detect_devices.go` (`detectDevices`/`logDetectedDevices` — the relocated `LogDetectedDevices` + the `DetectHostDevices`/`EnsureCDI` shims, now peer `InvokeProvider(verb:gpu)` dispatches; `charly/devices.go` and the gpu_shim detection legs are DELETED, K-wave 2 cone R3).
 
 ## Environment Variables
 
@@ -145,7 +145,7 @@ Kong `sep:"none"` on `-e` means commas in values are safe (e.g., `NO_PROXY=local
 
 `.env` file format (Docker-compatible): `KEY=VALUE`, `KEY="VALUE"`, `KEY='VALUE'`, `KEY` (inherits from host), `#` comments, blank lines ignored.
 
-Source: `charly/envfile.go` (`ParseEnvFile`, `ResolveEnvVars`, `LoadWorkspaceEnv`).
+Source: `spec/hostenv/envfile.go` (`ParseEnvFile`, `ResolveEnvVars`, `LoadWorkspaceEnv`).
 
 ## Remote Image References
 
@@ -167,13 +167,13 @@ workflow.
 
 When `engine.build` differs from `engine.run`, images are automatically transferred between engines on demand via `<src> save | <dst> load`.
 
-Source: `charly/transfer.go`.
+Source: `dispatchBuildEnsure` (`charly/dispatch_build_ensure.go`) dispatches to candy/plugin-build's `build:ensure` word (`candy/plugin-build/ensure.go`), which calls `kit.TransferImage` (`sdk/kit/transfer.go`, re-exporting `spec/container/transfer.go`). `charly/transfer.go`, this doc's former source citation, no longer exists.
 
 ## Container Networking
 
 All containers are connected to a shared `charly` network by default, enabling inter-container DNS resolution by container name. Override with `network: host` in charly.yml.
 
-Source: `charly/network.go`.
+Source: `sdk/deploykit/quadlet_pod.go` / `sdk/deploykit/quadlet.go` (the shared-`charly`-network quadlet emission — the former `charly/network.go` is DELETED, K-wave 2).
 
 ## `charly cmd` vs `charly shell -c`
 
@@ -202,7 +202,7 @@ Use `charly cmd` for quick operations on running services. Use `charly shell -c`
 - [`/charly-automation:tmux`](/recipes/automation/tmux/) -- Typed persistent terminal sessions (survive disconnects and support TTY-dependent TUI programs)
 - [`/charly-core:service`](/recipes/core/service/) -- Starting background services before exec
 - [`/charly-core:start`](/recipes/core/start/) -- Same `appendAutoDetectedEnv()` injection at service-start time
-- [`/charly-core:charly-config`](/recipes/core/charly-config/) -- Deployment setup + same `appendAutoDetectedEnv()` at deploy time; `--no-autodetect` flag disables it
+- [`/charly-core:charly-config`](/recipes/core/charly-config/) -- Deployment setup + same `appendAutoDetectedEnv()` at deploy time; `--no-auto-detect` flag disables it
 - [`/charly-core:deploy`](/recipes/core/deploy/) -- `charly.yml` overlay applied to labels before shell spawns
 - [`/charly-check:cdp`](/recipes/check/cdp/) -- Chrome DevTools Protocol automation
 - [`/charly-check:wl`](/recipes/check/wl/) (sway subgroup) -- Sway compositor control

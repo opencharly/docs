@@ -94,7 +94,9 @@ image is present in local podman storage (LocalImageExists →
 `charly box pull` → fall back to `charly box build` for short names that
 resolve via `cfg.Images`). Operators who never run `charly check run`
 never pay the image-fetch cost. See [`/charly-check:check`](/recipes/check/check/) "Image
-preflight" and `charly/check_image_preflight.go`.
+preflight" and `candy/plugin-check/preflight_images.go` (the check-run
+preflight arm, K-wave 2 cone R4 — the former `charly/check_image_preflight.go`
+is DELETED).
 
 This invariant — "deploy fetches NOTHING speculative" — is codified
 as a project-rulebook Key Rule (`AGENTS.md` / `CLAUDE.md`) and enforced at the type level: the
@@ -136,7 +138,7 @@ charly-cachyos-app:
 ## Cross-References
 
 - [`/charly-local:local-deploy`](/recipes/local/local-deploy/) — the `target: local` deployment surface that consumes this template.
-- [`/charly-internals:local-infra`](/recipes/internals/local-infra/) — Go file map (`local_spec.go`, `LocalSpec` struct, `findLocalSpec` lookup).
+- [`/charly-internals:local-infra`](/recipes/internals/local-infra/) — Go file map (`candy/plugin-bundle/node_resolve.go`'s `lookupLocalTemplate`, the plugin-side template resolver).
 - [`/charly-image:layer`](/recipes/image/layer/) — candy authoring (the building blocks composed by templates).
 - [`/charly-build:migrate`](/recipes/build/migrate/) — `charly migrate` migrates legacy `kind: host`/`host.yml` projects up to the node-form schema (every entity name-first inline in `charly.yml`). The `charly-cachyos` deploy applies the suffixed `charly-cachyos-app` `kind: local` template — within one document top-level names are globally unique, so the deploy keeps the user-facing name and the template it deploys is suffixed (see "Globally-unique names within one document" below).
 

@@ -63,8 +63,9 @@ build cache-hits. A CalVer bump on an unchanged upstream is free.
 The `ai.opencharly.version` LABEL baked into each image is likewise NOT a
 per-build timestamp — it's the content-derived `EffectiveVersion` (the image's
 dedicated `version:`, else the highest layer `version:` across the chain; computed
-by `deploykit.ComputeEffectiveVersions`, called inline from `charly/generate.go`'s
-`NewGenerator` — K3 retired the former charly/effective_version.go wrapper). It is STABLE across
+by `deploykit.ComputeEffectiveVersions` (`sdk/deploykit/effective_version.go`), called from
+`candy/plugin-build/resolve.go`'s build-engine resolve — the former `charly/effective_version.go`
+wrapper and the DELETED `charly/generate.go`'s `NewGenerator` are gone, K-wave 2). It is STABLE across
 builds when no layer changed, so it does not shift the image's config → SHA and
 therefore does not cascade cache-misses to children via `FROM`. Only a real
 content change (a bumped layer `version:`) moves it.
@@ -113,9 +114,9 @@ Built images embed runtime metadata as labels (prefix: `ai.opencharly.`), making
 
 Tunnel configuration is NOT an OCI label — it is a deploy-time concern carried in `charly.yml` only.
 
-Volumes use short names in labels (prefix `charly-<image>-` added at runtime). Empty arrays are omitted. JSON built from sorted slices for cache stability. Runtime commands read OCI labels exclusively (via `ExtractMetadata` in `charly/labels.go`) plus `charly.yml` overlay — they never touch `charly.yml` at runtime. That's why `charly shell myimage` works from any directory as long as the image is in local storage (if not, `ExtractMetadata` returns `ErrImageNotLocal` and the CLI suggests `charly box pull`). See [`/charly-image:image`](/recipes/image/image/) for the build/deploy boundary and [`/charly-build:pull`](/recipes/build/pull/) for the sentinel pattern. Labels also include `ai.opencharly.init` for init system identification and `ai.opencharly.service.<init>` for per-init service lists.
+Volumes use short names in labels (prefix `charly-<image>-` added at runtime). Empty arrays are omitted. JSON built from sorted slices for cache stability. Runtime commands read OCI labels exclusively (via `ExtractMetadata` in `spec/container/box_metadata_coneb.go`, re-exported as `kit.ExtractMetadata`/`deploykit.ExtractMetadata`) plus `charly.yml` overlay — they never touch `charly.yml` at runtime. That's why `charly shell myimage` works from any directory as long as the image is in local storage (if not, `ExtractMetadata` returns `spec.ErrImageNotLocal` and the CLI suggests `charly box pull`). See [`/charly-image:image`](/recipes/image/image/) for the build/deploy boundary and [`/charly-build:pull`](/recipes/build/pull/) for the sentinel pattern. Labels also include `ai.opencharly.init` for init system identification and `ai.opencharly.service.<init>` for per-init service lists.
 
-Source: `charly/labels.go`, `sdk/deploykit/write_labels.go` (`WriteLabels`, relocated in #67).
+Source: `sdk/deploykit/write_labels.go` (`WriteLabels`, emission), `spec/container/box_metadata_coneb.go` (`ExtractMetadata`, read-back), `spec/spec/label_consts.go` (label names). `charly/labels.go` (the original home this behavior shipped in, and this doc's former source citation) no longer exists — relocated out of core; see [`/charly-internals:capabilities`](/recipes/internals/capabilities/).
 
 ## Runtime-Only Features
 

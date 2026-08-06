@@ -63,7 +63,7 @@ chrome:
 
 The runtime parser accepts only this compact form. `charly migrate` converts any legacy candy file — including the former named data/step child-node shape (`<name>-<key>:` collection nodes and per-step child nodes) — to the canonical shape in a single idempotent pass; a former meaningful step-node name becomes that step's `id:`.
 
-The candy + plan-step schema the parser validates against is **CUE-single-source**: the `@go()`-annotated `sdk/schema/*.cue` defs (`#Candy`, `#Op`, …) are the sole source for both the Go param structs (generated into `sdk/spec` by `task cue:gen`) and load-time validation, so adding or changing a candy field is a CUE edit → `task cue:gen` → see the [`/charly-internals:go`](/recipes/internals/go/) recipe "How to change the charly.yml schema (CUE is the single source of truth)".
+The candy + plan-step schema the parser validates against is **CUE-single-source**: the `@go()`-annotated `spec/schema/*.cue` defs (`#Candy`, `#Op`, …) are the sole source for both the Go param structs (generated into `spec/spec` by `task cue:gen`) and load-time validation, so adding or changing a candy field is a CUE edit → `task cue:gen` → see the [`/charly-internals:go`](/recipes/internals/go/) recipe "How to change the charly.yml schema (CUE is the single source of truth)".
 
 ## Quick Reference
 
@@ -98,7 +98,7 @@ charly candy add-pac sshd openssh
 charly candy set sshd env.SSHD_PORT 22
 charly candy set sshd service.name sshd
 charly candy set sshd port '["22:22"]'
-charly candy set sshd require '[supervisord]'
+charly candy set sshd require '[build-toolchain]'
 
 # Free-form files (layer scripts, pixi.toml, root.yml, *.service):
 charly box write candy/sshd/sshd_config.d/99-charly.conf --content 'X11Forwarding no\n'
@@ -633,7 +633,7 @@ my-app:
   candy:
     require:
       - python
-      - supervisord
+      - build-toolchain
 ```
 
 ### `require` vs `candy` (composition)
@@ -1104,7 +1104,7 @@ plan:
 
 ### Add a service
 
-Declare a `service:` entry (the unified schema — see "Service Declaration" above) and add `supervisord` to `require:`. The generator renders per-candy entries into supervisord INI fragments assembled into a single `/etc/supervisord.conf` at image build time (or systemd units on systemd-init targets).
+Declare a `service:` entry (the unified schema — see "Service Declaration" above). That is the whole step: declaring a service is what SELECTS an init system, so charly adds that init's own candy to the composition automatically and target-aware — `supervisord` for a container image, nothing extra for a machine venue that already has systemd. Do NOT add the init to `require:` by hand; `require:` is target-blind and would drag supervisord onto a systemd venue. The generator renders per-candy entries into supervisord INI fragments assembled into a single `/etc/supervisord.conf` at image build time (or systemd units on systemd-init targets).
 
 ---
 

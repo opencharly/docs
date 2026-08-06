@@ -77,7 +77,8 @@ piece LANDED (never a bare "moved" claim) and gives any REMAINDER its own E/M/B/
 inherited from the moved majority; a validator REJECTS a remainder whose only justification is a
 stays-core header, demanding call-chain evidence first; and the orchestrator audits every stays-claim
 against this boundary law with that evidence, never rubber-stamping the header. Precedent:
-`charly/host_build_deploy_add.go`'s header states the `charly bundle add` CLI moved to `command:bundle`
+the former `charly/host_build_deploy_add.go` (the `deploy-add` HostBuild seam, DELETED, K-wave 2)
+documented that the `charly bundle add` CLI moved to `command:bundle`
 (candy/plugin-bundle, P13) while the deploy KERNEL it drives "STAYS CORE" on exactly this "cannot cross
 the process boundary" claim — overruled as a boundary-law violation (the deploy-dispatch kernel is
 tracked K-wave residue, not permanent core). Full three-role breakdown: [`/charly-internals:agents`](/recipes/internals/agents/)
@@ -107,11 +108,14 @@ itself permanent.
 
 **A concrete kind's typed shape is R, not E.** The (E) envelope bucket is ONLY kind-AGNOSTIC carriers —
 `InstallPlan`, `VenueDescriptor`, `#Node`/`#Step`/`#Op`, the wire replies. A struct NAMED after a concrete
-kind, with kind-specific fields and accessors — `Candy`, `VmSpec`, `ResolvedBox` — is that kind's TYPED
-SHAPE: an R-item, moving to its owning kit/plugin (`Candy` → `sdk/buildkit`, alongside the
-already-relocated `ResolvedBox`). "Carries data" is not the E test; kind-AGNOSTIC is. Motivating incident:
-an auditor counted `layers.go`'s `Candy` struct (grep-verified: 60+ accessor methods, every one
-kind-specific) as E because it "carries data," then self-corrected.
+kind, with kind-specific fields and accessors, is that kind's TYPED SHAPE: an R-item, moving to its
+owning kit/plugin. `ResolvedBox` (now `spec.ResolvedBox`, CUE-generated) is the already-relocated
+precedent. "Carries data" is not the E test; kind-AGNOSTIC is. Motivating incident (CLOSED, kept as a
+historical illustration — do not cite `layers.go`'s `Candy` struct as a still-live example, it no longer
+exists in ANY form): an auditor counted `layers.go`'s then-current `Candy` struct (grep-verified: 60+
+accessor methods, every one kind-specific) as E because it "carries data," then self-corrected — the
+struct was later fully dissolved (not relocated wholesale) into the `spec.CandyModel`/`spec.CandyView`
+pair (W9), so `layers.go` today holds only kind-blind scan/parse functions, not the typed shape itself.
 
 **The practical audit framing — invert the default.** Every file is an R-item (it moves to a plugin)
 UNLESS it is LITERALLY one of the tiny kernel whitelist: the three in-core M-mechanisms (plugin loading /
@@ -183,17 +187,18 @@ it does not consume the sdk mechanism libraries, and it contains zero aliases/sh
    (compiled-in registry + go-plugin gRPC), prescan the CLI grammar from plugin-declared words, dispatch
    words→plugins (including the per-node kind-decode resolve+invoke a plugin's `Materializer` seam calls
    back into — the fold/not-found policy itself lives in `candy/plugin-loader`), and broker
-   the reverse channel (venue executors + `InvokeProvider`). → P16 gate (a): the file allowlist (~4k floor).
-2. **Core does not import the sdk mechanism layer.** Core imports only the protocol contract — `sdk/spec`
+   the reverse channel (venue executors + `InvokeProvider`). → P16 gate (a): the import-surface assertion (charly/import_purity_test.go — every charly/ file imports only spec/* + the proto/plugin-api contract + vetted third-party; the per-file allowlist is retired).
+2. **Core does not import the sdk mechanism layer.** Core imports only the protocol contract — `spec/spec`
    (wire types) + the proto/go-plugin packages + the Provider/Op vocabulary. `sdk/{kit,deploykit,
-   buildkit,loaderkit,vmshared,…}` are for plugins. → P16 gate (b): import-purity (`charly/` has zero
-   mechanism-kit imports; the migration-pattern residual import is the tracked "until-K<n>" exception).
+   buildkit,loaderkit,vmshared,…}` are for plugins. → P16 gate (b): import-purity (`charly/` has ZERO
+   `github.com/opencharly/sdk` references — prod, test, and go.mod; the #55 terminus closed the last tracked residuals).
 3. **Zero aliases/shims.** Every `charly/*_aliases.go` (`type X = deploykit.X`, `var y = kit.Y`) is a
    mid-cutover crutch that keeps a capability call site in core; the fix is never an alias — it is moving
    the call site into its owning plugin. → P16 gate (c): the `charly/*_aliases.go` glob is empty.
 
-**Why the seams die.** Today's config-resolve / config-persist / oci-inspect
-seams exist only because plugins could not load the project or touch the store. Once the loader is
+**Why the seams die.** Today's oci-inspect seam (the config-resolve / config-persist seams are
+ALREADY DELETED — the consumers self-serve via `sdk/loaderkit`, K-wave 2 cone R2 bank D) exists
+only because plugins could not load the project or touch the store. Once the loader is
 `sdk/loaderkit` (the kind-blind parse) and state is the flock'd,
 any-process-safe `sdk/kit` state family (`filelock.go` + `install_ledger.go` + `deployconfig.go`), a
 plugin just loads the project itself — same filesystem, same library — and the seam

@@ -169,7 +169,9 @@ runs a read-only probe for a true device_lock wedge (a `D`-state task in
 card it rebinds the whole group to vfio-pci and clears any stale poison marker.
 
 Implementation + full RCA: `candy/plugin-gpu/switch.go` (the switch primitive, cutover
-C9 — reached from core via the `charly/gpu_shim.go` driver-switch shims), the arbiter's
+C9 — reached from core via the plugin's `verb:gpu` dispatch; the former
+`charly/gpu_shim.go` driver-switch shims are DELETED, K-wave 2 cone R3 — the file now
+holds only `gpuProbeReply` + `DetectVFIO`), the arbiter's
 poisoning in `candy/plugin-preempt` (`arbiter_support.go`), `candy/plugin-vm/vm_gpu_cmd.go`
 (status/recover/plan); the arbiter side is [`/charly-internals:disposable`](/recipes/internals/disposable/)
 "resource-arbitration axis".
@@ -189,7 +191,7 @@ Output: `output/<type>/disk.<type>`. For cloud_image, also `output/<type>/seed.i
 
 The `--transport` flag (bootc only) controls how the container image is read: `registry` (pull from registry), `containers-storage` (local podman), `oci` (OCI dir), `oci-archive` (OCI tarball).
 
-Source: `charly/vm_build.go`, `charly/vm_cloud_image.go`.
+Source: `candy/plugin-vm/vm_build.go`, `candy/plugin-vm/vm_cloud_image.go` (the former `charly/vm_build.go`/`charly/vm_cloud_image.go` are DELETED, K-wave 2).
 
 ## VM Lifecycle
 
@@ -217,7 +219,7 @@ charly vm ssh <name> -- ls /tmp                         # run command via SSH
 only). Edits to the VM entity's `cloud_init:` block — runcmd entries, packages,
 charly_install strategy, network-config — take effect on the next `charly vm create`
 without requiring a full `charly vm build`. The qcow2 disk is left alone; only
-the seed ISO is rewritten (via `RegenerateSeedISO` in `charly/vm_cloud_image.go`).
+the seed ISO is rewritten (via `RegenerateSeedISO` in `candy/plugin-vm/vm_cloud_image.go`).
 Use `charly vm destroy --disk` + `charly vm build` when you need a truly fresh disk
 (e.g. when a previous failed cloud-init left stale state in `/home/<user>/`).
 
@@ -329,7 +331,7 @@ is missing, breaking every libvirt-RPC probe with a confusing
 timeout. `arch:` and `k3s-vm:` carry this pin (see [`/charly-check:check`](/recipes/check/check/)
 on disposable VM beds).
 
-Source: `charly/vm_backend_lifecycle.go` (`resolveVmBackend`, `startLibvirtUserSession`),
+Source: `candy/plugin-vm/vm_backend_resolve.go` (`resolveVmBackendPlugin`, over `vmshared.StartLibvirtUserSession` — the former `charly/vm_backend_lifecycle.go` is DELETED, K-wave 2),
 `candy/plugin-vm/vm_libvirt.go`, `candy/plugin-vm/vm_qemu.go`.
 
 ## BIOS vs UEFI decision matrix
@@ -395,7 +397,7 @@ Raw-XML escape hatch: the `<name>-libvirt` node's `libvirt.snippets:` (list of s
 
 Layer-level raw snippets: a candy's `charly.yml` `libvirt.snippets:` is supported for layers that contribute device XML (e.g., [`/charly-distros:qemu-guest-agent`](/recipes/distros/qemu-guest-agent/) contributes the virtio-serial channel). Box-level `libvirt: [...]` is not a valid field — VM XML lives on the VM entity's `<name>-libvirt` child node.
 
-Source: `charly/libvirt.go`, `sdk/vmshared/libvirt_yaml.go`, `candy/plugin-vm/libvirt_yaml_bridge.go`.
+Source: `candy/plugin-vm/libvirt.go` (`InjectLibvirtXML` — the former `charly/libvirt.go` is DELETED, K-wave 2), `sdk/vmshared/libvirt_yaml.go`, `candy/plugin-vm/libvirt_yaml_bridge.go`.
 
 ## Common Workflows
 
@@ -452,7 +454,7 @@ Non-obvious issues that surface only when VMs actually boot. [`/charly-vm:arch-c
 
 ### Privileged container needs `-v /dev:/dev` (bootc)
 
-`charly vm build` runs `bootc install to-disk --via-loopback` inside a privileged container. `--privileged` alone is not enough — the container's `/dev` is a tmpfs in its own mount namespace, so `losetup`'s `LOOP_CTL_GET_FREE` creates a `/dev/loopN` in the kernel but the node is invisible inside the container. `charly/vm_build.go` adds `-v /dev:/dev` so the container shares the host's `/dev`.
+`charly vm build` runs `bootc install to-disk --via-loopback` inside a privileged container. `--privileged` alone is not enough — the container's `/dev` is a tmpfs in its own mount namespace, so `losetup`'s `LOOP_CTL_GET_FREE` creates a `/dev/loopN` in the kernel but the node is invisible inside the container. `BuildBootcVM` (`candy/plugin-vm/vm_bootc_engine.go`, via `buildkit.RunPrivileged`) bind-mounts `/dev` so the container shares the host's `/dev` (the former `charly/vm_build.go` is DELETED, K-wave 2).
 
 ### virtqemud socket probing (libvirt ≥ 8.0)
 
@@ -578,4 +580,4 @@ Expected. The agent needs a `virtio-serial` channel that charly's QEMU backend d
 
 **Workflow position:** Standalone workflow. VM management is separate from container lifecycle, but `charly bundle add vm:<name>` bridges into the shared InstallPlan + DeployTarget machinery.
 
-Live-deploy verification: see [/charly-check:check](/recipes/check/check/) (the 10 Testing Standards) and [/charly-internals:disposable](/recipes/internals/disposable/).
+Live-deploy verification: see [/charly-check:check](/recipes/check/check/) (the 11 Testing Standards) and [/charly-internals:disposable](/recipes/internals/disposable/).

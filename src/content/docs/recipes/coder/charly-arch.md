@@ -67,9 +67,11 @@ nested-VM load, and [`/charly-distros:container-nesting`](/recipes/distros/conta
 ### Network + port publishing
 
 `charly-arch` uses the project-default `charly` bridge — so `charly-mcp`'s MCP URL
-rewriting (`rewriteMCPURLForHost` in `charly/mcp_client.go`) has published port
-mappings to work with. (That function also handles host-networked containers
-via `HostConfig.NetworkMode` detection, so the bridge isn't strictly required
+rewriting (`candy/plugin-mcp/resolve.go`, the host-port mapping via the
+`cc.ResolveEndpoint` reverse-leg) has published port
+mappings to work with. (That leg also handles host-networked containers
+via `HostConfig.NetworkMode` detection — `ContainerInspection.IsHostNetworked()` in
+`sdk/kit/checkvars.go` — so the bridge isn't strictly required
 — but it remains the portable default.) If host-port 2222 is already taken by
 another running box (canonical conflict: [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/)
 or any `selkies-desktop-*` variant), remap at config time:
@@ -159,7 +161,9 @@ The [`/charly-distros:nvidia`](/recipes/distros/nvidia/) candy provides NVIDIA G
 - `nvidia-utils` — `nvidia-smi` and driver userspace
 - `nvidia-container-toolkit` — `nvidia-ctk` for CDI spec generation
 
-`charly` automatically calls `EnsureCDI()` before launching GPU
+`charly` triggers CDI regeneration plugin-side (`pluginEnsureCDI` in
+`candy/plugin-preempt/holder_dispatch.go`, via `spec.GpuSwitchActionEnsureCDI` — the
+former in-core `EnsureCDI()` shim is DELETED, K-wave 2 cone R3) before launching GPU
 containers. GPU access works at any nesting depth.
 
 ## Verification

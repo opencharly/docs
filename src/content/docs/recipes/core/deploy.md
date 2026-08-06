@@ -396,13 +396,13 @@ Path: `~/.config/containers/systemd/charly-<image>.container` (or `charly-<image
 Contents include:
 - `[Container]` section: image reference, container name, port mappings, volumes, environment
 - `[Service]` section: restart policy, lifecycle hooks
-- `[Install]` section: `WantedBy=default.target` (omitted for encrypted services without keyring backend)
+- `[Install]` section: `WantedBy=default.target` (omitted only when encrypted volumes are backed by the `config` secret backend)
 - `PodmanArgs=` for security settings (privileged, capabilities, devices)
 - `Volume=` for named volumes and plain bind mounts
 - `Environment=` / `EnvironmentFile=` for env vars
 - `ExecStartPost=` / `ExecStopPost=` for tunnel commands
 
-Service name: `charly-<image>.service`. Container name: `charly-<image>`. Entrypoint: determined by the embedded `init:` vocabulary for the configured init system. Encrypted volumes are mounted via `ExecStartPre=charly config mount` in the quadlet, which creates transient `charly-enc-<image>-<volume>.scope` units for each encrypted volume. These scope units are independent of the container service — they survive stop/restart (see [`/charly-automation:enc`](/recipes/automation/enc/)). With Secret Service backend: auto-starts after login (ExecStartPre waits for keyring unlock, `TimeoutStartSec=0`). With KeePass or no backend: requires `charly start` (no `WantedBy=default.target`).
+Service name: `charly-<image>.service`. Container name: `charly-<image>`. Entrypoint: determined by the embedded `init:` vocabulary for the configured init system. Encrypted volumes are mounted via `ExecStartPre=charly config mount` in the quadlet, which creates transient `charly-enc-<image>-<volume>.scope` units for each encrypted volume. These scope units are independent of the container service — they survive stop/restart (see [`/charly-automation:enc`](/recipes/automation/enc/)). The boot gate is the **secret backend**: with a keyring-class backend (`keyring`, `auto`, or unset) the deploy starts at boot, and `ExecStartPre` blocks in the mount until the keyring unlocks (`TimeoutStartSec=0`, so it waits indefinitely rather than failing); with `secret_backend: config` there is no `WantedBy=default.target` and the deploy needs an explicit `charly start` — a security decision recorded at sdk#121, because a passphrase stored in cleartext must not be auto-mounted, unattended, at every boot.
 
 ### Security in Quadlet
 
@@ -413,13 +413,13 @@ Layer and image-level security settings become `PodmanArgs=` in the quadlet file
 - `devices` -> `PodmanArgs=--device=<DEV>`
 - `security_opt` -> `PodmanArgs=--security-opt=<OPT>`
 
-Source: `charly/security.go`, `charly/quadlet.go`.
+Source: `sdk/deploykit/security.go`, `sdk/deploykit/quadlet.go`.
 
 ### Image Transfer
 
 When `engine.build=docker`, `charly config` auto-detects if the image is missing from podman and transfers via `docker save | podman load`. `charly update` re-transfers if needed.
 
-Source: `charly/quadlet.go` (generation), `charly/commands.go` (command structs).
+Source: `sdk/deploykit/quadlet.go` + `sdk/deploykit/quadlet_pod.go` (generation), `charly/commands.go` (command structs).
 
 ## Tunnel Configuration
 
@@ -439,7 +439,7 @@ tunnel:
 
 **`bind_address` must be `127.0.0.1` (the default).** Setting `0.0.0.0` causes the container to bind on the Tailscale interface, preventing Tailscale from intercepting TLS. Result: HTTPS fails with `wrong version number`.
 
-**Port form in `charly.yml`.** The canonical form is bare `H:C` (e.g. `8888:8888`); `charly config` prepends `127.0.0.1:` automatically when a tunnel is set. The IP-prefixed form `127.0.0.1:8888:8888` (and IPv6 `[::1]:8888:8888`) is also accepted — the canonical `ParsePortMapping` helper in `charly/ports.go` normalizes both shapes to a single-prefixed `PublishPort=` line, so neither form produces a doubled `127.0.0.1:127.0.0.1:8888:8888` quadlet. Unparseable port strings are logged loudly to stderr rather than silently dropped (a silent skip would otherwise suppress the entire `ExecStartPost=tailscale serve` block when even one port couldn't be parsed).
+**Port form in `charly.yml`.** The canonical form is bare `H:C` (e.g. `8888:8888`); `charly config` prepends `127.0.0.1:` automatically when a tunnel is set. The IP-prefixed form `127.0.0.1:8888:8888` (and IPv6 `[::1]:8888:8888`) is also accepted — the canonical `ParsePortMapping` helper in `spec/spec/port_mapping.go` normalizes both shapes to a single-prefixed `PublishPort=` line, so neither form produces a doubled `127.0.0.1:127.0.0.1:8888:8888` quadlet. Unparseable port strings are logged loudly to stderr rather than silently dropped (a silent skip would otherwise suppress the entire `ExecStartPost=tailscale serve` block when even one port couldn't be parsed).
 
 ### Tailscale Funnel (public internet)
 
@@ -534,7 +534,7 @@ Port protocols are stored in the `ai.opencharly.port_proto` image label so deplo
 
 `tunnel` inherits from defaults (image -> defaults -> nil). The shorthand `tunnel: tailscale` defaults to `private: all` (all ports on tailnet). The shorthand `tunnel: cloudflare` defaults to `public: all`.
 
-Source: `charly/tunnel.go` (resolution + the shared `schemeTarget`/`tailscaleFlag`/`isTCPFamily` helpers), `charly/tunnel_plugin.go` (the core adapter forwarding `TunnelStart`/`TunnelStop`/`cloudflareTunnelSetup` to `verb:tunnel`), `candy/plugin-tunnel` (the externalized tailscale/cloudflared EXECUTION leg — C16b), `charly/quadlet.go` (systemd integration). Tunnel config is a deploy-time concern (charly.yml only) — not validated at image-validate time.
+Source: `sdk/deploykit/tunnel_resolve.go` (resolution + the shared `schemeTarget`/`tailscaleFlag`/`isTCPFamily` helpers — the former `charly/tunnel.go` is DELETED, K-wave 2), `candy/plugin-tunnel` (the `verb:tunnel` EXECUTION leg — `tunnel_exec.go` runs the tailscale serve/funnel + cloudflared lifecycle; the former core dispatch adapter `charly/tunnel_plugin.go` is DELETED, K-wave 2), `candy/plugin-deploy-pod` / `candy/plugin-pod` (the pod-lifecycle plugins that resolve a `TunnelConfig` and drive `verb:tunnel` directly), `sdk/deploykit/quadlet.go` (systemd integration). Tunnel config is a deploy-time concern (charly.yml only) — not validated at image-validate time.
 
 ## charly.yml — Source of Truth
 
@@ -635,7 +635,7 @@ selkies-desktop:
       cpus: "4.0"
 ```
 
-**Merge semantics** (authoritative, from `charly/security.go`):
+**Merge semantics** (authoritative, from `sdk/deploykit/security.go`):
 
 | Source | Merge rule |
 |---|---|
@@ -651,7 +651,7 @@ Quadlet emission (`[Service]` section of `.container` file):
 - `memory_swap_max` → `MemorySwapMax=2G`
 - `cpus` → `CPUQuota=400%` (systemd percentage form: 1 core = 100%)
 
-Direct-mode emission (podman run flags, for `engine.run=direct`): `--memory`, `--memory-reservation`, `--memory-swap`, `--cpus`. `SecurityArgs` in `charly/security.go` emits both forms from the same source of truth.
+Direct-mode emission (podman run flags, for `engine.run=direct`): `--memory`, `--memory-reservation`, `--memory-swap`, `--cpus`. `SecurityArgs` in `sdk/deploykit/security.go` emits both forms from the same source of truth.
 
 **Unset fields pass through** — setting `--memory-max=6g` alone will not wipe an existing `shm_size` from charly.yml. Only the fields you pass on the CLI get overwritten; everything else is preserved from the current charly.yml state.
 
@@ -742,7 +742,7 @@ charly start selkies-desktop -i work
 charly start selkies-desktop -i personal
 ```
 
-**Deploy key convention:** Base images use `selkies-desktop` as the charly.yml key. Instances use `selkies-desktop/work` (slash-separated). Functions: `deployKey()` constructs keys, `parseDeployKey()` splits them back. Source: `charly/deploy.go`.
+**Deploy key convention:** Base images use `selkies-desktop` as the charly.yml key. Instances use `selkies-desktop/work` (slash-separated). Functions: `DeployKey()` constructs keys, `ParseDeployKey()` splits them back (`spec/spec/deploy_key.go` — the former `charly/deploy.go` is DELETED, K-wave 2).
 
 **Container naming:** `charly-<image>-<instance>` (e.g., `charly-selkies-desktop-work`). Quadlet file: `charly-selkies-desktop-work.container`.
 
@@ -829,7 +829,7 @@ immich:
 
 ### Resolution Flow
 
-`ResolveVolumeBacking()` in `charly/deploy.go` splits image volumes into named volumes and bind-backed mounts:
+`ResolveVolumeBacking()` in `sdk/deploykit/deploy_volume.go` splits image volumes into named volumes and bind-backed mounts:
 
 1. Load all volumes from image labels (`ai.opencharly.volume`)
 2. Load charly.yml volume overrides for this image
@@ -847,7 +847,7 @@ immich:
 - **`charly remove --purge`**: removes named volumes (also encrypted volumes + the `<name>-overlay` images — see [`/charly-core:remove`](/recipes/core/remove/))
 - **`charly box inspect --format bind_mounts`**: outputs deploy-configured volume backing
 
-Source: `charly/deploy.go` (`DeployVolumeConfig`, `ResolveVolumeBacking`), `charly/enc.go` (`ResolvedBindMount`).
+Source: `charly/deploy.go` (`DeployVolumeConfig`, `ResolveVolumeBacking`), `candy/plugin-deploy-pod/resolve.go` (`deploykit.ResolvedBindMount` — the former `charly/enc.go` is DELETED, K-wave 2).
 
 ## VNC Password for Deployments
 
@@ -952,7 +952,8 @@ selkies-desktop:
 
 A physical host resource can be held by only ONE deployment at a time — the
 canonical case is a GPU passed through to a VM via VFIO. The resource arbiter
-(`charly/preempt.go`) frees such a resource on demand and gives it back.
+(the compiled-in `verb:arbiter`, `candy/plugin-preempt`) frees such a resource
+on demand and gives it back.
 
 ```yaml
 gpu-workstation:                   # HOLDER — a long-running operator VM
@@ -1109,7 +1110,7 @@ webapp:                            # an operator deploy + a companion member
   a hard load error) and carry **no `.`** (same rules as nested-member keys + bed
   names); the author keeps member **host ports disjoint** (the loader does not check
   ports — port absence, i.e. auto-allocation, avoids fixed-port collisions).
-- **One shared lifecycle (R3).** `bringUpMembers` / `tearDownMembers` (`charly/bundle_members.go`)
+- **One shared lifecycle (R3).** `BringUpMembers` / `TearDownMembers` (`sdk/deploykit/bundle_members.go`)
   bring members up after the owner and tear them down with it, by shelling out to the
   SAME verbs — a pod member via `charly config` + `charly start` (+ readiness wait), a
   non-pod member via `charly bundle add` / `charly bundle del`. Wired into `charly bundle add` /
@@ -1136,7 +1137,7 @@ webapp:                            # an operator deploy + a companion member
 **Deploy surface:**
 - [`/charly-local:local-deploy`](/recipes/local/local-deploy/) — Local-target execution model: the external `deploy:local` plugin, ledger, gates, 15 ReverseOp kinds, sudo batching
 - [`/charly-internals:install-plan`](/recipes/internals/install-plan/) — The InstallPlan IR shared by the deploy targets: ALL FIVE substrates (local/vm/pod/k8s/android) are external out-of-process deploys via plugins over the executor reverse channel — local/vm consume the IR via `kit.WalkPlans` (vm's walk runs inside the guest); pod's plugin walks nothing — its candy `plugin-deploy-pod` lifecycle builds the overlay host-side: the core `overlay` host-builder runs the prep+resolve M-seam, the candy renders the overlay in its own code via `deploykit.OCITarget` + `deploykit.NewRenderGeneratorFromProject` (`add_candy:` synthesis, P11c); `charly box build` itself emits via the separate WriteCandySteps → EmitTasks generator in `sdk/deploykit` (relocated in #67), not the IR
-- [`/charly-internals:local-infra`](/recipes/internals/local-infra/) — Supporting Go files for local deploys: hostdistro, ledger, builder_run, shell_profile, reverse_ops, service_render, deploy_ref
+- [`/charly-internals:local-infra`](/recipes/internals/local-infra/) — Supporting Go files for local deploys: hostdistro, ledger, builder_run, shell_profile, reverse_ops, `sdk/deploykit/compile_service_steps.go` (service_render, relocated), `candy/plugin-bundle/deploy_ref.go` (deploy_ref, relocated)
 
 **Deploy-adjacent commands:**
 - [`/charly-build:pull`](/recipes/build/pull/) — Prerequisite: fetch the image into local storage; handles remote refs (`@github.com/...`) and the `ErrImageNotLocal` recovery path
@@ -1177,4 +1178,4 @@ The loader raises a hard load-time error on obsolete deploy names (the retired `
 **Workflow position:** After [`/charly-build:build`](/recipes/build/build/), before [`/charly-core:service`](/recipes/core/service/).
 Previous step: [`/charly-build:build`](/recipes/build/build/) (build the image). Next step: [`/charly-core:service`](/recipes/core/service/) (start, status, logs).
 
-Live-deploy verification: see [/charly-check:check](/recipes/check/check/) (the 10 Testing Standards) and [/charly-internals:disposable](/recipes/internals/disposable/).
+Live-deploy verification: see [/charly-check:check](/recipes/check/check/) (the 11 Testing Standards) and [/charly-internals:disposable](/recipes/internals/disposable/).

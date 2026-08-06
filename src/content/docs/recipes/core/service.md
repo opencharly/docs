@@ -100,8 +100,8 @@ charly remove my-app -e KEY=VALUE      # Set env vars for lifecycle hooks
 - Container name: `charly-<image>`
 - Ports bound to configured `bind_address`
 - Entrypoint: determined by the embedded `init:` vocabulary (e.g., `supervisord -n -c /etc/supervisord.conf` for supervisord, `sleep infinity` if no init system)
-- Auto-restart on failure via `WantedBy=default.target` (encrypted services with Secret Service backend include `ExecStartPre=charly config mount` + `TimeoutStartSec=0` for keyring wait; KeePass/no backend omit `WantedBy` — require `charly start`)
-- `charly box validate` enforces: images with init system layers MUST include the required dependency layer (defined by the embedded `init:` vocabulary `depends_candy`)
+- Auto-restart on failure via `WantedBy=default.target` (encrypted services with a keyring-class secret backend also carry `ExecStartPre=charly config mount` + `TimeoutStartSec=0`, so they start at boot and wait for the keyring to unlock; with `secret_backend: config` there is no `WantedBy` — they require `charly start`)
+- The required dependency layer is INJECTED, not policed: a box composing a `service:` candy has the active init's `depends_candy` (from the embedded `init:` vocabulary) added to its composition automatically, so a box never has to list `supervisord` by hand and can no longer be missing it.
 - `Secret=charly-<image>-<name>,target=/run/secrets/<name>` for each layer-declared secret (Podman only)
 
 ### Container Secrets
@@ -133,7 +133,7 @@ Layer and image-level security settings become `PodmanArgs=` in the quadlet file
 - `devices` -> `PodmanArgs=--device=<DEV>`
 - `security_opt` -> `PodmanArgs=--security-opt=<OPT>`
 
-Source: `charly/security.go`, `charly/quadlet.go`.
+Source: `sdk/deploykit/security.go`, `sdk/deploykit/quadlet.go`.
 
 ### Image Transfer
 
@@ -169,7 +169,7 @@ charly service status my-app -i prod       # Named instance
 
 The service name must match an entry in the image's init system config. Available services are validated against the image's `ai.opencharly.service.<init>` label (e.g., `ai.opencharly.service.supervisord`). The management tool and commands are resolved from the embedded `init:` vocabulary at build time and **baked into the `ai.opencharly.init_def` label**; `charly service …` reads that label (so any vocabulary-declared init system — including custom ones — works at runtime, not just at build), falling back to the built-in `supervisord`/`systemd` registry only for images built before the label existed.
 
-Source: `charly/service.go`.
+Source: `candy/plugin-pod/command.go` + `candy/plugin-pod/service_resolve.go` (the `charly service` command — the former `charly/service.go` is DELETED, K-wave 2).
 
 ## Lifecycle Hooks
 
@@ -191,7 +191,7 @@ hook:
 
 Hooks from multiple layers are concatenated in layer order. Scripts run on the host (not inside the container). Use `charly remove -e KEY=VALUE` to pass environment variables to hook scripts.
 
-Source: `charly/hooks.go`.
+Source: `sdk/deploykit/hooks_collect.go` (`CollectHooks` — the former `charly/hooks.go` is DELETED, K-wave 2).
 
 ## Multi-Instance Support
 
@@ -210,11 +210,11 @@ Instance naming affects:
 - Quadlet file: `charly-<image>.container` -> `charly-<image>-<instance>.container`
 - Service name: `charly-<image>.service` -> `charly-<image>-<instance>.service`
 
-Source: `charly/volumes.go` (`InstanceVolumes`), `charly/quadlet.go`.
+Source: `sdk/deploykit/deploy_volume.go` (`VolumeMount`, `ResolveVolumeBacking`), `sdk/deploykit/quadlet.go` (the former `charly/volumes.go` is DELETED, K-wave 2).
 
 ## Data Provisioning
 
-Data from data candies is automatically provisioned into bind-backed volumes during `charly config` and synced during `charly update`. See [`/charly-core:charly-config`](/recipes/core/charly-config/) for `--seed`/`--force-seed`/`--data-from` flags. Source: `charly/data.go`.
+Data from data candies is automatically provisioned into bind-backed volumes during `charly config` and synced during `charly update`. See [`/charly-core:charly-config`](/recipes/core/charly-config/) for `--seed`/`--force-seed`/`--data-from` flags. Source: `sdk/deploykit/data.go` (the former `charly/data.go` is DELETED, K-wave 2).
 
 ## Troubleshooting
 
