@@ -5,11 +5,39 @@ sidebar:
   order: 1
 ---
 
-There are two ways to run `charly`, and they are deliberately kept apart: a **development
-checkout**, where the binary belongs to that checkout and nothing is installed system-wide, and a
-**native package**, for using `charly` as a tool on your host.
+**Install `charly` as a native package for your distribution.** That is the supported way to run
+it, and it is what the rest of this site assumes: every other page is written for a machine with
+`charly` installed and no charly checkout anywhere.
 
-## Development checkout
+A development checkout is the other thing on this page, and it is for working ON charly — not for
+using it.
+
+## Install (native package)
+
+Build the package from a source tree once, then install it with your own package manager. The
+install step is always yours to run: no task installs anything system-wide.
+
+```bash
+task build:pkg:arch   && sudo pacman -U dist/*.pkg.tar.zst    # Arch / CachyOS / Manjaro
+task build:pkg:fedora && sudo dnf install dist/*.rpm          # Fedora
+task build:pkg:debian && sudo apt install ./dist/*.deb        # Debian / Ubuntu
+```
+
+Each `build:pkg:*` task drives `charly box pkg`, which builds the repository's bundled
+native-package sources into a plain artifact under `dist/`. The system-wide install is an explicit,
+separate command — never a side effect of building.
+
+The Arch package's `pkgver()` derives the same CalVer `charly version` prints, so
+`pacman -Q opencharly-git` and `charly version` always agree. Its dependencies cover the full
+runtime surface — `podman`, `fuse-overlayfs` and `slirp4netns` for rootless containers,
+`qemu-full`, `libvirt`, `edk2-ovmf` and `swtpm` for `charly vm`, and `gnupg`, `pinentry`,
+`gocryptfs` and `tailscale` for secrets, encrypted volumes and tunnels.
+
+Once installed, `charly` needs nothing else: `--repo <owner>/<repo>` reads a published project
+straight from git, and `charly box new project <dir>` starts one of your own. Nothing on this site
+asks you to clone this repository.
+
+## Development checkout (working ON charly)
 
 Requires Go 1.26+ and [go-task](https://taskfile.dev).
 
@@ -33,26 +61,6 @@ that look like real bugs. If anything behaves strangely, re-run `task build:bina
 To start your own project, create a `charly.yml` and a `candy/` directory in any directory.
 Projects predating the current schema convert in one shot with `charly migrate`, a single
 idempotent pass to the latest CalVer schema.
-
-## Native packages
-
-For end users who want `charly` on the host system:
-
-```bash
-task build:pkg:arch   && sudo pacman -U dist/*.pkg.tar.zst    # Arch / CachyOS / Manjaro
-task build:pkg:fedora && sudo dnf install dist/*.rpm          # Fedora
-task build:pkg:debian && sudo apt install ./dist/*.deb        # Debian / Ubuntu
-```
-
-Each `pkg:*` task drives `charly box pkg`, which builds the repository's bundled native-package
-sources into a plain artifact under `dist/`. The system-wide install step is always an explicit,
-separate command — never a side effect of building.
-
-The Arch package's `pkgver()` derives the same CalVer `charly version` prints, so
-`pacman -Q opencharly-git` and `charly version` always agree. Its dependencies cover the full
-runtime surface — `podman`, `fuse-overlayfs` and `slirp4netns` for rootless containers,
-`qemu-full`, `libvirt`, `edk2-ovmf` and `swtpm` for `charly vm`, and `gnupg`, `pinentry`,
-`gocryptfs` and `tailscale` for secrets, encrypted volumes and tunnels.
 
 ## A personal binary on your `$PATH`
 

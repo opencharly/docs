@@ -1,7 +1,7 @@
 # opencharly/docs
 
-The documentation site for [OpenCharly](https://github.com/opencharly/charly) — the candy
-factory for you and your agents. Published at **[opencharly.ai](https://opencharly.ai)**.
+The documentation site for [OpenCharly](https://github.com/opencharly/charly) — the fully
+stocked gourmet kitchen for you and your agents. Published at **[opencharly.ai](https://opencharly.ai)**.
 
 Built with [Starlight](https://starlight.astro.build/) on Astro, deployed by Cloudflare Pages on
 every push to `main`.
@@ -13,11 +13,14 @@ The site has two halves, and they are maintained very differently.
 **Hand-written** — the pages a website needs and a repository does not have:
 
 ```
-src/content/docs/index.mdx         the home page
 src/content/docs/start/            install, quickstart
 src/content/docs/concepts/         candies & boxes, candyboxing, lifecycle, RDD/ADE, schema
 src/content/docs/guides/           authoring a plugin, the CLI
 ```
+
+The home page used to be here. It is now generated from the superproject's `README.md`, because
+two thirds of it was README prose maintained twice across a submodule boundary — and had already
+drifted. To change the front page, change the README.
 
 **Generated** — everything that already exists in the source repository, projected rather than
 copied, because a copy drifts and a projection cannot:
