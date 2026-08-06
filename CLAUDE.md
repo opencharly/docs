@@ -10,7 +10,8 @@ You are in the **opencharly/docs** submodule: the Starlight site published at op
 - `/charly-internals:skills` — when the change touches the skill corpus this site publishes.
 
 **Generated pages are not editable here.** `index.md`, `vision.md`, `grievances.md`,
-`reference/**` and `recipes/**` are emitted by `charly docs generate` and carry a `DO-NOT-EDIT`
+`liberation.md`, `reference/**` and `recipes/**` are emitted by `charly docs generate` and carry a
+`DO-NOT-EDIT`
 header; edit the SOURCE in the superproject (or the plugins submodule) and re-run `task docs:sync`.
 Only `start/`, `concepts/` and `guides/` are edited in this repo.
 
