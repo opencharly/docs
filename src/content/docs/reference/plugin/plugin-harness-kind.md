@@ -75,8 +75,9 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 // validates against #MarketplaceInput at load and this plugin's Invoke canonicalises through
 // spec.Marketplace.
 #MarketplaceInput: close({
-	name:    string & =~"^[a-z][a-z0-9-]*$"         // "charly-plugins" (the marketplace name)
-	version: string & =~"^[0-9]+[.][0-9]+[.][0-9]+$" // marketplace.json metadata.version
+	name:        string & =~"^[a-z][a-z0-9-]*$"         // "charly-plugins" (the marketplace name)
+	version:     string & =~"^[0-9]+[.][0-9]+[.][0-9]+$" // marketplace.json metadata.version
+	description?: string & !=""                          // marketplace.json metadata.description
 	families: {[string]: #MarketplaceFamilyInput}    // family name → its metadata (plugins/ dir = family)
 	settings?: #MarketplaceSettingsInput              // the harness wiring data
 })

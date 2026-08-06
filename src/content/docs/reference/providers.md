@@ -57,6 +57,7 @@ Every reserved word charly can dispatch, and the plugin candy that serves it. A 
 | `inspect` | [plugin-box](/reference/plugin/plugin-box/) |
 | `list` | [plugin-box](/reference/plugin/plugin-box/) |
 | `logs` | [plugin-pod](/reference/plugin/plugin-pod/) |
+| `marketplace` | [plugin-marketplace](/reference/plugin/plugin-marketplace/) |
 | `mcp` | [plugin-mcp](/reference/plugin/plugin-mcp/) |
 | `migrate` | [plugin-migrate](/reference/plugin/plugin-migrate/) |
 | `new` | [plugin-box](/reference/plugin/plugin-box/) |
