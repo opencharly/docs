@@ -70,7 +70,7 @@ This is the **single entry point** for **container** deployment setup. `charly s
 | `--no-seed` | | | Disable data seeding |
 | `--force-seed` | | | Re-seed even if target directory is not empty |
 | `--data-from` | | | Seed data from a different data image |
-| `--no-autodetect` | | | Disable GPU/device auto-detection (skips DRINODE, DRI_NODE, HSA_OVERRIDE_GFX_VERSION injection) |
+| `--no-auto-detect` | | | Disable GPU/device auto-detection (skips DRINODE, DRI_NODE, HSA_OVERRIDE_GFX_VERSION injection) |
 | `--ssh-key` | | `auto` | SSH public key: `auto` (default ~/.ssh key), path to .pub file, `generate`, or `none` |
 | `--update-all` | | | Regenerate quadlets for all other deployed images to pick up service env changes |
 | `--memory-max` | | | Cgroup `memory.max` hard OOM limit (e.g. `6g`, `500m`). Persists to charly.yml. |
@@ -604,4 +604,4 @@ Source: `charly/envfile.go` (`normalizeNoProxy`), `charly/deploy.go` (`mergeEnvV
 
 Source: `charly/config_image.go` (command structs), `charly/quadlet.go` (quadlet generation), `charly/deploy.go` (deploy state), `charly/enc.go` (encrypted volumes), `charly/secrets.go` (secret provisioning), `charly/data.go` (data seeding).
 
-Live-deploy verification: see [/charly-check:check](/recipes/check/check/) (the 10 Testing Standards) and [/charly-internals:disposable](/recipes/internals/disposable/).
+Live-deploy verification: see [/charly-check:check](/recipes/check/check/) (the 11 Testing Standards) and [/charly-internals:disposable](/recipes/internals/disposable/).
