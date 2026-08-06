@@ -16,8 +16,9 @@ system (cloud-init user-data/meta/net, k8s manifests + kustomization, traefik
 routes, install-ledger records, the Containerfile + systemd/supervisord units,
 the libvirt domain XML) against a CUE schema BEFORE the bytes hit disk. The
 validation logic + the egress CUE schemas (incl. the vendored cloud-config) live
-here; charly's in-core ValidateEgress* functions are a thin shim that Invokes this
-plugin's OpValidate. Compiled-in (the build/deploy hot paths call it many times).
+here; the ValidateEgress* functions (candy/plugin-bundle/egress.go — the former
+charly/egress.go is DELETED, K-wave 2) Invoke this plugin's OpValidate. Compiled-in
+(the build/deploy hot paths call it many times).
 
 ## Acceptance plan
 
