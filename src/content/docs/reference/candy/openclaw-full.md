@@ -40,7 +40,7 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 | `check` | ffmpeg is present from the composed ffmpeg candy |
 | `check` | the GitHub CLI gh is present from the composed gh candy |
 | `check` | the uv Python package manager is composed into the image at /usr/local/bin/uv |
-| `agent-check` | the running OpenClaw gateway exposes the fleetdverb CLI tools to agent requests without relying on a system browser |
+| `agent-check` | the running OpenClaw gateway exposes the bundled CLI tools to agent requests without relying on a system browser |
 | `check` | package=ripgrep |
 | `check` | file=/usr/bin/git |
 | `check` | file=/usr/local/bin/uvx |

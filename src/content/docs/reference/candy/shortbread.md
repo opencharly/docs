@@ -32,10 +32,10 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 | `run` | mkdir=/workspace/tiles/shortbread |
 | `check` | the tilemaker binary built from systemed/tilemaker source is installed under /usr/local/bin |
 | `check` | tilemaker resolves on PATH so the notebook DAG can invoke it (tilemaker ships no --version flag, so resolve by name) |
-| `check` | the shortbread per-feature Lua classifier is fleetdverb for tilemaker --process |
-| `check` | the shortbread layer and zoom schema definition is fleetdverb for tilemaker --config |
+| `check` | the shortbread per-feature Lua classifier is bundled for tilemaker --process |
+| `check` | the shortbread layer and zoom schema definition is bundled for tilemaker --config |
 | `check` | the cloned fleet has its .git history stripped to keep the image small |
 | `check` | the versatiles-watched output directory is pre-created at build time so versatiles serve starts cleanly on a fresh deploy |
-| `agent-check` | a tilemaker run converts an OSM PBF into a monaco-shortbread.pmtiles archive in that directory using the fleetdverb config.json and process.lua |
+| `agent-check` | a tilemaker run converts an OSM PBF into a monaco-shortbread.pmtiles archive in that directory using the bundled config.json and process.lua |
 | `check` | package=lua |
 | `check` | command=test -d /workspace/tiles/shortbread |
