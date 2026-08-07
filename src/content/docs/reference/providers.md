@@ -57,6 +57,7 @@ Every reserved word charly can dispatch, and the plugin candy that serves it. A 
 | `inspect` | [plugin-box](/reference/plugin/plugin-box/) |
 | `list` | [plugin-box](/reference/plugin/plugin-box/) |
 | `logs` | [plugin-pod](/reference/plugin/plugin-pod/) |
+| `marketplace` | [plugin-marketplace](/reference/plugin/plugin-marketplace/) |
 | `mcp` | [plugin-mcp](/reference/plugin/plugin-mcp/) |
 | `migrate` | [plugin-migrate](/reference/plugin/plugin-migrate/) |
 | `new` | [plugin-box](/reference/plugin/plugin-box/) |
@@ -109,12 +110,15 @@ Every reserved word charly can dispatch, and the plugin candy that serves it. A 
 | `examplekind` | [plugin-example-kind](/reference/plugin/plugin-example-kind/) |
 | `examplestructkind` | [plugin-example-structkind](/reference/plugin/plugin-example-structkind/) |
 | `group` | [plugin-group](/reference/plugin/plugin-group/) |
+| `hook` | [plugin-harness-kind](/reference/plugin/plugin-harness-kind/) |
 | `init` | [plugin-init](/reference/plugin/plugin-init/) |
 | `k8s` | [plugin-substrate](/reference/plugin/plugin-substrate/) |
 | `local` | [plugin-substrate](/reference/plugin/plugin-substrate/) |
+| `marketplace` | [plugin-harness-kind](/reference/plugin/plugin-harness-kind/) |
 | `pod` | [plugin-substrate](/reference/plugin/plugin-substrate/) |
 | `resource` | [plugin-resource](/reference/plugin/plugin-resource/) |
 | `sidecar` | [plugin-sidecar](/reference/plugin/plugin-sidecar/) |
+| `skill` | [plugin-harness-kind](/reference/plugin/plugin-harness-kind/) |
 | `vm` | [plugin-substrate](/reference/plugin/plugin-substrate/) |
 
 ## `loader`

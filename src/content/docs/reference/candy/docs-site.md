@@ -36,6 +36,8 @@ skill corpus with its cross-references rewritten into site links, and — the
 load-bearing one — the page of a plugin that is NOT compiled into the charly binary,
 rendering both its runtime placement and its CUE parameter schema. That last check is
 what fails if the generator ever narrows to documenting only the default-active set.
+The deliberately-last liberation easter-egg page is asserted too — the bed fails the
+moment that page stops shipping.
 
 ## Acceptance plan
 
@@ -54,3 +56,4 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 | `check` | a recipe card from the skill corpus rendered, with its harness cross-references rewritten into working site links |
 | `check` | a RUNTIME (out-of-process) plugin's page renders both its placement and its CUE parameter schema — the assertion that fails if the generator ever documents only what is compiled in |
 | `check` | the provider cross-index resolves every reserved word to its owning plugin |
+| `check` | the easter-egg liberation page rendered (fails without the page) |
