@@ -22,7 +22,7 @@ description: "VersaTiles SDF font glyphs for MapLibre GL JS."
 ## What it ships
 
 `versatiles-org/versatiles-fonts` releases a `fonts.tar.gz` containing
-all 10 font families pre-rendered as SDF (signed distance field) PBFs
+all the font families pre-rendered as SDF (signed distance field) PBFs
 that MapLibre GL JS can fetch via its standard glyph URL template:
 
 ```

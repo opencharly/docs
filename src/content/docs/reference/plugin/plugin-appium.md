@@ -27,7 +27,7 @@ a standalone Go module (go.mod + main.go) that drives a running Appium 3.x
 server over go-plugin gRPC via the charly plugin SDK (github.com/opencharly/sdk).
 charly's loader fetches this candy's repo, go-builds the provider binary on
 the HOST, and serves it OUT-OF-PROCESS via LocalTransport — so the heavy
-github.com/tebeka/selenium dependency (and ~80 transitive packages) lives
+github.com/tebeka/selenium dependency (and transitive packages) lives
 HERE, out of charly's core go.mod, while `appium:` authoring stays
 unchanged: the `appium: <method>` sugar desugars to plugin/plugin_input —
 the method + every appium-exclusive modifier ride the input map, validated
