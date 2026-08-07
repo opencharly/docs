@@ -88,7 +88,7 @@ my-dev:
 
 ## Related Candies
 - [`/charly-coder:gh`](/recipes/coder/gh/) — Sibling GitHub CLI commonly paired with dev-tools
-- [`/charly-coder:devops-tools`](/recipes/coder/devops-tools/) — Sibling DevOps cloud CLI collection in bootc images
+- [`/charly-coder:devops-tools`](/recipes/coder/devops-tools/) — Sibling DevOps cloud CLI bundle in bootc images
 - [`/charly-coder:build-toolchain`](/recipes/coder/build-toolchain/) — Sibling C/C++ toolchain in bootc image stacks
 
 ## Related Boxes

@@ -26,5 +26,5 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 | `check` | the oracle executable is installed at ${HOME}/.npm-global/bin/oracle |
 | `check` | running oracle --version exits cleanly |
 | `agent-check` | the oracle CLI and its nodejs runtime are installed in the image |
-| `agent-check` | a user runs oracle with a fleetdverb prompt against its configured AI engines |
+| `agent-check` | a user runs oracle with a bundled prompt against its configured AI engines |
 | `agent-check` | oracle dispatches the prompt to each configured engine and returns their answers |
