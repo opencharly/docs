@@ -19,7 +19,7 @@ meant to be accessed via `ssh -p 2222` or `charly shell`.
 > **`box/fedora`**), discovered as a `box/<name>/charly.yml` box. Its base
 > stack (`fedora-nonfree` → `fedora`) is bare-local in the same self-contained
 > submodule (`import: []`) — `base: fedora-nonfree`, which itself roots on the
-> bare-local `fedora` base — and its 32 candies are pulled by github reference.
+> bare-local `fedora` base — and its candies are pulled by github reference.
 > Build/validate from
 > the submodule: `charly -C box/fedora box build fedora-coder`, or
 > `charly --repo opencharly/distro-fedora box build fedora-coder`. Deploy-mode verbs
@@ -238,7 +238,7 @@ google-cloud-npm) by forking charly.yml. See [`/charly-image:image`](/recipes/im
 
 ## Cross-distro siblings
 
-`fedora-coder` is one of **four cross-distro coder boxes** that share the identical 80-line `check:` block + ~30 identical candies; they diverge only in each candy's package-format section (`rpm:` / `pac:` / `deb:`) and a handful of distro-specific quirks handled inside individual candies.
+`fedora-coder` is one of the **cross-distro coder boxes** that share the identical `check:` block + a large set of identical candies; they diverge only in each candy's package-format section (`rpm:` / `pac:` / `deb:`) and a handful of distro-specific quirks handled inside individual candies.
 
 | Box | Base | Package mgr | User model |
 |---|---|---|---|
@@ -247,7 +247,7 @@ google-cloud-npm) by forking charly.yml. See [`/charly-image:image`](/recipes/im
 | [`/charly-coder:debian-coder`](/recipes/coder/debian-coder/) | `debian:13` | deb | `user:user` (create) |
 | [`/charly-coder:ubuntu-coder`](/recipes/coder/ubuntu-coder/) | `ubuntu:24.04` | deb | `user:ubuntu` (**adopt** from base) |
 
-All four produce the same daily-dev surface (sshd on 2222, charly-mcp on 18765, 5 AI CLIs, full language runtimes, DevOps tooling). Pick based on distro-family alignment with your team/CI. See [`/charly-image:image`](/recipes/image/image/) "user_policy" for the adopt-vs-create reconciliation that gives ubuntu-coder its `ubuntu` username.
+All four produce the same daily-dev surface (sshd on 2222, charly-mcp on 18765, AI CLIs, full language runtimes, DevOps tooling). Pick based on distro-family alignment with your team/CI. See [`/charly-image:image`](/recipes/image/image/) "user_policy" for the adopt-vs-create reconciliation that gives ubuntu-coder its `ubuntu` username.
 
 ## Related Boxes
 

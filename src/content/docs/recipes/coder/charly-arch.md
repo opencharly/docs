@@ -80,7 +80,7 @@ or any `selkies-desktop-*` variant), remap at config time:
 ### MCP gateway (charly-mcp)
 
 The [`/charly-coder:charly-mcp`](/recipes/coder/charly-mcp/) candy deploys `charly mcp serve --listen :18765`
-inside the container under supervisord, advertising ~192 MCP tools
+inside the container under supervisord, advertising the MCP tools
 (the full Kong CLI surface, including the project-scaffolding +
 YAML-editing + file-write authoring verbs). Three deployment patterns
 work — bind-mount your project, pin an `CHARLY_PROJECT_REPO`, or rely on the
@@ -198,7 +198,7 @@ packages and scripts per distro.
 
 - [`/charly-distros:arch`](/recipes/distros/arch/) — parent base image
 - [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/) — Fedora counterpart, same candies, same rootless posture
-- [`/charly-coder:fedora-coder`](/recipes/coder/fedora-coder/) — kitchen-sink dev sibling (32 candies vs 8; adds coding CLIs + DevOps)
+- [`/charly-coder:fedora-coder`](/recipes/coder/fedora-coder/) — kitchen-sink dev sibling (adds coding CLIs + DevOps)
 - [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) — streaming-desktop counterpart (charly toolchain + browser-accessible Wayland); shares the rootless-first posture
 - [`/charly-distros:githubrunner`](/recipes/distros/githubrunner/) — self-hosted GitHub Actions runner; same uid=1000 posture
 
@@ -207,7 +207,7 @@ packages and scripts per distro.
 - [`/charly-core:shell`](/recipes/core/shell/) — open an interactive shell in charly-arch (as uid=1000 with sudo)
 - [`/charly-core:service`](/recipes/core/service/) — manage charly-arch as a service
 - [`/charly-vm:vm`](/recipes/vm/vm/) — nested libvirt VMs via `qemu:///session` (rootless)
-- [`/charly-check:check`](/recipes/check/check/) — three modes: `charly check box <ref>` (build-scope, disposable container), `charly check live <name>` (full-stack against running deployment), `charly check run <score>` (AI iteration loop)
+- [`/charly-check:check`](/recipes/check/check/) — these modes: `charly check box <ref>` (build-scope, disposable container), `charly check live <name>` (full-stack against running deployment), `charly check run <score>` (AI iteration loop)
 - [`/charly-build:charly-mcp-cmd`](/recipes/build/charly-mcp-cmd/) — MCP gateway + auto-fallback behavior
 
 ## Related

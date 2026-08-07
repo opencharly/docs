@@ -20,7 +20,7 @@ description: "OpenClaw full + ML tools (whisper, sherpa-onnx-tts, CUDA)."
 
 This metalayer extends `openclaw-full` with ML capabilities:
 
-- `openclaw-full` -- all OpenClaw tools (25 candies)
+- `openclaw-full` -- all OpenClaw tools
 - `whisper` -- OpenAI Whisper speech-to-text (requires CUDA)
 - `sherpa-onnx` -- Offline text-to-speech
 
