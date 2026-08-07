@@ -65,7 +65,7 @@ not anything about the image's contents.
 This is the single most common source of confusion, so it is worth stating carefully — and
 exactness here means saying what the schema actually enforces, not what would be tidy.
 
-There is one entity keyword, `candy:`, and one filename, `charly.yml`. But a candy resolves to
+A candy is declared with one entity keyword, `candy:`, and one filename, `charly.yml`. But a candy resolves to
 **one of two shapes**, and `base:`/`from:` is the switch:
 
 | The candy carries | It is | And it may also carry |
