@@ -168,7 +168,7 @@ Today's catalog registers **124 words across 75 plugin candies**:
 A further **14 words across 13 `plugin-example-*` candies** are test fixtures — they exist to
 exercise the plugin mechanisms themselves, and are excluded from the table. That exclusion is the
 difference between a deploy row reading 5 and reading 7: `exampledeploy` and `examplelifecycle`
-are not substrates you can put anything on. **73 real + 13 fixtures = the 86 plugin candies
+are not substrates you can put anything on. **75 real + 13 fixtures = the 88 plugin candies
 counted elsewhere on this page** — the two numbers are the same set, split rather than in tension.
 
 Read the **kind** row again: **`candy:` itself is a plugin-provided kind**, registered by
