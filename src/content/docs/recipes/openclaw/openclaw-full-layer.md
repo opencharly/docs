@@ -18,7 +18,7 @@ description: "Maximal OpenClaw deployment (gateway + browser + all feasible tool
 
 ## Composed Candies
 
-This metalayer includes the following 25 candies:
+This metalayer includes the following candies:
 
 - `openclaw` -- AI gateway
 - `chrome` -- Google Chrome browser

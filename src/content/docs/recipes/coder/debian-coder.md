@@ -9,11 +9,11 @@ description: "Kitchen-sink development box on Debian 13 trixie: coding + AI-codi
 
 # debian-coder
 
-Debian 13 trixie counterpart of [`/charly-coder:fedora-coder`](/recipes/coder/fedora-coder/). Same 80-line `check:` block, same ~30 candies, same rootless posture (uid 1000 + passwordless sudo). Key wrinkles are all Debian-specific packaging quirks handled inside individual candies: `bat → batcat` symlink, Microsoft's `dotnet-install.sh` cross-distro installer, and package-existence tests (vs binary-path tests) for `virtualization` because Debian bundles libvirt drivers differently.
+Debian 13 trixie counterpart of [`/charly-coder:fedora-coder`](/recipes/coder/fedora-coder/). Same 80-line `check:` block, same large candy list, same rootless posture (uid 1000 + passwordless sudo). Key wrinkles are all Debian-specific packaging quirks handled inside individual candies: `bat → batcat` symlink, Microsoft's `dotnet-install.sh` cross-distro installer, and package-existence tests (vs binary-path tests) for `virtualization` because Debian bundles libvirt drivers differently.
 
 > **Location:** lives in the **`opencharly/distro-debian`** repo (git submodule at
 > **`box/debian`**), in that repo's config (its `charly.yml` + per-kind
-> sibling files). Its `debian` base is owned by the same submodule; its ~31
+> sibling files). Its `debian` base is owned by the same submodule; its
 > candies are pulled by github reference from the main repo. Build/validate from
 > the submodule:
 > `charly -C box/debian box build debian-coder`, or

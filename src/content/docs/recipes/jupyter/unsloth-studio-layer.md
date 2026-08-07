@@ -22,7 +22,7 @@ description: "Unsloth Studio fine-tuning web UI on ports 8888/8000 with vLLM inf
 
 ## Architecture: Tier 2 Environment-Owner Meta-Layer
 
-This candy **owns the pixi.toml** for the fine-tuning environment and composes two Tier 1 candies via `candy: [llama-cpp, unsloth]`. Build order: pixi environment → llama-cpp (binaries) → unsloth (vLLM wheel + unsloth pip + patch) → supervisord config.
+This candy **owns the pixi.toml** for the fine-tuning environment and composes the Tier 1 candies via `candy: [llama-cpp, unsloth]`. Build order: pixi environment → llama-cpp (binaries) → unsloth (vLLM wheel + unsloth pip + patch) → supervisord config.
 
 ## Environment Variables
 
