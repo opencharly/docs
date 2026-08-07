@@ -9,7 +9,7 @@ description: "Schema reference for `kind: pod` and deploy entities: charly.yml e
 
 # `kind: pod` and deploy entities — Schema Reference
 
-This skill is a thin schema pointer. For runtime verbs (`charly bundle add`, `charly bundle del`, `charly update`), see [`/charly-core:deploy`](/recipes/core/deploy/).
+This skill is a thin schema pointer. For runtime verbs (`charly fleet add`, `charly fleet del`, `charly update`), see [`/charly-core:deploy`](/recipes/core/deploy/).
 
 ## What lives in `kind: pod` / a deploy node
 
@@ -19,9 +19,9 @@ A host/remote deploy MUST use the `host:` FIELD on a `local:` (or `pod:`) deploy
 
 Schema sources (read these for the canonical truth):
 
-- `spec/spec/cue_types_gen.go` (generated) — `Deploy` (the deploy node — the former `charly/deploy.go`'s `BundleNode` is DELETED, K-wave 2) + `BundleConfig`, the deploy entry shape, target discriminator.
+- `spec/spec/cue_types_gen.go` (generated) — `Deploy` (the deploy node — the former `charly/deploy.go`'s `FleetNode` is DELETED, K-wave 2) + `FleetConfig`, the deploy entry shape, target discriminator.
 - `spec/spec/cue_types_gen.go` (generated) — the `PodSpec` Go type / `kind: pod` shape.
-- [`/charly-core:deploy`](/recipes/core/deploy/) — the verb-level skill covering `charly bundle add` / `charly bundle del` / `charly update`.
+- [`/charly-core:deploy`](/recipes/core/deploy/) — the verb-level skill covering `charly fleet add` / `charly fleet del` / `charly update`.
 
 ## Nesting & membership (tree position)
 

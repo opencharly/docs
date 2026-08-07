@@ -6,7 +6,7 @@ sidebar:
 ---
 
 `charly` is one binary with a large command surface, and almost none of it is in the binary's own
-source. Understanding that split makes the [CLI reference](/reference/cli/bundle/) easier to read.
+source. Understanding that split makes the [CLI reference](/reference/cli/fleet/) easier to read.
 
 ## A small spine, a large catalog
 
@@ -18,9 +18,9 @@ Three top-level words are the **core spine**, implemented by the binary itself:
 | `charly version` | the CalVer identity of the running binary |
 | `charly reap-orphans` | internal cleanup of orphaned resources |
 
-Everything else — `bundle`, `check`, `secrets`, `candy`, `alias`, `agent`, `clean`, `status`,
+Everything else — `fleet`, `check`, `secrets`, `candy`, `alias`, `agent`, `clean`, `status`,
 `shell`, `vm`, `config` and the rest — is a **command word served by a plugin candy**. Each has a
-page in the [CLI reference](/reference/cli/bundle/) naming the plugin that serves it and whether
+page in the [CLI reference](/reference/cli/fleet/) naming the plugin that serves it and whether
 that plugin is compiled into the binary or loaded at runtime.
 
 Some plugin-served words nest under a parent: `add-candy`, `generate`, `list`, `new`, `pkg`,
@@ -34,14 +34,14 @@ The generated pages here describe *what serves a word and why*. For the exact fl
 invocation, ask the binary:
 
 ```bash
-charly bundle add --help
+charly fleet add --help
 charly box build --help
 ```
 
 :::note[A wrinkle worth knowing]
 For a plugin-served word, `charly <word> --help` is answered by the host and shows a generic
-stub. The plugin's own grammar appears one level deeper (`charly bundle add --help`) or via the
-bare form (`charly bundle help`). This is also why this site's CLI reference is generated from
+stub. The plugin's own grammar appears one level deeper (`charly fleet add --help`) or via the
+bare form (`charly fleet help`). This is also why this site's CLI reference is generated from
 each plugin's declarations rather than scraped from help output — the help surface is not
 uniform enough to parse.
 :::
@@ -64,5 +64,5 @@ An agent authoring a candy uses the same commands you would — `charly candy se
 
 ## See also
 
-- **[CLI reference](/reference/cli/bundle/)** — one page per command word.
+- **[CLI reference](/reference/cli/fleet/)** — one page per command word.
 - **[Provider index](/reference/providers/)** — every reserved word, including non-command classes.

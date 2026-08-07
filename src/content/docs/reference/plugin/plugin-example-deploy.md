@@ -40,7 +40,7 @@ RunSystem/PutFile legs cannot execute because they need the HOST build ENGINE
 installs it onto the venue (proven by composing examplebuild-localpkg, whose
 charly-f3-witness package is built with makepkg + installed with pacman -U
 over the channel). It returns plugin-script reverse ops the host records in
-the install ledger and replays at `charly bundle del`. The deploy-class
+the install ledger and replays at `charly fleet del`. The deploy-class
 companion of the verb-class candy/plugin-example-external.
 
 ## Parameter schema

@@ -32,7 +32,7 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 | `check` | the sherpa-onnx offline-tts engine binary is installed under the runtime bin dir |
 | `check` | the offline-tts engine binary is executable |
 | `check` | the sherpa-onnx C-API shared library ships under the runtime lib dir |
-| `check` | the bundled ONNX Runtime shared library ships alongside it so the engine can link |
+| `check` | the fleetdverb ONNX Runtime shared library ships alongside it so the engine can link |
 | `check` | the en_US-lessac-high VITS voice model is baked into the image for offline synthesis |
 | `check` | the voice model tokens file ships next to the model |
 | `check` | file=${HOME}/.local/share/sherpa-onnx/runtime/bin/sherpa-onnx |

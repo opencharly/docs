@@ -16,7 +16,7 @@ deployment node + a kind:k8s cluster template + the image's ports/uid/gid into a
 Kustomize base/ + overlays/<inst>/ tree (Deployment/StatefulSet/DaemonSet/Job/
 CronJob/Pod, Service, PVCs, Ingress, kustomization wiring). Carved out of charly
 core (the former charly/k8s_generate.go is DELETED, K-wave 2); GenerateK8sKustomize
-(candy/plugin-bundle/deploy_from_box.go) extracts ports/uid/gid from the image
+(candy/plugin-fleet/deploy_from_box.go) extracts ports/uid/gid from the image
 Capabilities, Invokes this
 plugin's OpEmit, then does the disk I/O + the host-side egress gate before the
 bytes hit disk. Compiled-in (the deploy + from-box paths call it).

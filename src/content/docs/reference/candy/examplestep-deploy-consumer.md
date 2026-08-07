@@ -19,7 +19,7 @@ the live target executor stood up on the go-plugin broker (the E3b
 ExecutorService reverse channel) — so the plugin writes
 /tmp/charly-examplestep/examplestep-deploy/{applied,probe} on the TARGET venue
 and returns a plugin-script reverse op the host records + replays at `charly
-bundle del`. The deploy-time counterpart of candy/examplestep-consumer (build
+fleet del`. The deploy-time counterpart of candy/examplestep-consumer (build
 context). Compose it WITH candy/plugin-example-step (which provides the
 examplestep verb); the deploy-context check below proves the marker landed.
 

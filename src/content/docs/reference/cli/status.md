@@ -20,8 +20,8 @@ CLI — the runtime-status surface (table / detail / JSON, --all, --nested). The
 owns the command end to end: the Kong grammar (command.go, moved from
 charly/status.go's StatusCmd), the declared-nested-tree pre-resolution (nested_tree.go,
 K5, relocated from charly/status_nested.go's buildStatusRootsTree — every dependency it
-once claimed core-coupled, BundleConfig/ResolveDeployChain/ClassifyTarget/
-LoadBundleConfig, is sdk-portable), the PURE nested-deployment overlay fold (overlay.go,
+once claimed core-coupled, FleetConfig/ResolveDeployChain/ClassifyTarget/
+LoadFleetConfig, is sdk-portable), the PURE nested-deployment overlay fold (overlay.go,
 ported from charly/status_nested.go's applyNestedOverlay/buildNestedChildren/
 nestedChildStatus/claimFlatRow), and the render output (render.go, moved verbatim
 from charly/status_render.go). No plugin-specific command LOGIC is left in core.

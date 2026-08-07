@@ -40,7 +40,6 @@ Every reserved word charly can dispatch, and the plugin candy that serves it. A 
 | `add-candy` | [plugin-authoring](/reference/plugin/plugin-authoring/) |
 | `agent` | [plugin-agent](/reference/plugin/plugin-agent/) |
 | `alias` | [plugin-alias](/reference/plugin/plugin-alias/) |
-| `bundle` | [plugin-bundle](/reference/plugin/plugin-bundle/) |
 | `candy` | [plugin-candy](/reference/plugin/plugin-candy/) |
 | `cat` | [plugin-authoring](/reference/plugin/plugin-authoring/) |
 | `check` | [plugin-check](/reference/plugin/plugin-check/) |
@@ -53,6 +52,7 @@ Every reserved word charly can dispatch, and the plugin candy that serves it. A 
 | `examplecommand` | [plugin-example-command](/reference/plugin/plugin-example-command/) |
 | `feature` | [plugin-feature](/reference/plugin/plugin-feature/) |
 | `fetch` | [plugin-authoring](/reference/plugin/plugin-authoring/) |
+| `fleet` | [plugin-fleet](/reference/plugin/plugin-fleet/) |
 | `generate` | [plugin-box](/reference/plugin/plugin-box/) |
 | `inspect` | [plugin-box](/reference/plugin/plugin-box/) |
 | `list` | [plugin-box](/reference/plugin/plugin-box/) |
