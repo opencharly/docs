@@ -153,7 +153,7 @@ Every keyword in this document is registered by a plugin candy — and the most 
 that also accepts plugins. Its core is *kind-blind*: it loads plugins, routes a word to whichever
 one claims it, and carries generic data between them. It does not know what `pod:` means.
 
-Today's catalog registers **123 words across 73 plugin candies**:
+Today's catalog registers **124 words across 73 plugin candies**:
 
 | Class | How many | Examples |
 |---|---|---|

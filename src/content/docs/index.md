@@ -141,14 +141,14 @@ built-in support for containers, VMs and Kubernetes that also happens to accept 
 is *kind-blind*: it knows how to load plugins, route a word to whichever one claims it, and carry
 generic data between them. It does not know what `pod:` means.
 
-Today's catalog registers **123 words across 73 plugin candies**:
+Today's catalog registers **124 words across 73 plugin candies**:
 
 | Class | How many | Examples |
 |---|---|---|
 | **deploy** substrates | 5 | `pod` `vm` `k8s` `local` `android` |
 | **kind** — the entity keywords themselves | 14 | `candy` `distro` `group` `builder` `agent` |
 | **verb** — probes a `plan:` can call | 35 | `file` `http` `cdp` `vnc` `adb` `kube` |
-| **command** — `charly` subcommands | 45 | `fleet` `check` `candy` `clean` |
+| **command** — `charly` subcommands | 46 | `fleet` `check` `candy` `clean` `marketplace` |
 | **step** — install operations | 12 | `file` `service-custom` `reboot` |
 | **builder** — multi-stage build patterns | 4 | `pixi` `npm` `cargo` `aur` |
 | the build/load internals | 8 | `build:box` `loader:loader` `refs:refs` `terminal:tmux` |
