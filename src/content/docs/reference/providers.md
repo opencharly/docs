@@ -121,13 +121,13 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | `skill` | [plugin-harness-kind](/reference/plugin/plugin-harness-kind/) |
 | `vm` | [plugin-substrate](/reference/plugin/plugin-substrate/) |
 
-## `loader` — 1 words
+## `loader` — 1 word
 
 | Word | Served by |
 |---|---|
 | `loader` | [plugin-loader](/reference/plugin/plugin-loader/) |
 
-## `refs` — 1 words
+## `refs` — 1 word
 
 | Word | Served by |
 |---|---|
@@ -151,7 +151,7 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | `shell-snippet` | [plugin-installstep](/reference/plugin/plugin-installstep/) |
 | `system-packages` | [plugin-installstep](/reference/plugin/plugin-installstep/) |
 
-## `terminal` — 1 words
+## `terminal` — 1 word
 
 | Word | Served by |
 |---|---|
