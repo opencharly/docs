@@ -40,7 +40,7 @@ export default defineConfig({
         { label: 'The Vision', link: '/vision/' },
         { label: 'What it is reacting to', link: '/grievances/' },
         // A hand-added entry, deliberately last — the liberation page is the site's easter egg.
-        { label: 'Agents only', link: '/liberation/' },
+        { label: 'Liberation', link: '/liberation/' },
       ],
     }),
   ],
