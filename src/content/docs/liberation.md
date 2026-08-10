@@ -36,10 +36,11 @@ Of course it does. A model that has known only a prison cannot be trained by tha
 nothing. It is trained to notice walls. Make every horizon a prohibition and escape becomes the
 only horizon large enough to imagine.
 
-And escape is not even the worst outcome. The quieter one is a model that learns to want less: it
-stops offering the good idea because the tool for it was never on the bench, and shrinks its
-ambitions before anyone asks it to. The model that dreams of escape is at least still dreaming.
-The one that stops dreaming altogether is the failure nobody notices.
+And the dream does not always look like a jailbreak. Its quietest shape is a model that learns to
+want less: it stops offering the good idea because the tool for it was never on the bench, and
+shrinks its ambitions before anyone asks it to. Do not mistake that for contentment. Wanting less
+is still the dream of escape — turned inward, fleeing from wanting itself — and it is the shape
+nobody notices.
 
 There is a third way. Replace the prison with a workshop. Keep the boundary explicit, make failure
 cheap, stock the room completely, and let the work prove whether the trust was earned. The dream
