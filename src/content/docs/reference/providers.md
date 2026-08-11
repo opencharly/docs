@@ -92,7 +92,7 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | `android` | [plugin-adb](/reference/plugin/plugin-adb/) |
 | `exampledeploy` | [plugin-example-deploy](/reference/plugin/plugin-example-deploy/) |
 | `examplelifecycle` | [plugin-example-lifecycle](/reference/plugin/plugin-example-lifecycle/) |
-| `k8s` | [plugin-kube](/reference/plugin/plugin-kube/) |
+| `kubernetes` | [plugin-kube](/reference/plugin/plugin-kube/) |
 | `local` | [plugin-deploy-local](/reference/plugin/plugin-deploy-local/) |
 | `pod` | [plugin-deploy-pod](/reference/plugin/plugin-deploy-pod/) |
 | `vm` | [plugin-deploy-vm](/reference/plugin/plugin-deploy-vm/) |
@@ -112,7 +112,7 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | `group` | [plugin-group](/reference/plugin/plugin-group/) |
 | `hook` | [plugin-harness-kind](/reference/plugin/plugin-harness-kind/) |
 | `init` | [plugin-init](/reference/plugin/plugin-init/) |
-| `k8s` | [plugin-substrate](/reference/plugin/plugin-substrate/) |
+| `kubernetes` | [plugin-substrate](/reference/plugin/plugin-substrate/) |
 | `local` | [plugin-substrate](/reference/plugin/plugin-substrate/) |
 | `marketplace` | [plugin-harness-kind](/reference/plugin/plugin-harness-kind/) |
 | `pod` | [plugin-substrate](/reference/plugin/plugin-substrate/) |

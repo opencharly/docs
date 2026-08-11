@@ -22,19 +22,19 @@ redefining.
 | **from** | A field with two uses: on a box, a **builder** reference (`builder:<word>`) for a multi-stage build; on a deploy, inherits a same-kind template. Carrying `from:` makes a candy a **box**. | |
 | **box** | A candy that composes other candies — the composite unit. A box names a starting point via **base** or **from** and stacks layers into a single entity that charly builds into an image or deploys onto a substrate. | Not the running thing. Not the built image. |
 | **image** | The built artifact a box produces — the generic word for what `box build` yields, stored in an image store or registry. | Not the authored box. |
-| **container image** | An image in the OCI container format — the artifact a `pod:` or `k8s:` deploy runs as a container. The same thing as an **OCI image**. | Not a vm image. |
+| **container image** | An image in the OCI container format — the artifact a `pod:` or `kubernetes:` deploy runs as a container. The same thing as an **OCI image**. | Not a vm image. |
 | **OCI image** | A container image, named after the Open Container Initiative format that defines it — synonymous with **container image**. | |
 | **candybox** | The running, isolated form of a box — a container, a VM guest, or a check bed. **This is the security boundary.** | Not the image. Not the config file. |
 | **container** | The running OCI process — the candybox's form on a `pod:` deploy. | Not the image, not the box. |
-| **substrate** | The destination kind a deploy lands on: `pod:` `vm:` `k8s:` `local:` `android:`. A substrate is a place, not an artifact: the image is the payload, the substrate is where it runs. | Not the image. |
-| **pod** | The container substrate — a `pod:` deploy runs a box's image as a container. | Not a Kubernetes Pod (the `k8s:` backend emits real ones). |
+| **substrate** | The destination kind a deploy lands on: `pod:` `vm:` `kubernetes:` `local:` `android:`. A substrate is a place, not an artifact: the image is the payload, the substrate is where it runs. | Not the image. |
+| **pod** | The container substrate — a `pod:` deploy runs a box's image as a container. | Not a Kubernetes Pod (the `kubernetes:` backend emits real ones). |
 | **vm** | The guest substrate — a `vm:` deploy boots a **vm image** as a rootless libvirt guest, reached over SSH. | |
 | **vm image** | The bootable disk a `vm:` deploy boots — a `cloud_image` qcow2 or a bootc image. A *different* artifact from a container image. | Not a container image. |
-| **k8s** | The Kubernetes substrate — a `k8s:` deploy emits a Kustomize overlay. | |
+| **kubernetes** | The Kubernetes substrate — a `kubernetes:` deploy emits a Kustomize overlay. | |
 | **local** | The host substrate — a `local:` deploy installs onto the machine charly runs on, or onto a remote machine when it carries **host**. | |
 | **android** | The device substrate — an `android:` deploy installs APKs onto a device or emulator. | |
 | **host** | A field on a `local:` deploy naming the machine to install onto — `host: local` (or absent) is the machine charly runs on, `host: <user@machine>` is an SSH target. | |
-| **deploy** | A named placement of a box on a substrate, written as `pod:` `vm:` `k8s:` `local:` `android:`. When running, its candybox is the live thing. | Not the box. Not the fleet. |
+| **deploy** | A named placement of a box on a substrate, written as `pod:` `vm:` `kubernetes:` `local:` `android:`. When running, its candybox is the live thing. | Not the box. Not the fleet. |
 | **fleet** | The set of deploys charly manages on this machine — the boxes deployed together, the way `docker compose` brings up a set of services. `charly fleet add` puts a deploy in it; `charly fleet del` reverses it. | Not the box. Not a single deploy. |
 | **plugin** | A candy that teaches charly a new word — it carries a `plugin:` block registering the words it provides, each of which is a **provider**. A plugin lives in the layer shape, but its role is extending charly, not installing a concern. | |
 | **provider** | A word a plugin registers, which routes to that plugin when charly sees it — a **kind**, **verb**, **command**, **step**, **builder**, or **substrate**. | |
@@ -158,7 +158,7 @@ candy, regenerated on every docs build.
 
 | Class | Examples |
 |---|---|
-| **deploy** substrates | `pod` `vm` `k8s` `local` `android` |
+| **deploy** substrates | `pod` `vm` `kubernetes` `local` `android` |
 | **kind** — the entity keywords themselves | `candy` `distro` `group` `builder` `agent` |
 | **verb** — probes a `plan:` can call | `file` `http` `cdp` `vnc` `adb` `kube` |
 | **command** — `charly` subcommands | `fleet` `check` `candy` `clean` `marketplace` |
