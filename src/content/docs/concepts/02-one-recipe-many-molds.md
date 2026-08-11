@@ -6,7 +6,7 @@ sidebar:
 ---
 
 > **One recipe, many boxes.** A single declarative recipe — candies stacked into a box — pours
-> into every mold: an interactive shell, a managed pod, a host workstation, a k8s cluster, a
+> into every mold: an interactive shell, a managed pod, a host workstation, a kubernetes cluster, a
 > bootable VM, an Android device. Write the recipe once; let `charly` set it in whatever shape
 > the moment needs.
 >
@@ -129,7 +129,7 @@ mean to change your workstation.
 |---|---|---|
 | your workstation | `local:` | candies applied to a host, over a shell or SSH |
 | a virtual machine | `vm:` | libvirt/QEMU guests, candies applied inside over SSH |
-| a cluster | `k8s:` | generated Kustomize manifests |
+| a cluster | `kubernetes:` | generated Kustomize manifests |
 | a phone | `android:` | apps installed onto a device over adb |
 | a container | `pod:` | the managed-pod case |
 
