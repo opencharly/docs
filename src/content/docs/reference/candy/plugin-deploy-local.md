@@ -29,7 +29,7 @@ ExternalPlugin) it drives over the RunHostStep reverse leg. It returns the
 combined plugin-script + host-step reverse ops the host records in the install
 ledger and replays at `charly fleet del`. The local-substrate production
 sibling of candy/plugin-example-deploy (the F2/F3 witness) and candy/plugin-kube
-(deploy:k8s); it replaces the former in-proc LocalDeployTarget.
+(deploy:kubernetes); it replaces the former in-proc LocalDeployTarget.
 
 ## Acceptance plan
 

@@ -23,7 +23,7 @@ The `charly` CLI is a Go program in the `charly/` directory. It uses the Kong CL
 
 | Topic | File |
 |---|---|
-| Architecture deep dives (unified YAML loader, Schema Driven Design pipeline + generation-coverage catalog, the `spec/spec` package, namespace/remote-layer resolvers, Capabilities, the k8s/VM external substrates, YAML↔Go conventions, Kong parent+leaf commands, mode purity, the InstallPlan IR, the VM-path module topology, self-exec coordination) and the full file-by-file Source Code Map | [`references/source-map.md`](/recipes/internals/go/source-map/) |
+| Architecture deep dives (unified YAML loader, Schema Driven Design pipeline + generation-coverage catalog, the `spec/spec` package, namespace/remote-layer resolvers, Capabilities, the kubernetes/VM external substrates, YAML↔Go conventions, Kong parent+leaf commands, mode purity, the InstallPlan IR, the VM-path module topology, self-exec coordination) and the full file-by-file Source Code Map | [`references/source-map.md`](/recipes/internals/go/source-map/) |
 | The step-by-step recipe for changing the `charly.yml` schema (CUE is the single source of truth) | [`references/schema-change-recipe.md`](/recipes/internals/go/schema-change-recipe/) |
 | Design notes for the Go-side architecture not obvious from reading the source cold (Kong flag-namespace collision, env-var proxy for parent-flag detection, the `yaml.v3` Node API, scalar-to-sequence upgrades, the path-traversal guard, the two-step project-dir resolver) | [`references/implementation-insights.md`](/recipes/internals/go/implementation-insights/) |
 

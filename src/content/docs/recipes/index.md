@@ -92,7 +92,7 @@ Schema authoring reference for `kind: box` and `kind: candy` — charly.yml comp
 
 ### charly-kubernetes
 
-Schema authoring for `kind: k8s` — Kustomize manifests + cluster probes via `charly check k8s`.
+Schema authoring for `kind: kubernetes` — Kustomize manifests + cluster probes via the `kube:` check verb.
 
 - [check-k8s](/recipes/kubernetes/check-k8s/)
 - [kubernetes](/recipes/kubernetes/kubernetes/)
