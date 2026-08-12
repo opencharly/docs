@@ -24,7 +24,7 @@ apply|list|get|delete` manage Teams and Humans; `apply -f <file>`
 applies declarative YAML (create-or-update per kind); `config` shows
 the resolved controller endpoint and token source. A plain net/http
 REST client — no upstream agt binary, no SDK. Endpoint from
-AGENTTEAMS_CONTROLLER_URL (default http://127.0.0.1:18090); token from
+AGENTTEAMS_CONTROLLER_URL (default http://127.0.0.1:8090); token from
 AGENTTEAMS_AUTH_TOKEN env or AGENTTEAMS_AUTH_TOKEN_FILE file (the
 upstream runtime contract).
 
