@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card** — a dedicated page describing what it does, how it is made, and how it should behave. The cards are the same ones an agent loads as skills while working on the project, published here unchanged.
 
-295 cards across 25 plugins, in four groups.
+297 cards across 26 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -124,6 +124,13 @@ Schema authoring reference for `kind: vm` + bootc VM catalog — libvirt/QEMU ba
 
 
 ## Images — the deployable catalog
+
+### charly-agentteams
+
+Self-contained skills for the AgentTeams multi-agent stack (CachyOS base): the decomposed agentteams box — minio, matrix/tuwunel, element, higress, controller — on pod and vm substrates, plus the compiled-in `charly agentteams` management CLI.
+
+- [agentteams](/recipes/agentteams/agentteams/)
+- [agentteams-cli](/recipes/agentteams/agentteams-cli/)
 
 ### charly-coder
 
