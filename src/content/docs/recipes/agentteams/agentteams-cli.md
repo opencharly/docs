@@ -11,7 +11,8 @@ description: "The compiled-in `charly agentteams` management CLI for the AgentTe
 
 The compiled-in `charly agentteams` management CLI for the AgentTeams
 controller REST API — a `command:agentteams` plugin. A plain `net/http`
-REST client: no upstream `agt` binary, no SDK.
+REST client: no upstream `agt` binary (the upstream AgentTeams CLI), no
+SDK.
 
 ## Command tree
 
@@ -28,9 +29,9 @@ REST client: no upstream `agt` binary, no SDK.
   the controller's port 8090 as host-mapped by the box's default
   auto-allocation; set it to the actual host-mapped port when it differs).
 - Token: `AGENTTEAMS_AUTH_TOKEN` env, else `AGENTTEAMS_AUTH_TOKEN_FILE` file
-  (the upstream runtime contract). The controller mints the admin SA token
-  to `/var/run/agentteams/cli-token` — on a pod substrate pull it out with
-  `charly cp <deploy> :/var/run/agentteams/cli-token <local>`.
+  (the upstream runtime contract). The controller mints the admin SA
+  (service account) token to `/var/run/agentteams/cli-token` — on a pod
+  substrate pull it out with `charly cp <deploy> :/var/run/agentteams/cli-token <local>`.
 
 ## Declarative apply
 
