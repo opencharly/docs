@@ -250,6 +250,11 @@ The confectionery names are not decoration; they are the schema. `candy:` is a r
 `candy/` and `box/` are real directories. Prose on this site therefore uses the same words the
 files use, rather than a friendlier translation that would not match anything you can grep for.
 
+The factory and the confectionery are one metaphor, not two. The line is a factory: an agent in the
+loop, every tool already on the floor, output that gets inspected before it ships. What comes off
+that line is candy. That is why both registers are in the vocabulary and why neither is
+decoration — [the vision](/vision/) tells the story in full.
+
 ## Next
 
 - **[The box is the boundary](/concepts/01-the-box-is-the-boundary/)** — start of the 12-part tour.

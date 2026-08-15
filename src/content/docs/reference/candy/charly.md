@@ -28,6 +28,7 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 
 | Intent | Step |
 |---|---|
+| `run` | copy=bin/charly |
 | `check` | the charly binary resolves on the deployment's PATH |
 | `check` | charly version prints a CalVer build stamp on stdout |
 | `check` | the gocryptfs encrypted-storage binary (gocryptfs candy) is installed |

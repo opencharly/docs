@@ -7,15 +7,15 @@ description: "A Node.js runtime with the npm and pnpm package managers on the de
 
 | | |
 |---|---|
-| **Version** | `2026.159.1324` |
+| **Version** | `2026.226.1600` |
 | **Repo** | superproject |
 
 A Node.js runtime with the npm and pnpm package managers on the default PATH.
-Installs the distro nodejs package (NodeSource node 20.x on Ubuntu so the
-in-box CLIs that require node >=20 work), the matching npm CLI, and a
-self-contained pnpm standalone binary at /usr/local/bin/pnpm. Every artifact
-is a real file at a known path with a working --version, so the runtime is
-directly verifiable.
+Installs the distro nodejs package (NodeSource node 22.x on Ubuntu and
+Debian so the in-box CLIs that require node >=22 work — the deepseek-harness
+dsh floor), the matching npm CLI, and a self-contained pnpm standalone
+binary at /usr/local/bin/pnpm. Every artifact is a real file at a known
+path with a working --version, so the runtime is directly verifiable.
 
 ## Packages
 
@@ -32,6 +32,7 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 | `run` | command=case "${BUILD_ARCH}" in x86_64) PNPM_ARCH="x64" ;; aarch64) PNPM_ARCH="arm64" ;; *) echo "Unsupported arch: ${BUILD_ARCH}"; exit 1 ;; esac curl -fsSL "https://github.com/pnpm/pnpm/releases/download/v${PNPM_VERSION}/pnpm-linux-${PNPM_ARCH}" -o /usr/local/bin/pnpm chmod 0755 /usr/local/bin/pnpm |
 | `check` | the node interpreter is installed at /usr/bin/node |
 | `check` | node reports its version and exits cleanly |
+| `check` | node is at least 22.19.0 (the deepseek-harness dsh floor) |
 | `check` | the npm package manager is installed at /usr/bin/npm |
 | `check` | npm reports its version and exits cleanly |
 | `check` | the self-contained pnpm binary lands on the system PATH at /usr/local/bin/pnpm |

@@ -16,16 +16,23 @@ description: "The agentteams command word, served by the plugin-agentteams plugi
 ## About the plugin that serves it
 
 The `charly agentteams` management CLI for the AgentTeams controller
-REST API — a COMPILED-IN command:agentteams plugin. `charly agentteams
+REST API PLUS the declarative `agentteams:` check verb — a COMPILED-IN
+command:agentteams + verb:agentteams plugin. `charly agentteams
 status` reports controller health + manager/worker/team/human counts;
 `worker list|get|create|update|apply|delete` manages Worker CRs (apply
 incl. ZIP/package import); `team apply|list|get|delete` and `human
 apply|list|get|delete` manage Teams and Humans; `apply -f <file>`
 applies declarative YAML (create-or-update per kind); `config` shows
-the resolved controller endpoint and token source. A plain net/http
-REST client — no upstream agt binary, no SDK. Endpoint from
-AGENTTEAMS_CONTROLLER_URL (default http://127.0.0.1:8090); token from
-AGENTTEAMS_AUTH_TOKEN env or AGENTTEAMS_AUTH_TOKEN_FILE file (the
-upstream runtime contract).
+the resolved controller endpoint and token source. The `agentteams:`
+check verb is the declarative controller-probe counterpart: authored
+as a `check:` step (`agentteams: status`, `manager-running`,
+`worker-running`, `worker-list`), it resolves the controller's
+in-venue :8090 to a host-routable address over the reverse channel,
+pulls the admin SA token from the venue, and probes with the SAME
+REST client the command uses (R3 — one surface covers the CLI and
+every bed). A plain net/http REST client — no upstream agt binary, no
+SDK. Endpoint from AGENTTEAMS_CONTROLLER_URL (default
+http://127.0.0.1:8090); token from AGENTTEAMS_AUTH_TOKEN env or
+AGENTTEAMS_AUTH_TOKEN_FILE file (the upstream runtime contract).
 
 Run `charly agentteams --help` for the live flag grammar.
