@@ -15,9 +15,13 @@ Installs the rpmfusion-free-release and rpmfusion-nonfree-release
 packages from download.rpmfusion.org with their OpenPGP signatures
 VERIFIED, by importing the RPM Fusion keys from Fedora's own signed
 distribution-gpg-keys package first. Each release package registers
-its RPM Fusion repo definitions under /etc/yum.repos.d/ and imports
-the signing keys. Verifiable because both release packages land in
-the rpm database and their .repo files appear on disk.
+its RPM Fusion repo definitions under /etc/yum.repos.d/ and drops the
+repo signing-key FILES under /etc/pki/rpm-gpg/ — it does NOT import
+them into the rpm database, which is why the key-import step in the
+plan below is a separate step rather than a side effect. Verifiable
+because both
+release packages land in the rpm database, their .repo files appear
+on disk, and the imported keys are queryable via rpm -q gpg-pubkey.
 
 ## Acceptance plan
 
