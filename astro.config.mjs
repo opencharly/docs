@@ -13,7 +13,7 @@ export default defineConfig({
     starlight({
       title: 'OpenCharly',
       description:
-        'The fully stocked gourmet kitchen for you and your agents — compose, build, deploy and evaluate boxes from a library of configurable candies.',
+        'The fully equipped factory floor for you and your agents — compose, build, deploy and evaluate boxes from a library of configurable candies.',
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/opencharly/charly' },
       ],

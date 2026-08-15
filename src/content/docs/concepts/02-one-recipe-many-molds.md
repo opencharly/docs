@@ -162,7 +162,7 @@ The catalog does not stop at two candies. At the other end of the spectrum sit t
 [`arch`](/recipes/coder/arch-coder/), [`debian`](/recipes/coder/debian-coder/) and
 [`ubuntu`](/recipes/coder/ubuntu-coder/) siblings — around thirty candies each: five AI coding
 CLIs, every language runtime, the DevOps tooling, nested containers, rootless VMs. Same recipe
-format as the two-candy box above. A fully stocked kitchen really does ship with the sink.
+format as the two-candy box above.
 :::
 
 ## See also
