@@ -7,12 +7,14 @@ description: "Enables the RPM Fusion free and nonfree Fedora repositories."
 
 | | |
 |---|---|
-| **Version** | `2026.144.1443` |
+| **Version** | `2026.227.0830` |
 | **Repo** | superproject |
 
 Enables the RPM Fusion free and nonfree Fedora repositories.
 Installs the rpmfusion-free-release and rpmfusion-nonfree-release
-packages from download.rpmfusion.org. Each release package registers
+packages from download.rpmfusion.org with their OpenPGP signatures
+VERIFIED, by importing the RPM Fusion keys from Fedora's own signed
+distribution-gpg-keys package first. Each release package registers
 its RPM Fusion repo definitions under /etc/yum.repos.d/ and imports
 the signing keys. Verifiable because both release packages land in
 the rpm database and their .repo files appear on disk.
@@ -23,7 +25,8 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 
 | Intent | Step |
 |---|---|
-| `run` | command=dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm |
+| `run` | import the RPM Fusion keys from Fedora's signed distribution-gpg-keys, then install both release packages with their signatures verified |
+| `check` | the RPM Fusion free signing key is in the rpm database, proving the release packages were verified rather than trusted blind |
 | `check` | the RPM Fusion free repo definition file is present on disk |
 | `check` | the rpmfusion-free-release package is recorded in the rpm database |
 | `check` | the RPM Fusion nonfree repo definition file is present on disk |
