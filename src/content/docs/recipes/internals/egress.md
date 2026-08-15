@@ -119,7 +119,7 @@ split:
   vendored `package`+`import` file never has to join the SDK's single-blob `BuildCapabilities` /
   `ConcatSchema` / `CompileString` Describe contract (the move that would otherwise break).
 
-## The offline vendoring pipeline (`task cue:vendor`)
+## The offline vendoring pipeline
 
 Vendoring keeps charly a hermetic single binary — schemas are converted to plain
 `.cue` at DEV time and embedded; nothing is fetched at runtime. Requires the `cue`
@@ -202,5 +202,5 @@ The schemas + validation now live in `candy/plugin-egress` (M16):
 Invoke before working on `candy/plugin-egress` (the validation logic + the egress CUE schemas
 under `candy/plugin-egress/egress-schemas/` incl. `vendor/cloud_config.cue`), the
 `candy/plugin-fleet/egress.go` SHIM, the `ValidateEgress` path,
-the `task cue:vendor` pipeline, or adding/validating any config file charly writes
+the offline vendoring pipeline, or adding/validating any config file charly writes
 to a system.
