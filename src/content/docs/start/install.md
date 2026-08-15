@@ -10,8 +10,7 @@ machine with `charly` installed and no charly checkout anywhere: `--repo <owner>
 published project straight from git, and `charly box new project <dir>` starts one of your own.
 Nothing on any other page asks you to clone this repository.
 
-Building from a source tree is what this page describes, and it is the one page on this site that
-does. Working ON charly is the section after it.
+Building from a source tree is what this page describes. Working ON charly is the section after it.
 
 ## Install
 
