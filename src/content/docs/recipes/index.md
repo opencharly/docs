@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: what a factory floor runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-299 cards across 26 plugins, in four groups.
+300 cards across 26 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -92,9 +92,10 @@ Schema authoring reference for `kind: box` and `kind: candy` — charly.yml comp
 
 ### charly-kubernetes
 
-Schema authoring for `kind: kubernetes` — Kustomize manifests + cluster probes via the `kube:` check verb.
+Schema authoring for `kind: kubernetes` — Kustomize manifests, cluster probes via the `kube:` check verb, and the helm words (`helm-release` install step + `helm:` check verb).
 
 - [check-k8s](/recipes/kubernetes/check-k8s/)
+- [helm](/recipes/kubernetes/helm/)
 - [kubernetes](/recipes/kubernetes/kubernetes/)
 
 ### charly-local
