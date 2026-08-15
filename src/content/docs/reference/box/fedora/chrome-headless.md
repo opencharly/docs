@@ -14,5 +14,5 @@ title: "chrome-headless"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/supervisord:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/chrome-headless:v2026.201.0706`
+- `@github.com/opencharly/charly/candy/supervisord:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/chrome-headless:v2026.227.0914`
