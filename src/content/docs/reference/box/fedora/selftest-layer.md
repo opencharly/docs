@@ -14,4 +14,4 @@ title: "selftest-layer"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/sshd:v2026.201.0706`
+- `@github.com/opencharly/charly/candy/sshd:v2026.227.0914`

@@ -14,4 +14,4 @@ title: "selftest-image"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/charly:v2026.201.0706`
+- `@github.com/opencharly/charly/candy/charly:v2026.227.0914`

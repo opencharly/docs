@@ -14,11 +14,11 @@ title: "jupyter-ml-notebook"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/jupyter-ml:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/notebook-templates:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/notebook-finetuning:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/notebook-ollama:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/notebook-llm-on-supercomputers:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/notebook-openrouter:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/dbus:v2026.201.0706`
+- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/jupyter-ml:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/notebook-templates:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/notebook-finetuning:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/notebook-ollama:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/notebook-llm-on-supercomputers:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/notebook-openrouter:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/dbus:v2026.227.0914`
