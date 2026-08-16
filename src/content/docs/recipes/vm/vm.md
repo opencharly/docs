@@ -247,16 +247,29 @@ arch:
       url: https://fastly.mirror.pkgbuild.com/images/latest/Arch-Linux-x86_64-cloudimg.qcow2
       checksum: {type: sha256}                      # value auto-resolves from <url>.SHA256 sidecar
       base_user: arch                               # adopt pattern (no useradd)
-      # distro:                                    # OMIT for arch (inferred from
-                                                    # base_user; arch and alpine are
-                                                    # the only inferred values) and for
-                                                    # fedora (not inferred — the empty
-                                                    # default happens to be right).
-                                                    # REQUIRED for debian/ubuntu (else
-                                                    # the wrong ssh package and unit are
-                                                    # chosen) and for a non-`alpine`-named
-                                                    # Alpine image (else systemd on an
-                                                    # OpenRC guest = unreachable VM)
+      # distro:                                    # **Always SET `distro:`, to a BARE id. Never omit it, and never rely
+                                                   # on the inference** — `effectiveDistro` infers only `arch`/`alpine`
+                                                   # from `base_user` and never checks the guest. Two consumers read it,
+                                                   # against DIFFERENT sets, and that is the whole difficulty:
+                                                   # `effectiveDistro` feeds the cloud-init dispatches and accepts ANY
+                                                   # string; `buildVmSyntheticBox` (`candy/plugin-fleet/candy_select.go`,
+                                                   # not source-kind gated) resolves it against a FIVE-id vocabulary
+                                                   # `{arch, cachyos, debian, fedora, ubuntu}` and, on a miss, leaves
+                                                   # `img.Pkg` unset so candy installation compiles ZERO steps silently.
+                                                   # So: if the guest IS one of those five, name it. **Alpine: set
+                                                   # `distro: alpine`** — not a vocabulary member, but the init dispatch
+                                                   # keys on `effectiveDistro`, so this is the ONLY way to reach the
+                                                   # OpenRC path; any other value renders systemd onto a guest that has
+                                                   # none and the VM boots unreachable. Candy installation stays
+                                                   # unresolvable for Alpine either way. For a guest outside the five,
+                                                   # naming a near relative (`arch` for manjaro/archarm/endeavouros,
+                                                   # `fedora` for rocky/alma, `ubuntu` for a Ubuntu derivative) makes
+                                                   # candy steps compile — but it selects THAT distro's DistroDef,
+                                                   # version tags and repos (fedora's carries `version: "43"` and COPR),
+                                                   # so it is a workaround with its own risk, not a repair. The repair is
+                                                   # a vocabulary entry. openSUSE has none and no near relative (zypper).
+                                                   # Use a bare id: `ResolveDistro` strips at `:` but the cloud-init
+                                                   # dispatches compare exactly, so `debian:13` yields `openssh`.
     disk_size: 40G
     ram: 8G
     cpu: 4
