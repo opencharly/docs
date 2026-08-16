@@ -60,7 +60,7 @@ The VM surface parallels the `candy:` image surface: one YAML entry per entity, 
       packages: [sudo, spice-vdagent, …]
       runcmd: ["…", …]
       charly_install:
-        strategy: auto | none
+        strategy: auto | scp | skip
     # Libvirt XML knobs (see [/charly-internals:libvirt-renderer](/recipes/internals/libvirt-renderer/)):
     libvirt:
       devices:
