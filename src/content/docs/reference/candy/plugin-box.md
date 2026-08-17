@@ -14,9 +14,9 @@ description: "The build-mode `charly box …` verb HANDLERS relocated into a COM
 The build-mode `charly box …` verb HANDLERS relocated into a COMPILED-IN command plugin
 candy (P15, K5). `charly box` is a SHARED command group whose subcommands have different
 owners: the core BoxCmd keeps the grammar spine + build (→plugin-build) / merge / labels /
-feature / the authoring verbs, while THIS candy contributes six NESTED command providers
+feature / the authoring verbs, while THIS candy contributes five NESTED command providers
 under the `box` parent (each command:<word> with CommandParent()=="box"): generate,
-validate, new, pkg, inspect, list. COMPILED-IN, each dispatches IN-PROC via Invoke(OpRun)
+validate, new, inspect, list. COMPILED-IN, each dispatches IN-PROC via Invoke(OpRun)
 (kong-parse its sub-grammar), so the handlers own charly's real stdio. `generate` renders
 the .build/ tree by InvokeProvider'ing the peer build:generate word (candy/plugin-build),
 which drives HostBuild("build-resolve", GenerateOnly); `new` (candy/project/box) calls the
@@ -24,8 +24,7 @@ sdk/kit scaffold engine directly (kit.ScaffoldCandy/ScaffoldProject/AddBox), no 
 reentry; `validate` fetches the error-TOLERANT resolved-project envelope
 (HostBuild("validate-project")) and runs the whole per-kind/op rule engine + the deploykit
 resolution-graph checks IN-PLUGIN over it, merging the host's CUE-conformance / tunable /
-base⊻from diagnostics for the verdict; `pkg` reaches the hidden core __box-pkg reentry
-over HostBuild("cli"); `inspect` and `list` read the generic spec.ResolvedProject envelope
+base⊻from diagnostics for the verdict; `inspect` and `list` read the generic spec.ResolvedProject envelope
 (InvokeProvider("build","project")) — inspect's default JSON is snake_case canonical — with the
 deploy-overlay formats (inspect tunnel/bind_mounts) + store-live `list tags` reaching the
 hidden core __box-inspect-overlay / __box-list-tags reentries. Their data still needs the
@@ -39,4 +38,4 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 
 | Intent | Step |
 |---|---|
-| `check` | the box command plugin ships a buildable Go module (go.mod + the provider) the host can compile in; the full `charly box generate/validate/new/pkg` end-to-end is exercised by the live R10 + the Go tests |
+| `check` | the box command plugin ships a buildable Go module (go.mod + the provider) the host can compile in; the full `charly box generate/validate/new` end-to-end is exercised by the live R10 + the Go tests |
