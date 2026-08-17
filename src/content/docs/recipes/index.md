@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: what a factory floor runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-300 cards across 26 plugins, in four groups.
+301 cards across 26 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -305,6 +305,7 @@ Programming language runtimes and package managers — python, python-ml, pixi (
 Self-contained skills for running the ollama LLM-server image.
 
 - [ollama](/recipes/ollama/ollama/)
+- [ollama-cli](/recipes/ollama/ollama-cli/)
 - [ollama-layer](/recipes/ollama/ollama-layer/)
 
 ### charly-openclaw

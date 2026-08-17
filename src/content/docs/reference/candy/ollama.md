@@ -7,7 +7,7 @@ description: "GPU-agnostic Ollama LLM inference server on port 11434 Installs th
 
 | | |
 |---|---|
-| **Version** | `2026.144.1443` |
+| **Version** | `2026.229.1013` |
 | **Repo** | superproject |
 
 GPU-agnostic Ollama LLM inference server on port 11434
@@ -17,7 +17,10 @@ listens on 0.0.0.0:11434. The binary auto-detects a GPU at runtime and
 falls back to CPU inference, so the candy carries no CUDA dependency.
 Pulled models persist under the ~/.ollama models volume. The running
 service exposes the Ollama HTTP API (e.g. /api/tags) so any composing box
-can serve and query local models.
+can serve and query local models. The installed upstream version follows
+the var OLLAMA_VERSION (default `latest`; set a release tag to pin). The
+companion plugin candy plugin-ollama adds the `charly ollama` management
+CLI against a deployed server.
 
 ## Services
 
@@ -29,8 +32,9 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 
 | Intent | Step |
 |---|---|
-| `run` | download=https://github.com/ollama/ollama/releases/latest/download/ollama-linux-amd64.tar.zst |
+| `run` | download and install the upstream ollama binary release (var OLLAMA_VERSION, default latest) |
 | `check` | the ollama binary is installed at /usr/bin/ollama |
 | `check` | the running ollama service answers the model-tags API with HTTP 200 on port 11434 |
 | `check` | the ollama CLI reports an "ollama version" string |
+| `check` | the ollama CLI lists models against the live service with exit 0 |
 | `agent-check` | models pulled via `ollama pull` are stored under the ~/.ollama models volume and survive a service restart |
