@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: what a factory floor runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-300 cards across 26 plugins, in four groups.
+302 cards across 26 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -33,6 +33,7 @@ Build/authoring CLI verbs — build, generate, list, inspect, merge, new, pull, 
 - [generate](/recipes/build/generate/)
 - [inspect](/recipes/build/inspect/)
 - [list](/recipes/build/list/)
+- [load](/recipes/build/load/)
 - [merge](/recipes/build/merge/)
 - [migrate](/recipes/build/migrate/)
 - [new](/recipes/build/new/)
@@ -204,6 +205,7 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [fedora-test](/recipes/distros/fedora-test/)
 - [github-runner](/recipes/distros/github-runner/)
 - [githubrunner](/recipes/distros/githubrunner/)
+- [nested-podman-socket](/recipes/distros/nested-podman-socket/)
 - [nvidia](/recipes/distros/nvidia/)
 - [nvidia-layer](/recipes/distros/nvidia-layer/)
 - [qemu-guest-agent](/recipes/distros/qemu-guest-agent/)
