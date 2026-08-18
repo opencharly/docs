@@ -1,5 +1,5 @@
 ---
-title: "charly set"
+title: "set"
 description: "The set command word, served by the plugin-authoring plugin candy."
 ---
 
@@ -29,4 +29,4 @@ COMPILED-IN, it dispatches IN-PROC via Invoke(OpRun) (kong-parse each verb's gra
 the handlers own charly's real stdio. Placement-invisible (F8): the SAME provider compiles
 into charly or serves out-of-process.
 
-Run `charly set --help` for the live flag grammar.
+`charly --help` prints the command tree, including where `set` is invoked and under which parent.

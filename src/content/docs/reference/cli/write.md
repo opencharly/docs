@@ -1,5 +1,5 @@
 ---
-title: "charly write"
+title: "write"
 description: "The write command word, served by the plugin-authoring plugin candy."
 ---
 
@@ -29,4 +29,4 @@ COMPILED-IN, it dispatches IN-PROC via Invoke(OpRun) (kong-parse each verb's gra
 the handlers own charly's real stdio. Placement-invisible (F8): the SAME provider compiles
 into charly or serves out-of-process.
 
-Run `charly write --help` for the live flag grammar.
+`charly --help` prints the command tree, including where `write` is invoked and under which parent.

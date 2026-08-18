@@ -1,5 +1,5 @@
 ---
-title: "charly logs"
+title: "logs"
 description: "The logs command word, served by the plugin-pod plugin candy."
 ---
 
@@ -29,4 +29,4 @@ plugin cannot import or hold. COMPILED-IN, it dispatches IN-PROC via Invoke(OpRu
 handlers run in charly's own process and inherit real stdio/TTY natively. Placement of
 THIS candy is independent of candy/plugin-deploy-pod's placement.
 
-Run `charly logs --help` for the live flag grammar.
+`charly --help` prints the command tree, including where `logs` is invoked and under which parent.

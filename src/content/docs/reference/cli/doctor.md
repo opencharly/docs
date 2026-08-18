@@ -1,5 +1,5 @@
 ---
-title: "charly doctor"
+title: "doctor"
 description: "The doctor command word, served by the plugin-doctor plugin candy."
 ---
 
@@ -50,4 +50,4 @@ carries no plugin_input (the args are plain CLI tokens). The R10 witness is the 
 check-doctor-local bed: `charly doctor` exits 0 and prints the host-dependency report,
 proving the externalized command + its peer verb:gpu/verb:credential dispatches end-to-end.
 
-Run `charly doctor --help` for the live flag grammar.
+`charly --help` prints the command tree, including where `doctor` is invoked and under which parent.

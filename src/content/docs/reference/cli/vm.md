@@ -1,5 +1,5 @@
 ---
-title: "charly vm"
+title: "vm"
 description: "The vm command word, served by the plugin-vm plugin candy."
 ---
 
@@ -37,4 +37,4 @@ plugin/plugin_input — the method + every libvirt-exclusive modifier ride the i
 validated against this plugin's own #LibvirtInput; authoring unchanged), running the
 LibvirtCmd Kong tree IN this plugin's process.
 
-Run `charly vm --help` for the live flag grammar.
+`charly --help` prints the command tree, including where `vm` is invoked and under which parent.

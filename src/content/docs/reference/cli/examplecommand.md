@@ -1,5 +1,5 @@
 ---
-title: "charly examplecommand"
+title: "examplecommand"
 description: "The examplecommand command word, served by the plugin-example-command plugin candy."
 ---
 
@@ -28,4 +28,4 @@ command-class companion of the verb-class candy/plugin-example-external. The
 command class is external-capable: charly prescans `examplecommand` into the
 CLI grammar and fork/execs this binary on a `charly examplecommand` invocation.
 
-Run `charly examplecommand --help` for the live flag grammar.
+`charly --help` prints the command tree, including where `examplecommand` is invoked and under which parent.
