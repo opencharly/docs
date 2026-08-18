@@ -1,5 +1,5 @@
 ---
-title: "mcp"
+title: "charly mcp"
 description: "The mcp command word, served by the plugin-mcp plugin candy."
 ---
 
@@ -53,4 +53,4 @@ The R10 consumer is an MCP-providing pod bed whose check composes this plugin
 (e.g. jupyter / chrome-devtools-mcp) plus the charly-mcp candy that runs
 `charly mcp serve`.
 
-`charly --help` prints the command tree, including where `mcp` is invoked and under which parent.
+Run `charly mcp --help` for the live flag grammar.

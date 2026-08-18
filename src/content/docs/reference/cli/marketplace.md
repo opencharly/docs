@@ -1,5 +1,5 @@
 ---
-title: "marketplace"
+title: "charly marketplace"
 description: "The marketplace command word, served by the plugin-marketplace plugin candy."
 ---
 
@@ -24,8 +24,12 @@ plugins/<family>/agents/*.md, per-family .claude-plugin/plugin.json + .codex-plu
 plugin.json + .mcp.json, plugins/.claude-plugin/marketplace.json + plugins/profiles.json,
 the .claude/settings.json plugin-owned keys, .claude/hooks/* (from hook entities),
 the generated R0 dispatcher section in CLAUDE.md/AGENTS.md, and the plugins/setup
-launcher. `charly marketplace drift` is the fail-closed no-op gate (the docs:drift
-model); a stale mirror is a hard failure.
+launcher. `charly marketplace drift` is the fail-closed no-op gate: it regenerates in
+memory and compares with the artifacts ON DISK, never with git, so it proves
+"regeneration is a no-op" and says nothing about whether the tree is committed —
+this repository's own `task skills:drift` recipe is what adds that `git status`
+half. A stale mirror is a hard failure, but it is red only for whoever runs it:
+drift runs in no CI workflow.
 
 PLACEMENT — deliberately NOT listed in charly/charly.yml compiled_plugins. This is a
 DEV-TIME generator, run on a contributor's machine to regenerate the harness surface
@@ -38,4 +42,4 @@ HAND-AUTHORED, NEVER TOUCHED: plugins/README.md, plugins/CHANGELOG/, plugins/CLA
 plugins/LICENSE, plugins/scripts/squash_body.py, plugins/kimi-user-config.toml, and the
 hand-owned keys of .claude/settings.json (permissions, env, teammateMode, …).
 
-`charly --help` prints the command tree, including where `marketplace` is invoked and under which parent.
+Run `charly marketplace --help` for the live flag grammar.

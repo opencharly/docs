@@ -1,5 +1,5 @@
 ---
-title: "fleet"
+title: "charly fleet"
 description: "The fleet command word, served by the plugin-fleet plugin candy."
 ---
 
@@ -31,4 +31,4 @@ core. `path`
 resolves plugin-side via kit.DefaultDeployConfigPath (no seam). command:fleet
 is COMPILED-IN; its grammar is prescanned into the CLI.
 
-`charly --help` prints the command tree, including where `fleet` is invoked and under which parent.
+Run `charly fleet --help` for the live flag grammar.

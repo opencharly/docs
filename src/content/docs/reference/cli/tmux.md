@@ -1,5 +1,5 @@
 ---
-title: "tmux"
+title: "charly tmux"
 description: "The tmux command word, served by the plugin-agent plugin candy."
 ---
 
@@ -23,4 +23,4 @@ and terminal operation through generic Provider.Channel target data. The
 tmux compatibility surface is a typed facade and never constructs remote
 tmux shell strings or accesses an operator tmux socket.
 
-`charly --help` prints the command tree, including where `tmux` is invoked and under which parent.
+Run `charly tmux --help` for the live flag grammar.

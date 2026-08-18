@@ -1,5 +1,5 @@
 ---
-title: "docs"
+title: "charly docs"
 description: "The docs command word, served by the plugin-docs plugin candy."
 ---
 
@@ -45,4 +45,4 @@ than resolving through main's `import:` closure. That closure pulls arch, cachyo
 fedora only, so a catalog built on it silently omits every debian.* and ubuntu.* box
 while duplicating ten arch boxes under transitive cachyos.arch.* aliases.
 
-`charly --help` prints the command tree, including where `docs` is invoked and under which parent.
+Run `charly docs --help` for the live flag grammar.

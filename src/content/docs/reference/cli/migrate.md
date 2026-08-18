@@ -1,5 +1,5 @@
 ---
-title: "migrate"
+title: "charly migrate"
 description: "The migrate command word, served by the plugin-migrate plugin candy."
 ---
 
@@ -42,4 +42,4 @@ proves the compiled-in command:migrate resolves + Invoke(OpRun) runs the engine
 end-to-end: (a) at-HEAD no-op, (b) --dry-run flag plumbing, (c) below-floor refusal. The
 declarative transform ops are covered by the plugin's engine_test.go unit tests.
 
-`charly --help` prints the command tree, including where `migrate` is invoked and under which parent.
+Run `charly migrate --help` for the live flag grammar.
