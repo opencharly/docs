@@ -30,4 +30,4 @@ workflows do NOT use this path — they drop a prebuilt plugin binary into
 /usr/lib/charly/plugins/ and resolve project-less via discoverBakedPluginWords.
 This shim is the DEV path: it makes the verb resolvable from a charly checkout.
 
-`generate-packages` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `generate-packages` is invoked and under which parent.

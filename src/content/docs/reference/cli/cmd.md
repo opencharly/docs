@@ -36,4 +36,4 @@ drive HostBuild("cli"). The out-of-process CliMain path has no reverse channel, 
 errors. command:cmd is a FLAT command (Box + Command positionals), so NewMeta declares no
 Subcommands and ships no plugin_input.
 
-`cmd` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `cmd` is invoked and under which parent.

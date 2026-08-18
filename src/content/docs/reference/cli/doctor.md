@@ -50,4 +50,4 @@ carries no plugin_input (the args are plain CLI tokens). The R10 witness is the 
 check-doctor-local bed: `charly doctor` exits 0 and prints the host-dependency report,
 proving the externalized command + its peer verb:gpu/verb:credential dispatches end-to-end.
 
-`doctor` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `doctor` is invoked and under which parent.

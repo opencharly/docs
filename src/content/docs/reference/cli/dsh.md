@@ -30,4 +30,4 @@ INSIDE the venue via cc.Exec().RunCapture — the one place plugin-dsh
 diverges from plugin-agentteams' host-based cc.ResolveEndpoint (the
 loopback-bound web UI is probed in-box on 127.0.0.1:3080).
 
-`dsh` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `dsh` is invoked and under which parent.

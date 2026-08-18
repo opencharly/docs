@@ -52,4 +52,4 @@ The R10 witness is the disposable check-local bed run to a fresh `charly update`
 short iterate: smoke, proving the externalized command + the full box→deploy→live→bed-run
 gate machinery end-to-end.
 
-`check` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `check` is invoked and under which parent.

@@ -28,4 +28,4 @@ command-class companion of the verb-class candy/plugin-example-external. The
 command class is external-capable: charly prescans `examplecommand` into the
 CLI grammar and fork/execs this binary on a `charly examplecommand` invocation.
 
-`examplecommand` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `examplecommand` is invoked and under which parent.

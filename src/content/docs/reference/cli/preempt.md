@@ -60,4 +60,4 @@ stopHolders+wait -> lease persisted -> applyMode SKIPS (no gpu selector) -> clai
 teardown -> ReleaseClaimant -> restoreHolders, all THROUGH the externalized dispatch +
 the resolved-project envelope (gather/resources) + InvokeProvider (the rest).
 
-`preempt` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `preempt` is invoked and under which parent.

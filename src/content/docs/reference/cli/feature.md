@@ -42,4 +42,4 @@ The R10 witness is the disposable check-feature-local bed: `charly feature list 
 exits 0 and lists this project's candies — including the plugin-feature candy itself —
 proving the compiled-in command + the plugin-side loader enumeration end-to-end.
 
-`feature` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `feature` is invoked and under which parent.

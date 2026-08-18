@@ -53,4 +53,4 @@ The R10 consumer is an MCP-providing pod bed whose check composes this plugin
 (e.g. jupyter / chrome-devtools-mcp) plus the charly-mcp candy that runs
 `charly mcp serve`.
 
-`mcp` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `mcp` is invoked and under which parent.

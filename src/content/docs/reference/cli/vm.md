@@ -37,4 +37,4 @@ plugin/plugin_input — the method + every libvirt-exclusive modifier ride the i
 validated against this plugin's own #LibvirtInput; authoring unchanged), running the
 LibvirtCmd Kong tree IN this plugin's process.
 
-`vm` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `vm` is invoked and under which parent.

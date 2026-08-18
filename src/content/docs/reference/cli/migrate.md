@@ -42,4 +42,4 @@ proves the compiled-in command:migrate resolves + Invoke(OpRun) runs the engine
 end-to-end: (a) at-HEAD no-op, (b) --dry-run flag plumbing, (c) below-floor refusal. The
 declarative transform ops are covered by the plugin's engine_test.go unit tests.
 
-`migrate` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `migrate` is invoked and under which parent.

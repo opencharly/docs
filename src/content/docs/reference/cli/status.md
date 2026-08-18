@@ -64,4 +64,4 @@ overlay_golden_test.go; the host collection engine's parity by the plugin's
 TestCollectPodLiveGolden (candy/plugin-substrate/status_test.go) — the relocated
 pod-live transform golden (P14a, moved from charly/status_golden_test.go).
 
-`status` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `status` is invoked and under which parent.

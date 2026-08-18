@@ -51,4 +51,4 @@ is the disposable check-commands-local bed: `charly settings list` exits 0 and l
 resolved runtime-config keys, proving the externalized command + its plugin-owned
 config I/O end-to-end.
 
-`settings` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `settings` is invoked and under which parent.

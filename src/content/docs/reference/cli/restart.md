@@ -29,4 +29,4 @@ plugin cannot import or hold. COMPILED-IN, it dispatches IN-PROC via Invoke(OpRu
 handlers run in charly's own process and inherit real stdio/TTY natively. Placement of
 THIS candy is independent of candy/plugin-deploy-pod's placement.
 
-`restart` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `restart` is invoked and under which parent.

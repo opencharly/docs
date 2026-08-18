@@ -38,4 +38,4 @@ baked `.providers` manifest) but advertises NO Describe capability. The R10 witn
 is the disposable check-udev-local bed: `charly udev generate` asserting the exact
 rule-file content + `charly udev status` exit 0, run host-side (GPU-less).
 
-`udev` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `udev` is invoked and under which parent.

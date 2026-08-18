@@ -38,4 +38,4 @@ HAND-AUTHORED, NEVER TOUCHED: plugins/README.md, plugins/CHANGELOG/, plugins/CLA
 plugins/LICENSE, plugins/scripts/squash_body.py, plugins/kimi-user-config.toml, and the
 hand-owned keys of .claude/settings.json (permissions, env, teammateMode, …).
 
-`marketplace` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `marketplace` is invoked and under which parent.

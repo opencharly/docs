@@ -31,4 +31,4 @@ core. `path`
 resolves plugin-side via kit.DefaultDeployConfigPath (no seam). command:fleet
 is COMPILED-IN; its grammar is prescanned into the CLI.
 
-`fleet` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
+`charly --help` prints the command tree, including where `fleet` is invoked and under which parent.
