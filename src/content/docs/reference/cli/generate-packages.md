@@ -1,5 +1,5 @@
 ---
-title: "charly generate-packages"
+title: "generate-packages"
 description: "The generate-packages command word, served by the generate-packages plugin candy."
 ---
 
@@ -30,4 +30,4 @@ workflows do NOT use this path — they drop a prebuilt plugin binary into
 /usr/lib/charly/plugins/ and resolve project-less via discoverBakedPluginWords.
 This shim is the DEV path: it makes the verb resolvable from a charly checkout.
 
-Run `charly generate-packages --help` for the live flag grammar.
+`charly --help` prints the command tree, including where `generate-packages` is invoked and under which parent.
