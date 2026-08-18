@@ -1,5 +1,5 @@
 ---
-title: "charly alias"
+title: "alias"
 description: "The alias command word, served by the plugin-alias plugin candy."
 ---
 
@@ -25,4 +25,4 @@ AliasCmd tree), so the handlers own charly's real stdio; `add` (image-exists gua
 HostBuild("cli") reverse channel by re-running `charly box labels …`. Placement-invisible
 (F8): the SAME provider compiles into charly or serves out-of-process.
 
-Run `charly alias --help` for the live flag grammar.
+`charly --help` prints the command tree, including where `alias` is invoked and under which parent.

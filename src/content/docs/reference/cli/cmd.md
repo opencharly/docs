@@ -1,5 +1,5 @@
 ---
-title: "charly cmd"
+title: "cmd"
 description: "The cmd command word, served by the plugin-cmd plugin candy."
 ---
 
@@ -36,4 +36,4 @@ drive HostBuild("cli"). The out-of-process CliMain path has no reverse channel, 
 errors. command:cmd is a FLAT command (Box + Command positionals), so NewMeta declares no
 Subcommands and ships no plugin_input.
 
-Run `charly cmd --help` for the live flag grammar.
+`charly --help` prints the command tree, including where `cmd` is invoked and under which parent.

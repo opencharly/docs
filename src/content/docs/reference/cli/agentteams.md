@@ -1,5 +1,5 @@
 ---
-title: "charly agentteams"
+title: "agentteams"
 description: "The agentteams command word, served by the plugin-agentteams plugin candy."
 ---
 
@@ -35,4 +35,4 @@ SDK. Endpoint from AGENTTEAMS_CONTROLLER_URL (default
 http://127.0.0.1:8090); token from AGENTTEAMS_AUTH_TOKEN env or
 AGENTTEAMS_AUTH_TOKEN_FILE file (the upstream runtime contract).
 
-Run `charly agentteams --help` for the live flag grammar.
+`charly --help` prints the command tree, including where `agentteams` is invoked and under which parent.

@@ -1,5 +1,5 @@
 ---
-title: "charly dsh"
+title: "dsh"
 description: "The dsh command word, served by the plugin-dsh plugin candy."
 ---
 
@@ -30,4 +30,4 @@ INSIDE the venue via cc.Exec().RunCapture — the one place plugin-dsh
 diverges from plugin-agentteams' host-based cc.ResolveEndpoint (the
 loopback-bound web UI is probed in-box on 127.0.0.1:3080).
 
-Run `charly dsh --help` for the live flag grammar.
+`charly --help` prints the command tree, including where `dsh` is invoked and under which parent.

@@ -1,5 +1,5 @@
 ---
-title: "charly tui"
+title: "tui"
 description: "The tui command word, served by the plugin-agent plugin candy."
 ---
 
@@ -23,4 +23,4 @@ and terminal operation through generic Provider.Channel target data. The
 tmux compatibility surface is a typed facade and never constructs remote
 tmux shell strings or accesses an operator tmux socket.
 
-Run `charly tui --help` for the live flag grammar.
+`charly --help` prints the command tree, including where `tui` is invoked and under which parent.
