@@ -47,6 +47,7 @@ response propagates as the command's own non-zero exit.
 
 ## Cross-References
 
-- [`/charly-ollama:ollama`](/recipes/ollama/ollama/) — the ollama box (GPU deployment of the server).
-- [`/charly-ollama:ollama-layer`](/recipes/ollama/ollama-layer/) — the ollama candy (the server itself).
+- [`/charly-ollama:ollama`](/recipes/ollama/ollama/) — the ollama BOX (a deployment of the server).
+- [`/charly-ollama:ollama-layer`](/recipes/ollama/ollama-layer/) — the ollama CANDY (the server itself), which that
+  box composes.
 - [`/charly-internals:plugin`](/recipes/internals/plugin/) — compiled-in command plugins, the provider model.

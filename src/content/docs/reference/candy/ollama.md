@@ -20,10 +20,13 @@ release tarball is extracted to /usr at the version the var OLLAMA_VERSION
 selects. That var is PINNED to a release tag and must stay one: the download
 cache is content-addressed by the sha256 of the URL, so a `latest` URL would
 hash to one key forever and serve the first tarball it ever fetched, long
-after upstream moved on. The candy is CPU-only
-and carries no GPU dependency — a GPU backend is an IMAGE-level composition
-choice (compose ollama-cuda or ollama-rocm), which is what keeps this layer
-small. Pulled models persist under the ~/.ollama models volume. The running
+after upstream moved on. The candy declares NO GPU dependency — a GPU backend is
+an IMAGE-level composition choice (compose ollama-cuda or ollama-rocm). What that
+buys differs by install path, and the difference is worth stating rather than
+averaging: on a PACKAGED distro the base package is genuinely CPU-only at 66 MiB
+and a backend is strictly opt-in, which is what keeps this layer small; on the
+TARBALL path the single upstream archive already contains the CUDA backend, so a
+tarball consumer pays for it whether or not any box composes ollama-cuda. Pulled models persist under the ~/.ollama models volume. The running
 service exposes the Ollama HTTP API (e.g. /api/tags) so any composing box
 can serve and query local models. The companion plugin candy plugin-ollama
 adds the `charly ollama` management CLI against a deployed server.
