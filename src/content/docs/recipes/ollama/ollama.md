@@ -29,17 +29,24 @@ GPU-accelerated Ollama LLM inference server.
 
 ## GPU is box-level — the `ollama` candy is GPU-agnostic
 
-The `ollama` **candy** installs the distro-agnostic Ollama binary (a tarball
-extracted to `/usr`) and a supervisord `ollama serve` service. The binary
-auto-detects the GPU at runtime and falls back to CPU inference when none is
-present, so the candy carries **no `cuda` dependency** — it only `require:`s
-`supervisord`. GPU support is a **composition choice made at the box level**:
+The `ollama` **candy** installs the Ollama binary and a supervisord
+`ollama serve` service, and carries **no GPU dependency** — it only
+`require:`s `supervisord`. Two install paths converge on one layout
+(`/usr/bin/ollama` plus backends under `/usr/lib/ollama`): on Arch and its
+derivatives the packaged `ollama` (66 MiB) is installed, and everywhere else
+the upstream release tarball is extracted to `/usr`. The step is gated on
+whether the binary already exists rather than on a distro name, so any distro
+that gains an ollama package is picked up without an edit.
 
-- This `ollama` box keeps GPU acceleration via `base: nvidia` (the `nvidia`
-  box composes the `cuda` candy, inherited through the base chain).
-- CPU-only consumers compose the `ollama` candy on a non-NVIDIA base and get
-  CPU inference for free — e.g. [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) (cachyos base,
-  no `cuda`).
+GPU support is a **composition choice made at the box level**, and on the
+packaged path that choice is what keeps images small: the tarball bundles
+every backend (1.36 GiB), while the packages split them out.
+
+- The `ollama` box keeps GPU acceleration via `base: nvidia` and composes
+  `ollama-cuda` (~988 MiB) for the CUDA backend.
+- The `ollama-rocm` box composes `ollama-rocm` (~2.9 GiB) for AMD.
+- CPU-only consumers compose the `ollama` candy alone and pay for neither —
+  e.g. [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) (cachyos base, no GPU candy).
 
 ## Ports
 

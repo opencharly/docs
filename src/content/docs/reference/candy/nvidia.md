@@ -7,7 +7,7 @@ description: "NVIDIA GPU runtime — nvidia-container-toolkit (nvidia-ctk CDI) p
 
 | | |
 |---|---|
-| **Version** | `2026.167.0603` |
+| **Version** | `2026.229.1218` |
 | **Repo** | superproject |
 
 NVIDIA GPU runtime — nvidia-container-toolkit (nvidia-ctk CDI) plus the driver-lib path and Vulkan ICD wiring
@@ -34,6 +34,7 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 |---|---|
 | `run` | mkdir=/etc/vulkan/icd.d |
 | `run` | command=[ -f /usr/share/vulkan/icd.d/nvidia_icd.x86_64.json ] && \ ln -sf /usr/share/vulkan/icd.d/nvidia_icd.x86_64.json /etc/vulkan/icd.d/nvidia_icd.json \|\| true [ -f /usr/share/vulkan/implicit_layer.d/nvidia_layers.json ] && \ ln -sf /usr/share/vulkan/implicit_layer.d/nvidia_layers.json /etc/vulkan/icd.d/nvidia_layers.json \|\| true |
+| `check` | the nvidia-container-toolkit repo enforces package signature verification, so its packages cannot install unverified |
 | `check` | the nvidia-container-toolkit package is installed for CDI device generation |
 | `check` | the nvidia-ctk CLI binary lands on the canonical /usr/bin path |
 | `check` | nvidia-ctk runs and reports a version number |
