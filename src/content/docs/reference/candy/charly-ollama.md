@@ -7,7 +7,7 @@ description: "Metadata concept candy owning the charly-ollama skills whose names
 
 | | |
 |---|---|
-| **Version** | `2026.218.1200` |
+| **Version** | `2026.229.1218` |
 | **Repo** | superproject |
 
 Metadata concept candy owning the charly-ollama skills whose names have no namesake candy (ollama LLM-server image). Owns its family's `skill:` kind entities (sibling nodes in this file) — the

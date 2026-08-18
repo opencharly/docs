@@ -36,7 +36,7 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 | Intent | Step |
 |---|---|
 | `run` | command=touch /etc/subuid /etc/subgid sed -i "/^root:/d" /etc/subuid /etc/subgid echo "root:1:65535" >> /etc/subuid echo "root:1:65535" >> /etc/subgid uid1000=$(getent passwd 1000 2>/dev/null \| cut -d: -f1 \|\| true) if [ -n "${uid1000}" ] && [ "${uid1000}" != "root" ]; then sed -i "/^${uid1000}:/d" /etc/subuid /etc/subgid { echo "${uid1000}:1:999" echo "${uid1000}:1001:64535" } >> /etc/subuid { echo "${uid1000}:1:999" echo "${uid1000}:1001:64535" } >> /etc/subgid fi |
-| `run` | grant cap_setuid/cap_setgid to newuidmap/newgidmap AND strip the setuid-root bit. Debian/Ubuntu's uidmap package ships these binaries setuid-root (mode 4755); a newuidmap that is BOTH setuid-root AND file-capability'd fails inside a nested rootless user namespace with "newuidmap: open of uid_map failed: Permission denied". Fedora/Arch ship them cap-only (no setuid bit), so `chmod u-s` makes every distro match that working posture and is a no-op where the bit is already absent. RDD-confirmed 2026-06-16. |
+| `run` | grant cap_setuid/cap_setgid to newuidmap/newgidmap AND strip the setuid-root bit. Debian/Ubuntu's uidmap package ships these binaries setuid-root (mode 4755); a newuidmap that is BOTH setuid-root AND file-capability'd fails inside a nested rootless user namespace with "newuidmap: open of uid_map failed: Permission denied". Fedora/Arch ship them cap-only (no setuid bit), so `chmod u-s` makes every distro match that working posture and is a no-op where the bit is already absent. RDD-confirmed. |
 | `run` | mkdir=/etc/containers |
 | `run` | mkdir=${HOME}/.config/containers |
 | `run` | write=/etc/containers/containers.conf |

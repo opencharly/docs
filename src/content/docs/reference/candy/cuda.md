@@ -7,7 +7,7 @@ description: "CUDA toolkit (nvcc, cudart, cuDNN, onnxruntime) stitched into the 
 
 | | |
 |---|---|
-| **Version** | `2026.144.1443` |
+| **Version** | `2026.229.1218` |
 | **Repo** | superproject |
 
 CUDA toolkit (nvcc, cudart, cuDNN, onnxruntime) stitched into the canonical /usr layout on Fedora and Arch
