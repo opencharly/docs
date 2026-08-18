@@ -42,4 +42,4 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 
 | Intent | Step |
 |---|---|
-| `check` | the box command plugin ships a buildable Go module (go.mod + the provider) the host can compile in; the full `charly box generate/validate/new/pkg` end-to-end is exercised by the live R10 + the Go tests |
+| `check` | the box command plugin ships a buildable Go module (go.mod + the provider) the host can compile in; the full `charly box generate/validate/new` end-to-end is exercised by the live R10 + the Go tests |
