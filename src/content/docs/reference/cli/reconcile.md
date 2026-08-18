@@ -1,5 +1,5 @@
 ---
-title: "charly reconcile"
+title: "reconcile"
 description: "The reconcile command word, served by the plugin-box plugin candy."
 ---
 
@@ -40,4 +40,4 @@ fully-resolved project / deploy overlay / podman store the plugin cannot compute
 imports only the sdk module, never charly core. Placement-invisible (F8): the SAME provider
 compiles into charly or serves out-of-process.
 
-Run `charly reconcile --help` for the live flag grammar.
+`reconcile` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.

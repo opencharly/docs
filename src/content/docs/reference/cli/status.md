@@ -1,5 +1,5 @@
 ---
-title: "charly status"
+title: "status"
 description: "The status command word, served by the plugin-status plugin candy."
 ---
 
@@ -64,4 +64,4 @@ overlay_golden_test.go; the host collection engine's parity by the plugin's
 TestCollectPodLiveGolden (candy/plugin-substrate/status_test.go) — the relocated
 pod-live transform golden (P14a, moved from charly/status_golden_test.go).
 
-Run `charly status --help` for the live flag grammar.
+`status` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.

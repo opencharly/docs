@@ -1,5 +1,5 @@
 ---
-title: "charly clean"
+title: "clean"
 description: "The clean command word, served by the plugin-clean plugin candy."
 ---
 
@@ -87,4 +87,4 @@ the disposable check-commands-local bed: `charly clean --dry-run` AND `charly cl
 externalized command + the local retention engine + the loader-resolved
 retention-defaults end-to-end for both the charly-labeled and the store-wide sweep.
 
-Run `charly clean --help` for the live flag grammar.
+`clean` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.

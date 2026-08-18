@@ -1,5 +1,5 @@
 ---
-title: "charly settings"
+title: "settings"
 description: "The settings command word, served by the plugin-settings plugin candy."
 ---
 
@@ -51,4 +51,4 @@ is the disposable check-commands-local bed: `charly settings list` exits 0 and l
 resolved runtime-config keys, proving the externalized command + its plugin-owned
 config I/O end-to-end.
 
-Run `charly settings --help` for the live flag grammar.
+`settings` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.

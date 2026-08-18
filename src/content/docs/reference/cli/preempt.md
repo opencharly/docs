@@ -1,5 +1,5 @@
 ---
-title: "charly preempt"
+title: "preempt"
 description: "The preempt command word, served by the plugin-preempt plugin candy."
 ---
 
@@ -60,4 +60,4 @@ stopHolders+wait -> lease persisted -> applyMode SKIPS (no gpu selector) -> clai
 teardown -> ReleaseClaimant -> restoreHolders, all THROUGH the externalized dispatch +
 the resolved-project envelope (gather/resources) + InvokeProvider (the rest).
 
-Run `charly preempt --help` for the live flag grammar.
+`preempt` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.

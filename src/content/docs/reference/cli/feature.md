@@ -1,5 +1,5 @@
 ---
-title: "charly feature"
+title: "feature"
 description: "The feature command word, served by the plugin-feature plugin candy."
 ---
 
@@ -42,4 +42,4 @@ The R10 witness is the disposable check-feature-local bed: `charly feature list 
 exits 0 and lists this project's candies — including the plugin-feature candy itself —
 proving the compiled-in command + the plugin-side loader enumeration end-to-end.
 
-Run `charly feature --help` for the live flag grammar.
+`feature` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.

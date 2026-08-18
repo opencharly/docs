@@ -1,5 +1,5 @@
 ---
-title: "charly refresh"
+title: "refresh"
 description: "The refresh command word, served by the plugin-authoring plugin candy."
 ---
 
@@ -29,4 +29,4 @@ COMPILED-IN, it dispatches IN-PROC via Invoke(OpRun) (kong-parse each verb's gra
 the handlers own charly's real stdio. Placement-invisible (F8): the SAME provider compiles
 into charly or serves out-of-process.
 
-Run `charly refresh --help` for the live flag grammar.
+`refresh` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.

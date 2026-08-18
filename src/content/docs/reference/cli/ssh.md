@@ -1,5 +1,5 @@
 ---
-title: "charly ssh"
+title: "ssh"
 description: "The ssh command word, served by the plugin-ssh plugin candy."
 ---
 
@@ -34,4 +34,4 @@ command:ssh dispatches through the compiled-in registry path (registerCompiledPl
 resolve(ClassCommand,"ssh") → dispatchInProcCommand → Invoke(OpRun)); NewMeta advertises
 command:ssh with no plugin_input (the args are plain CLI tokens kong-parsed into SshCmd).
 
-Run `charly ssh --help` for the live flag grammar.
+`ssh` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.

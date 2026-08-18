@@ -1,5 +1,5 @@
 ---
-title: "charly candy"
+title: "candy"
 description: "The candy command word, served by the plugin-candy plugin candy."
 ---
 
@@ -39,4 +39,4 @@ command:candy so the compiled-in registry path resolves it.
 The R10 witness is the disposable check-commands-local bed: `charly candy --help` exits
 0, proving the command tree resolves and dispatches end-to-end.
 
-Run `charly candy --help` for the live flag grammar.
+`candy` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.

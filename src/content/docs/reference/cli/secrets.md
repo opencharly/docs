@@ -1,5 +1,5 @@
 ---
-title: "charly secrets"
+title: "secrets"
 description: "The secrets command word, served by the plugin-secrets plugin candy."
 ---
 
@@ -47,4 +47,4 @@ in Describe. The R10 consumer is a deploy that resolves a secret_require/secret_
 through the externalized store (e.g. check-k3s-vm's K3S_CLUSTER_TOKEN autogen, or a
 pod bed) plus a host `charly secrets` round-trip.
 
-Run `charly secrets --help` for the live flag grammar.
+`secrets` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.

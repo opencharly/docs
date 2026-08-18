@@ -1,5 +1,5 @@
 ---
-title: "charly check"
+title: "check"
 description: "The check command word, served by the plugin-check plugin candy."
 ---
 
@@ -52,4 +52,4 @@ The R10 witness is the disposable check-local bed run to a fresh `charly update`
 short iterate: smoke, proving the externalized command + the full box→deploy→live→bed-run
 gate machinery end-to-end.
 
-Run `charly check --help` for the live flag grammar.
+`check` may be a top-level word or nested under a parent command. Run `charly --help` for the top-level words, and `charly <parent> --help` for a parent's nested grammar.
