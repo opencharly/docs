@@ -1,5 +1,5 @@
 ---
-title: "charly rm-candy"
+title: "rm-candy"
 description: "The rm-candy command word, served by the plugin-authoring plugin candy."
 ---
 
@@ -29,4 +29,4 @@ COMPILED-IN, it dispatches IN-PROC via Invoke(OpRun) (kong-parse each verb's gra
 the handlers own charly's real stdio. Placement-invisible (F8): the SAME provider compiles
 into charly or serves out-of-process.
 
-Run `charly rm-candy --help` for the live flag grammar.
+`charly --help` prints the command tree, including where `rm-candy` is invoked and under which parent.
