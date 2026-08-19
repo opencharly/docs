@@ -14,12 +14,12 @@ title: "openclaw-desktop"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/selkies-desktop:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/openclaw-full:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/ollama:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/charly:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/container-nesting:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/golang:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/gh:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/dbus:v2026.201.0706`
+- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/selkies-desktop:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/openclaw-full:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/ollama:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/charly:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/container-nesting:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/golang:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/gh:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/dbus:v2026.231.0714`

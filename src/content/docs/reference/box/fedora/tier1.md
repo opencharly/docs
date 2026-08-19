@@ -14,4 +14,4 @@ title: "tier1"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/check-tier1-layer:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/check-tier1-layer:v2026.231.0714`

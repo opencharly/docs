@@ -14,4 +14,4 @@ title: "fedora-nonfree"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/rpmfusion:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/rpmfusion:v2026.231.0714`

@@ -14,6 +14,6 @@ title: "charly-selftest"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/charly-mcp:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/container-nesting:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/claude-code:v2026.201.0706`
+- `@github.com/opencharly/charly/candy/charly-mcp:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/container-nesting:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/claude-code:v2026.231.0714`

@@ -14,14 +14,14 @@ title: "immich-ml"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/nodejs:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/cuda:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/python-ml:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/supervisord:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/postgresql:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/vectorchord:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/redis:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/immich:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/immich-ml:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/dbus:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/nodejs:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/cuda:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/python-ml:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/supervisord:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/postgresql:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/vectorchord:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/redis:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/immich:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/immich-ml:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/dbus:v2026.231.0714`

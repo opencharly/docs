@@ -14,6 +14,6 @@ title: "fedora-builder"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/pixi:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/nodejs:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/build-toolchain:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/pixi:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/nodejs:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/build-toolchain:v2026.231.0714`

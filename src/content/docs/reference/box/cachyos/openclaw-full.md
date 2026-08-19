@@ -14,5 +14,5 @@ title: "openclaw-full"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/openclaw-full:v2026.201.0706`
+- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/openclaw-full:v2026.231.0714`

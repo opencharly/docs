@@ -14,5 +14,5 @@ title: "python-ml"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/python-ml:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/python-ml:v2026.231.0714`
