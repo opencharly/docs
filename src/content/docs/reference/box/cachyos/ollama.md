@@ -14,6 +14,7 @@ title: "ollama"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/ollama:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/dbus:v2026.201.0706`
+- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/ollama:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/ollama-cuda:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/dbus:v2026.231.0714`
