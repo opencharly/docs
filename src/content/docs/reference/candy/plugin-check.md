@@ -55,3 +55,4 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 | Intent | Step |
 |---|---|
 | `check` | the check command plugin ships a buildable Go module (go.mod + the provider package) compiled into charly; the full `charly check` end-to-end (the in-proc HostBuild check-run dispatch + the bed-runner gate) is exercised by the live R10 (check-local + the roster) |
+| `check` | the `charly check stop` word is registered and reports cleanly when the named bed has no run in flight — the idempotent path, a success by design because a bed that is not running is the desired end state, never an error |
