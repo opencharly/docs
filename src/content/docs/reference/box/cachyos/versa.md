@@ -14,21 +14,21 @@ title: "versa"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/nvidia:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/cuda:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/marimo:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/airflow:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/osm-tools:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/maputnik:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/pmtiles-viewer:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/shortbread:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/versatiles-style:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/versatiles-fonts:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/maplibre-versatiles-styler:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/versatiles:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/versatiles-frontend:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/notebook-osm:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/notebook-graph:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/debug-tools:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/dbus:v2026.201.0706`
+- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/nvidia:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/cuda:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/marimo:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/airflow:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/osm-tools:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/maputnik:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/pmtiles-viewer:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/shortbread:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/versatiles-style:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/versatiles-fonts:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/maplibre-versatiles-styler:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/versatiles:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/versatiles-frontend:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/notebook-osm:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/notebook-graph:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/debug-tools:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/dbus:v2026.231.0714`

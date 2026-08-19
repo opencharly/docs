@@ -14,6 +14,6 @@ title: "composition-app"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/sshd:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/charly:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/check-composition-layer:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/sshd:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/charly:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/check-composition-layer:v2026.231.0714`

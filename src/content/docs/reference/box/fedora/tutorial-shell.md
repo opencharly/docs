@@ -30,5 +30,5 @@ plans running against this same image, so the box does not restate it.
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/ripgrep:v2026.227.0914`
-- `@github.com/opencharly/charly/candy/sshd:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/ripgrep:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/sshd:v2026.231.0714`

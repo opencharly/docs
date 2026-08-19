@@ -14,4 +14,4 @@ title: "composition-source"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/charly:v2026.227.0914`
+- `@github.com/opencharly/charly/candy/charly:v2026.231.0714`

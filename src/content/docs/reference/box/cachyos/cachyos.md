@@ -6,6 +6,13 @@ title: "cachyos"
 
 | | |
 |---|---|
-| **Version** | `2026.152.2025` |
+| **Version** | `2026.231.1219` |
 | **Repo** | `box/cachyos` |
 | **Base** | `docker.io/cachyos/cachyos-v3@sha256:2f87e702822dc3bc1c527215ace3f7b1b20c5d9d4171bb78e012557be477d487` |
+
+
+## Composition
+
+This box composes:
+
+- `cachyos-base-check`

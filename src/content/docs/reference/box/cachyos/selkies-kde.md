@@ -14,6 +14,6 @@ title: "selkies-kde"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/selkies-kde-desktop:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/dbus:v2026.201.0706`
+- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/selkies-kde-desktop:v2026.231.0714`
+- `@github.com/opencharly/charly/candy/dbus:v2026.231.0714`
