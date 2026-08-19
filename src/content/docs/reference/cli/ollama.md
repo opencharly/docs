@@ -1,5 +1,5 @@
 ---
-title: "ollama"
+title: "charly ollama"
 description: "The ollama command word, served by the plugin-ollama plugin candy."
 ---
 
@@ -42,4 +42,4 @@ the ollama image and runs `charly ollama list|version --server
 http://127.0.0.1:${HOST_PORT:11434}` host-side against the live server, plus
 the candy's baked checks.
 
-`charly --help` prints the command tree, including where `ollama` is invoked and under which parent.
+Run `charly ollama --help` for the live flag grammar.
