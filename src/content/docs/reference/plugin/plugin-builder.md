@@ -63,8 +63,6 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 	cache_mount?: [...#BdCacheMount]
 	env?:              #BdStrMap
 	runtime_env?:      #BdStrMap
-	stage_template?:   string
-	install_template?: string
 	manylinux_fix?:    string
 	build_script?:     string & !=""
 	phase?:            #BdPhaseSet
