@@ -14,5 +14,5 @@ title: "cuda-arch-builder"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/cuda:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/nvenc-headers:v2026.201.0706`
+- `@github.com/opencharly/charly/candy/cuda:v2026.231.0530`
+- `@github.com/opencharly/charly/candy/nvenc-headers:v2026.231.0530`

@@ -14,7 +14,7 @@ title: "arch-builder"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/pixi:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/nodejs:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/build-toolchain:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/yay:v2026.201.0706`
+- `@github.com/opencharly/charly/candy/pixi:v2026.231.0530`
+- `@github.com/opencharly/charly/candy/nodejs:v2026.231.0530`
+- `@github.com/opencharly/charly/candy/build-toolchain:v2026.231.0530`
+- `@github.com/opencharly/charly/candy/yay:v2026.231.0530`

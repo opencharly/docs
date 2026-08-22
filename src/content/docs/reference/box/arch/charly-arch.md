@@ -14,11 +14,11 @@ title: "charly-arch"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/charly:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/charly-mcp:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/golang:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/gh:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/sshd:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/container-nesting:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/nvidia:v2026.201.0706`
+- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0530`
+- `@github.com/opencharly/charly/candy/charly:v2026.231.0530`
+- `@github.com/opencharly/charly/candy/charly-mcp:v2026.231.0530`
+- `@github.com/opencharly/charly/candy/golang:v2026.231.0530`
+- `@github.com/opencharly/charly/candy/gh:v2026.231.0530`
+- `@github.com/opencharly/charly/candy/sshd:v2026.231.0530`
+- `@github.com/opencharly/charly/candy/container-nesting:v2026.231.0530`
+- `@github.com/opencharly/charly/candy/nvidia:v2026.231.0530`
