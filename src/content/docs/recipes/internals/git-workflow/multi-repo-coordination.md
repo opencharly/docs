@@ -16,19 +16,21 @@ against the **assembled superproject** (submodule pointers at the `feat/` commit
 order**, each repo as its OWN two-step PR (author opens; fresh `pr-validator`
 merges + tags):
 
-0. the **sdk contract repo** (`github.com/opencharly/sdk`, submodule `sdk/`) — PR →
-   evaluator merges → tag `v0.<YYYYDDD>.<HHMM leading-zeros-stripped>` (its
+0. the **sdk contract repo** (`github.com/opencharly/sdk` — NOT a submodule;
+   this repo consumes it from the module proxy at the pinned require version,
+   so only a touched CONTRACT lands there) — PR →
+   native auto-merge + tag-on-merge → tag `v0.<YYYYDDD>.<HHMM leading-zeros-stripped>` (its
    Go-module tag scheme; the superproject `vYYYY.DDD.HHMM` form is not a valid Go
    module version — e.g. superproject `v2026.185.0751` ⇄ sdk `v0.2026185.751`) —
    whenever the cutover touched sdk content;
-1. each `box/<distro>` submodule — PR → evaluator merges + tags (it has `charly.yml`);
-2. `plugins` — PR → evaluator merges **+ tags `v<YYYY.DDD.HHMM>`** (no `charly.yml`,
+1. each `box/<distro>` submodule — PR → auto-merge + tag-on-merge tags (it has `charly.yml`);
+2. `plugins` — PR → auto-merge **+ tag-on-merge tags `v<YYYY.DDD.HHMM>`** (no `charly.yml`,
    so no schema `version:` bump — but the tag marks the merge, same as every repo);
-3. the superproject — stage the now-MERGED submodule pointers (a touched sdk: the
-   `sdk` gitlink bump PLUS the `charly/go.mod` require version — in-tree resolution
-   rides `replace github.com/opencharly/sdk => ../sdk`, so the require version
-   matters only for out-of-tree consumers, but it is staged here) → PR → evaluator
-   merges + tags `main`.
+3. the superproject — stage the now-MERGED submodule pointers (a touched sdk:
+   adopt the tagged sdk release as the new shared pinned require in every
+   module — `task mods:tidy` re-syncs go.sum and the canonical-go.mod gate
+   asserts the ONE shared pin; there is no gitlink and no `replace`) → PR → native
+   auto-merge + tag-on-merge tags `main`.
 
 A producer PR must be **merged** (not merely green) before the consumer's pointer
 bump — the superproject pointer must reference a commit that is on the submodule's
@@ -37,7 +39,8 @@ real `main`, which only the merge produces.
 **A valid base is an ASSEMBLED PAIR, not a lone submodule advance.** A new consumer
 cutover branches from a base that is valid only once BOTH halves have merged: an `sdk`
 `main` advance is a valid consumer base ONLY after its superproject adaptation (the
-gitlink bump + any `charly/go.mod` require) has ALSO merged. Branch a consumer off a bare
+tagged sdk release adopted as the new shared pinned require — there is no gitlink) has
+ALSO merged. Branch a consumer off a bare
 `sdk` main advance whose super side is still open and you pin a superproject state no
 `main` records — the consumer's R10 builds against a half-assembled base and its pointer
 bump references a commit `main` has never seen. Wait for the pair before treating a
@@ -310,18 +313,18 @@ Two proven additions:
     shell variable that may be unset or an in-command directory change.
   - **box/<distro> re-stamp** (schema-HEAD bump): edit on the submodule's own feat
     branch; **gate = `charly box validate` standalone** (a version-stamp change has
-    no build behavior — building proves nothing); commit, open PR, evaluator merges +
-    tags.
+    no build behavior — building proves nothing); commit, open PR, native
+    auto-merge + tag-on-merge tags.
 
 **3. Land `main` via the PR — NEVER `git push origin main` (blocked) and NEVER `git
 switch main` in another worktree** (git fatals "already used by worktree"). The
-fresh `pr-validator` performs the server-side `gh pr merge --squash` (it advances
+org-wide native auto-merge performs the server-side squash merge (it advances
 `origin/main` remotely); then advance the LOCAL `main` ref where it lives:
 `git -C <main-wt> merge --ff-only origin/main`. A local `main` now only ever
-fast-forwards to what the evaluator merged remotely.
+fast-forwards to what was merged remotely.
 
 **4. Tags: annotated only** (`git tag -a v<…> -m "<desc>" <merged-HEAD>`), applied
-by the evaluator on the merged `main` HEAD and pushed as `refs/tags/…` (allowed by
+by tag-on-merge on the merged `main` HEAD and pushed as `refs/tags/…` (allowed by
 the pre-push-gate; the user token triggers the release-binary workflow). Verify `git
 cat-file -t <tag>` == `tag` AND `git ls-remote --tags origin <tag>` is non-empty.
 
@@ -375,7 +378,7 @@ the shell's current directory. A stronger, WRITE-side form of the same
 footgun: a MUTATING command (anything that writes files or runs `git
 submodule update` as a side effect — `task cue:gen` is the canonical
 offender) run against a stale, ambient cwd doesn't just misreport, it
-MUTATES the wrong tree. Live incident: a fresh evaluator ran `task cue:gen`
+MUTATES the wrong tree. Failure mode: a fresh evaluator runs `task cue:gen`
 with a persisted shell cwd that had drifted to the main session worktree —
 the task's own `git submodule update` chain rewound 5 submodule checkouts
 there before the mistake was caught (fully restored,

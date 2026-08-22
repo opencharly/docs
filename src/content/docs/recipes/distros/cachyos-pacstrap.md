@@ -26,10 +26,10 @@ builds and as a worked example of the `from: builder:pacstrap` +
 
 ## pacstrap x86_64_v3 + SigLevel (fixed)
 
-Earlier this path was unusable: the privileged pacstrap step rejected the
-CachyOS `x86_64_v3` packages (`package architecture is not valid`) and, on the
-VM path, tripped GPGME signature checks (`GPGME error: No data`). **Fixed as of
-charly 2026.141.1850** by the shared `renderPacstrapExtraConf` helper
+Without the shared `renderPacstrapExtraConf` helper the privileged pacstrap step rejects the CachyOS `x86_64_v3`
+packages (`package architecture is not valid`) and, on the VM path, trips GPGME
+signature checks (`GPGME error: No data`) — both symptoms are worth recognising.
+It handles them
 (`candy/plugin-vm/vm_bootstrap_engine.go:57`,
 used by both `runPrivilegedBootstrap` and the VM bootstrap engine — the former
 `charly/build.go`/`charly/vm_bootstrap.go` are DELETED, K-wave 2):

@@ -33,7 +33,7 @@ go-plugin gRPC by the cmd/serve shim (host-built + connected via LocalTransport)
 when it is not. Placement is invisible above the provider registry.
 
 The RESOLUTION half of the tunnel subsystem lives in sdk/deploykit/tunnel_resolve.go
-(ResolveTunnelConfig / TunnelConfigFromMetadata + the
+(TunnelConfigFromMetadata + the
 tunnelConfigPath the systemd unit references; the pure schemeTarget/
 tailscaleFlag/isTCPFamily helpers the quadlet emitter shares, FLOOR-SLIM
 mechanical batch — charly/tunnel.go, the former core home, carried nothing

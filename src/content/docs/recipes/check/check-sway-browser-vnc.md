@@ -13,7 +13,7 @@ description: "The DISPOSABLE pod bed (check-sway-browser-vnc-pod) for R10 testin
 live-container test verbs (cdp / wl / vnc / dbus / mcp / record) on the Sway
 stack. It deploys the **shipping [`/charly-selkies:sway-browser-vnc`](/recipes/selkies/sway-browser-vnc/) image directly**
 — there is no separate check image. It sits alongside the other `check-*` smoke
-beds (`check-pod` — the combined image/layer/pod/DeployTarget mechanism bed —
+beds (`check-pod` — the combined image/layer/pod/deploy-target mechanism bed —
 and `check-local`) — all `disposable: true` deploys, top-level entries in their
 project's `charly.yml` (this bed and `check-pod` in `box/fedora`; `check-local`
 in main).
