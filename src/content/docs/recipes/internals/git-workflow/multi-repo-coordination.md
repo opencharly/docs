@@ -16,7 +16,9 @@ against the **assembled superproject** (submodule pointers at the `feat/` commit
 order**, each repo as its OWN two-step PR (author opens; fresh `pr-validator`
 merges + tags):
 
-0. the **sdk contract repo** (`github.com/opencharly/sdk`, submodule `sdk/`) — PR →
+0. the **sdk contract repo** (`github.com/opencharly/sdk` — NOT a submodule;
+   this repo consumes it from the module proxy at the pinned require version,
+   so only a touched CONTRACT lands there) — PR →
    native auto-merge + tag-on-merge → tag `v0.<YYYYDDD>.<HHMM leading-zeros-stripped>` (its
    Go-module tag scheme; the superproject `vYYYY.DDD.HHMM` form is not a valid Go
    module version — e.g. superproject `v2026.185.0751` ⇄ sdk `v0.2026185.751`) —
@@ -24,10 +26,10 @@ merges + tags):
 1. each `box/<distro>` submodule — PR → auto-merge + tag-on-merge tags (it has `charly.yml`);
 2. `plugins` — PR → auto-merge **+ tag-on-merge tags `v<YYYY.DDD.HHMM>`** (no `charly.yml`,
    so no schema `version:` bump — but the tag marks the merge, same as every repo);
-3. the superproject — stage the now-MERGED submodule pointers (a touched sdk: the
-   `sdk` gitlink bump PLUS the `charly/go.mod` require version — in-tree resolution
-   rides `replace github.com/opencharly/sdk => ../sdk`, so the require version
-   matters only for out-of-tree consumers, but it is staged here) → PR → native
+3. the superproject — stage the now-MERGED submodule pointers (a touched sdk:
+   adopt the tagged sdk release as the new shared pinned require in every
+   module — `task mods:tidy` re-syncs go.sum and the canonical-go.mod gate
+   asserts the ONE shared pin; there is no gitlink and no `replace`) → PR → native
    auto-merge + tag-on-merge tags `main`.
 
 A producer PR must be **merged** (not merely green) before the consumer's pointer
@@ -37,7 +39,8 @@ real `main`, which only the merge produces.
 **A valid base is an ASSEMBLED PAIR, not a lone submodule advance.** A new consumer
 cutover branches from a base that is valid only once BOTH halves have merged: an `sdk`
 `main` advance is a valid consumer base ONLY after its superproject adaptation (the
-gitlink bump + any `charly/go.mod` require) has ALSO merged. Branch a consumer off a bare
+tagged sdk release adopted as the new shared pinned require — there is no gitlink) has
+ALSO merged. Branch a consumer off a bare
 `sdk` main advance whose super side is still open and you pin a superproject state no
 `main` records — the consumer's R10 builds against a half-assembled base and its pointer
 bump references a commit `main` has never seen. Wait for the pair before treating a
