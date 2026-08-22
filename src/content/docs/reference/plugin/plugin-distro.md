@@ -92,7 +92,6 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 #DsFormat: {
 	cache_mount?: [...#DsCacheMount]
 	section_field?: {[string]: "list" | "list_of_maps"}
-	install_template?:   string
 	uninstall_template?: string
 	phase?:              #DsPhaseSet
 	validate?: [...#DsFormatRule]
