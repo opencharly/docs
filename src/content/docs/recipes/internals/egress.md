@@ -22,7 +22,7 @@ description: "CUE EGRESS validation — validating (and, where it adds value, ge
 > `sdk/deploykit`'s `renderSeamCaller.validateEgress` (a direct `verb:egress` `InvokeProvider`
 > peer dispatch, no host round-trip) — `charly` core no longer has a "text" mode caller at all.
 > The core-side `ValidateXMLEgress` wrapper was itself deleted as
-> unreached residue in the 2026-07-22 dead-code-radical-removal batch — the sole surviving
+> unreached residue in the dead-code-radical-removal batch — the sole surviving
 > `ValidateXMLEgress` is `candy/plugin-vm`'s own copy (`vm_egress_shim.go`), which Invokes
 > `verb:egress` directly (mode `xml`) over its own reverse channel for the rendered
 > libvirt-domain-XML path; every OTHER caller + the `vmshared.ValidateEgress` hook are unchanged. The
@@ -39,8 +39,9 @@ charly's CUE work has two halves:
   (`charly.yml` / box / candy / vm / kubernetes / pod) against `spec/schema/*.cue`, AND is
   the single source for the Go param structs that config decodes into — the
   `@go()`-annotated `spec/schema/*.cue` GENERATE the `spec/spec` param structs via
-  `task cue:gen` (`cue exp gengotypes`, run in the spec repo; the superproject task
-  chains it), kept honest by the reproducibility + parity tests. Owned by [`/charly-build:validate`](/recipes/build/validate/); the schema-change codegen
+  `task cue:gen` (`cue exp gengotypes`, run in the spec repo — the spec module is
+  consumed from the module proxy at the pinned require version, so the superproject
+  task regenerates only the plugin params), kept honest by the reproducibility + parity tests. Owned by [`/charly-build:validate`](/recipes/build/validate/); the schema-change codegen
   recipe is [`/charly-internals:go`](/recipes/internals/go/) "Updating Go code when an ingress CUE schema
   changes".
 - **Egress** (`candy/plugin-fleet/egress.go`, this skill): validates the OUTPUT config charly
@@ -88,7 +89,7 @@ The `xml` mode (validate a rendered XML artifact — a libvirt domain — via th
 **best-effort**: a koala *decode* error → pass, deferring to the authoritative downstream gate; only a
 schema violation on a decoded document hard-fails) is still fully served by `verb:egress`'s
 `OpValidate` — there is simply no core-side `ValidateXMLEgress` convenience wrapper anymore (deleted as
-unreached residue, 2026-07-22). Its one real caller, `candy/plugin-vm`, Invokes `verb:egress` with
+unreached residue). Its one real caller, `candy/plugin-vm`, Invokes `verb:egress` with
 `mode: "xml"` directly through its own `ValidateXMLEgress` wrapper (`vm_egress_shim.go`) rather than
 through a core shim.
 
