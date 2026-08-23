@@ -296,5 +296,5 @@ the description is complete because it is composed of units that each carry thei
 proof that travels with the thing it describes.
 
 For the positive statement of where that leads, see [the vision](/vision/). For how any of it
-works, see the [skills index](/recipes/) or the site at
+works, see the [skills index](https://github.com/opencharly/marketplace) or the site at
 [opencharly.ai](https://opencharly.ai).

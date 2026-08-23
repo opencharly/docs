@@ -4,7 +4,8 @@
 # opencharly.ai site. The site is STANDALONE: it pins the charly repository as a
 # submodule (.gitmodules), and this workflow
 #
-#   1. checks out the pinned charly (with its plugins/box submodules),
+#   1. checks out the pinned charly (with its box/* submodules) + the pinned marketplace
+#      (the corpus the skill pages project from),
 #   2. builds the charly binary from that checkout,
 #   3. regenerates the generated half of the content tree with `charly docs generate`
 #      (the runtime plugin-docs generator, built on demand from the checkout),
@@ -47,8 +48,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          # The pinned charly (with its plugins/ + box/* submodules) is the generator's
-          # source tree — this repo's committed content is a projection of it.
+          # The pinned charly (with its box/* submodules) is the generator's source tree,
+          # and the pinned marketplace is the corpus it projects the recipe pages from —
+          # this repo's committed content is a projection of both.
           submodules: recursive
 
       - uses: actions/setup-node@v7

@@ -11,8 +11,8 @@ description: "Concept candy owning the charly-core command skills (start/stop/st
 | **Repo** | superproject |
 
 Concept candy owning the charly-core command skills (start/stop/status/logs/shell/ssh/deploy/…). Owns its family's `skill:` kind entities (sibling nodes in this file) — the
-plugins→candies migration; candy/plugin-marketplace regenerates the plugins/ corpus
-from them.
+the plugins→candies migration; candy/plugin-marketplace regenerates the marketplace
+corpus (the standalone opencharly/marketplace repo) from them.
 
 ## Acceptance plan
 
@@ -21,4 +21,4 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 | Intent | Step |
 |---|---|
 | `run` | this documentation-only candy ships no install content (it carries the family's skill/hook/marketplace entities); validate-satisfying no-op |
-| `check` | the core concept candy's skill entities are present and generated into plugins/core/skills |
+| `check` | the core concept candy's skill entities are present and generated into the marketplace's core/skills |
