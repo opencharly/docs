@@ -1,5 +1,18 @@
 # Build and deploy the site to Cloudflare Pages.
 #
+# THIS WORKFLOW IS THE SOLE OWNER of generation, building and publishing for the
+# opencharly.ai site. The site is STANDALONE: it pins the charly repository as a
+# submodule (.gitmodules), and this workflow
+#
+#   1. checks out the pinned charly (with its plugins/box submodules),
+#   2. builds the charly binary from that checkout,
+#   3. regenerates the generated half of the content tree with `charly docs generate`
+#      (the runtime plugin-docs generator, built on demand from the checkout),
+#   4. FAILS if the committed content does not match what the pinned charly generates
+#      (the drift gate: regeneration on a clean tree is a no-op, so any diff means a
+#      docs PR must bump the charly pin and carry the regenerated pages),
+#   5. builds the Astro site and deploys to Cloudflare Pages.
+#
 # WHY A WORKFLOW RATHER THAN CLOUDFLARE'S GIT INTEGRATION: connecting a Cloudflare Pages project
 # to a GitHub org requires an OAuth handshake that Cloudflare must initiate — there is no API for
 # it (POST .../pages/connections is 405, GET-only), just as GitHub exposes no API to create an App
@@ -9,7 +22,7 @@
 #
 # The trade-off is explicit: the Cloudflare token lives in this repo's Actions secrets. It is
 # scoped to Cloudflare Pages edit plus DNS edit on the opencharly.ai zone, and nothing else.
-name: deploy
+name: docs
 
 on:
   push:
@@ -33,11 +46,45 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          # The pinned charly (with its plugins/ + box/* submodules) is the generator's
+          # source tree — this repo's committed content is a projection of it.
+          submodules: recursive
 
       - uses: actions/setup-node@v7
         with:
           node-version-file: .node-version
           cache: npm
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: charly/charly/go.mod
+          cache-dependency-path: charly/charly/go.sum
+
+      - name: Build the charly binary from the pinned checkout
+        run: |
+          cd charly/charly && go build -buildvcs=false -ldflags "-X main.BuildCalVer=docs-ci" -o ../../bin/charly .
+
+      - name: Regenerate the generated content from the pinned charly
+        # The project root must be the charly checkout (the runtime plugin-docs binary
+        # builds on demand from the project's candy source); --root points at it too,
+        # --out at this repo's content tree. The generator's link/sidebar gates run
+        # inside this step: a dead link fails the run.
+        run: |
+          cd charly && ../bin/charly docs generate --root . --out ../src/content/docs
+
+      - name: Drift gate — the committed content must match the pinned charly
+        # Regeneration on a clean tree is a no-op by contract. A diff here means a
+        # docs PR must bump the charly pin in .gitmodules and commit the regenerated
+        # pages in the same change.
+        run: |
+          if ! git diff --exit-code -- src/content/docs; then
+            echo "DRIFT: the committed site does not match the pinned charly checkout."
+            echo "Bump the charly submodule in .gitmodules and commit the regenerated"
+            echo "content in the same docs PR (this workflow is the gate)."
+            exit 1
+          fi
+          echo "content: committed tree matches the pinned charly (regeneration is a no-op)."
 
       # `npm ci` rather than `npm install`: it installs strictly from the committed lockfile and
       # FAILS if package.json and the lockfile disagree. That is deliberate — a lockfile missing
@@ -55,9 +102,9 @@ jobs:
       - name: Build
         run: npm run build
 
-      # The site's own link-integrity gate runs in the generator (`charly docs generate`), which
-      # lives in the charly superproject and is not available here. What this job can still prove
-      # is that the committed content builds cleanly from a clean install on a clean machine.
+      # The site's own link-integrity gate ran in the generator step above (now available here,
+      # since the pinned charly checkout carries it). What this job can still prove is that the
+      # committed content builds cleanly from a clean install on a clean machine.
       - name: Verify the build produced a site
         run: |
           test -f dist/index.html
