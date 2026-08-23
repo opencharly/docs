@@ -70,10 +70,11 @@ jobs:
       - name: Regenerate the generated content from the pinned charly
         # The project root must be the charly checkout (the runtime plugin-docs binary
         # builds on demand from the project's candy source); --root points at it too,
-        # --out at this repo's content tree. The generator's link/sidebar gates run
-        # inside this step: a dead link fails the run.
+        # --plugins at the marketplace checkout (the corpus the recipe pages project
+        # from), --out at this repo's content tree. The generator's link/sidebar gates
+        # run inside this step: a dead link fails the run.
         run: |
-          cd charly && ../bin/charly docs generate --root . --out ../src/content/docs
+          cd charly && ../bin/charly docs generate --root . --plugins ../marketplace --out ../src/content/docs
 
       - name: Drift gate — the committed content must match the pinned charly
         # Regeneration on a clean tree is a no-op by contract. A diff here means a
