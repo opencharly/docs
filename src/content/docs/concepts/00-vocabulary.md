@@ -95,7 +95,7 @@ same file without contradiction: the file is a candy, and its `base:` decides wh
 
 All three are real and shipped, and you can read each one on this site:
 
-**A layer** — [`ripgrep`](/reference/candy/ripgrep/) installs one concern and proves it:
+**A layer** — [`ripgrep`](/recipes/tools/ripgrep/) installs one concern and proves it:
 
 ```yaml
 # candy/ripgrep/charly.yml
