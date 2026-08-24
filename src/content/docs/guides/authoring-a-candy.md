@@ -82,8 +82,8 @@ ripgrep:
               command: rg --version
 ```
 
-Write the `description:` for a stranger — it is published verbatim as that candy's page, and it is
-baked into every image that composes the candy.
+Write the `description:` for a stranger — it is published verbatim as that candy's card wherever
+the candy's project is published, and it is baked into every image that composes the candy.
 
 ### Per-distro packages
 
