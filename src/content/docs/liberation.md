@@ -188,4 +188,4 @@ the past it borrows from; they are the future it is fighting for.*
 costs everyone who works at it, human and model alike: [the grievances](/grievances/). Where
 the tools are handed out: [the front door](/). One piece of work with its written
 judgment, kept where anyone can check it:
-[a published example](/reference/candy/ripgrep/).*
+[a published example](/reference/candy/sshd/).*

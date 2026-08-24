@@ -20,6 +20,12 @@ Verifiable end to end: the binary lands at a fixed path,
 `typst compile` turns a minimal .typ source into a real PDF whose
 bytes start with the %PDF magic.
 
+## Packages
+
+Installed on every distro:
+
+- `curl`
+
 ## Acceptance plan
 
 This candy's `plan:` — the runnable spec `charly check` executes against a live deployment. `check:` steps are idempotent probes; `run:` steps change state.
