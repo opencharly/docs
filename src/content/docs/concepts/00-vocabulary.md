@@ -98,7 +98,7 @@ All three are real and shipped, and you can read each one on this site:
 **A layer** — [`ripgrep`](/recipes/tools/ripgrep/) installs one concern and proves it:
 
 ```yaml
-# candy/ripgrep/charly.yml
+# the ripgrep candy's charly.yml — opencharly/layer-ripgrep
 ripgrep:
     candy:
         version: 2026.144.1443
