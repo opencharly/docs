@@ -1,17 +1,19 @@
 # Build and deploy the site to Cloudflare Pages.
 #
 # THIS WORKFLOW IS THE SOLE OWNER of generation, building and publishing for the
-# opencharly.ai site. The site is STANDALONE: it pins the charly repository as a
-# submodule (.gitmodules), and this workflow
+# opencharly.ai site. The site is STANDALONE: it pins the charly repository by CI-time
+# commit (no committed submodule — the charly submodule leaked the whole charly repo into
+# consumer fetch trees and was removed), and this workflow
 #
-#   1. checks out the pinned charly (with its box/* submodules) + the pinned marketplace
-#      (the corpus the skill pages project from),
+#   1. clones the pinned charly (recursive, with its box/* submodules) into /tmp/charly
+#      at CI time and checks out the pinned commit 5716706651, plus the pinned
+#      marketplace submodule (the corpus the skill pages project from),
 #   2. builds the charly binary from that checkout,
 #   3. regenerates the generated half of the content tree with `charly docs generate`
 #      (the runtime plugin-docs generator, built on demand from the checkout),
 #   4. FAILS if the committed content does not match what the pinned charly generates
 #      (the drift gate: regeneration on a clean tree is a no-op, so any diff means a
-#      docs PR must bump the charly pin and carry the regenerated pages),
+#      docs PR must bump the charly CI-time commit and carry the regenerated pages),
 #   5. builds the Astro site and deploys to Cloudflare Pages.
 #
 # WHY A WORKFLOW RATHER THAN CLOUDFLARE'S GIT INTEGRATION: connecting a Cloudflare Pages project
@@ -48,10 +50,19 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          # The pinned charly (with its box/* submodules) is the generator's source tree,
-          # and the pinned marketplace is the corpus it projects the recipe pages from —
-          # this repo's committed content is a projection of both.
+          # The pinned marketplace is the corpus the recipe pages project from —
+          # fetched via the submodule below. charly is NOT a submodule anymore
+          # (it leaked the whole charly repo into consumer fetch trees): the
+          # generator's source tree is cloned recursively at CI time (next step).
           submodules: recursive
+
+      - name: Fetch the pinned charly source (CI-time temp checkout, recursive for box/*)
+        run: |
+          # Clone WITHOUT --recursive, then checkout the pinned commit, THEN init the box/*
+          # submodules: --recursive at clone time pulls each box at its default-branch HEAD,
+          # but the committed docs content was generated against the box commits charly@5716706651
+          # records — checkout-then-init pins them exactly.
+          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout 5716706651 && git -C /tmp/charly submodule update --init --recursive
 
       - uses: actions/setup-node@v7
         with:
@@ -60,12 +71,13 @@ jobs:
 
       - uses: actions/setup-go@v5
         with:
-          go-version-file: charly/charly/go.mod
-          cache-dependency-path: charly/charly/go.sum
+          go-version-file: /tmp/charly/charly/go.mod
+          cache-dependency-path: /tmp/charly/charly/go.sum
 
       - name: Build the charly binary from the pinned checkout
         run: |
-          cd charly/charly && go build -buildvcs=false -ldflags "-X main.BuildCalVer=docs-ci" -o ../../bin/charly .
+          mkdir -p /tmp/charly/bin
+          cd /tmp/charly/charly && go build -buildvcs=false -ldflags "-X main.BuildCalVer=docs-ci" -o /tmp/charly/bin/charly .
 
       - name: Regenerate the generated content from the pinned charly
         # The project root must be the charly checkout (the runtime plugin-docs binary
@@ -74,16 +86,16 @@ jobs:
         # from), --out at this repo's content tree. The generator's link/sidebar gates
         # run inside this step: a dead link fails the run.
         run: |
-          cd charly && ../bin/charly docs generate --root . --plugins ../marketplace --out ../src/content/docs
+          cd /tmp/charly && /tmp/charly/bin/charly docs generate --root . --plugins ${{ github.workspace }}/marketplace --out ${{ github.workspace }}/src/content/docs
 
       - name: Drift gate — the committed content must match the pinned charly
         # Regeneration on a clean tree is a no-op by contract. A diff here means a
-        # docs PR must bump the charly pin in .gitmodules and commit the regenerated
+        # docs PR must bump the charly pin (the CI-time commit) and commit the regenerated
         # pages in the same change.
         run: |
           if ! git diff --exit-code -- src/content/docs; then
             echo "DRIFT: the committed site does not match the pinned charly checkout."
-            echo "Bump the charly submodule in .gitmodules and commit the regenerated"
+            echo "Bump the charly CI-time commit in deploy.yml and commit the regenerated"
             echo "content in the same docs PR (this workflow is the gate)."
             exit 1
           fi

@@ -1,6 +1,3 @@
-[submodule "charly"]
-	path = charly
-	url = https://github.com/opencharly/charly.git
 [submodule "marketplace"]
 	path = marketplace
 	url = https://github.com/opencharly/marketplace.git
