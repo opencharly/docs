@@ -2,18 +2,18 @@
 #
 # THIS WORKFLOW IS THE SOLE OWNER of generation, building and publishing for the
 # opencharly.ai site. The site is STANDALONE: it pins the charly repository by CI-time
-# tag (no committed submodule — the charly submodule leaked the whole charly repo into
+# commit (no committed submodule — the charly submodule leaked the whole charly repo into
 # consumer fetch trees and was removed), and this workflow
 #
 #   1. clones the pinned charly (recursive, with its box/* submodules) into /tmp/charly
-#      at CI time, plus the pinned marketplace submodule (the corpus the skill pages
-#      project from),
+#      at CI time and checks out the pinned commit 5716706651, plus the pinned
+#      marketplace submodule (the corpus the skill pages project from),
 #   2. builds the charly binary from that checkout,
 #   3. regenerates the generated half of the content tree with `charly docs generate`
 #      (the runtime plugin-docs generator, built on demand from the checkout),
 #   4. FAILS if the committed content does not match what the pinned charly generates
 #      (the drift gate: regeneration on a clean tree is a no-op, so any diff means a
-#      docs PR must bump the charly CI-time tag and carry the regenerated pages),
+#      docs PR must bump the charly CI-time commit and carry the regenerated pages),
 #   5. builds the Astro site and deploys to Cloudflare Pages.
 #
 # WHY A WORKFLOW RATHER THAN CLOUDFLARE'S GIT INTEGRATION: connecting a Cloudflare Pages project
@@ -58,7 +58,11 @@ jobs:
 
       - name: Fetch the pinned charly source (CI-time temp checkout, recursive for box/*)
         run: |
-          git clone --recursive --depth 1 --branch v2026.238.1242 https://github.com/opencharly/charly.git /tmp/charly
+          # Clone WITHOUT --recursive, then checkout the pinned commit, THEN init the box/*
+          # submodules: --recursive at clone time pulls each box at its default-branch HEAD,
+          # but the committed docs content was generated against the box commits charly@5716706651
+          # records — checkout-then-init pins them exactly.
+          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout 5716706651 && git -C /tmp/charly submodule update --init --recursive
 
       - uses: actions/setup-node@v7
         with:
@@ -86,12 +90,12 @@ jobs:
 
       - name: Drift gate — the committed content must match the pinned charly
         # Regeneration on a clean tree is a no-op by contract. A diff here means a
-        # docs PR must bump the charly pin (the CI-time tag) and commit the regenerated
+        # docs PR must bump the charly pin (the CI-time commit) and commit the regenerated
         # pages in the same change.
         run: |
           if ! git diff --exit-code -- src/content/docs; then
             echo "DRIFT: the committed site does not match the pinned charly checkout."
-            echo "Bump the charly CI-time tag in deploy.yml and commit the regenerated"
+            echo "Bump the charly CI-time commit in deploy.yml and commit the regenerated"
             echo "content in the same docs PR (this workflow is the gate)."
             exit 1
           fi
