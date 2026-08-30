@@ -60,9 +60,9 @@ jobs:
         run: |
           # Clone WITHOUT --recursive, then checkout the pinned commit, THEN init the box/*
           # submodules: --recursive at clone time pulls each box at its default-branch HEAD,
-          # but the committed docs content was generated against the box commits charly@7db4f9889c
+          # but the committed docs content was generated against the box commits charly@5716706651
           # records — checkout-then-init pins them exactly.
-          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout 7db4f9889c && git -C /tmp/charly submodule update --init --recursive
+          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout 5716706651 && git -C /tmp/charly submodule update --init --recursive
 
       - uses: actions/setup-node@v7
         with:
