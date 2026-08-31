@@ -7,7 +7,7 @@ description: "The add-candy command word, served by the plugin-authoring plugin 
 
 | | |
 |---|---|
-| **Served by** | [plugin-authoring](/reference/plugin/plugin-authoring/) |
+| **Served by** | [plugin-authoring](/reference/plugin/github.com/opencharly/plugin-authoring:v2026.242.0525/plugin-authoring/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.196.0000` |
 

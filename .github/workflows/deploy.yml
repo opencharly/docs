@@ -62,7 +62,7 @@ jobs:
           # submodules: --recursive at clone time pulls each box at its default-branch HEAD,
           # but the committed docs content was generated against the box commits charly@5716706651
           # records — checkout-then-init pins them exactly.
-          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout 5716706651 && git -C /tmp/charly submodule update --init --recursive
+          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout a31f76d7 && git -C /tmp/charly submodule update --init --recursive
 
       - uses: actions/setup-node@v7
         with:
@@ -79,6 +79,17 @@ jobs:
           mkdir -p /tmp/charly/bin
           cd /tmp/charly/charly && go build -buildvcs=false -ldflags "-X main.BuildCalVer=docs-ci" -o /tmp/charly/bin/charly .
 
+      - name: Build the standalone plugin-docs CLI binary
+        run: |
+          git clone --depth 1 --branch v2026.242.0527 https://github.com/opencharly/plugin-docs.git /tmp/plugin-docs
+          cd /tmp/plugin-docs/candy/plugin-docs && go build -o /tmp/plugin-docs-bin ./cmd/serve
+
+      - name: Write the corpus wiring candy from the pins file
+        run: |
+          mkdir -p /tmp/charly/candy/docs-corpus
+          cp .github/docs-corpus/build_wiring.py /tmp/build_wiring.py
+          python3 /tmp/build_wiring.py .github/docs-corpus/pins.tsv /tmp/charly/candy/docs-corpus/charly.yml
+
       - name: Regenerate the generated content from the pinned charly
         # The project root must be the charly checkout (the runtime plugin-docs binary
         # builds on demand from the project's candy source); --root points at it too,
@@ -86,7 +97,10 @@ jobs:
         # from), --out at this repo's content tree. The generator's link/sidebar gates
         # run inside this step: a dead link fails the run.
         run: |
-          cd /tmp/charly && /tmp/charly/bin/charly docs generate --root . --plugins ${{ github.workspace }}/marketplace --out ${{ github.workspace }}/src/content/docs
+          cd /tmp/charly && /tmp/plugin-docs-bin generate \
+            --root /tmp/charly \
+            --plugins ${{ github.workspace }}/marketplace \
+            --out ${{ github.workspace }}/src/content/docs
 
       - name: Drift gate — the committed content must match the pinned charly
         # Regeneration on a clean tree is a no-op by contract. A diff here means a

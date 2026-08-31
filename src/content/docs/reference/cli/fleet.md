@@ -7,7 +7,7 @@ description: "The fleet command word, served by the plugin-fleet plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-fleet](/reference/plugin/plugin-fleet/) |
+| **Served by** | [plugin-fleet](/reference/plugin/github.com/opencharly/plugin-fleet:v2026.242.1727/plugin-fleet/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.193.1200` |
 

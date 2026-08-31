@@ -138,7 +138,7 @@ No second vocabulary. That is the whole tenet.
 ### The third role: a candy can extend charly itself
 
 A candy carrying a `plugin:` block does not install software into a box — it teaches `charly` a
-new verb, kind, or command. [`plugin-example`](/reference/candy/plugin-example/) is the canonical
+new verb, kind, or command. [`plugin-example`](/reference/candy/github.com/opencharly/plugin-example:v2026.242.0529/plugin-example/) is the canonical
 one:
 
 ```yaml
@@ -168,6 +168,6 @@ format as the two-candy box above.
 ## See also
 
 - **[The words](/concepts/00-vocabulary/)** — candy, box, candybox, plus polymorphism and nesting.
-- **[Candy reference](/reference/candy/sshd/)** — every defined candy, with its acceptance plan.
+- **[Candy reference](/reference/candy/github.com/opencharly/pod-sshd:v2026.239.1637/sshd/)** — every defined candy, with its acceptance plan.
 - **[Box reference](/reference/box/fedora/tutorial-shell/)** — every defined box and what it composes.
 - **[The spec is the test](/concepts/06-the-spec-is-the-test/)** — what those `check:` steps are.

@@ -11,7 +11,7 @@ description: "R1 mandatory failure analysis agent."
 
 ## Overview
 
-The root-cause-analyzer is an **enforcer agent** at `plugins/internals/agents/root-cause-analyzer.md`. It is the mandatory first response to any failure, error, warning, or anomaly (R1).
+The root-cause-analyzer is an **enforcer agent** at `marketplace/internals/agents/root-cause-analyzer.md`. It is the mandatory first response to any failure, error, warning, or anomaly (R1).
 
 ## When to Use
 
@@ -45,4 +45,4 @@ The agent runs an 8-step root cause analysis process:
 
 ## When to Use This Skill
 
-Invoke when you need to understand the root-cause-analyzer agent's purpose, when it must be invoked, or what its 8-step process covers. The agent itself is at `plugins/internals/agents/root-cause-analyzer.md`.
+Invoke when you need to understand the root-cause-analyzer agent's purpose, when it must be invoked, or what its 8-step process covers. The agent itself is at `marketplace/internals/agents/root-cause-analyzer.md`.

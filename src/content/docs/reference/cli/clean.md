@@ -7,7 +7,7 @@ description: "The clean command word, served by the plugin-clean plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-clean](/reference/plugin/plugin-clean/) |
+| **Served by** | [plugin-clean](/reference/plugin/github.com/opencharly/plugin-clean:v2026.242.0526/plugin-clean/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.202.1400` |
 

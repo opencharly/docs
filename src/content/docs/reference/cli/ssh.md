@@ -7,7 +7,7 @@ description: "The ssh command word, served by the plugin-ssh plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-ssh](/reference/plugin/plugin-ssh/) |
+| **Served by** | [plugin-ssh](/reference/plugin/github.com/opencharly/plugin-ssh:v2026.242.0533/plugin-ssh/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.209.0000` |
 

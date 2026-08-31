@@ -14,5 +14,5 @@ title: "os"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/supervisord:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/os-layer:v2026.231.0714`
+- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
+- `@github.com/opencharly/pod-os-layer:v2026.239.1635`

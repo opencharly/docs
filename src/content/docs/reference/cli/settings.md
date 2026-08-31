@@ -7,7 +7,7 @@ description: "The settings command word, served by the plugin-settings plugin ca
 
 | | |
 |---|---|
-| **Served by** | [plugin-settings](/reference/plugin/plugin-settings/) |
+| **Served by** | [plugin-settings](/reference/plugin/github.com/opencharly/plugin-settings:v2026.242.0532/plugin-settings/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.181.0001` |
 

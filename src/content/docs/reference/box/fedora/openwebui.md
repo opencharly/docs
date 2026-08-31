@@ -14,6 +14,6 @@ title: "openwebui"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/openwebui:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/dbus:v2026.231.0714`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
+- `@github.com/opencharly/pod-openwebui:v2026.239.1557`
+- `@github.com/opencharly/pod-dbus:v2026.239.1555`

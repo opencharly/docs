@@ -14,14 +14,14 @@ title: "immich-ml"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/nodejs:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/cuda:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/python-ml:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/supervisord:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/postgresql:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/vectorchord:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/redis:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/immich:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/immich-ml:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/dbus:v2026.231.0714`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
+- `@github.com/opencharly/layer-nodejs:v2026.239.1624`
+- `@github.com/opencharly/layer-cuda:v2026.239.1557`
+- `@github.com/opencharly/layer-python-ml:v2026.240.0122`
+- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
+- `@github.com/opencharly/pod-postgresql:v2026.239.1627`
+- `@github.com/opencharly/layer-vectorchord:v2026.239.1602`
+- `@github.com/opencharly/pod-redis:v2026.239.1639`
+- `@github.com/opencharly/pod-immich:v2026.239.1559`
+- `@github.com/opencharly/pod-immich-ml:v2026.239.1604`
+- `@github.com/opencharly/pod-dbus:v2026.239.1555`

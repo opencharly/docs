@@ -7,7 +7,7 @@ description: "The candy command word, served by the plugin-candy plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-candy](/reference/plugin/plugin-candy/) |
+| **Served by** | [plugin-candy](/reference/plugin/github.com/opencharly/plugin-candy:v2026.242.0526/plugin-candy/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.181.0001` |
 

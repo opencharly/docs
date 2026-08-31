@@ -386,7 +386,7 @@ code the way a hand-maintained copy in this file would.
 | the vocabulary | [The words](/concepts/00-vocabulary/) |
 | the ideas, in order, with runnable examples | [The concepts tour](/concepts/01-the-box-is-the-boundary/) — twelve short pages |
 | every command and flag | [CLI reference](/reference/cli/fleet/) + [The charly CLI](/guides/the-cli/) |
-| every candy and box | [Candy reference](/reference/candy/sshd/) · [Box reference](/reference/box/fedora/tutorial-shell/) |
+| every candy and box | [Candy reference](/reference/candy/github.com/opencharly/pod-sshd:v2026.239.1637/sshd/) · [Box reference](/reference/box/fedora/tutorial-shell/) |
 | "what implements `cdp:`?" | [Provider index](/reference/providers/) |
 | something is broken | [Troubleshooting](/guides/troubleshooting/) |
 | why the project looks like this | [The vision](/vision/) · [What it is reacting to](/grievances/) |

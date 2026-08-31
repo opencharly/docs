@@ -14,6 +14,6 @@ title: "fedora-test"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/traefik:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/testapi:v2026.231.0714`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
+- `@github.com/opencharly/pod-traefik:v2026.240.0203`
+- `@github.com/opencharly/pod-testapi:v2026.240.0203`

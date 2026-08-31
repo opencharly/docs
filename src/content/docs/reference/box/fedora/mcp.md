@@ -14,7 +14,7 @@ title: "mcp"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/jupyter:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/notebook-templates:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/dbus:v2026.231.0714`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
+- `@github.com/opencharly/pod-jupyter:v2026.239.1557`
+- `@github.com/opencharly/layer-notebook-templates:v2026.240.0201`
+- `@github.com/opencharly/pod-dbus:v2026.239.1555`

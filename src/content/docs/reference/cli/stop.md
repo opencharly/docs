@@ -7,7 +7,7 @@ description: "The stop command word, served by the plugin-pod plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-pod](/reference/plugin/plugin-pod/) |
+| **Served by** | [plugin-pod](/reference/plugin/github.com/opencharly/plugin-pod:v2026.242.0531/plugin-pod/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.201.0000` |
 
