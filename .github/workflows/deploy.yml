@@ -86,21 +86,9 @@ jobs:
 
       - name: Write the corpus wiring candy from the pins file
         run: |
-          python3 -c "
-          import os
-          pins = [l.strip().split('\t') for l in open('.github/docs-corpus/pins.tsv') if l.strip()]
-          refs = chr(10).join("        - '@github.com/opencharly/%s/candy/%s:%s'" % (p, p, t) for p, t in pins)
-          wiring = [
-              "docs-corpus:",
-              "    candy:",
-              "        version: 2026.242.2200",
-              "        description: CI-time corpus wiring candy for the docs deploy.",
-              "        candy:",
-          ] + refs
-          os.makedirs('/tmp/charly/candy/docs-corpus', exist_ok=True)
-          open('/tmp/charly/candy/docs-corpus/charly.yml','w').write(chr(10).join(wiring) + chr(10))
-          print('corpus wiring refs:', len(pins))
-          "
+          mkdir -p /tmp/charly/candy/docs-corpus
+          cp .github/docs-corpus/build_wiring.py /tmp/build_wiring.py
+          python3 /tmp/build_wiring.py .github/docs-corpus/pins.tsv /tmp/charly/candy/docs-corpus/charly.yml
 
       - name: Regenerate the generated content from the pinned charly
         # The project root must be the charly checkout (the runtime plugin-docs binary
