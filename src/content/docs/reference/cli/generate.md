@@ -7,7 +7,7 @@ description: "The generate command word, served by the plugin-box plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-box](/reference/plugin/plugin-box/) |
+| **Served by** | [plugin-box](/reference/plugin/github.com/opencharly/plugin-box:v2026.242.0526/plugin-box/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.194.0000` |
 

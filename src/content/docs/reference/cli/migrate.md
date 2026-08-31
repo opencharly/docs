@@ -7,7 +7,7 @@ description: "The migrate command word, served by the plugin-migrate plugin cand
 
 | | |
 |---|---|
-| **Served by** | [plugin-migrate](/reference/plugin/plugin-migrate/) |
+| **Served by** | [plugin-migrate](/reference/plugin/github.com/opencharly/plugin-migrate:v2026.242.0530/plugin-migrate/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.186.0100` |
 

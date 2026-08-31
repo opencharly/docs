@@ -7,7 +7,7 @@ description: "The doctor command word, served by the plugin-doctor plugin candy.
 
 | | |
 |---|---|
-| **Served by** | [plugin-doctor](/reference/plugin/plugin-doctor/) |
+| **Served by** | [plugin-doctor](/reference/plugin/github.com/opencharly/plugin-doctor:v2026.242.0528/plugin-doctor/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.181.0001` |
 

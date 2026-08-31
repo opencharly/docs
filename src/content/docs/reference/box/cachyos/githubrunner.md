@@ -14,8 +14,8 @@ title: "githubrunner"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/github-runner:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/charly:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/dbus:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/container-nesting:v2026.231.0714`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
+- `@github.com/opencharly/pod-github-runner:v2026.240.2052`
+- `@github.com/opencharly/layer-charly:v2026.241.1407`
+- `@github.com/opencharly/pod-dbus:v2026.239.1555`
+- `@github.com/opencharly/layer-container-nesting:v2026.239.1647`

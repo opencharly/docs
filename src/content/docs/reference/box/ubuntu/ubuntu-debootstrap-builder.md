@@ -14,4 +14,4 @@ title: "ubuntu-debootstrap-builder"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/debootstrap-builder:v2026.201.0706`
+- `@github.com/opencharly/layer-debootstrap-builder:v2026.239.1637`

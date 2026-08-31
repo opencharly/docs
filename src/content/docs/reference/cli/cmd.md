@@ -7,7 +7,7 @@ description: "The cmd command word, served by the plugin-cmd plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-cmd](/reference/plugin/plugin-cmd/) |
+| **Served by** | [plugin-cmd](/reference/plugin/github.com/opencharly/plugin-cmd:v2026.242.0526/plugin-cmd/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.209.0000` |
 

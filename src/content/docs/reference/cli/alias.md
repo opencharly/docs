@@ -7,7 +7,7 @@ description: "The alias command word, served by the plugin-alias plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-alias](/reference/plugin/plugin-alias/) |
+| **Served by** | [plugin-alias](/reference/plugin/github.com/opencharly/plugin-alias:v2026.242.0525/plugin-alias/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.193.1052` |
 

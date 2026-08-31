@@ -7,9 +7,9 @@ description: "The check command word, served by the plugin-check plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-check](/reference/plugin/plugin-check/) |
+| **Served by** | [plugin-check](/reference/plugin/github.com/opencharly/plugin-check:v2026.242.2127/plugin-check/) |
 | **Placement** | compiled-in (in-process) |
-| **Version** | `2026.193.0900` |
+| **Version** | `2026.242.2345` |
 
 `check` is a command word served by the `plugin-check` plugin candy. This plugin is listed in `charly/charly.yml`'s `compiled_plugins:`, so its providers are compiled into the `charly` binary and register in-process.
 

@@ -14,7 +14,7 @@ title: "unsloth-studio"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/unsloth-studio:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/notebook-finetuning:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/dbus:v2026.231.0714`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
+- `@github.com/opencharly/pod-unsloth-studio:v2026.239.1618`
+- `@github.com/opencharly/layer-notebook-finetuning:v2026.239.1606`
+- `@github.com/opencharly/pod-dbus:v2026.239.1555`

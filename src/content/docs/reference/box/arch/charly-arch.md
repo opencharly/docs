@@ -14,11 +14,11 @@ title: "charly-arch"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0530`
-- `@github.com/opencharly/charly/candy/charly:v2026.231.0530`
-- `@github.com/opencharly/charly/candy/charly-mcp:v2026.231.0530`
-- `@github.com/opencharly/charly/candy/golang:v2026.231.0530`
-- `@github.com/opencharly/charly/candy/gh:v2026.231.0530`
-- `@github.com/opencharly/charly/candy/sshd:v2026.231.0530`
-- `@github.com/opencharly/charly/candy/container-nesting:v2026.231.0530`
-- `@github.com/opencharly/charly/candy/nvidia:v2026.231.0530`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
+- `@github.com/opencharly/layer-charly:v2026.241.1407`
+- `@github.com/opencharly/pod-charly-mcp:v2026.241.1219`
+- `@github.com/opencharly/layer-golang:v2026.239.1614`
+- `@github.com/opencharly/layer-gh:v2026.239.1624`
+- `@github.com/opencharly/pod-sshd:v2026.239.1637`
+- `@github.com/opencharly/layer-container-nesting:v2026.239.1647`
+- `@github.com/opencharly/layer-nvidia:v2026.236.116`

@@ -14,5 +14,5 @@ title: "chrome-headless"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/supervisord:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/chrome-headless:v2026.231.0714`
+- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
+- `@github.com/opencharly/pod-chrome-headless:v2026.241.0642`

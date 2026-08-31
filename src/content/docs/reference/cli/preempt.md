@@ -7,7 +7,7 @@ description: "The preempt command word, served by the plugin-preempt plugin cand
 
 | | |
 |---|---|
-| **Served by** | [plugin-preempt](/reference/plugin/plugin-preempt/) |
+| **Served by** | [plugin-preempt](/reference/plugin/github.com/opencharly/plugin-preempt:v2026.242.0533/plugin-preempt/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.183.0000` |
 

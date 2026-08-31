@@ -7,7 +7,7 @@ description: "The status command word, served by the plugin-status plugin candy.
 
 | | |
 |---|---|
-| **Served by** | [plugin-status](/reference/plugin/plugin-status/) |
+| **Served by** | [plugin-status](/reference/plugin/github.com/opencharly/plugin-status:v2026.242.0531/plugin-status/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.194.1600` |
 

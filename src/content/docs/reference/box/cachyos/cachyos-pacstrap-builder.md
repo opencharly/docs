@@ -14,4 +14,4 @@ title: "cachyos-pacstrap-builder"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/pacstrap-builder:v2026.231.0714`
+- `@github.com/opencharly/layer-pacstrap-builder:v2026.239.1633`

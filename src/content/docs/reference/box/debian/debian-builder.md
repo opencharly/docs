@@ -14,6 +14,6 @@ title: "debian-builder"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/pixi:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/nodejs:v2026.201.0706`
-- `@github.com/opencharly/charly/candy/build-toolchain:v2026.201.0706`
+- `@github.com/opencharly/layer-pixi:v2026.239.1634`
+- `@github.com/opencharly/layer-nodejs:v2026.239.1624`
+- `@github.com/opencharly/layer-build-toolchain:v2026.239.1636`

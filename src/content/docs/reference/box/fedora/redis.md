@@ -14,6 +14,6 @@ title: "redis"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/supervisord:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/redis:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/check-redis-init-layer:v2026.231.0714`
+- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
+- `@github.com/opencharly/pod-redis:v2026.239.1639`
+- `@github.com/opencharly/pod-check-redis-init-layer:v2026.240.0203`

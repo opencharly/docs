@@ -7,10 +7,10 @@ description: "The feature command word, served by 2 plugin candies: plugin-box a
 
 | | |
 |---|---|
-| **plugin-box — Served by** | [plugin-box](/reference/plugin/plugin-box/) |
+| **plugin-box — Served by** | [plugin-box](/reference/plugin/github.com/opencharly/plugin-box:v2026.242.0526/plugin-box/) |
 | **plugin-box — Placement** | compiled-in (in-process) |
 | **plugin-box — Version** | `2026.194.0000` |
-| **plugin-feature — Served by** | [plugin-feature](/reference/plugin/plugin-feature/) |
+| **plugin-feature — Served by** | [plugin-feature](/reference/plugin/github.com/opencharly/plugin-feature:v2026.242.0530/plugin-feature/) |
 | **plugin-feature — Placement** | compiled-in (in-process) |
 | **plugin-feature — Version** | `2026.179.0000` |
 

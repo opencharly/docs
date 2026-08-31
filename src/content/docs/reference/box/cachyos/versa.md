@@ -14,21 +14,21 @@ title: "versa"
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/agent-forwarding:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/nvidia:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/cuda:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/marimo:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/airflow:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/osm-tools:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/maputnik:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/pmtiles-viewer:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/shortbread:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/versatiles-style:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/versatiles-fonts:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/maplibre-versatiles-styler:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/versatiles:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/versatiles-frontend:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/notebook-osm:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/notebook-graph:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/debug-tools:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/dbus:v2026.231.0714`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
+- `@github.com/opencharly/layer-nvidia:v2026.236.116`
+- `@github.com/opencharly/layer-cuda:v2026.239.1557`
+- `@github.com/opencharly/pod-marimo:v2026.239.1558`
+- `@github.com/opencharly/pod-airflow:v2026.239.1600`
+- `@github.com/opencharly/pod-osm-tools:v2026.239.1629`
+- `@github.com/opencharly/pod-maputnik:v2026.239.1625`
+- `@github.com/opencharly/pod-pmtiles-viewer:v2026.239.1625`
+- `@github.com/opencharly/layer-shortbread:v2026.239.1633`
+- `@github.com/opencharly/layer-versatiles-style:v2026.239.1628`
+- `@github.com/opencharly/layer-versatiles-fonts:v2026.240.0122`
+- `@github.com/opencharly/layer-maplibre-versatiles-styler:v2026.240.0120`
+- `@github.com/opencharly/pod-versatiles:v2026.240.0122`
+- `@github.com/opencharly/pod-versatiles-frontend:v2026.240.2052`
+- `@github.com/opencharly/layer-notebook-osm:v2026.240.0121`
+- `@github.com/opencharly/layer-notebook-graph:v2026.239.1639`
+- `@github.com/opencharly/layer-debug-tools:v2026.239.1629`
+- `@github.com/opencharly/pod-dbus:v2026.239.1555`

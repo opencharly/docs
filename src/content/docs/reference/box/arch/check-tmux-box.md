@@ -16,6 +16,6 @@ Disposable support image for the typed terminal:tmux R10 bed. It intentionally c
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/supervisord:v2026.231.0530`
-- `@github.com/opencharly/charly/candy/tmux:v2026.231.0530`
-- `@github.com/opencharly/charly/candy/sshd:v2026.231.0530`
+- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
+- `@github.com/opencharly/layer-tmux:v2026.240.0202`
+- `@github.com/opencharly/pod-sshd:v2026.239.1637`

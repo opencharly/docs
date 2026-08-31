@@ -7,7 +7,7 @@ description: "The vm command word, served by the plugin-vm plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-vm](/reference/plugin/plugin-vm/) |
+| **Served by** | [plugin-vm](/reference/plugin/github.com/opencharly/plugin-vm:v2026.242.1912/plugin-vm/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.177.0400` |
 

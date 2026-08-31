@@ -16,5 +16,5 @@ Arch vscode install smoke (direct-download path) — backs the check-vscode-pod 
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/check-keepalive:v2026.231.0530`
-- `@github.com/opencharly/charly/candy/vscode:v2026.231.0530`
+- `@github.com/opencharly/pod-check-keepalive:v2026.239.1625`
+- `@github.com/opencharly/layer-vscode:v2026.239.1631`

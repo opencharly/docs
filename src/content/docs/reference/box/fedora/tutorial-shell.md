@@ -30,5 +30,6 @@ plans running against this same image, so the box does not restate it.
 
 This box composes:
 
-- `@github.com/opencharly/charly/candy/ripgrep:v2026.231.0714`
-- `@github.com/opencharly/charly/candy/sshd:v2026.231.0714`
+- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
+- `@github.com/opencharly/layer-ripgrep:v2026.235.1653`
+- `@github.com/opencharly/pod-sshd:v2026.239.1637`
