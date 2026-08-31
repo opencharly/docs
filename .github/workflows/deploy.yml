@@ -81,7 +81,7 @@ jobs:
 
       - name: Build the standalone plugin-docs CLI binary
         run: |
-          git clone --depth 1 https://github.com/opencharly/plugin-docs.git /tmp/plugin-docs
+          git clone --depth 1 --branch v2026.242.0527 https://github.com/opencharly/plugin-docs.git /tmp/plugin-docs
           cd /tmp/plugin-docs/candy/plugin-docs && go build -o /tmp/plugin-docs-bin ./cmd/serve
 
       - name: Write the corpus wiring candy from the pins file
