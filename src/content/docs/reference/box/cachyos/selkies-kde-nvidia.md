@@ -15,5 +15,5 @@ title: "selkies-kde-nvidia"
 This box composes:
 
 - `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
-- `@github.com/opencharly/layer-selkies-kde-desktop:v2026.239.1610`
+- `@github.com/opencharly/layer-selkies-kde-desktop:v2026.242.1336`
 - `@github.com/opencharly/pod-dbus:v2026.239.1555`
