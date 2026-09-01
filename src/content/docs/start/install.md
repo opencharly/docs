@@ -1,6 +1,6 @@
 ---
 title: Install
-description: Build the charly CLI from source and put it on your $PATH.
+description: Install the charly CLI — from source, or with the mise dev-tool manager — and put it on your $PATH.
 sidebar:
   order: 1
 ---
@@ -10,7 +10,7 @@ machine with `charly` installed and no charly checkout anywhere: `--repo <owner>
 published project straight from git, and `charly box new project <dir>` starts one of your own.
 Nothing on any other page asks you to clone this repository.
 
-Building from a source tree is what this page describes. Working ON charly is the section after it.
+Two install paths: the **published release binary** via [mise](https://mise.jdx.dev) (no toolchain needed), or a **source build** with Go + go-task. Working ON charly is the section after both.
 
 ## Install
 
@@ -39,6 +39,35 @@ Its runtime dependencies are the ones the features you use need — `podman`, `f
 `charly vm`, and `gnupg`, `pinentry`, `gocryptfs` and `tailscale` for secrets, encrypted volumes and
 tunnels. Install the ones you need with your own package manager; `charly doctor` reports what is
 missing.
+
+## Install with mise
+
+[mise](https://mise.jdx.dev) is a polyglot dev-tool version manager (asdf-compatible, Rust). It
+installs the **published release binary** straight from GitHub Releases — no Go toolchain, no
+source build:
+
+```bash
+mise use github:opencharly/charly                    # latest release
+mise use github:opencharly/charly@2026.234.1727      # pin a CalVer
+```
+
+`mise use` writes the tool into your project's `mise.toml` and installs it. The `charly` shim
+lands on your `$PATH`; without activation, `mise x` runs it:
+
+```bash
+charly version            # via the mise shim
+mise x -- charly version  # without the shim on PATH
+```
+
+The binary is the same CalVer-stamped release build the package repos ship — `charly version`
+tells you which one. Runtime dependencies are the ones the features you use need; `charly doctor`
+reports what is missing.
+
+:::note[Why `github:opencharly/charly`?]
+mise's GitHub backend (`github:org/repo`) installs release assets from GitHub Releases — the
+modern replacement for the deprecated `ubi:` backend. The full backend spec is what resolves; a
+bare `charly` shorthand is not registered in mise's tool registry.
+:::
 
 ## Development checkout (working ON charly)
 
