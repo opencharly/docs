@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-713 cards across 26 plugins, in four groups.
+734 cards across 27 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -85,6 +85,11 @@ Live-container evaluation and probe verbs — `charly check` orchestrator + per-
 - [dbus](/recipes/check/dbus/)
 - [libvirt](/recipes/check/libvirt/)
 - [libvirt](/recipes/check/libvirt/)
+- [punktfunk](/recipes/check/punktfunk/)
+- [punktfunk](/recipes/check/punktfunk/)
+- [quickshell](/recipes/check/quickshell/)
+- [quickshell](/recipes/check/quickshell/)
+- [quickshell](/recipes/check/quickshell/)
 - [record](/recipes/check/record/)
 - [record](/recipes/check/record/)
 - [spice](/recipes/check/spice/)
@@ -93,6 +98,10 @@ Live-container evaluation and probe verbs — `charly check` orchestrator + per-
 - [vnc](/recipes/check/vnc/)
 - [wl](/recipes/check/wl/)
 - [wl](/recipes/check/wl/)
+- [wl](/recipes/check/wl/)
+- [wl](/recipes/check/wl/)
+- [wl-overlay](/recipes/check/wl-overlay/)
+- [wl-overlay](/recipes/check/wl-overlay/)
 - [wl-overlay](/recipes/check/wl-overlay/)
 - [wl-overlay](/recipes/check/wl-overlay/)
 
@@ -182,6 +191,7 @@ Schema authoring reference for `kind: vm` + bootc VM catalog — libvirt/QEMU ba
 - [cachyos-bootstrap-vm](/recipes/vm/cachyos-bootstrap-vm/)
 - [debian-debootstrap-vm](/recipes/vm/debian-debootstrap-vm/)
 - [debian-debootstrap-vm](/recipes/vm/debian-debootstrap-vm/)
+- [omarchy-vm](/recipes/vm/omarchy-vm/)
 - [ubuntu-debootstrap-vm](/recipes/vm/ubuntu-debootstrap-vm/)
 - [ubuntu-debootstrap-vm](/recipes/vm/ubuntu-debootstrap-vm/)
 - [vm](/recipes/vm/vm/)
@@ -329,7 +339,6 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [cloud-init](/recipes/distros/cloud-init/)
 - [container-nesting](/recipes/distros/container-nesting/)
 - [container-nesting](/recipes/distros/container-nesting/)
-- [container-nesting](/recipes/distros/container-nesting/)
 - [cuda](/recipes/distros/cuda/)
 - [cuda](/recipes/distros/cuda/)
 - [cuda](/recipes/distros/cuda/)
@@ -361,8 +370,11 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [nvidia](/recipes/distros/nvidia/)
 - [nvidia-layer](/recipes/distros/nvidia-layer/)
 - [nvidia-layer](/recipes/distros/nvidia-layer/)
+- [omarchy](/recipes/distros/omarchy/)
 - [omarchy-base](/recipes/distros/omarchy-base/)
 - [omarchy-base](/recipes/distros/omarchy-base/)
+- [omarchy-cstream](/recipes/distros/omarchy-cstream/)
+- [omarchy-eval](/recipes/distros/omarchy-eval/)
 - [omarchy-shell](/recipes/distros/omarchy-shell/)
 - [qemu-guest-agent](/recipes/distros/qemu-guest-agent/)
 - [qemu-guest-agent](/recipes/distros/qemu-guest-agent/)
@@ -589,6 +601,13 @@ Self-contained skills for the openwebui chat-frontend image.
 - [openwebui-layer](/recipes/openwebui/openwebui-layer/)
 - [openwebui-layer](/recipes/openwebui/openwebui-layer/)
 
+### charly-punktfunk
+
+Self-contained skills for the punktfunk streaming-host image family (CachyOS base): the punktfunk/1 QUIC host daemon, its browser console and its plugin runner, installed from unom's signed pacman repo with a headless Sway compositor for the host to drive.
+
+- [punktfunk-host](/recipes/punktfunk/punktfunk-host/)
+- [punktfunk-host](/recipes/punktfunk/punktfunk-host/)
+
 ### charly-selkies
 
 Self-contained skills + MCP wiring for the selkies-desktop family (Wayland desktop in a container with VNC + Chrome).
@@ -621,6 +640,7 @@ Self-contained skills + MCP wiring for the selkies-desktop family (Wayland deskt
 - [kde-selkies](/recipes/selkies/kde-selkies/)
 - [kde-selkies](/recipes/selkies/kde-selkies/)
 - [kde-selkies](/recipes/selkies/kde-selkies/)
+- [kde-selkies](/recipes/selkies/kde-selkies/)
 - [kde-shell](/recipes/selkies/kde-shell/)
 - [kde-shell](/recipes/selkies/kde-shell/)
 - [kde-shell](/recipes/selkies/kde-shell/)
@@ -639,6 +659,7 @@ Self-contained skills + MCP wiring for the selkies-desktop family (Wayland deskt
 - [selkies](/recipes/selkies/selkies/)
 - [selkies](/recipes/selkies/selkies/)
 - [selkies](/recipes/selkies/selkies/)
+- [selkies](/recipes/selkies/selkies/)
 - [selkies-core](/recipes/selkies/selkies-core/)
 - [selkies-core](/recipes/selkies/selkies-core/)
 - [selkies-core](/recipes/selkies/selkies-core/)
@@ -647,6 +668,7 @@ Self-contained skills + MCP wiring for the selkies-desktop family (Wayland deskt
 - [selkies-desktop-layer](/recipes/selkies/selkies-desktop-layer/)
 - [selkies-kde](/recipes/selkies/selkies-kde/)
 - [selkies-kde](/recipes/selkies/selkies-kde/)
+- [selkies-kde-desktop](/recipes/selkies/selkies-kde-desktop/)
 - [selkies-kde-desktop](/recipes/selkies/selkies-kde-desktop/)
 - [selkies-kde-desktop](/recipes/selkies/selkies-kde-desktop/)
 - [selkies-kde-nvidia](/recipes/selkies/selkies-kde-nvidia/)
@@ -667,6 +689,7 @@ Self-contained skills + MCP wiring for the selkies-desktop family (Wayland deskt
 - [sway-desktop](/recipes/selkies/sway-desktop/)
 - [sway-desktop](/recipes/selkies/sway-desktop/)
 - [sway-desktop](/recipes/selkies/sway-desktop/)
+- [sway-desktop-vnc](/recipes/selkies/sway-desktop-vnc/)
 - [sway-desktop-vnc](/recipes/selkies/sway-desktop-vnc/)
 - [sway-desktop-vnc](/recipes/selkies/sway-desktop-vnc/)
 - [sway-desktop-vnc](/recipes/selkies/sway-desktop-vnc/)
@@ -695,9 +718,11 @@ Self-contained skills + MCP wiring for the selkies-desktop family (Wayland deskt
 - [wl-record-pixelflux](/recipes/selkies/wl-record-pixelflux/)
 - [wl-record-pixelflux](/recipes/selkies/wl-record-pixelflux/)
 - [wl-record-pixelflux](/recipes/selkies/wl-record-pixelflux/)
+- [wl-record-pixelflux](/recipes/selkies/wl-record-pixelflux/)
 - [wl-screenshot-grim](/recipes/selkies/wl-screenshot-grim/)
 - [wl-screenshot-grim](/recipes/selkies/wl-screenshot-grim/)
 - [wl-screenshot-grim](/recipes/selkies/wl-screenshot-grim/)
+- [wl-screenshot-pixelflux](/recipes/selkies/wl-screenshot-pixelflux/)
 - [wl-screenshot-pixelflux](/recipes/selkies/wl-screenshot-pixelflux/)
 - [wl-screenshot-pixelflux](/recipes/selkies/wl-screenshot-pixelflux/)
 - [wl-screenshot-pixelflux](/recipes/selkies/wl-screenshot-pixelflux/)
@@ -848,6 +873,7 @@ Development internals for charly contributors — Go source map, install-plan IR
 - [libvirt-renderer](/recipes/internals/libvirt-renderer/)
 - [local-infra](/recipes/internals/local-infra/)
 - [local-infra](/recipes/internals/local-infra/)
+- [marketplace](/recipes/internals/marketplace/)
 - [ovmf](/recipes/internals/ovmf/)
 - [ovmf](/recipes/internals/ovmf/)
 - [plugin](/recipes/internals/plugin/)

@@ -41,11 +41,14 @@ semantics, so the service execs `quickshell` directly:
 ```
 exec: quickshell -n -p /usr/share/omarchy/shell
 priority: 14
-wait_for: {paths: ["${XDG_RUNTIME_DIR}/wayland-0"], timeout: 60s}
+wait_for: {paths: ["${XDG_RUNTIME_DIR}/wayland-2"], timeout: 60s}
 ```
 
-Priority 14 places it after the compositor (12), which is what creates
-`wayland-0`, and before the streaming transport (18).
+Priority 14 places it after the compositor (12) and before the streaming
+transport (18). The socket is `wayland-2`, not `wayland-0`: this stack runs TWO
+compositors, and `gst-wayland-display` (the streaming parent) takes `wayland-1`
+while Hyprland binds the next name for its own clients. Nothing in the stack
+ever creates `wayland-0`.
 
 ## `pod-dbus` is load-bearing
 

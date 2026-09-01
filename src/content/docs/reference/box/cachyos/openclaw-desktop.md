@@ -15,7 +15,7 @@ title: "openclaw-desktop"
 This box composes:
 
 - `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
-- `@github.com/opencharly/pod-selkies-desktop:v2026.240.2351`
+- `@github.com/opencharly/pod-selkies-desktop:v2026.242.1245`
 - `@github.com/opencharly/layer-openclaw-full:v2026.240.0119`
 - `@github.com/opencharly/pod-ollama:v2026.239.1635`
 - `@github.com/opencharly/layer-charly:v2026.241.1407`

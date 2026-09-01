@@ -15,5 +15,5 @@ title: "selkies-labwc"
 This box composes:
 
 - `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
-- `@github.com/opencharly/pod-selkies-desktop:v2026.240.2351`
+- `@github.com/opencharly/pod-selkies-desktop:v2026.242.1245`
 - `@github.com/opencharly/pod-dbus:v2026.239.1555`

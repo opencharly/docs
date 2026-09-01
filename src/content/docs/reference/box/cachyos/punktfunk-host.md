@@ -31,5 +31,5 @@ This box composes:
 
 - `@github.com/opencharly/layer-supervisord:v2026.240.0121`
 - `@github.com/opencharly/pod-sway:v2026.241.2004`
-- `@github.com/opencharly/layer-punktfunk:v2026.241.2026`
-- `@github.com/opencharly/plugin-punktfunk/candy/plugin-punktfunk:v2026.241.1930`
+- `@github.com/opencharly/layer-punktfunk:v2026.242.0831`
+- `@github.com/opencharly/plugin-punktfunk/candy/plugin-punktfunk:v2026.242.1207`
