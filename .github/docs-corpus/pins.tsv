@@ -62,3 +62,5 @@ plugin-dsh	v2026.242.0528
 plugin-ollama	v2026.242.0532
 plugin-bpf	v2026.243.1059
 plugin-cardwire	v2026.243.1202
+plugin-herdr	v2026.245.1008
+pod-herdr	v2026.245.1113

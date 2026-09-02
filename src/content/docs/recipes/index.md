@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-734 cards across 27 plugins, in four groups.
+740 cards across 27 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -21,6 +21,10 @@ Automation/customization knobs — tmux verb, host-side wrappers (alias, udev), 
 - [alias](/recipes/automation/alias/)
 - [enc](/recipes/automation/enc/)
 - [enc](/recipes/automation/enc/)
+- [herdr](/recipes/automation/herdr/)
+- [herdr](/recipes/automation/herdr/)
+- [herdr-box](/recipes/automation/herdr-box/)
+- [herdr-box](/recipes/automation/herdr-box/)
 - [openclaw-deploy](/recipes/automation/openclaw-deploy/)
 - [openclaw-deploy](/recipes/automation/openclaw-deploy/)
 - [sidecar](/recipes/automation/sidecar/)
@@ -373,8 +377,10 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [omarchy](/recipes/distros/omarchy/)
 - [omarchy-base](/recipes/distros/omarchy-base/)
 - [omarchy-base](/recipes/distros/omarchy-base/)
+- [omarchy-base](/recipes/distros/omarchy-base/)
 - [omarchy-cstream](/recipes/distros/omarchy-cstream/)
 - [omarchy-eval](/recipes/distros/omarchy-eval/)
+- [omarchy-shell](/recipes/distros/omarchy-shell/)
 - [omarchy-shell](/recipes/distros/omarchy-shell/)
 - [qemu-guest-agent](/recipes/distros/qemu-guest-agent/)
 - [qemu-guest-agent](/recipes/distros/qemu-guest-agent/)
