@@ -14,21 +14,21 @@ title: "versa"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.243.0408`
 - `@github.com/opencharly/layer-nvidia:v2026.236.116`
-- `@github.com/opencharly/layer-cuda:v2026.239.1557`
-- `@github.com/opencharly/pod-marimo:v2026.239.1558`
-- `@github.com/opencharly/pod-airflow:v2026.239.1600`
+- `@github.com/opencharly/layer-cuda:v2026.243.0408`
+- `@github.com/opencharly/pod-marimo:v2026.243.1805`
+- `@github.com/opencharly/pod-airflow:v2026.243.1854`
 - `@github.com/opencharly/pod-osm-tools:v2026.239.1629`
 - `@github.com/opencharly/pod-maputnik:v2026.239.1625`
-- `@github.com/opencharly/pod-pmtiles-viewer:v2026.239.1625`
-- `@github.com/opencharly/layer-shortbread:v2026.239.1633`
-- `@github.com/opencharly/layer-versatiles-style:v2026.239.1628`
-- `@github.com/opencharly/layer-versatiles-fonts:v2026.240.0122`
-- `@github.com/opencharly/layer-maplibre-versatiles-styler:v2026.240.0120`
-- `@github.com/opencharly/pod-versatiles:v2026.240.0122`
-- `@github.com/opencharly/pod-versatiles-frontend:v2026.240.2052`
+- `@github.com/opencharly/pod-pmtiles-viewer:v2026.243.0508`
+- `@github.com/opencharly/layer-shortbread:v2026.243.0410`
+- `@github.com/opencharly/layer-versatiles-style:v2026.243.0508`
+- `@github.com/opencharly/layer-versatiles-fonts:v2026.243.0410`
+- `@github.com/opencharly/layer-maplibre-versatiles-styler:v2026.243.0409`
+- `@github.com/opencharly/pod-versatiles:v2026.243.0411`
+- `@github.com/opencharly/pod-versatiles-frontend:v2026.243.0819`
 - `@github.com/opencharly/layer-notebook-osm:v2026.240.0121`
 - `@github.com/opencharly/layer-notebook-graph:v2026.239.1639`
 - `@github.com/opencharly/layer-debug-tools:v2026.239.1629`
-- `@github.com/opencharly/pod-dbus:v2026.239.1555`
+- `@github.com/opencharly/pod-dbus:v2026.243.1831`

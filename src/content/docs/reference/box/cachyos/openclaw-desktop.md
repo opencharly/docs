@@ -14,12 +14,12 @@ title: "openclaw-desktop"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
-- `@github.com/opencharly/pod-selkies-desktop:v2026.242.1245`
-- `@github.com/opencharly/layer-openclaw-full:v2026.240.0119`
-- `@github.com/opencharly/pod-ollama:v2026.239.1635`
-- `@github.com/opencharly/layer-charly:v2026.241.1407`
-- `@github.com/opencharly/layer-container-nesting:v2026.239.1647`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.243.0408`
+- `@github.com/opencharly/pod-selkies-desktop:v2026.247.1642`
+- `@github.com/opencharly/layer-openclaw-full:v2026.247.0718`
+- `@github.com/opencharly/pod-ollama:v2026.243.0411`
+- `@github.com/opencharly/layer-charly:v2026.243.0408`
+- `@github.com/opencharly/layer-container-nesting:v2026.247.0157`
 - `@github.com/opencharly/layer-golang:v2026.239.1614`
 - `@github.com/opencharly/layer-gh:v2026.239.1624`
-- `@github.com/opencharly/pod-dbus:v2026.239.1555`
+- `@github.com/opencharly/pod-dbus:v2026.243.1831`

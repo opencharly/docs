@@ -14,6 +14,6 @@ title: "charly-selftest"
 
 This box composes:
 
-- `@github.com/opencharly/pod-charly-mcp:v2026.241.1219`
+- `@github.com/opencharly/pod-charly-mcp:v2026.243.0516`
 - `@github.com/opencharly/layer-container-nesting:v2026.239.1647`
 - `@github.com/opencharly/layer-claude-code:v2026.239.1626`
