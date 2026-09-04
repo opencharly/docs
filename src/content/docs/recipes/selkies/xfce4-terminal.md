@@ -26,7 +26,7 @@ description: "Xfce4 terminal emulator for Sway desktop environments with sway co
 # charly.yml -- typically used via sway-desktop composition
 my-image:
   candy:
-    - '@github.com/opencharly/layer-sway-desktop:v2026.238.2103'
+    - '@github.com/opencharly/layer-sway-desktop:vTAG'
 ```
 
 ## Used In Boxes

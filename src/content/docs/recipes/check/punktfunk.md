@@ -102,7 +102,7 @@ device or reboot a machine.
 
 | Field | Meaning |
 |---|---|
-| `method` | the operation. Author it in MAP form (`punktfunk: {method: status}`) - see the note below on scalar shorthand |
+| `method` | the operation (also the scalar-sugar primary: `punktfunk: status`) |
 | `port` | management API port (default 47990) |
 | `token` / `token_file` | override the bearer; default is `~/.config/punktfunk/mgmt-token` in the venue |
 | `verify_tls` | require a verifiable chain. **Default off** — punktfunk serves a self-signed cert. Named this way (not `insecure`) so the ZERO VALUE is the correct default, which a bool could not express otherwise. |
@@ -111,31 +111,36 @@ device or reboot a machine.
 | `kinds` / `count` / `event_timeout` | the `events` subscription window |
 | `json_path` | dotted path into the response; stdout becomes that value |
 
-## Author in MAP form, not scalar shorthand
+## Scalar shorthand works — but the plugin candy must be in scan range
 
 ```yaml
-punktfunk:                 # correct
+punktfunk: status          # scalar sugar
+punktfunk:                 # map form — identical meaning
   method: status
-
-punktfunk: status          # FAILS the project parse today
 ```
 
-The plugin declares `plugin.primary: {punktfunk: method}`, which is supposed to
-make the scalar shorthand work before any plugin connects. It does when the
-candy is discovered locally, and is **silently ignored when the candy comes from
-an `@github` ref** — which is how every real consumer pins it. The parse then
-rejects the step:
+Both parse. The sugar is enabled by this candy's `plugin.primary: {punktfunk:
+method}`, which charly reads in a PRE-CONNECT prescan — before any plugin is
+connected — so the declaration has to be reachable at parse time.
+
+**That is the one real requirement: the plugin candy must be composed into the
+box that authors the step.** charly reads `primary:` off candies in scan range,
+so a bed that authors `punktfunk: status` without composing this candy fails with
 
 ```
 plugin verb "punktfunk" takes a MAP input
 (it declares no primary field for the scalar shorthand)
 ```
 
-That failure is **not local to the offending step**: it blocks the parse for
-every bed sharing the project closure. Authoring `punktfunk: health` in one bed
-took down three unrelated beds until it was rewritten.
+and that failure is not local to the offending step — it blocks the parse for
+every bed sharing the project closure.
 
-Tracked as opencharly/charly#471. Until it is fixed, always use the map form.
+*Historical note.* Until 2026-08-30 the same error appeared even when the candy
+WAS composed, whenever it arrived by `@github` ref rather than being discovered
+locally: the remote-ref prescan leg was gated behind a local `discover:` block.
+That was opencharly/charly#471, fixed by charly#473 — verified by an A/B on the
+identical fixture, which fails on `v2026.242.0649` and passes on the fix. Do not
+reintroduce the map-form workaround this file used to prescribe.
 
 ## Examples
 

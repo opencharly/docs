@@ -27,3 +27,10 @@ consequences: the migration outcomes (retired-installer-artifacts,
 legacy-power-udev-rules, security-fido2). The checks are BUILD-context
 (they assert the image's content at charly check box) and idempotent —
 no side effects, no upstream source tree needed.
+
+## Composition
+
+This box composes:
+
+- `@github.com/opencharly/layer-tmux:v2026.240.0202`
+- `@github.com/opencharly/layer-asciinema:v2026.246.1622`

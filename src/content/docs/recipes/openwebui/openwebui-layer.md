@@ -139,7 +139,7 @@ openwebui:
   candy:
     - agent-forwarding
     - openwebui
-    - '@github.com/opencharly/pod-dbus:v2026.235.2115'
+    - '@github.com/opencharly/pod-dbus:vTAG'
     - charly
   ports:
     - "8080:8080"

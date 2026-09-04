@@ -14,7 +14,7 @@ title: "ollama-rocm"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
-- `@github.com/opencharly/pod-ollama:v2026.239.1635`
-- `@github.com/opencharly/layer-ollama-rocm:v2026.239.1602`
-- `@github.com/opencharly/pod-dbus:v2026.239.1555`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.243.0408`
+- `@github.com/opencharly/pod-ollama:v2026.243.0411`
+- `@github.com/opencharly/layer-ollama-rocm:v2026.243.1755`
+- `@github.com/opencharly/pod-dbus:v2026.243.1831`

@@ -14,4 +14,4 @@ title: "cstream"
 
 This box composes:
 
-- `@github.com/opencharly/layer-cstream-desktop:v2026.243.0331`
+- `@github.com/opencharly/layer-cstream-desktop:v2026.243.1831`

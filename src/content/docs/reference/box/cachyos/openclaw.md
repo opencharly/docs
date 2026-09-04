@@ -14,6 +14,7 @@ title: "openclaw"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
-- `@github.com/opencharly/pod-openclaw:v2026.239.1639`
-- `@github.com/opencharly/pod-dbus:v2026.239.1555`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.243.0408`
+- `@github.com/opencharly/pod-openclaw:v2026.246.2119`
+- `@github.com/opencharly/plugin-openclaw/candy/plugin-openclaw:v2026.246.1626`
+- `@github.com/opencharly/pod-dbus:v2026.243.1831`

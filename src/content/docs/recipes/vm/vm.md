@@ -21,6 +21,8 @@ description: "MUST be invoked before any work involving: virtual machines, charl
 
 - **`source.kind: cloud_image`** — fetches a pre-built qcow2 from an external URL (Arch, Fedora, Ubuntu, Debian, CentOS Cloud images). Renders a NoCloud seed ISO with cloud-init. Canonical example: [`/charly-vm:arch-cloud-vm`](/recipes/vm/arch-cloud-vm/).
 - **`source.kind: bootc`** — pairs (via its `box:` source field) with a `candy:` image entry that has `bootc: true`. Runs `bootc install to-disk` inside a privileged container.
+- **`source.kind: bootstrap`** — builds a rootfs from PACKAGES with the distro's own bootstrapper (pacstrap / debootstrap / dnf) inside a privileged builder box, partitions a disk, and installs the distro's bootloader. Canonical examples: [`/charly-vm:cachyos-bootstrap-vm`](/recipes/vm/cachyos-bootstrap-vm/), [`/charly-vm:debian-debootstrap-vm`](/recipes/vm/debian-debootstrap-vm/).
+- **`source.kind: iso`** — boots a distro's OWN installer ISO with a charly-rendered answers volume, so the distro installs itself with nobody at the keyboard. The answer FORMAT belongs to the distro (`#DistroInstaller`); the answer DATA belongs to the VM entity (`installer:`). The blank disk is FIRST in the boot order, so the firmware falls through to the ISO on the first boot and the installed system boots from disk ever after — no eject, no detach, and no reboot-loop hazard. Canonical example: [`/charly-vm:omarchy-vm`](/recipes/vm/omarchy-vm/).
 
 VMs are not configured on `candy:` image entries — `vm:` / `libvirt:` on a `candy:` image are rejected at load time. `bootc: true` stays on a `candy:` image entry to mark it bootable. The legacy on-image `vm:`/`libvirt:` fields predate the schema floor and are no longer migratable — a config still carrying them must be re-authored as a name-first `kind: vm` node (see [`/charly-build:migrate`](/recipes/build/migrate/)). For the YAML authoring reference, see [`/charly-vm:vms-catalog`](/recipes/vm/vms-catalog/); for the Go types, see [`/charly-internals:vm-spec`](/recipes/internals/vm-spec/).
 
@@ -235,8 +237,10 @@ the [`/charly-distros:workspace-mount`](/recipes/distros/workspace-mount/) layer
 ## `kind: vm` entity reference
 
 Canonical node-form shape, condensed from [`/charly-vm:vms-catalog`](/recipes/vm/vms-catalog/). Each VM is a
-name-first top-level node; every non-scalar block (here `libvirt:`) is a CHILD NODE
-`<entity>-<key>`, never nested under `vm:`:
+name-first top-level node, and EVERY block — `libvirt:` included — lives INLINE in the
+`vm:` kind value. The former named child-node shape (`<entity>-<key>`) was deleted by
+the schema-compaction cutover and is now a hard loader error:
+`no kind discriminator — collections and plan steps live INLINE in the kind value`.
 
 ```yaml
 # cloud_image source
@@ -260,7 +264,7 @@ arch:
                                                    # any of them. Alpine is first-class: `distro: alpine` selects apk and
                                                    # OpenRC. openSUSE is still absent and has no near relative (zypper);
                                                    # adding it is one entry in that file.
-                                                   # Note also that #DistroID (13 ids) and the embedded `distro:` BUILD vocabulary are
+                                                   # Note also that #DistroID (14 ids, omarchy included) and the embedded `distro:` BUILD vocabulary are
                                                    # different sets, and the gap is SILENT: `buildVmSyntheticBox` resolves this field against
                                                    # the build vocabulary and on a miss leaves `img.Pkg` unset, so candy installation compiles
                                                    # ZERO package steps while `fleet add` reports success. A schema-valid id is therefore not
@@ -278,11 +282,10 @@ arch:
     cloud_init:
       package: [sudo, spice-vdagent]
       charly_install: {strategy: auto}
-arch-libvirt:                                       # CHILD NODE — libvirt block hoisted out of `vm:`
-  libvirt:
-    devices:
-      video: [{model: virtio, vram: 65536, heads: 1, accel3d: false}]
-      graphics: [{type: spice, autoport: "yes", listen: 127.0.0.1}]
+    libvirt:
+      devices:
+        video: [{model: virtio, vram: 65536, heads: 1, accel3d: false}]
+        graphics: [{type: spice, autoport: "yes", listen: 127.0.0.1}]
 
 # bootc source
 my-bootc:
@@ -367,8 +370,8 @@ is idle between calls). The only valid signals are the **socket**
 rootless-first (`qemu:///session`), so a non-root user with only the system
 daemon still needs the user-session path (which `resolveVmBackend()` autospawns).
 
-For projects whose check beds use `charly check libvirt …` and `charly check
-spice …` probes (e.g., the project's `arch:` VM template), pin the
+For projects whose check beds use the `libvirt:` and `spice:` check verbs
+(e.g., the project's `arch:` VM template), pin the
 backend explicitly via `backend: libvirt` on the kind:vm entity —
 `backend: auto` would silently fall through to qemu when the daemon
 is missing, breaking every libvirt-RPC probe with a confusing
@@ -463,11 +466,11 @@ Per-VM overrides live on the VM entity in `charly.yml`. The user-level defaults 
 
 ## Libvirt XML configuration
 
-Primary surface is the structured `LibvirtDomain` in the VM's `<name>-libvirt` child node (`<name>-libvirt: {libvirt: {features, cpu, clock, devices, sysinfo, launch_security, …}}`). See [`/charly-internals:libvirt-renderer`](/recipes/internals/libvirt-renderer/) for the full schema.
+Primary surface is the structured `LibvirtDomain` on the VM entity's own INLINE `libvirt:` field (`<name>: {vm: {…, libvirt: {features, cpu, clock, devices, sysinfo, launch_security, …}}}` — `#Vm.libvirt?: #LibvirtDomain`). See [`/charly-internals:libvirt-renderer`](/recipes/internals/libvirt-renderer/) for the full schema.
 
-Raw-XML escape hatch: the `<name>-libvirt` node's `libvirt.snippets:` (list of strings) — classified by element name. Device-scoped elements go into `<devices>`, domain-scoped before `</domain>`. Deduplicated by exact string match.
+Raw-XML escape hatch: the VM entity's inline `libvirt.snippets:` (list of strings) — classified by element name. Device-scoped elements go into `<devices>`, domain-scoped before `</domain>`. Deduplicated by exact string match.
 
-Layer-level raw snippets: a candy's `charly.yml` `libvirt.snippets:` is supported for layers that contribute device XML (e.g., [`/charly-distros:qemu-guest-agent`](/recipes/distros/qemu-guest-agent/) contributes the virtio-serial channel). Box-level `libvirt: [...]` is not a valid field — VM XML lives on the VM entity's `<name>-libvirt` child node.
+Raw XML passthrough: `libvirt.snippets:` and `libvirt.xml_passthrough:` are typed-open escape hatches INSIDE the VM entity's own `libvirt:` block. The CANDY-level `libvirt:` raw-snippet field was REMOVED (zero live Go consumers, retired alongside the box-level libvirt hard cutover — see the note at `spec/schema/candy.cue`), so a layer can no longer contribute device XML that way; authoring it now fails closed with `libvirt: field not allowed`. Box-level `libvirt: [...]` is likewise not a valid field — VM XML lives on the VM entity's inline `libvirt:`.
 
 Source: `candy/plugin-vm/libvirt.go` (`InjectLibvirtXML` — the former `charly/libvirt.go` is DELETED, K-wave 2), `sdk/vmshared/libvirt_yaml.go`, `candy/plugin-vm/libvirt_yaml_bridge.go`.
 

@@ -25,11 +25,30 @@ Software-encoded and GPU-free by construction: the punktfunk candy's `host.env`
 pins `PUNKTFUNK_ENCODER=software` and `PUNKTFUNK_ZEROCOPY=0`, so this image runs
 anywhere rather than only on a machine with an encoder.
 
+## The capture path
+
+sway supplies the compositor, but the frames do not come out of it directly. A
+session resolves to `capture: Portal`, so punktfunk asks xdg-desktop-portal's
+ScreenCast interface to create a virtual output and then receives frames over
+PipeWire — which is why `layer-xdg-portal` and `pod-pipewire` are composed here.
+They are load-bearing, not conveniences: without them the host installs, pairs
+and negotiates a codec, and then fails every session at pipeline build. That
+combination is unusually misleading, because every control-plane check still
+passes while nothing can ever stream.
+
+Note the streamed output is one punktfunk CREATES per session (`HEADLESS-2`,
+`-10`, `-16` … as sessions come and go), not the compositor's initial output.
+Content placed on `HEADLESS-1` is not in the stream, and switching sway's focus
+or workspace during a session reads as a session switch and triggers
+`capture lost — rebuilding pipeline`.
+
 ## Composition
 
 This box composes:
 
 - `@github.com/opencharly/layer-supervisord:v2026.240.0121`
 - `@github.com/opencharly/pod-sway:v2026.241.2004`
-- `@github.com/opencharly/layer-punktfunk:v2026.242.0831`
-- `@github.com/opencharly/plugin-punktfunk/candy/plugin-punktfunk:v2026.242.1207`
+- `@github.com/opencharly/layer-xdg-portal:v2026.243.1016`
+- `@github.com/opencharly/pod-pipewire:v2026.243.0508`
+- `@github.com/opencharly/layer-punktfunk:v2026.242.1658`
+- `@github.com/opencharly/plugin-punktfunk/candy/plugin-punktfunk:v2026.243.1139`
