@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-912 cards across 28 plugins, in four groups.
+913 cards across 28 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -469,6 +469,7 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [omarchy-base](/recipes/distros/omarchy-base/)
 - [omarchy-cstream](/recipes/distros/omarchy-cstream/)
 - [omarchy-eval](/recipes/distros/omarchy-eval/)
+- [omarchy-eval-golden](/recipes/distros/omarchy-eval-golden/)
 - [omarchy-shell](/recipes/distros/omarchy-shell/)
 - [omarchy-shell](/recipes/distros/omarchy-shell/)
 - [qemu-guest-agent](/recipes/distros/qemu-guest-agent/)
