@@ -7,10 +7,10 @@ description: "The check command word, served by 2 plugin candies: plugin-check a
 
 | | |
 |---|---|
-| **plugin-check — Served by** | [plugin-check](/reference/plugin/github.com/opencharly/plugin-check:v2026.242.2127/plugin-check/) |
+| **plugin-check — Served by** | [plugin-check](/reference/plugin/github-com-opencharly-plugin-check-v2026-242-2127/plugin-check/) |
 | **plugin-check — Placement** | compiled-in (in-process) |
 | **plugin-check — Version** | `2026.242.2345` |
-| **plugin-check — Served by** | [plugin-check](/reference/plugin/github.com/opencharly/plugin-check:v2026.254.0445/plugin-check/) |
+| **plugin-check — Served by** | [plugin-check](/reference/plugin/github-com-opencharly-plugin-check-v2026-254-0445/plugin-check/) |
 | **plugin-check — Placement** | compiled-in (in-process) |
 | **plugin-check — Version** | `2026.242.2345` |
 

@@ -7,10 +7,10 @@ description: "The add-candy command word, served by 2 plugin candies: plugin-aut
 
 | | |
 |---|---|
-| **plugin-authoring — Served by** | [plugin-authoring](/reference/plugin/github.com/opencharly/plugin-authoring:v2026.237.1414/plugin-authoring/) |
+| **plugin-authoring — Served by** | [plugin-authoring](/reference/plugin/github-com-opencharly-plugin-authoring-v2026-237-1414/plugin-authoring/) |
 | **plugin-authoring — Placement** | compiled-in (in-process) |
 | **plugin-authoring — Version** | `2026.196.0000` |
-| **plugin-authoring — Served by** | [plugin-authoring](/reference/plugin/github.com/opencharly/plugin-authoring:v2026.242.0525/plugin-authoring/) |
+| **plugin-authoring — Served by** | [plugin-authoring](/reference/plugin/github-com-opencharly-plugin-authoring-v2026-242-0525/plugin-authoring/) |
 | **plugin-authoring — Placement** | compiled-in (in-process) |
 | **plugin-authoring — Version** | `2026.196.0000` |
 

@@ -7,10 +7,10 @@ description: "The clean command word, served by 2 plugin candies: plugin-clean a
 
 | | |
 |---|---|
-| **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github.com/opencharly/plugin-clean:v2026.237.1417/plugin-clean/) |
+| **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-237-1417/plugin-clean/) |
 | **plugin-clean — Placement** | compiled-in (in-process) |
 | **plugin-clean — Version** | `2026.202.1400` |
-| **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github.com/opencharly/plugin-clean:v2026.242.0526/plugin-clean/) |
+| **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-242-0526/plugin-clean/) |
 | **plugin-clean — Placement** | compiled-in (in-process) |
 | **plugin-clean — Version** | `2026.202.1400` |
 

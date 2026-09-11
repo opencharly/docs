@@ -7,10 +7,10 @@ description: "The preempt command word, served by 2 plugin candies: plugin-preem
 
 | | |
 |---|---|
-| **plugin-preempt — Served by** | [plugin-preempt](/reference/plugin/github.com/opencharly/plugin-preempt:v2026.242.0533/plugin-preempt/) |
+| **plugin-preempt — Served by** | [plugin-preempt](/reference/plugin/github-com-opencharly-plugin-preempt-v2026-242-0533/plugin-preempt/) |
 | **plugin-preempt — Placement** | compiled-in (in-process) |
 | **plugin-preempt — Version** | `2026.183.0000` |
-| **plugin-preempt — Served by** | [plugin-preempt](/reference/plugin/github.com/opencharly/plugin-preempt:v2026.250.0552/plugin-preempt/) |
+| **plugin-preempt — Served by** | [plugin-preempt](/reference/plugin/github-com-opencharly-plugin-preempt-v2026-250-0552/plugin-preempt/) |
 | **plugin-preempt — Placement** | compiled-in (in-process) |
 | **plugin-preempt — Version** | `2026.183.0000` |
 

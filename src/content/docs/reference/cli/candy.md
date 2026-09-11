@@ -7,10 +7,10 @@ description: "The candy command word, served by 2 plugin candies: plugin-candy a
 
 | | |
 |---|---|
-| **plugin-candy — Served by** | [plugin-candy](/reference/plugin/github.com/opencharly/plugin-candy:v2026.237.1416/plugin-candy/) |
+| **plugin-candy — Served by** | [plugin-candy](/reference/plugin/github-com-opencharly-plugin-candy-v2026-237-1416/plugin-candy/) |
 | **plugin-candy — Placement** | compiled-in (in-process) |
 | **plugin-candy — Version** | `2026.181.0001` |
-| **plugin-candy — Served by** | [plugin-candy](/reference/plugin/github.com/opencharly/plugin-candy:v2026.242.0526/plugin-candy/) |
+| **plugin-candy — Served by** | [plugin-candy](/reference/plugin/github-com-opencharly-plugin-candy-v2026-242-0526/plugin-candy/) |
 | **plugin-candy — Placement** | compiled-in (in-process) |
 | **plugin-candy — Version** | `2026.181.0001` |
 

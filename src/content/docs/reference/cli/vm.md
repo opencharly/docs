@@ -7,10 +7,10 @@ description: "The vm command word, served by 2 plugin candies: plugin-vm and plu
 
 | | |
 |---|---|
-| **plugin-vm — Served by** | [plugin-vm](/reference/plugin/github.com/opencharly/plugin-vm:v2026.242.1912/plugin-vm/) |
+| **plugin-vm — Served by** | [plugin-vm](/reference/plugin/github-com-opencharly-plugin-vm-v2026-242-1912/plugin-vm/) |
 | **plugin-vm — Placement** | compiled-in (in-process) |
 | **plugin-vm — Version** | `2026.177.0400` |
-| **plugin-vm — Served by** | [plugin-vm](/reference/plugin/github.com/opencharly/plugin-vm:v2026.253.1802/plugin-vm/) |
+| **plugin-vm — Served by** | [plugin-vm](/reference/plugin/github-com-opencharly-plugin-vm-v2026-253-1802/plugin-vm/) |
 | **plugin-vm — Placement** | compiled-in (in-process) |
 | **plugin-vm — Version** | `2026.177.0400` |
 

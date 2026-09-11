@@ -7,7 +7,7 @@ description: "The herdr command word, served by the plugin-herdr plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-herdr](/reference/plugin/github.com/opencharly/plugin-herdr:v2026.245.1008/plugin-herdr/) |
+| **Served by** | [plugin-herdr](/reference/plugin/github-com-opencharly-plugin-herdr-v2026-245-1008/plugin-herdr/) |
 | **Placement** | runtime (out-of-process over gRPC) |
 | **Version** | `2026.245.1000` |
 

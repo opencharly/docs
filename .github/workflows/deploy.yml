@@ -69,7 +69,7 @@ jobs:
           node-version-file: .node-version
           cache: npm
 
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v7
         with:
           go-version-file: /tmp/charly/charly/go.mod
           cache-dependency-path: /tmp/charly/charly/go.sum
@@ -81,7 +81,7 @@ jobs:
 
       - name: Build the standalone plugin-docs CLI binary
         run: |
-          git clone --depth 1 --branch v2026.254.0559 https://github.com/opencharly/plugin-docs.git /tmp/plugin-docs
+          git clone --depth 1 --branch v2026.254.1214 https://github.com/opencharly/plugin-docs.git /tmp/plugin-docs
           cd /tmp/plugin-docs/candy/plugin-docs && go build -o /tmp/plugin-docs-bin ./cmd/serve
 
       - name: Write the corpus wiring candy from the pins file

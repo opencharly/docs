@@ -7,10 +7,10 @@ description: "The cmd command word, served by 2 plugin candies: plugin-cmd and p
 
 | | |
 |---|---|
-| **plugin-cmd — Served by** | [plugin-cmd](/reference/plugin/github.com/opencharly/plugin-cmd:v2026.237.1417/plugin-cmd/) |
+| **plugin-cmd — Served by** | [plugin-cmd](/reference/plugin/github-com-opencharly-plugin-cmd-v2026-237-1417/plugin-cmd/) |
 | **plugin-cmd — Placement** | compiled-in (in-process) |
 | **plugin-cmd — Version** | `2026.209.0000` |
-| **plugin-cmd — Served by** | [plugin-cmd](/reference/plugin/github.com/opencharly/plugin-cmd:v2026.242.0526/plugin-cmd/) |
+| **plugin-cmd — Served by** | [plugin-cmd](/reference/plugin/github-com-opencharly-plugin-cmd-v2026-242-0526/plugin-cmd/) |
 | **plugin-cmd — Placement** | compiled-in (in-process) |
 | **plugin-cmd — Version** | `2026.209.0000` |
 

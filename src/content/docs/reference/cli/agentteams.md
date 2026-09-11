@@ -7,10 +7,10 @@ description: "The agentteams command word, served by 2 plugin candies: plugin-ag
 
 | | |
 |---|---|
-| **plugin-agentteams — Served by** | [plugin-agentteams](/reference/plugin/github.com/opencharly/plugin-agentteams:v2026.237.1414/plugin-agentteams/) |
+| **plugin-agentteams — Served by** | [plugin-agentteams](/reference/plugin/github-com-opencharly-plugin-agentteams-v2026-237-1414/plugin-agentteams/) |
 | **plugin-agentteams — Placement** | compiled-in (in-process) |
 | **plugin-agentteams — Version** | `2026.224.0600` |
-| **plugin-agentteams — Served by** | [plugin-agentteams](/reference/plugin/github.com/opencharly/plugin-agentteams:v2026.242.0525/plugin-agentteams/) |
+| **plugin-agentteams — Served by** | [plugin-agentteams](/reference/plugin/github-com-opencharly-plugin-agentteams-v2026-242-0525/plugin-agentteams/) |
 | **plugin-agentteams — Placement** | compiled-in (in-process) |
 | **plugin-agentteams — Version** | `2026.224.0600` |
 
