@@ -34,6 +34,7 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 
 | Intent | Step |
 |---|---|
+| `run` | generate the crabbox user config with the no-hostname opt-in (upstream |
 | `run` | restore user ownership of the box user's cache root (a build-time root step created /home/user/.cache as root:root 755 — crabbox's local-container bootstrap then fails with permission denied) |
 | `run` | create the containers.conf drop-in directory for the box user |
 | `run` | write the nested-podman DNS drop-in (user location) |

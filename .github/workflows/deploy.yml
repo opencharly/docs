@@ -6,7 +6,7 @@
 # consumer fetch trees and was removed), and this workflow
 #
 #   1. clones the pinned charly (recursive, with its box/* submodules) into /tmp/charly
-#      at CI time and checks out the pinned commit 9d9ee1b3, plus the pinned
+#      at CI time and checks out the pinned commit d507ca5a, plus the pinned
 #      marketplace submodule (the corpus the skill pages project from),
 #   2. builds the charly binary from that checkout,
 #   3. regenerates the generated half of the content tree with `charly docs generate`
@@ -60,9 +60,9 @@ jobs:
         run: |
           # Clone WITHOUT --recursive, then checkout the pinned commit, THEN init the box/*
           # submodules: --recursive at clone time pulls each box at its default-branch HEAD,
-          # but the committed docs content was generated against the box commits charly@9d9ee1b3
+          # but the committed docs content was generated against the box commits charly@d507ca5a
           # records — checkout-then-init pins them exactly.
-          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout 9d9ee1b3 && git -C /tmp/charly submodule update --init --recursive
+          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout d507ca5a27eeb35f4001b8af89fd94eb5cfdcccd && git -C /tmp/charly submodule update --init --recursive
 
       - uses: actions/setup-node@v7
         with:
@@ -81,7 +81,7 @@ jobs:
 
       - name: Build the standalone plugin-docs CLI binary
         run: |
-          git clone --depth 1 --branch v2026.242.0527 https://github.com/opencharly/plugin-docs.git /tmp/plugin-docs
+          git clone --depth 1 --branch v2026.254.0559 https://github.com/opencharly/plugin-docs.git /tmp/plugin-docs
           cd /tmp/plugin-docs/candy/plugin-docs && go build -o /tmp/plugin-docs-bin ./cmd/serve
 
       - name: Write the corpus wiring candy from the pins file

@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-913 cards across 28 plugins, in four groups.
+910 cards across 28 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -26,8 +26,6 @@ Automation/customization knobs — tmux verb, host-side wrappers (alias, udev), 
 - [enc](/recipes/automation/enc/)
 - [enc](/recipes/automation/enc/)
 - [herdr](/recipes/automation/herdr/)
-- [herdr](/recipes/automation/herdr/)
-- [herdr-box](/recipes/automation/herdr-box/)
 - [herdr-box](/recipes/automation/herdr-box/)
 - [openclaw-deploy](/recipes/automation/openclaw-deploy/)
 - [openclaw-deploy](/recipes/automation/openclaw-deploy/)
@@ -250,7 +248,6 @@ Self-contained skills for the AgentTeams multi-agent stack (CachyOS base): the d
 - [agentteams](/recipes/agentteams/agentteams/)
 - [agentteams-cli](/recipes/agentteams/agentteams-cli/)
 - [agentteams-cli](/recipes/agentteams/agentteams-cli/)
-- [agentteams-cli](/recipes/agentteams/agentteams-cli/)
 
 ### charly-coder
 
@@ -349,7 +346,6 @@ Self-contained skills + MCP wiring for charly coder/dev images (arch-coder, debi
 - [sshd](/recipes/coder/sshd/)
 - [sshd](/recipes/coder/sshd/)
 - [sshd](/recipes/coder/sshd/)
-- [typst](/recipes/coder/typst/)
 - [typst](/recipes/coder/typst/)
 - [typst](/recipes/coder/typst/)
 - [ubuntu-coder](/recipes/coder/ubuntu-coder/)
@@ -580,6 +576,7 @@ Infrastructure services and system layers — postgresql, redis, valkey, vectorc
 - [keepassxc-keyring](/recipes/infrastructure/keepassxc-keyring/)
 - [keepassxc-keyring](/recipes/infrastructure/keepassxc-keyring/)
 - [keepassxc-keyring](/recipes/infrastructure/keepassxc-keyring/)
+- [postgresql](/recipes/infrastructure/postgresql/)
 - [postgresql](/recipes/infrastructure/postgresql/)
 - [postgresql](/recipes/infrastructure/postgresql/)
 - [postgresql](/recipes/infrastructure/postgresql/)
