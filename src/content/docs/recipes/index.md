@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-910 cards across 28 plugins, in four groups.
+915 cards across 28 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -26,6 +26,8 @@ Automation/customization knobs — tmux verb, host-side wrappers (alias, udev), 
 - [enc](/recipes/automation/enc/)
 - [enc](/recipes/automation/enc/)
 - [herdr](/recipes/automation/herdr/)
+- [herdr](/recipes/automation/herdr/)
+- [herdr-box](/recipes/automation/herdr-box/)
 - [herdr-box](/recipes/automation/herdr-box/)
 - [openclaw-deploy](/recipes/automation/openclaw-deploy/)
 - [openclaw-deploy](/recipes/automation/openclaw-deploy/)
@@ -246,6 +248,7 @@ Self-contained skills for the AgentTeams multi-agent stack (CachyOS base): the d
 
 - [agentteams](/recipes/agentteams/agentteams/)
 - [agentteams](/recipes/agentteams/agentteams/)
+- [agentteams-cli](/recipes/agentteams/agentteams-cli/)
 - [agentteams-cli](/recipes/agentteams/agentteams-cli/)
 - [agentteams-cli](/recipes/agentteams/agentteams-cli/)
 
@@ -693,6 +696,7 @@ Self-contained skills for running the ollama LLM-server image.
 - [ollama-cli](/recipes/ollama/ollama-cli/)
 - [ollama-cli](/recipes/ollama/ollama-cli/)
 - [ollama-cli](/recipes/ollama/ollama-cli/)
+- [ollama-cli](/recipes/ollama/ollama-cli/)
 - [ollama-layer](/recipes/ollama/ollama-layer/)
 - [ollama-layer](/recipes/ollama/ollama-layer/)
 
@@ -916,6 +920,7 @@ CLI utilities and the charly binary deploy artifacts — ripgrep, himalaya, whis
 - [docs-site](/recipes/tools/docs-site/)
 - [dsh](/recipes/tools/dsh/)
 - [dsh](/recipes/tools/dsh/)
+- [dsh-cli](/recipes/tools/dsh-cli/)
 - [dsh-cli](/recipes/tools/dsh-cli/)
 - [dsh-cli](/recipes/tools/dsh-cli/)
 - [dsh-cli](/recipes/tools/dsh-cli/)
