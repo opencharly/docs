@@ -7,7 +7,7 @@ description: "The status command word, served by the plugin-status plugin candy.
 
 | | |
 |---|---|
-| **Served by** | [plugin-status](/reference/plugin/github.com/opencharly/plugin-status:v2026.242.0531/plugin-status/) |
+| **Served by** | [plugin-status](/reference/plugin/github.com/opencharly/plugin-status:v2026.250.0552/plugin-status/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.194.1600` |
 
@@ -20,8 +20,8 @@ CLI — the runtime-status surface (table / detail / JSON, --all, --nested). The
 owns the command end to end: the Kong grammar (command.go, moved from
 charly/status.go's StatusCmd), the declared-nested-tree pre-resolution (nested_tree.go,
 K5, relocated from charly/status_nested.go's buildStatusRootsTree — every dependency it
-once claimed core-coupled, FleetConfig/ResolveDeployChain/ClassifyTarget/
-LoadFleetConfig, is sdk-portable), the PURE nested-deployment overlay fold (overlay.go,
+once claimed core-coupled, DeployConfig/ResolveDeployChain/ClassifyTarget/
+LoadDeployConfig, is sdk-portable), the PURE nested-deployment overlay fold (overlay.go,
 ported from charly/status_nested.go's applyNestedOverlay/buildNestedChildren/
 nestedChildStatus/claimFlatRow), and the render output (render.go, moved verbatim
 from charly/status_render.go). No plugin-specific command LOGIC is left in core.

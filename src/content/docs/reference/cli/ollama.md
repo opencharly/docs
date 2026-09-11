@@ -7,10 +7,10 @@ description: "The ollama command word, served by 2 plugin candies: plugin-ollama
 
 | | |
 |---|---|
-| **plugin-ollama — Served by** | [plugin-ollama](/reference/plugin/github.com/opencharly/plugin-ollama:v2026.239.1609/plugin-ollama/) |
+| **plugin-ollama — Served by** | [plugin-ollama](/reference/plugin/github.com/opencharly/plugin-ollama:v2026.237.1426/plugin-ollama/) |
 | **plugin-ollama — Placement** | compiled-in (in-process) |
 | **plugin-ollama — Version** | `2026.229.1013` |
-| **plugin-ollama — Served by** | [plugin-ollama](/reference/plugin/github.com/opencharly/plugin-ollama:v2026.242.0532/plugin-ollama/) |
+| **plugin-ollama — Served by** | [plugin-ollama](/reference/plugin/github.com/opencharly/plugin-ollama:v2026.239.1609/plugin-ollama/) |
 | **plugin-ollama — Placement** | compiled-in (in-process) |
 | **plugin-ollama — Version** | `2026.229.1013` |
 

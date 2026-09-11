@@ -16,10 +16,11 @@ Disposable support image for the complete agent-control R10 bed. It contains the
 
 This box composes:
 
-- `@github.com/opencharly/layer-charly:v2026.241.1407`
-- `@github.com/opencharly/plugin-agent/candy/plugin-agent:v2026.237.1413`
-- `@github.com/opencharly/plugin-agent-pi/candy/plugin-agent-pi:v2026.238.1436`
-- `@github.com/opencharly/plugin-tmux/candy/plugin-tmux:v2026.237.1429`
+- `@github.com/opencharly/layer-gh:v2026.239.1624`
+- `@github.com/opencharly/layer-charly:v2026.243.0408`
+- `@github.com/opencharly/plugin-agent/candy/plugin-agent:v2026.242.0525`
+- `@github.com/opencharly/plugin-agent-pi/candy/plugin-agent-pi:v2026.242.0525`
+- `@github.com/opencharly/plugin-tmux/candy/plugin-tmux:v2026.242.0534`
 - `@github.com/opencharly/layer-supervisord:v2026.240.0121`
 - `@github.com/opencharly/layer-tmux:v2026.240.0202`
 - `@github.com/opencharly/pod-sshd:v2026.239.1637`

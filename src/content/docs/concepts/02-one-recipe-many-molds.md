@@ -138,7 +138,7 @@ No second vocabulary. That is the whole tenet.
 ### The third role: a candy can extend charly itself
 
 A candy carrying a `plugin:` block does not install software into a box — it teaches `charly` a
-new verb, kind, or command. [`plugin-example`](/reference/candy/github.com/opencharly/plugin-example:v2026.242.0529/plugin-example/) is the canonical
+new verb, kind, or command. [`plugin-example`](/reference/candy/github.com/opencharly/plugin-example-command:v2026.237.1420/plugin-example-command/) is the canonical
 one:
 
 ```yaml

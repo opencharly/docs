@@ -14,7 +14,7 @@ description: "The Crabbox CLI candy — remote software testing and execution co
 | Property | Value |
 |----------|-------|
 | Binary | `/usr/local/bin/crabbox` |
-| Version | pinned `0.48.1` (GoReleaser release archive, `CRABBOX_VERSION` var) |
+| Version | pinned `0.51.0` (GoReleaser release archive, `CRABBOX_VERSION` var) |
 | Install | `download:` the release tarball, `extract_include: [crabbox]` |
 | Requires | `layer-gh` (git), `layer-ssh-client` (ssh/ssh-keygen), rsync + curl packages |
 | Alias | `crabbox` (wrapper runs in-box via `charly alias`) |
@@ -41,6 +41,13 @@ doctor` passes in a broker-less build context.
 | Provider | Notes |
 |----------|-------|
 | `local-container` (aliases `docker`/`container`/`local-docker`) | SSH leases as local container (Podman/Docker); sync/run/logs/artifacts + `--desktop`/`--browser` capabilities |
+
+Opt out of the explicit lease hostname for runtimes that share the
+host UTS namespace via `localContainer.noHostname: true` in
+`~/.config/crabbox/config.yaml` (or
+`CRABBOX_LOCAL_CONTAINER_NO_HOSTNAME=1`) — the v0.51.0 surface
+(upstream #1813/#1924); a fixed lease ID conflicts when the setting
+changes between acquisitions.
 | `ssh` (`static`/`static-ssh`) | existing machines |
 | `external` (`exec-provider`) | an executable implementing the crabbox provider protocol |
 | cloud (aws/azure/gcp/hetzner/daytona/…) | direct modes with operator credentials; documented-only |
@@ -48,7 +55,7 @@ doctor` passes in a broker-less build context.
 ## Install on a dev host / box
 
 ```bash
-charly fleet add crabbox crabbox --target local   # installs /usr/local/bin/crabbox
+charly deploy add crabbox crabbox --target local   # installs /usr/local/bin/crabbox
 charly alias install <box>                        # alias wrapper
 crabbox doctor
 ```

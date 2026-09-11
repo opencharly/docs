@@ -14,9 +14,9 @@ title: "charly-arch"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
-- `@github.com/opencharly/layer-charly:v2026.241.1407`
-- `@github.com/opencharly/pod-charly-mcp:v2026.241.1219`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.243.0408`
+- `@github.com/opencharly/layer-charly:v2026.243.0408`
+- `@github.com/opencharly/pod-charly-mcp:v2026.243.0516`
 - `@github.com/opencharly/layer-golang:v2026.239.1614`
 - `@github.com/opencharly/layer-gh:v2026.239.1624`
 - `@github.com/opencharly/pod-sshd:v2026.239.1637`

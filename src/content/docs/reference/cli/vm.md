@@ -7,7 +7,7 @@ description: "The vm command word, served by the plugin-vm plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-vm](/reference/plugin/github.com/opencharly/plugin-vm:v2026.242.1912/plugin-vm/) |
+| **Served by** | [plugin-vm](/reference/plugin/github.com/opencharly/plugin-vm:v2026.253.1802/plugin-vm/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.177.0400` |
 
@@ -17,7 +17,9 @@ description: "The vm command word, served by the plugin-vm plugin candy."
 
 The VM subsystem relocated into a COMPILED-IN plugin candy (P10). It provides TWO
 capabilities: verb:libvirt — the `libvirt` live check verb (list, info, screenshot,
-send-key, QMP, qemu-guest-agent, snapshots, events) plus the internal VM-resolution ops
+send-key, QMP, qemu-guest-agent, snapshots, events, session = the host-side detached libvirt
+framebuffer recorder over the runner's generic background-session service, Cutover E E-2) plus the
+internal VM-resolution ops
 (resolve-target / domain-state / list-domains the host's spice/vnc/ssh/status/preempt
 consumers call), dispatched through the provider registry; and command:vm — the
 `charly vm …` lifecycle CLI (build / create / start / stop / destroy / console / ssh /

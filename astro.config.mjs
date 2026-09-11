@@ -13,7 +13,7 @@ export default defineConfig({
     starlight({
       title: 'OpenCharly',
       description:
-        'The open infrastructure compiler — for you and your agents: compose, build, deploy and evaluate boxes from a library of configurable candies.',
+        'The wonky DevOps tool for you and your agents.',
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/opencharly/charly' },
       ],

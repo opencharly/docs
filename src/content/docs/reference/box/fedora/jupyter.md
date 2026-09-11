@@ -14,7 +14,7 @@ title: "jupyter"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.239.1607`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.243.0408`
 - `@github.com/opencharly/pod-jupyter:v2026.239.1557`
 - `@github.com/opencharly/layer-notebook-templates:v2026.240.0201`
 - `@github.com/opencharly/pod-dbus:v2026.239.1555`
