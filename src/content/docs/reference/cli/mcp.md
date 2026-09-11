@@ -7,10 +7,10 @@ description: "The mcp command word, served by 2 plugin candies: plugin-mcp and p
 
 | | |
 |---|---|
-| **plugin-mcp — Served by** | [plugin-mcp](/reference/plugin/github.com/opencharly/plugin-mcp:v2026.237.1425/plugin-mcp/) |
+| **plugin-mcp — Served by** | [plugin-mcp](/reference/plugin/github-com-opencharly-plugin-mcp-v2026-237-1425/plugin-mcp/) |
 | **plugin-mcp — Placement** | runtime (out-of-process over gRPC) |
 | **plugin-mcp — Version** | `2026.178.1430` |
-| **plugin-mcp — Served by** | [plugin-mcp](/reference/plugin/github.com/opencharly/plugin-mcp:v2026.242.0530/plugin-mcp/) |
+| **plugin-mcp — Served by** | [plugin-mcp](/reference/plugin/github-com-opencharly-plugin-mcp-v2026-242-0530/plugin-mcp/) |
 | **plugin-mcp — Placement** | runtime (out-of-process over gRPC) |
 | **plugin-mcp — Version** | `2026.178.1430` |
 

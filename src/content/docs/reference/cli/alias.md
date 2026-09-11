@@ -7,10 +7,10 @@ description: "The alias command word, served by 2 plugin candies: plugin-alias a
 
 | | |
 |---|---|
-| **plugin-alias — Served by** | [plugin-alias](/reference/plugin/github.com/opencharly/plugin-alias:v2026.237.1414/plugin-alias/) |
+| **plugin-alias — Served by** | [plugin-alias](/reference/plugin/github-com-opencharly-plugin-alias-v2026-237-1414/plugin-alias/) |
 | **plugin-alias — Placement** | compiled-in (in-process) |
 | **plugin-alias — Version** | `2026.193.1052` |
-| **plugin-alias — Served by** | [plugin-alias](/reference/plugin/github.com/opencharly/plugin-alias:v2026.242.0525/plugin-alias/) |
+| **plugin-alias — Served by** | [plugin-alias](/reference/plugin/github-com-opencharly-plugin-alias-v2026-242-0525/plugin-alias/) |
 | **plugin-alias — Placement** | compiled-in (in-process) |
 | **plugin-alias — Version** | `2026.193.1052` |
 

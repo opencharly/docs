@@ -7,7 +7,7 @@ description: "The docs command word, served by the plugin-docs plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-docs](/reference/plugin/github.com/opencharly/plugin-docs:v2026.254.0559/plugin-docs/) |
+| **Served by** | [plugin-docs](/reference/plugin/github-com-opencharly-plugin-docs-v2026-254-1214/plugin-docs/) |
 | **Placement** | runtime (out-of-process over gRPC) |
 | **Version** | `2026.215.1140` |
 

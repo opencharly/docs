@@ -7,10 +7,10 @@ description: "The status command word, served by 2 plugin candies: plugin-status
 
 | | |
 |---|---|
-| **plugin-status — Served by** | [plugin-status](/reference/plugin/github.com/opencharly/plugin-status:v2026.242.0531/plugin-status/) |
+| **plugin-status — Served by** | [plugin-status](/reference/plugin/github-com-opencharly-plugin-status-v2026-242-0531/plugin-status/) |
 | **plugin-status — Placement** | compiled-in (in-process) |
 | **plugin-status — Version** | `2026.194.1600` |
-| **plugin-status — Served by** | [plugin-status](/reference/plugin/github.com/opencharly/plugin-status:v2026.250.0552/plugin-status/) |
+| **plugin-status — Served by** | [plugin-status](/reference/plugin/github-com-opencharly-plugin-status-v2026-250-0552/plugin-status/) |
 | **plugin-status — Placement** | compiled-in (in-process) |
 | **plugin-status — Version** | `2026.194.1600` |
 

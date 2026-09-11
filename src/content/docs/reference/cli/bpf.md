@@ -7,7 +7,7 @@ description: "The bpf command word, served by the plugin-bpf plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-bpf](/reference/plugin/github.com/opencharly/plugin-bpf:v2026.243.1059/plugin-bpf/) |
+| **Served by** | [plugin-bpf](/reference/plugin/github-com-opencharly-plugin-bpf-v2026-243-1059/plugin-bpf/) |
 | **Placement** | runtime (out-of-process over gRPC) |
 | **Version** | `2026.243.0001` |
 

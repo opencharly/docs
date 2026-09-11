@@ -130,7 +130,7 @@ tutorial-shell:
             - '@github.com/opencharly/charly/candy/sshd:v2026.201.0706'
 ```
 
-**A plugin** — [`plugin-example`](/reference/candy/github.com/opencharly/plugin-example-command:v2026.237.1420/plugin-example-command/) is the layer shape plus a
+**A plugin** — [`plugin-example`](/reference/candy/github-com-opencharly-plugin-example-command-v2026-237-1420/plugin-example-command/) is the layer shape plus a
 `plugin:` block, and it teaches `charly` a new check verb:
 
 ```yaml

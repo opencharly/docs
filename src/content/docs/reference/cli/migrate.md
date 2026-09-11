@@ -7,10 +7,10 @@ description: "The migrate command word, served by 2 plugin candies: plugin-migra
 
 | | |
 |---|---|
-| **plugin-migrate — Served by** | [plugin-migrate](/reference/plugin/github.com/opencharly/plugin-migrate:v2026.242.0530/plugin-migrate/) |
+| **plugin-migrate — Served by** | [plugin-migrate](/reference/plugin/github-com-opencharly-plugin-migrate-v2026-242-0530/plugin-migrate/) |
 | **plugin-migrate — Placement** | compiled-in (in-process) |
 | **plugin-migrate — Version** | `2026.186.0100` |
-| **plugin-migrate — Served by** | [plugin-migrate](/reference/plugin/github.com/opencharly/plugin-migrate:v2026.249.2144/plugin-migrate/) |
+| **plugin-migrate — Served by** | [plugin-migrate](/reference/plugin/github-com-opencharly-plugin-migrate-v2026-249-2144/plugin-migrate/) |
 | **plugin-migrate — Placement** | compiled-in (in-process) |
 | **plugin-migrate — Version** | `2026.186.0100` |
 

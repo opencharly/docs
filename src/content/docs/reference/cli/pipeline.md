@@ -7,7 +7,7 @@ description: "The pipeline command word, served by the plugin-pipeline plugin ca
 
 | | |
 |---|---|
-| **Served by** | [plugin-pipeline](/reference/plugin/github.com/opencharly/plugin-pipeline:v2026.253.1518/plugin-pipeline/) |
+| **Served by** | [plugin-pipeline](/reference/plugin/github-com-opencharly-plugin-pipeline-v2026-253-1518/plugin-pipeline/) |
 | **Placement** | runtime (out-of-process over gRPC) |
 | **Version** | `2026.251.0000` |
 

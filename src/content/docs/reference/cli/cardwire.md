@@ -7,7 +7,7 @@ description: "The cardwire command word, served by the plugin-cardwire plugin ca
 
 | | |
 |---|---|
-| **Served by** | [plugin-cardwire](/reference/plugin/github.com/opencharly/plugin-cardwire:v2026.243.1202/plugin-cardwire/) |
+| **Served by** | [plugin-cardwire](/reference/plugin/github-com-opencharly-plugin-cardwire-v2026-243-1202/plugin-cardwire/) |
 | **Placement** | runtime (out-of-process over gRPC) |
 | **Version** | `2026.243.0001` |
 

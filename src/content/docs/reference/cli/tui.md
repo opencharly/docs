@@ -7,10 +7,10 @@ description: "The tui command word, served by 2 plugin candies: plugin-agent and
 
 | | |
 |---|---|
-| **plugin-agent — Served by** | [plugin-agent](/reference/plugin/github.com/opencharly/plugin-agent:v2026.237.1413/plugin-agent/) |
+| **plugin-agent — Served by** | [plugin-agent](/reference/plugin/github-com-opencharly-plugin-agent-v2026-237-1413/plugin-agent/) |
 | **plugin-agent — Placement** | compiled-in (in-process) |
 | **plugin-agent — Version** | `2026.199.1330` |
-| **plugin-agent — Served by** | [plugin-agent](/reference/plugin/github.com/opencharly/plugin-agent:v2026.242.0525/plugin-agent/) |
+| **plugin-agent — Served by** | [plugin-agent](/reference/plugin/github-com-opencharly-plugin-agent-v2026-242-0525/plugin-agent/) |
 | **plugin-agent — Placement** | compiled-in (in-process) |
 | **plugin-agent — Version** | `2026.199.1330` |
 

@@ -7,10 +7,10 @@ description: "The stop command word, served by 2 plugin candies: plugin-pod and 
 
 | | |
 |---|---|
-| **plugin-pod — Served by** | [plugin-pod](/reference/plugin/github.com/opencharly/plugin-pod:v2026.242.0531/plugin-pod/) |
+| **plugin-pod — Served by** | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-242-0531/plugin-pod/) |
 | **plugin-pod — Placement** | compiled-in (in-process) |
 | **plugin-pod — Version** | `2026.201.0000` |
-| **plugin-pod — Served by** | [plugin-pod](/reference/plugin/github.com/opencharly/plugin-pod:v2026.250.0546/plugin-pod/) |
+| **plugin-pod — Served by** | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-250-0546/plugin-pod/) |
 | **plugin-pod — Placement** | compiled-in (in-process) |
 | **plugin-pod — Version** | `2026.201.0000` |
 

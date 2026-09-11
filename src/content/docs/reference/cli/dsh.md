@@ -7,13 +7,13 @@ description: "The dsh command word, served by 3 plugin candies: plugin-dsh and p
 
 | | |
 |---|---|
-| **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github.com/opencharly/plugin-dsh:v2026.237.1419/plugin-dsh/) |
+| **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github-com-opencharly-plugin-dsh-v2026-237-1419/plugin-dsh/) |
 | **plugin-dsh — Placement** | compiled-in (in-process) |
 | **plugin-dsh — Version** | `2026.226.1600` |
-| **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github.com/opencharly/plugin-dsh:v2026.239.1623/plugin-dsh/) |
+| **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github-com-opencharly-plugin-dsh-v2026-239-1623/plugin-dsh/) |
 | **plugin-dsh — Placement** | compiled-in (in-process) |
 | **plugin-dsh — Version** | `2026.226.1600` |
-| **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github.com/opencharly/plugin-dsh:v2026.242.0528/plugin-dsh/) |
+| **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github-com-opencharly-plugin-dsh-v2026-242-0528/plugin-dsh/) |
 | **plugin-dsh — Placement** | compiled-in (in-process) |
 | **plugin-dsh — Version** | `2026.226.1600` |
 

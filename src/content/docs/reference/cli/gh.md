@@ -7,7 +7,7 @@ description: "The gh command word, served by the plugin-gh plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-gh](/reference/plugin/github.com/opencharly/plugin-gh:v2026.252.1501/plugin-gh/) |
+| **Served by** | [plugin-gh](/reference/plugin/github-com-opencharly-plugin-gh-v2026-252-1501/plugin-gh/) |
 | **Placement** | runtime (out-of-process over gRPC) |
 | **Version** | `2026.252.1500` |
 

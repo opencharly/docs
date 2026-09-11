@@ -7,10 +7,10 @@ description: "The doctor command word, served by 2 plugin candies: plugin-doctor
 
 | | |
 |---|---|
-| **plugin-doctor — Served by** | [plugin-doctor](/reference/plugin/github.com/opencharly/plugin-doctor:v2026.237.1419/plugin-doctor/) |
+| **plugin-doctor — Served by** | [plugin-doctor](/reference/plugin/github-com-opencharly-plugin-doctor-v2026-237-1419/plugin-doctor/) |
 | **plugin-doctor — Placement** | compiled-in (in-process) |
 | **plugin-doctor — Version** | `2026.181.0001` |
-| **plugin-doctor — Served by** | [plugin-doctor](/reference/plugin/github.com/opencharly/plugin-doctor:v2026.242.0528/plugin-doctor/) |
+| **plugin-doctor — Served by** | [plugin-doctor](/reference/plugin/github-com-opencharly-plugin-doctor-v2026-242-0528/plugin-doctor/) |
 | **plugin-doctor — Placement** | compiled-in (in-process) |
 | **plugin-doctor — Version** | `2026.181.0001` |
 
