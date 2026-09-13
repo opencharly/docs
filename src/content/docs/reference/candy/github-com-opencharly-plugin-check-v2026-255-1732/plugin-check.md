@@ -7,20 +7,9 @@ description: "COMPILED-IN charly COMMAND-class plugin that OWNS the externalized
 
 | | |
 |---|---|
-| **Placement** | compiled-in (in-process) |
-| **Source** | `github.com/opencharly/plugin-check/candy/plugin-check` |
 | **Version** | `2026.242.2345` |
-| **Candy** | `plugin-check` |
-
-This plugin is listed in `charly/charly.yml`'s `compiled_plugins:`, so its providers are compiled into the `charly` binary and register in-process.
-
-## Providers
-
-The reserved words this plugin serves:
-
-- **`check`** — command class
-
-## What it does
+| **Repo** | `box/github.com/opencharly/plugin-check:v2026.255.1732` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-check-v2026-255-1732/plugin-check/) |
 
 COMPILED-IN charly COMMAND-class plugin that OWNS the externalized `charly check`
 command family (P12) — the box/live/run/feature evaluation surface plus the AI-iteration
@@ -59,6 +48,11 @@ The R10 witness is the disposable check-local bed run to a fresh `charly update`
 short iterate: smoke, proving the externalized command + the full box→deploy→live→bed-run
 gate machinery end-to-end.
 
----
+## Acceptance plan
 
-See also the [candy reference](/reference/candy/github-com-opencharly-plugin-check-v2026-254-0445/plugin-check/) for this candy's install surface.
+This candy's `plan:` — the runnable spec `charly check` executes against a live deployment. `check:` steps are idempotent probes; `run:` steps change state.
+
+| Intent | Step |
+|---|---|
+| `check` | the check command plugin ships a buildable Go module (go.mod + the provider package) compiled into charly; the full `charly check` end-to-end (the in-proc HostBuild check-run dispatch + the bed-runner gate) is exercised by the live R10 (check-local + the roster) |
+| `check` | the `charly check stop` word is registered and reports cleanly when the named bed has no run in flight — the idempotent path, a success by design because a bed that is not running is the desired end state, never an error |

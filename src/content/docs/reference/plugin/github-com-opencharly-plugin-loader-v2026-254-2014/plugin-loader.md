@@ -7,9 +7,20 @@ description: "The unified-config LOADER's PARSE half, relocated out of charly co
 
 | | |
 |---|---|
+| **Placement** | compiled-in (in-process) |
+| **Source** | `github.com/opencharly/plugin-loader/candy/plugin-loader` |
 | **Version** | `2026.192.0000` |
-| **Repo** | `box/github.com/opencharly/plugin-loader:v2026.251.0534` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-loader-v2026-251-0534/plugin-loader/) |
+| **Candy** | `plugin-loader` |
+
+This plugin is listed in `charly/charly.yml`'s `compiled_plugins:`, so its providers are compiled into the `charly` binary and register in-process.
+
+## Providers
+
+The reserved words this plugin serves:
+
+- **`loader`** — loader class
+
+## What it does
 
 The unified-config LOADER's PARSE half, relocated out of charly core into a compiled-in
 plugin candy (P6) — the config front-end every command reaches before any project is read.
@@ -26,10 +37,6 @@ yaml.Unmarshal) STAYS core and never calls LoadUnified, so a compiled-in loader 
 NO bootstrap cycle. COMPILED-IN (in the embedded compiled_plugins:), registered at init()
 before the first LoadUnified call; unlocks alternative config front-ends.
 
-## Acceptance plan
+---
 
-This candy's `plan:` — the runnable spec `charly check` executes against a live deployment. `check:` steps are idempotent probes; `run:` steps change state.
-
-| Intent | Step |
-|---|---|
-| `check` | the loader plugin ships a buildable Go module the host compiles in; its project PARSE (file read → import resolution → the |
+See also the [candy reference](/reference/candy/github-com-opencharly-plugin-loader-v2026-254-2014/plugin-loader/) for this candy's install surface.
