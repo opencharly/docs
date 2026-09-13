@@ -22,11 +22,11 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | Word | Served by |
 |---|---|
 | `box` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-242-0525/plugin-build/) |
-| `box` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-250-0552/plugin-build/) |
+| `box` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-256-0706/plugin-build/) |
 | `ensure` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-242-0525/plugin-build/) |
-| `ensure` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-250-0552/plugin-build/) |
+| `ensure` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-256-0706/plugin-build/) |
 | `generate` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-242-0525/plugin-build/) |
-| `generate` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-250-0552/plugin-build/) |
+| `generate` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-256-0706/plugin-build/) |
 
 ## `builder` — 6 words
 
@@ -61,7 +61,7 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | `cardwire` | [plugin-cardwire](/reference/plugin/github-com-opencharly-plugin-cardwire-v2026-243-1202/plugin-cardwire/) |
 | `cat` | [plugin-authoring](/reference/plugin/github-com-opencharly-plugin-authoring-v2026-242-0525/plugin-authoring/) |
 | `cat` | [plugin-authoring](/reference/plugin/github-com-opencharly-plugin-authoring-v2026-237-1414/plugin-authoring/) |
-| `check` | [plugin-check](/reference/plugin/github-com-opencharly-plugin-check-v2026-254-0445/plugin-check/) |
+| `check` | [plugin-check](/reference/plugin/github-com-opencharly-plugin-check-v2026-255-1732/plugin-check/) |
 | `check` | [plugin-check](/reference/plugin/github-com-opencharly-plugin-check-v2026-242-2127/plugin-check/) |
 | `clean` | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-237-1417/plugin-clean/) |
 | `clean` | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-242-0526/plugin-clean/) |
@@ -212,7 +212,7 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | Word | Served by |
 |---|---|
 | `loader` | [plugin-loader](/reference/plugin/github-com-opencharly-plugin-loader-v2026-242-0530/plugin-loader/) |
-| `loader` | [plugin-loader](/reference/plugin/github-com-opencharly-plugin-loader-v2026-251-0534/plugin-loader/) |
+| `loader` | [plugin-loader](/reference/plugin/github-com-opencharly-plugin-loader-v2026-254-2014/plugin-loader/) |
 
 ## `refs` — 1 word
 

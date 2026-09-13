@@ -49,16 +49,16 @@ dev-box:
     candy:
         base: fedora
         candy:
-            - '@github.com/opencharly/charly/candy/ripgrep:v2026.251.1947'
-            - '@github.com/opencharly/charly/candy/sshd:v2026.251.1947'
-            - '@github.com/opencharly/charly/candy/charly:v2026.251.1947'
+            - '@github.com/opencharly/layer-ripgrep:v2026.235.1653'
+            - '@github.com/opencharly/pod-sshd:v2026.239.1637'
+            - '@github.com/opencharly/layer-charly:v2026.241.1407'
 
 # nothing — the same box, trimmed to one concern; bring your own tool for the rest
 minimal-box:
     candy:
         base: fedora
         candy:
-            - '@github.com/opencharly/charly/candy/sshd:v2026.251.1947'
+            - '@github.com/opencharly/pod-sshd:v2026.239.1637'
 ```
 
 Every word `charly` understands is itself a plugin — [every word is a plugin](#every-word-is-a-plugin)
@@ -142,7 +142,7 @@ Every invocation against that checkout uses `./bin/charly`; each checkout or wor
 
 ## A real box, end to end
 
-This is `box/fedora/box/tutorial-shell/charly.yml`, from the `opencharly/distro-fedora` project:
+This is `box/tutorial-shell/charly.yml`, from the `opencharly/distro-fedora` project:
 
 ```yaml
 tutorial-shell:
@@ -152,8 +152,9 @@ tutorial-shell:
             ...
         base: fedora
         candy:
-            - '@github.com/opencharly/charly/candy/ripgrep:v2026.251.1947'
-            - '@github.com/opencharly/charly/candy/sshd:v2026.251.1947'
+            - '@github.com/opencharly/layer-supervisord:v2026.240.0121'
+            - '@github.com/opencharly/layer-ripgrep:v2026.235.1653'
+            - '@github.com/opencharly/pod-sshd:v2026.239.1637'
         plan:
             - check: composing the service candy next to the init candy wired sshd into the assembled supervisord config — a program block neither candy produces on its own
               id: tutorial-shell-service-wired-into-init
@@ -166,10 +167,11 @@ tutorial-shell:
 `base:` points at another box defined next door; it can equally be a registry ref. The inner
 `candy:` is the list of candies the box composes.
 
-Note what is *not* listed: an init system. `sshd` declares a service, so charly resolves whichever
-init the *destination* needs and installs it — supervisord when this box is built as a container
-image, nothing extra when the same candies land on a systemd machine, because systemd is already
-there.
+Note what *is* listed: the init candy. `sshd` declares a service, so charly resolves whichever init
+the *destination* needs and composes that init's candy — `supervisord` when this box is built as a
+container image, the systemd init instead when the same candies land on a systemd machine. The box
+names `supervisord` explicitly so the assembled `/etc/supervisord.conf` is deterministic: without
+the acting init's candy in the scanned set charly warns and injects nothing.
 
 The `plan:` does *not* check that `ripgrep` and `sshd` are present — each candy's own plan proves
 that, and those plans run against this same image. It checks what the composition produced: that
@@ -215,7 +217,7 @@ check-fedora-vm:
         from: fedora-vm
         disposable: true
         add_candy:
-            - '@github.com/opencharly/charly/candy/charly:v2026.251.1947'
+            - '@github.com/opencharly/layer-charly:v2026.241.1407'
 ```
 
 The payloads differ — the pod runs the built `tutorial-shell` image; the VM boots the `fedora-vm`
@@ -265,9 +267,9 @@ case in a switch statement in the core.
 The [provider index](/reference/providers/) is the live census — every word
 and its owning plugin candy, regenerated on every docs build.
 
-| Class | Examples |
+| Role | Examples |
 |---|---|
-| **substrate** | `pod` `vm` `kubernetes` `local` `android` |
+| **substrate** — deploy destinations (the census registers these as the `kind` and `deploy` classes) | `pod` `vm` `kubernetes` `local` `android` |
 | **kind** — the entity keywords themselves | `candy` `distro` `group` `agent` |
 | **verb** — probes a `plan:` can call | `file` `http` `cdp` `vnc` `adb` `kube` |
 | **command** — `charly` subcommands | `deploy` `check` `clean` `marketplace` |
@@ -320,20 +322,19 @@ under another and the inner one runs inside the outer one's candybox:
 
 ```yaml
 check-group:
-    group:
+    vm:
+        from: eval-vm
         disposable: true
         ...
-    check-group-vm:
-        vm:
-            from: eval-vm
-        check-group-member:
-            local:
-                from: check-group-app
+    check-group-member:
+        local:
+            from: check-group-app
 ```
 
-That is a real entry in this repository's `charly.yml`, abridged. The inner `local:` carries no
-`host:` field, and that is the point: it runs inside the parent's candybox rather than naming a
-machine of its own.
+That is a real entry in this repository's `charly.yml`, abridged — `charly migrate` unrolled the
+former targetless `group:` node into the `vm:` primary above (the group scalars move onto it). The
+inner `local:` carries no `host:` field, and that is the point: it runs inside the parent's candybox
+rather than naming a machine of its own.
 
 A top-level `local:` deploy installs packages and systemd units onto *the machine charly is
 running on*. The same deploy, nested under a disposable `vm:`, installs them into a throwaway
@@ -404,7 +405,7 @@ client sees charly's commands as ordinary tools.
 rather than compiled into the binary — so point charly at a project that supplies it:
 
 ```bash
-charly --repo opencharly/charly mcp serve
+charly --repo opencharly/plugin-mcp mcp serve
 ```
 
 [AGENTS.md](https://github.com/opencharly/charly/blob/main/AGENTS.md) is the complete, harness-neutral rulebook; `CLAUDE.md` is one adapter of
@@ -415,7 +416,7 @@ porting the project.
 packaged instruction set an agent loads — for every candy, box, command and contributor
 subsystem. It also ships reusable agents: executors that drive the `charly check` beds and return
 verbatim proof; enforcers that gate claims. It installs through the plugin manager of each
-supported harness — Claude Code, Cursor, Codex CLI, Kimi Code and `pi`. The exact commands are in
+supported harness — Claude Code, Codex CLI, Kimi Code and `pi`. The exact commands are in
 that repository's README, which doubles as the full skill index.
 
 ---

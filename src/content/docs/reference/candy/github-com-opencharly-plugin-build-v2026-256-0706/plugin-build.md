@@ -8,8 +8,8 @@ description: "The BUILD-DRIVE plugin: it OWNS the podman build drive (the build-
 | | |
 |---|---|
 | **Version** | `2026.243.1550` |
-| **Repo** | `box/github.com/opencharly/plugin-build:v2026.250.0552` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-build-v2026-250-0552/plugin-build/) |
+| **Repo** | `box/github.com/opencharly/plugin-build:v2026.256.0706` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-build-v2026-256-0706/plugin-build/) |
 
 The BUILD-DRIVE plugin: it OWNS the podman build drive (the build-order loop, the
 per-image build lock, the push, and the merge gate) for `build:box` (the `charly box
