@@ -110,4 +110,4 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 
 ---
 
-See also the [candy reference](/reference/candy/github-com-opencharly-plugin-pipeline-v2026-253-1518/plugin-pipeline/) for this candy's install surface.
+See also the [candy reference](/reference/candy/github-com-opencharly-plugin-pipeline-v2026-254-1528/plugin-pipeline/) for this candy's install surface.

@@ -8,8 +8,8 @@ description: "Read-only GitHub PR review for OpenCharly's gate: the deterministi
 | | |
 |---|---|
 | **Version** | `2026.251.0000` |
-| **Repo** | `box/github.com/opencharly/plugin-review:v2026.251.1939` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-review-v2026-251-1939/plugin-review/) |
+| **Repo** | `box/github.com/opencharly/plugin-review:v2026.255.1648` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-review-v2026-255-1648/plugin-review/) |
 
 Read-only GitHub PR review for OpenCharly's gate: the deterministic
 verb:pr tools (pr_diff / pr_commits / pr_thread / pr_meta) plus
