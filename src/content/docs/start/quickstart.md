@@ -125,7 +125,7 @@ check-group:
             from: check-group-app
 ```
 
-Tree position is what makes it safe: because `check-group-member` is nested *under* the `vm:`
+Tree position is what makes it safe: because `check-group-member` is a member of the `vm:` node (`check-group`)
 node, the `local:` deploy lands inside the guest rather than on the host. It carries no `host:`
 field at all — the venue comes from its parent. `check-group-app` is itself a `local:` template
 composing one candy that drops a marker file, and the bed asserts that marker exists **in the

@@ -74,7 +74,7 @@ check-group:
 ```
 
 `check-group-app` is a `kind: local` template composing a candy that drops a marker file. The
-member is the nested `local:` deploy; the `vm:` above it is the disposable guest it lands in, and
+member is the nested `local:` deploy; the `vm:` node (`check-group`) is the disposable guest it lands in, and
 the bed asserts the marker appears **in the guest**.
 
 The nesting is the point. A `local:` deploy installs packages and systemd units onto whatever
