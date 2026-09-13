@@ -36,7 +36,8 @@ my-plugin:
 ```
 
 `providers:` lists the reserved words this plugin serves, each as `<class>:<word>` — the classes
-are `kind`, `verb`, `deploy`, `step`, `builder`, `command` and `build`. Every word in the
+are `kind`, `deploy`, `verb`, `step`, `build`, `builder`, `command`, `loader`, `refs`,
+`agent-runtime` and `terminal`. Every word in the
 [provider index](/reference/providers/) got there from one of these declarations.
 
 ## Placement is a free choice

@@ -15,7 +15,7 @@ detail; this table deliberately does not restate it.
 | Service won't start | `charly status <image>`, then `charly logs <image>` — [status](/recipes/core/charly-status/), [logs](/recipes/core/logs/) |
 | Quadlet out of sync with `charly.yml` | `charly config <image> --update-all` — [config](/recipes/core/charly-config/) |
 | Service built fine but is broken in production | `charly check live <image>` runs the baked plan against the running deployment — [check](/recipes/check/check/) |
-| `charly fleet add vm:<name>` errors "VM does not exist" | Run `charly vm create <name>` first — VM deploy does not auto-provision. [deploy](/recipes/core/deploy/) |
+| `charly deploy add vm:<name>` errors "VM does not exist" | A `vm:` deploy auto-provisions on first deploy — it builds and creates the guest when its SSH port is unreachable — so run `charly vm create <name>` only to pre-create it. [deploy](/recipes/core/deploy/) |
 | Tunnel missing on a new instance | Tunnel config is `charly.yml`-only and is not inherited per instance — add it explicitly. [deploy](/recipes/core/deploy/) |
 | Encrypted volume locked at boot | `charly config mount` waits for keyring unlock automatically — [enc](/recipes/automation/enc/) |
 
@@ -25,7 +25,7 @@ detail; this table deliberately does not restate it.
 |---|---|
 | Build cache stale | `charly box build --no-cache <image>` — [build](/recipes/build/build/) |
 | `charly box pull` says "image is not available locally" | `box pull` accepts a short name, a fully-qualified ref, or an `@github` remote ref — [pull](/recipes/build/pull/) |
-| Resolver warns "referenced at multiple versions" | `charly box reconcile` aligns the cross-repo pins — [reconcile](/recipes/build/reconcile/). A warning is never an acceptable end state; see [reproducible, not merely successful](/concepts/08-reproducible-not-merely-successful/) |
+| Resolver warns "resolved to multiple versions" | `charly box reconcile` aligns the cross-repo pins — [reconcile](/recipes/build/reconcile/). A warning is never an acceptable end state; see [reproducible, not merely successful](/concepts/08-reproducible-not-merely-successful/) |
 | No packages installed, `"Distro": null` in `box inspect` | An external `base:` does not inherit distro tags — declare `distro:` explicitly on the box. [image](/recipes/image/image/) |
 | Newer-than-binary config rejected at load | `charly migrate` brings the project to the current schema — [migrate](/recipes/build/migrate/) |
 | A schema or format change won't apply | `charly migrate` is idempotent and is auto-invoked on remote-cache fetches |
