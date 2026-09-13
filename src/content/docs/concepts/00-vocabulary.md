@@ -37,7 +37,7 @@ redefining.
 | **deploy** | A named placement of a box on a substrate, written as `pod:` `vm:` `kubernetes:` `local:` `android:`. When running, its candybox is the live thing. | Not the box. |
 | **plugin** | A candy that teaches charly a new word — it carries a `plugin:` block registering the words it provides, each of which is a **provider**. A plugin lives in the layer shape, but its role is extending charly, not installing a concern. | |
 | **provider** | A word a plugin registers, which routes to that plugin when charly sees it — a **kind**, **verb**, **command**, **step**, **builder**, or **substrate**. | |
-| **kind** | The class of a top-level name in a `charly.yml` — the entity keywords (`candy`, `distro`, `group`, `builder`, `agent`). | |
+| **kind** | The class of a top-level name in a `charly.yml` — the entity keywords (`candy`, `distro`, `builder`, `agent`). | |
 | **verb** | A probe a `plan:` step can call — the check vocabulary (`file`, `http`, `cdp`, `vnc`, `adb`, `kube`). | |
 | **command** | A `charly` subcommand — the CLI vocabulary (`deploy`, `check`, `candy`, `clean`). | |
 | **step** | An install operation in a `plan:` — (`file`, `service-custom`, `reboot`). | |
@@ -118,7 +118,7 @@ candy, regenerated on every docs build.
 | Class | Examples |
 |---|---|
 | **deploy** substrates | `pod` `vm` `kubernetes` `local` `android` |
-| **kind** — the entity keywords themselves | `candy` `distro` `group` `builder` `agent` |
+| **kind** — the entity keywords themselves | `candy` `distro` `builder` `agent` |
 | **verb** — probes a `plan:` can call | `file` `http` `cdp` `vnc` `adb` `kube` |
 | **command** — `charly` subcommands | `deploy` `check` `candy` `clean` `marketplace` |
 | **step** — install operations | `file` `service-custom` `reboot` |
