@@ -8,8 +8,8 @@ description: "The generic agent/workflow engine — domain-neutral: the bare age
 | | |
 |---|---|
 | **Version** | `2026.251.0000` |
-| **Repo** | `box/github.com/opencharly/plugin-pipeline:v2026.254.1528` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-pipeline-v2026-254-1528/plugin-pipeline/) |
+| **Repo** | `box/github.com/opencharly/plugin-pipeline:v2026.256.1226` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-pipeline-v2026-256-1226/plugin-pipeline/) |
 
 The generic agent/workflow engine — domain-neutral: the bare agent
 runtime (plan agent stage + the standalone 'charly pipeline agent'),

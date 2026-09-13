@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-915 cards across 28 plugins, in four groups.
+923 cards across 28 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -468,7 +468,15 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [omarchy-base](/recipes/distros/omarchy-base/)
 - [omarchy-cstream](/recipes/distros/omarchy-cstream/)
 - [omarchy-eval](/recipes/distros/omarchy-eval/)
+- [omarchy-eval-cold-reader](/recipes/distros/omarchy-eval-cold-reader/)
+- [omarchy-eval-full-loop](/recipes/distros/omarchy-eval-full-loop/)
 - [omarchy-eval-golden](/recipes/distros/omarchy-eval-golden/)
+- [omarchy-eval-media](/recipes/distros/omarchy-eval-media/)
+- [omarchy-eval-oracle](/recipes/distros/omarchy-eval-oracle/)
+- [omarchy-eval-sequencing](/recipes/distros/omarchy-eval-sequencing/)
+- [omarchy-eval-tests](/recipes/distros/omarchy-eval-tests/)
+- [omarchy-eval-tiers](/recipes/distros/omarchy-eval-tiers/)
+- [omarchy-eval-work-lane](/recipes/distros/omarchy-eval-work-lane/)
 - [omarchy-shell](/recipes/distros/omarchy-shell/)
 - [omarchy-shell](/recipes/distros/omarchy-shell/)
 - [qemu-guest-agent](/recipes/distros/qemu-guest-agent/)
