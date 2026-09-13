@@ -54,4 +54,4 @@ while duplicating ten arch boxes under transitive cachyos.arch.* aliases.
 
 ---
 
-See also the [candy reference](/reference/candy/github-com-opencharly-plugin-docs-v2026-254-1214/plugin-docs/) for this candy's install surface.
+See also the [candy reference](/reference/candy/github-com-opencharly-plugin-docs-v2026-256-1653/plugin-docs/) for this candy's install surface.
