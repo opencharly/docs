@@ -55,10 +55,13 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 	llm?: #LLMSpec
 	media?: #MediaSpec
 	report?: #ReportSpec
-	// skills: the agent-stage skill corpus. corpus is a workdir-relative dir
-	// holding <skill-name>/SKILL.md; every stage skill: ref names a skill in
-	// this corpus. An unresolvable ref FAILS the stage informatively — the
-	// decorative-ref era is gone.
+	// skills: the agent-stage skill corpus. corpus is a dir holding
+	// <skill-name>/SKILL.md; it is REF-RESOLVED ($env.NAME / $workdir / ...)
+	// and a relative result is joined with the run workdir, so a lane can point
+	// at a generated corpus outside its own tree (e.g.
+	// $env.EVAL_UMBRELLA/marketplace/distros/skills). Every stage skill: ref
+	// names a skill in this corpus. An unresolvable ref FAILS the stage
+	// informatively — the decorative-ref era is gone.
 	skills?: { corpus: string }
 	stages: [#Stage, ...#Stage]
 }
@@ -110,4 +113,4 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 
 ---
 
-See also the [candy reference](/reference/candy/github-com-opencharly-plugin-pipeline-v2026-254-1528/plugin-pipeline/) for this candy's install surface.
+See also the [candy reference](/reference/candy/github-com-opencharly-plugin-pipeline-v2026-256-1226/plugin-pipeline/) for this candy's install surface.
