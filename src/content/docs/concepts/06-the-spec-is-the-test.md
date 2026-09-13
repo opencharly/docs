@@ -42,29 +42,11 @@ deployment and judges. That half stays opt-in; the deterministic half never is.
 
 ## In practice
 
-Here is a real plan, quoted from the ripgrep candy's `charly.yml` ([opencharly/layer-ripgrep](https://github.com/opencharly/layer-ripgrep)). Note that it does not merely assert
-the binary exists — it asserts the tool *behaves*, including the negative case:
-
-```yaml
-        plan:
-            - check: the rg binary is installed at /usr/bin/rg
-              file:
-                file: /usr/bin/rg
-                exists: true
-            - check: rg reports a parseable ripgrep version on stdout
-              exit_status: 0
-              stdout:
-                - matches: "ripgrep [0-9]"
-              command: rg --version
-            - check: rg prints the matching line for a pattern present in piped input
-              exit_status: 0
-              stdout:
-                - contains: beta
-              command: printf 'alpha\nbeta\ngamma\n' | rg beta
-            - check: rg exits 1 (no match) when the pattern is absent, never matching spuriously
-              exit_status: 0
-              command: printf 'alpha\nbeta\n' | rg ZZZ-no-such-pattern; test $? -eq 1
-```
+The [ripgrep candy's plan](/reference/candy/github-com-opencharly-layer-ripgrep-v2026-235-1653/ripgrep/)
+is a real one. Note that it does not merely assert the binary exists — it asserts the tool
+*behaves*, including the negative case: the binary lands at a fixed path, `rg --version` reports a
+parseable version, a present pattern prints the matching line, and an absent pattern exits
+non-zero.
 
 Run the plan against the built image, in a disposable throwaway container:
 

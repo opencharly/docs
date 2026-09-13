@@ -18,7 +18,7 @@ Three top-level words are the **core spine**, implemented by the binary itself:
 | `charly version` | the CalVer identity of the running binary |
 | `charly reap-orphans` | internal cleanup of orphaned resources |
 
-Everything else — `fleet`, `check`, `secrets`, `candy`, `alias`, `agent`, `clean`, `status`,
+Everything else — `deploy`, `check`, `secrets`, `candy`, `alias`, `agent`, `clean`, `status`,
 `shell`, `vm`, `config` and the rest — is a **command word served by a plugin candy**. Each has a
 page in the [CLI reference](/reference/cli/deploy/) naming the plugin that serves it and whether
 that plugin is compiled into the binary or loaded at runtime.
@@ -34,14 +34,14 @@ The generated pages here describe *what serves a word and why*. For the exact fl
 invocation, ask the binary:
 
 ```bash
-charly fleet add --help
+charly deploy add --help
 charly box build --help
 ```
 
 :::note[A wrinkle worth knowing]
 For a plugin-served word, `charly <word> --help` is answered by the host and shows a generic
-stub. The plugin's own grammar appears one level deeper (`charly fleet add --help`) or via the
-bare form (`charly fleet help`). This is also why this site's CLI reference is generated from
+stub. The plugin's own grammar appears one level deeper (`charly deploy add --help`) or via the
+bare form (`charly deploy help`). This is also why this site's CLI reference is generated from
 each plugin's declarations rather than scraped from help output — the help surface is not
 uniform enough to parse.
 :::

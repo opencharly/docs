@@ -34,13 +34,12 @@ redefining.
 | **local** | The host substrate — a `local:` deploy installs onto the machine charly runs on, or onto a remote machine when it carries **host**. | |
 | **android** | The device substrate — an `android:` deploy installs APKs onto a device or emulator. | |
 | **host** | A field on a `local:` deploy naming the machine to install onto — `host: local` (or absent) is the machine charly runs on, `host: <user@machine>` is an SSH target. | |
-| **deploy** | A named placement of a box on a substrate, written as `pod:` `vm:` `kubernetes:` `local:` `android:`. When running, its candybox is the live thing. | Not the box. Not the fleet. |
-| **fleet** | The set of deploys charly manages on this machine — the boxes deployed together, the way `docker compose` brings up a set of services. `charly fleet add` puts a deploy in it; `charly fleet del` reverses it. | Not the box. Not a single deploy. |
+| **deploy** | A named placement of a box on a substrate, written as `pod:` `vm:` `kubernetes:` `local:` `android:`. When running, its candybox is the live thing. | Not the box. |
 | **plugin** | A candy that teaches charly a new word — it carries a `plugin:` block registering the words it provides, each of which is a **provider**. A plugin lives in the layer shape, but its role is extending charly, not installing a concern. | |
 | **provider** | A word a plugin registers, which routes to that plugin when charly sees it — a **kind**, **verb**, **command**, **step**, **builder**, or **substrate**. | |
 | **kind** | The class of a top-level name in a `charly.yml` — the entity keywords (`candy`, `distro`, `group`, `builder`, `agent`). | |
 | **verb** | A probe a `plan:` step can call — the check vocabulary (`file`, `http`, `cdp`, `vnc`, `adb`, `kube`). | |
-| **command** | A `charly` subcommand — the CLI vocabulary (`fleet`, `check`, `candy`, `clean`). | |
+| **command** | A `charly` subcommand — the CLI vocabulary (`deploy`, `check`, `candy`, `clean`). | |
 | **step** | An install operation in a `plan:` — (`file`, `service-custom`, `reboot`). | |
 | **builder** | A multi-stage build pattern a box can select — (`pixi`, `npm`, `cargo`, `aur`). | |
 | **plan** | The ordered acceptance spec a candy carries, baked into its image as an OCI label — distinct from the **install plan**. | Not a build script. |
@@ -53,7 +52,7 @@ redefining.
 ```bash
 charly --repo opencharly/distro-fedora box build tutorial-shell     # produces a BOX     — the authored image, sitting in storage
 charly --repo opencharly/distro-fedora shell tutorial-shell         # produces a CANDYBOX — a running, isolated room
-charly --repo opencharly/distro-fedora fleet add tutorial-shell     # records a DEPLOY in the FLEET — a placement of that box
+charly --repo opencharly/distro-fedora deploy add tutorial-shell    # records a DEPLOY — a placement of that box
 ```
 
 The box is an artifact. The candybox is a place. When this site says safety lives at the
@@ -95,56 +94,16 @@ same file without contradiction: the file is a candy, and its `base:` decides wh
 
 All three are real and shipped:
 
-**A layer** — [`ripgrep`](https://github.com/opencharly/layer-ripgrep) installs one concern and proves it:
-
-```yaml
-# the ripgrep candy's charly.yml — opencharly/layer-ripgrep
-ripgrep:
-    candy:
-        version: 2026.144.1443
-        description: |
-            Fast recursive text search (rg)
-            ...
-        package:
-            - ripgrep
-        plan:
-            - check: the rg binary is installed at /usr/bin/rg
-              file:
-                file: /usr/bin/rg
-                exists: true
-```
+**A layer** — [`ripgrep`](/reference/candy/github-com-opencharly-layer-ripgrep-v2026-235-1653/ripgrep/) installs one concern and proves it: a single `package:` plus a `plan:` of deterministic checks, the first asserting the `rg` binary lands at `/usr/bin/rg`.
 
 **A box** — [`tutorial-shell`](/reference/box/fedora/tutorial-shell/) is the same keyword plus a
-`base:`, and a list of candies to compose:
+`base:` and a list of candies to compose: on the bare Fedora base it stacks a tool layer
+(`ripgrep`), a service layer (`sshd`), and the `supervisord` init.
 
-```yaml
-# box/fedora/box/tutorial-shell/charly.yml
-tutorial-shell:
-    candy:
-        description: |-
-            The teaching box behind opencharly.ai's quickstart — a minimal, real dev shell
-            ...
-        base: fedora
-        candy:
-            - '@github.com/opencharly/charly/candy/ripgrep:v2026.201.0706'
-            - '@github.com/opencharly/charly/candy/sshd:v2026.201.0706'
-```
-
-**A plugin** — [`plugin-example`](/reference/candy/github-com-opencharly-plugin-example-command-v2026-237-1420/plugin-example-command/) is the layer shape plus a
-`plugin:` block, and it teaches `charly` a new check verb:
-
-```yaml
-# candy/plugin-example/charly.yml
-plugin-example:
-    candy:
-        version: 2026.176.1400
-        description: |-
-            Reference plugin candy for the `exampleprobe` check verb ...
-        plugin:
-            source: github.com/opencharly/charly/candy/plugin-example
-            providers:
-                - verb:exampleprobe
-```
+**A plugin** — [`plugin-example`](/reference/candy/github-com-opencharly-plugin-example-v2026-242-0529/plugin-example/) is the layer shape plus a
+`plugin:` block, and it teaches `charly` a new check verb: its `providers:` list declares
+`verb:exampleprobe`, and its `source:` points at its own repo,
+`github.com/opencharly/plugin-example/candy/plugin-example`.
 
 ### The vocabulary itself is open
 
@@ -161,7 +120,7 @@ candy, regenerated on every docs build.
 | **deploy** substrates | `pod` `vm` `kubernetes` `local` `android` |
 | **kind** — the entity keywords themselves | `candy` `distro` `group` `builder` `agent` |
 | **verb** — probes a `plan:` can call | `file` `http` `cdp` `vnc` `adb` `kube` |
-| **command** — `charly` subcommands | `fleet` `check` `candy` `clean` `marketplace` |
+| **command** — `charly` subcommands | `deploy` `check` `candy` `clean` `marketplace` |
 | **step** — install operations | `file` `service-custom` `reboot` |
 | **builder** — multi-stage build patterns | `pixi` `npm` `cargo` `aur` |
 | the build/load internals | `build:box` `loader:loader` `refs:refs` `terminal:tmux` |
@@ -198,23 +157,20 @@ wherever the outer deploy runs):
 
 ```yaml
 check-group:
-    group:
+    vm:
+        from: eval-vm
         disposable: true
         lifecycle: dev
-        ...
-    check-group-vm:
-        vm:
-            from: eval-vm
-        check-group-member:
-            local:
-                from: check-group-app
+    check-group-member:
+        local:
+            from: check-group-app
 ```
 
 The inner `local:` carries no `host:` field. That is the mechanism: it inherits the parent's venue
 instead of naming one.
 
 **Why the distinction earns its place.** A top-level `local:` deploy installs packages and systemd
-units onto *the machine charly runs on*. The same four lines nested under a disposable `vm:` install
+units onto *the machine charly runs on*. The same live lines, declared as a member of a disposable `vm:` node, install
 them into a throwaway guest. Nothing about the authoring shape changes — only its position — and
 that position is the difference between editing your workstation and editing something built to be
 destroyed.

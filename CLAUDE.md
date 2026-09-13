@@ -1,8 +1,9 @@
 # docs — signpost (not the rule-set)
 
 You are in the **opencharly/docs** repository: the standalone Starlight site published at
-opencharly.ai. This repo pins the [charly](https://github.com/opencharly/charly) repository as a
-submodule and its `deploy.yml` workflow is the SOLE owner of generation, building and publishing.
+opencharly.ai. This repo pins the [charly](https://github.com/opencharly/charly) repository by a
+CI-time commit in its `deploy.yml` workflow, which is the SOLE owner of generation, building and
+publishing.
 
 **Load these skills FIRST (R0):**
 
@@ -11,12 +12,12 @@ submodule and its `deploy.yml` workflow is the SOLE owner of generation, buildin
   `check-docs` bed that builds and serves this site.
 - `/charly-internals:skills` — when the change touches the skill corpus this site publishes.
 
-**Generated pages are not editable here.** `index.md`, `vision.md`, `grievances.md`,
+**Generated pages are not editable here.** `index.md`, `grievances.md`, `vision.md`,
 `liberation.md`, `reference/**` and `recipes/**` are emitted by `charly docs generate` and carry a
-`DO-NOT-EDIT` header; edit the SOURCE in the charly repository (or its plugins submodule) — the
-regeneration is a PR here that bumps the `charly` submodule pin in `.gitmodules` and commits the
-regenerated pages, and this repo's deploy workflow enforces it (its drift gate fails when the
-committed content does not match the pinned charly).
+`DO-NOT-EDIT` header; edit the SOURCE in the charly repository (or the standalone marketplace
+corpus) — the regeneration is a PR here that bumps the CI-time `charly` commit in `deploy.yml` and
+commits the regenerated pages, and this repo's deploy workflow enforces it (its drift gate fails
+when the committed content does not match the pinned charly).
 Only `start/`, `concepts/` and `guides/` are edited directly in this repo.
 
 **The home page is one of the generated ones** — it is projected from the pinned charly's

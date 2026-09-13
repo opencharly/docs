@@ -56,31 +56,10 @@ non-empty `description:`, and a `plan:` carrying at least one deterministic `che
 not ceremony — it is what makes the [catalog](/recipes/) and
 [the spec is the test](/concepts/06-the-spec-is-the-test/) true rather than aspirational.
 
-A complete, real one — this is [`ripgrep`](https://github.com/opencharly/layer-ripgrep), quoted from
-its `charly.yml`:
-
-```yaml
-ripgrep:
-    candy:
-        version: 2026.144.1443
-        description: |
-            Fast recursive text search (rg)
-            Installs the ripgrep package, which provides the `rg` binary at
-            /usr/bin/rg — a fast recursive grep that honours .gitignore by
-            default. ...
-        package:
-            - ripgrep
-        plan:
-            - check: the rg binary is installed at /usr/bin/rg
-              file:
-                file: /usr/bin/rg
-                exists: true
-            - check: rg reports a parseable ripgrep version on stdout
-              exit_status: 0
-              stdout:
-                - matches: "ripgrep [0-9]"
-              command: rg --version
-```
+A real one — [`ripgrep`](/reference/candy/github-com-opencharly-layer-ripgrep-v2026-235-1653/ripgrep/) —
+carries exactly that shape: a CalVer `version:`, a `description:` written for a stranger, a
+`package:` list, and a `plan:` of deterministic checks (the binary lands at `/usr/bin/rg`,
+`rg --version` parses, a present pattern matches, an absent one exits non-zero).
 
 Write the `description:` for a stranger — it is published verbatim as that candy's card wherever
 the candy's project is published, and it is baked into every image that composes the candy.
@@ -112,13 +91,16 @@ the candy directory and the builder stage is detected automatically. Do not reac
 charly -C my-project box new box my-shell --base fedora --candy my-tool
 ```
 
-Or write it directly — a box is the same `candy:` keyword plus a `base:`:
+Or write it directly — a box is the same `candy:` keyword plus a `base:`. A fresh project has no
+local `fedora` box, so `base: fedora` resolves to the external image and carries no distro tags;
+declare `distro:` explicitly, or no package-install RUN is emitted and `check box` fails:
 
 ```yaml
 my-shell:
     candy:
         description: A minimal dev shell with my tool.
         base: fedora
+        distro: ["fedora:43", fedora]
         candy:
             - my-tool
 ```
@@ -157,7 +139,7 @@ inline `content:` and stages it as a file, so you never need a shell heredoc.
 **Never split a service into `-host` and `-pod` sibling candies.** A candy that needs the same
 service under both supervisord and systemd declares *both forms in one `service:` list*, and the
 init system at deploy time picks. [`sshd`](/recipes/coder/sshd/) is the canonical example, and it
-is one of the two candies in the box the quickstart reads.
+is one of the candies in the box the quickstart reads.
 
 ## Next
 

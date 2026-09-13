@@ -112,7 +112,7 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | `ollama` | [plugin-ollama](/reference/plugin/github-com-opencharly-plugin-ollama-v2026-237-1426/plugin-ollama/) |
 | `ollama` | [plugin-ollama](/reference/plugin/github-com-opencharly-plugin-ollama-v2026-239-1609/plugin-ollama/) |
 | `ollama` | [plugin-ollama](/reference/plugin/github-com-opencharly-plugin-ollama-v2026-242-0532/plugin-ollama/) |
-| `pipeline` | [plugin-pipeline](/reference/plugin/github-com-opencharly-plugin-pipeline-v2026-253-1518/plugin-pipeline/) |
+| `pipeline` | [plugin-pipeline](/reference/plugin/github-com-opencharly-plugin-pipeline-v2026-254-1528/plugin-pipeline/) |
 | `preempt` | [plugin-preempt](/reference/plugin/github-com-opencharly-plugin-preempt-v2026-242-0533/plugin-preempt/) |
 | `preempt` | [plugin-preempt](/reference/plugin/github-com-opencharly-plugin-preempt-v2026-250-0552/plugin-preempt/) |
 | `pull` | [plugin-box](/reference/plugin/github-com-opencharly-plugin-box-v2026-242-0526/plugin-box/) |
@@ -125,7 +125,7 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | `remove` | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-250-0546/plugin-pod/) |
 | `restart` | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-250-0546/plugin-pod/) |
 | `restart` | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-242-0531/plugin-pod/) |
-| `review` | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-251-1939/plugin-review/) |
+| `review` | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-255-1648/plugin-review/) |
 | `rm-candy` | [plugin-authoring](/reference/plugin/github-com-opencharly-plugin-authoring-v2026-237-1414/plugin-authoring/) |
 | `rm-candy` | [plugin-authoring](/reference/plugin/github-com-opencharly-plugin-authoring-v2026-242-0525/plugin-authoring/) |
 | `service` | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-250-0546/plugin-pod/) |
@@ -196,7 +196,7 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | `local` | [plugin-substrate](/reference/plugin/github-com-opencharly-plugin-substrate-v2026-250-0553/plugin-substrate/) |
 | `marketplace` | [plugin-harness-kind](/reference/plugin/github-com-opencharly-plugin-harness-kind-v2026-254-0600/plugin-harness-kind/) |
 | `marketplace` | [plugin-harness-kind](/reference/plugin/github-com-opencharly-plugin-harness-kind-v2026-242-0529/plugin-harness-kind/) |
-| `pipeline` | [plugin-pipeline](/reference/plugin/github-com-opencharly-plugin-pipeline-v2026-253-1518/plugin-pipeline/) |
+| `pipeline` | [plugin-pipeline](/reference/plugin/github-com-opencharly-plugin-pipeline-v2026-254-1528/plugin-pipeline/) |
 | `pod` | [plugin-substrate](/reference/plugin/github-com-opencharly-plugin-substrate-v2026-250-0553/plugin-substrate/) |
 | `pod` | [plugin-substrate](/reference/plugin/github-com-opencharly-plugin-substrate-v2026-242-0533/plugin-substrate/) |
 | `resource` | [plugin-resource](/reference/plugin/github-com-opencharly-plugin-resource-v2026-237-1427/plugin-resource/) |
@@ -333,10 +333,10 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | `openclaw` | [plugin-openclaw](/reference/plugin/github-com-opencharly-plugin-openclaw-v2026-246-1626/plugin-openclaw/) |
 | `package` | [plugin-package](/reference/plugin/github-com-opencharly-plugin-package-v2026-242-0530/plugin-package/) |
 | `package` | [plugin-package](/reference/plugin/github-com-opencharly-plugin-package-v2026-237-1426/plugin-package/) |
-| `pipeline` | [plugin-pipeline](/reference/plugin/github-com-opencharly-plugin-pipeline-v2026-253-1518/plugin-pipeline/) |
+| `pipeline` | [plugin-pipeline](/reference/plugin/github-com-opencharly-plugin-pipeline-v2026-254-1528/plugin-pipeline/) |
 | `port` | [plugin-port](/reference/plugin/github-com-opencharly-plugin-port-v2026-242-0556/plugin-port/) |
 | `port` | [plugin-port](/reference/plugin/github-com-opencharly-plugin-port-v2026-237-1411/plugin-port/) |
-| `pr` | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-251-1939/plugin-review/) |
+| `pr` | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-255-1648/plugin-review/) |
 | `process` | [plugin-process](/reference/plugin/github-com-opencharly-plugin-process-v2026-237-1427/plugin-process/) |
 | `process` | [plugin-process](/reference/plugin/github-com-opencharly-plugin-process-v2026-242-0533/plugin-process/) |
 | `punktfunk` | [plugin-punktfunk](/reference/plugin/github-com-opencharly-plugin-punktfunk-v2026-243-1139/plugin-punktfunk/) |

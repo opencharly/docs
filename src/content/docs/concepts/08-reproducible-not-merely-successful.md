@@ -46,8 +46,7 @@ charly --repo opencharly/distro-fedora box build tutorial-shell
 charly --repo opencharly/distro-fedora box inspect tutorial-shell
 ```
 
-When a warning does appear — `referenced at multiple versions` — it is telling you two pins
-disagree about which version of a candy this project uses. Align them:
+When a warning does appear — `Warning: candy %s resolved to multiple versions; using newest %s (from %s), ignoring %s (from %s)` — it is telling you two pins disagree about which version of a candy this project uses. Align them:
 
 ```bash
 charly --repo opencharly/distro-fedora box reconcile

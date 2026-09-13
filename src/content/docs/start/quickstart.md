@@ -10,29 +10,10 @@ charly stops making sense three commands in.
 
 ## The file
 
-This is [`tutorial-shell`](/reference/box/fedora/tutorial-shell/), excerpted from
-`box/fedora/box/tutorial-shell/charly.yml` — everything but the long `description:` body and the
-explanatory comments. It is a real box in the repository, and a
-[check bed](/concepts/09-disposability-is-the-license/) re-proves it on every acceptance run:
-
-```yaml
-tutorial-shell:
-    candy:
-        description: |-
-            The teaching box behind opencharly.ai's quickstart — a minimal, real dev shell
-            ...
-        base: fedora
-        candy:
-            - '@github.com/opencharly/charly/candy/ripgrep:v2026.201.0706'
-            - '@github.com/opencharly/charly/candy/sshd:v2026.201.0706'
-        plan:
-            - check: composing the service candy next to the init candy wired sshd into the assembled supervisord config — a program block neither candy produces on its own
-              id: tutorial-shell-service-wired-into-init
-              file:
-                file: /etc/supervisord.conf
-                contains:
-                    - contains: "[program:sshd]"
-```
+This is [`tutorial-shell`](/reference/box/fedora/tutorial-shell/) — a real box in the repository,
+and a [check bed](/concepts/09-disposability-is-the-license/) re-proves it on every acceptance
+run. It composes three layers on the bare Fedora base: a tool (`ripgrep`), a service (`sshd`),
+and the `supervisord` init.
 
 Four things are going on, and they are the whole model:
 
@@ -40,11 +21,9 @@ Four things are going on, and they are the whole model:
   buildable container image. A node without `base:` would be a layer instead.
 - **`base: fedora`** points at another box defined next door, not an external registry image. A
   base can be either.
-- **the `candy:` list** composes two candies: a tool (`ripgrep`) and a service (`sshd`). Each
-  installs one concern — and note what is *absent*: an init. Because `sshd` declares a service,
-  charly resolves the init this target needs and brings it in for you (supervisord in a container;
-  nothing extra on a systemd machine, which already has one). You declare the service; the init
-  follows.
+- **the `candy:` list** composes three layers: a tool (`ripgrep`), a service (`sshd`), and the
+  `supervisord` init. Each installs one concern; composing them is what turns the bare Fedora base
+  into a working shell.
 - **`plan:`** is the acceptance spec, and it is mandatory. Note *what* it checks: not that `rg` and
   `sshd` are present — each candy's own plan already proves that, and those plans run against this
   same image — but that composing the service candy next to the init candy made `sshd` a
@@ -137,19 +116,16 @@ demonstrates it against a disposable VM guest rather than a workstation:
 # charly.yml — a local: deploy nested INSIDE a disposable VM guest, so the
 # "machine" it changes is the guest and never yours
 check-group:
-    group:
+    vm:
+        from: eval-vm
         disposable: true
         lifecycle: dev
-        ...
-    check-group-vm:
-        vm:
-            from: eval-vm
-        check-group-member:
-            local:
-                from: check-group-app
+    check-group-member:
+        local:
+            from: check-group-app
 ```
 
-Tree position is what makes it safe: because `check-group-member` is nested *under* the `vm:`
+Tree position is what makes it safe: because `check-group-member` is a member of the `vm:` node (`check-group`)
 node, the `local:` deploy lands inside the guest rather than on the host. It carries no `host:`
 field at all — the venue comes from its parent. `check-group-app` is itself a `local:` template
 composing one candy that drops a marker file, and the bed asserts that marker exists **in the
