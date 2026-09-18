@@ -52,9 +52,9 @@ description: "Configure KeePassXC as the freedesktop.org Secret Service provider
 local:
   charly-cachyos:
     candy:
-      - '@github.com/opencharly/layer-direnv:vTAG'
-      - '@github.com/opencharly/layer-gnupg:vTAG'
-      - '@github.com/opencharly/layer-keepassxc:vTAG'
+      - '@github.com/opencharly/layer-direnv'
+      - '@github.com/opencharly/layer-gnupg'
+      - '@github.com/opencharly/layer-keepassxc'
       - keepassxc-keyring     # this layer
       ...
 ```
