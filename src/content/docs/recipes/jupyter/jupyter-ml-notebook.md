@@ -22,7 +22,7 @@ jupyter-ml-notebook:
     - notebook-ollama
     - notebook-llm-on-supercomputers
     - notebook-openrouter
-    - '@github.com/opencharly/pod-dbus:vTAG'
+    - '@github.com/opencharly/pod-dbus'
     - charly
   ports:
     - "8888:8888"

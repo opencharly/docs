@@ -38,13 +38,13 @@ arch-coder:
     - charly
     - charly-mcp
     - container-nesting
-    - '@github.com/opencharly/pod-dbus:vTAG'
-    - '@github.com/opencharly/layer-tmux:vTAG'
+    - '@github.com/opencharly/pod-dbus'
+    - '@github.com/opencharly/layer-tmux'
 
     # Language runtimes + managers
     - language-runtimes           # Go + PHP + .NET 9 + python3-devel
-    - '@github.com/opencharly/layer-golang:vTAG'
-    - '@github.com/opencharly/layer-nodejs:vTAG'  # Arch ships a current Node (v26)
+    - '@github.com/opencharly/layer-golang'
+    - '@github.com/opencharly/layer-nodejs'  # Arch ships a current Node (v26)
     - rust
     - pixi
     - uv
@@ -61,13 +61,13 @@ arch-coder:
     # AI coding CLIs
     - claude-code
     - codex
-    - '@github.com/opencharly/layer-gemini:vTAG'
+    - '@github.com/opencharly/layer-gemini'
     - forgecode
     - oracle
 
     # DevOps / cloud / infra
     - devops-tools
-    - '@github.com/opencharly/layer-kubernetes:vTAG'
+    - '@github.com/opencharly/layer-kubernetes'
     - docker-ce
     - github-actions
     - google-cloud

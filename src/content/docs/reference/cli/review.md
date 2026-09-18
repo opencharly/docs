@@ -7,7 +7,7 @@ description: "The review command word, served by the plugin-review plugin candy.
 
 | | |
 |---|---|
-| **Served by** | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-255-1648/plugin-review/) |
+| **Served by** | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-260-0931/plugin-review/) |
 | **Placement** | runtime (out-of-process over gRPC) |
 | **Version** | `2026.251.0000` |
 
