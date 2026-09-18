@@ -43,9 +43,9 @@ hermes:
   candy:
     base: fedora
     candy:
-      - '@github.com/opencharly/layer-agent-forwarding:vTAG'
-      - '@github.com/opencharly/pod-hermes-full:vTAG'
-      - '@github.com/opencharly/pod-dbus:vTAG'
+      - '@github.com/opencharly/layer-agent-forwarding'
+      - '@github.com/opencharly/pod-hermes-full'
+      - '@github.com/opencharly/pod-dbus'
 ```
 
 ## Related Candies

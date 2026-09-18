@@ -24,7 +24,7 @@ my-box:
   candy:
     base: fedora
     candy:
-      - '@github.com/opencharly/layer-playwright:vTAG'
+      - '@github.com/opencharly/layer-playwright'
 ```
 
 ## Used In Boxes
