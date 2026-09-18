@@ -59,7 +59,7 @@ plugin-check	v2026.242.2127
 plugin-agentteams	v2026.242.0525
 plugin-dsh	v2026.242.0528
 plugin-ollama	v2026.242.0532
-plugin-bpf	v2026.243.1059
-plugin-cardwire	v2026.243.1202
-plugin-herdr	v2026.245.1008
-pod-herdr	v2026.245.1113
+plugin-bpf	v2026.260.1008
+plugin-cardwire	v2026.260.0911
+plugin-herdr	v2026.251.0850
+pod-herdr	v2026.251.0850

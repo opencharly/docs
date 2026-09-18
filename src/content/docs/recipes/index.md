@@ -7,9 +7,21 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-923 cards across 28 plugins, in four groups.
+934 cards across 38 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
+
+### charly-agent
+
+The `charly tui` terminal UI for the agent control plane (candy/plugin-agent).
+
+- [tui](/recipes/agent/tui/)
+
+### charly-authoring
+
+The `charly box add-candy/cat/fetch/labels/refresh/rm-candy/set/write` authoring verbs served by candy/plugin-authoring.
+
+- [authoring](/recipes/authoring/authoring/)
 
 ### charly-automation
 
@@ -27,6 +39,7 @@ Automation/customization knobs — tmux verb, host-side wrappers (alias, udev), 
 - [enc](/recipes/automation/enc/)
 - [herdr](/recipes/automation/herdr/)
 - [herdr](/recipes/automation/herdr/)
+- [herdr](/recipes/automation/herdr/)
 - [herdr-box](/recipes/automation/herdr-box/)
 - [herdr-box](/recipes/automation/herdr-box/)
 - [openclaw-deploy](/recipes/automation/openclaw-deploy/)
@@ -41,6 +54,13 @@ Automation/customization knobs — tmux verb, host-side wrappers (alias, udev), 
 - [udev](/recipes/automation/udev/)
 - [udev](/recipes/automation/udev/)
 - [udev](/recipes/automation/udev/)
+
+### charly-bpf
+
+The `charly bpf` eBPF program surface served by candy/plugin-bpf.
+
+- [bpf](/recipes/bpf/bpf/)
+- [bpf](/recipes/bpf/bpf/)
 
 ### charly-build
 
@@ -77,6 +97,25 @@ Build/authoring CLI verbs — build, generate, list, inspect, merge, new, pull, 
 - [validate](/recipes/build/validate/)
 - [validate](/recipes/build/validate/)
 
+### charly-cache
+
+The `charly cache` git-ref cache operator surface — status, clear, refresh, bypass.
+
+- [cache](/recipes/cache/cache/)
+
+### charly-candy-cli
+
+The `charly candy` authoring surface served by candy/plugin-candy.
+
+- [candy](/recipes/candy-cli/candy/)
+
+### charly-cardwire
+
+The `charly cardwire` surface served by candy/plugin-cardwire.
+
+- [cardwire](/recipes/cardwire/cardwire/)
+- [cardwire](/recipes/cardwire/cardwire/)
+
 ### charly-check
 
 Live-container evaluation and probe verbs — `charly check` orchestrator + per-protocol live probes (cdp, wl, wl-overlay, dbus, vnc, spice, libvirt, record).
@@ -94,9 +133,9 @@ Live-container evaluation and probe verbs — `charly check` orchestrator + per-
 - [check-sway-browser-vnc](/recipes/check/check-sway-browser-vnc/)
 - [check-sway-browser-vnc](/recipes/check/check-sway-browser-vnc/)
 - [crabbox](/recipes/check/crabbox/)
-- [crabbox](/recipes/check/crabbox/)
 - [dbus](/recipes/check/dbus/)
 - [dbus](/recipes/check/dbus/)
+- [jetkvm](/recipes/check/jetkvm/)
 - [libvirt](/recipes/check/libvirt/)
 - [libvirt](/recipes/check/libvirt/)
 - [openclaw](/recipes/check/openclaw/)
@@ -169,6 +208,34 @@ Runtime/lifecycle CLI verbs — start, stop, restart, charly-status, logs, shell
 - [stop](/recipes/core/stop/)
 - [stop](/recipes/core/stop/)
 - [stop](/recipes/core/stop/)
+
+### charly-feature
+
+The `charly feature` / `charly box feature` Agent Driven Evaluation surface — run a deployment's baked plan as acceptance tests with agent grading.
+
+- [feature](/recipes/feature/feature/)
+
+### charly-pipeline
+
+The `charly pipeline` agent/workflow engine — plan agent stage, plan executor, deterministic probe verbs, template/frontmatter rendering.
+
+- [pipeline](/recipes/pipeline/pipeline/)
+- [pipeline](/recipes/pipeline/pipeline/)
+
+### charly-pod-verbs
+
+Pod-lifecycle CLI verbs served by candy/plugin-pod — cp (host<->container copy), volume (list/reset named volumes), restart.
+
+- [cp](/recipes/pod-verbs/cp/)
+- [restart](/recipes/pod-verbs/restart/)
+- [volume](/recipes/pod-verbs/volume/)
+
+### charly-review
+
+The `charly review` read-only GitHub PR review engine — verb:pr tools, the chat-completions review loop, verdict emission.
+
+- [review](/recipes/review/review/)
+- [review](/recipes/review/review/)
 
 
 ## Kinds — schema authoring
@@ -469,14 +536,7 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [omarchy-cstream](/recipes/distros/omarchy-cstream/)
 - [omarchy-eval](/recipes/distros/omarchy-eval/)
 - [omarchy-eval-cold-reader](/recipes/distros/omarchy-eval-cold-reader/)
-- [omarchy-eval-full-loop](/recipes/distros/omarchy-eval-full-loop/)
-- [omarchy-eval-golden](/recipes/distros/omarchy-eval-golden/)
-- [omarchy-eval-media](/recipes/distros/omarchy-eval-media/)
 - [omarchy-eval-oracle](/recipes/distros/omarchy-eval-oracle/)
-- [omarchy-eval-sequencing](/recipes/distros/omarchy-eval-sequencing/)
-- [omarchy-eval-tests](/recipes/distros/omarchy-eval-tests/)
-- [omarchy-eval-tiers](/recipes/distros/omarchy-eval-tiers/)
-- [omarchy-eval-work-lane](/recipes/distros/omarchy-eval-work-lane/)
 - [omarchy-shell](/recipes/distros/omarchy-shell/)
 - [omarchy-shell](/recipes/distros/omarchy-shell/)
 - [qemu-guest-agent](/recipes/distros/qemu-guest-agent/)
@@ -921,6 +981,7 @@ CLI utilities and the charly binary deploy artifacts — ripgrep, himalaya, whis
 - [charly](/recipes/tools/charly/)
 - [charly](/recipes/tools/charly/)
 - [charly](/recipes/tools/charly/)
+- [crabbox](/recipes/tools/crabbox/)
 - [crabbox](/recipes/tools/crabbox/)
 - [cue](/recipes/tools/cue/)
 - [cue](/recipes/tools/cue/)
