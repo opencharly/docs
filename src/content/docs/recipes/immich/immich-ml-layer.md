@@ -42,7 +42,7 @@ description: "Immich machine learning backend on port 3003 for photo classificat
 # charly.yml -- adds ML to an immich image
 immich-ml:
   candy:
-    - '@github.com/opencharly/pod-immich-ml:vTAG'
+    - '@github.com/opencharly/pod-immich-ml'
 ```
 
 ## Used In Boxes

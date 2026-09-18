@@ -29,8 +29,8 @@ description: "Heroic Games Launcher for Epic, GOG, and Amazon Prime Gaming with 
 # charly.yml — typically used with sway-desktop-vnc + steam
 sway-browser-vnc-steam-heroic:
   candy:
-    - '@github.com/opencharly/layer-sway-desktop-vnc:vTAG'
-    - '@github.com/opencharly/layer-steam:vTAG'
+    - '@github.com/opencharly/layer-sway-desktop-vnc'
+    - '@github.com/opencharly/layer-steam'
     - heroic
 ```
 
