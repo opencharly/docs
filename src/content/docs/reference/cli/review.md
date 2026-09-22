@@ -7,25 +7,22 @@ description: "The review command word, served by the plugin-review plugin candy.
 
 | | |
 |---|---|
-| **Served by** | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-260-0931/plugin-review/) |
+| **Served by** | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-265-0505/plugin-review/) |
 | **Placement** | runtime (out-of-process over gRPC) |
-| **Version** | `2026.251.0000` |
+| **Version** | `2026.263.2100` |
 
 `review` is a command word served by the `plugin-review` plugin candy. This plugin is **not** listed in `charly/charly.yml`'s `compiled_plugins:`. It is not part of the shipped binary: charly builds and loads it out-of-process over gRPC when a plan references one of its words (the coexist path).
 
 ## About the plugin that serves it
 
-Read-only GitHub PR review for OpenCharly's gate: the deterministic
-verb:pr tools (pr_diff / pr_commits / pr_thread / pr_meta) plus
-command:review — the same chat-completions agent loop the retired
-pi-review-action ran: four read-only GitHub tools, a deterministic
-Verdict: PASS|BLOCK line, ONE PR comment, and $GITHUB_OUTPUT
-compatibility (response/success/verdict). Also serves the runtime
-orchestration executor (charly review --plan <path>) that turns a
-declared review-plan.yml into a step pipeline, so ANY runtime plugin
-can join the review workflow purely through config. The review
-rulebook is a 1:1 port of pi-review-action's prompt.txt, resolved at
-run time via REVIEW_PROMPT_PATH (T1: instructions from main, never
-the PR under review).
+The OpenCharly PR-review engine (`command:review`): it assembles the
+COMPLETE PR context (the body, EVERY changed file's full unified diff,
+the commits, EVERY comment) into ONE message and makes ONE model call —
+no tool loop, no plan executor, no runtime prompt file. The prompt is
+EMBEDDED (prompt.md); every model-behaviour knob is an AI_REVIEW_* env
+var declared below and consumed by config.go (FromEnv), so an operator
+sets everything from a GitHub Actions variable without a rebuild. A
+deterministic Verdict: PASS|BLOCK line, ONE PR comment, and
+$GITHUB_OUTPUT compatibility (response/success/verdict).
 
 `charly --help` prints the command tree, including where `review` is invoked and under which parent.

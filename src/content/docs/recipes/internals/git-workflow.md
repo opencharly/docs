@@ -12,6 +12,7 @@ This card has additional detail pages:
 - [branch-and-pr-loop](/recipes/internals/git-workflow/branch-and-pr-loop/)
 - [evidence-and-freshness](/recipes/internals/git-workflow/evidence-and-freshness/)
 - [multi-repo-coordination](/recipes/internals/git-workflow/multi-repo-coordination/)
+- [umbrella-mechanics](/recipes/internals/git-workflow/umbrella-mechanics/)
 - [validator-and-calver](/recipes/internals/git-workflow/validator-and-calver/)
 
 # git-workflow — branch-per-change, PR-only org-workflow-validated landing
@@ -22,11 +23,15 @@ gated by the ORG-WIDE `charly/pr-validator` GitHub Actions workflow
 OWN native auto-merge (squash) inline — there is no separate `auto-merge`
 workflow; the CalVer tag and the CHANGELOG are written afterwards by the
 independent `tag-on-merge` workflow, triggered by the merge. A **direct
-push to `main` is FORBIDDEN and mechanically disabled** — a per-repo branch
-RULESET blocks it (`creation`/`deletion`/`non_fast_forward` + a required
-`validate / validate` status check); the legacy branch-protection API is NOT used
-and `branch-protection.sh` actively removes it, because it has no bypass slot for
-the app that writes the CHANGELOG. The `pre-push-gate` adds a local backstop in
+push to `main` is FORBIDDEN and mechanically disabled** — ONE organization branch
+RULESET blocks it. On GitHub Team that ONE ruleset carries both the branch rules
+(`creation`/`deletion`/`non_fast_forward` + a strict required `validate / validate`
+status check) and the `workflows` rule ("Require workflows to pass") naming
+`opencharly/.github/.github/workflows/org-wide-pr-validator-required.yml`, so the
+validator is required ONCE org-wide with no per-repo stub to install. The legacy
+branch-protection API is NOT used
+and `org-ruleset.sh` removes it wherever it survives, because it has no bypass slot
+for the app that writes the CHANGELOG. The `pre-push-gate` adds a local backstop in
 every harness that wires it — including Claude Code, via
 `.claude/settings.json`'s PreToolUse hooks. The **R10 pass
 authorizes OPENING the PR, never a self-merge**: the two-step landing separates the
@@ -36,49 +41,82 @@ mandate, [`/charly-internals:cutover-policy`](/recipes/internals/cutover-policy/
 the schema-version/tag coupling, and the marketplace's `internals/agents/pr-validator.md` the
 validator's own spec.
 
-## Validator re-trigger + PR-body evidence mechanics (FIXED at the workflow level, #38 wave)
+## THE BODY-BEFORE-PUSH RULE (the one that bites hardest)
 
-- **A body-only fix needs a NEW commit, and an empty commit IS such a commit.** The org
-  validator reviews the diff at the PR's head SHA and keys its verdict to that head, so
-  editing only the body leaves the head unchanged and the review stale. Append a commit —
-  `git commit --allow-empty -m "docs: re-freeze the PR body against the final head"` is the
-  standard append-only move (never force) — and the push fires a fresh `pull_request`
-  (`synchronize`) run on the NEW head: measured on opencharly/plugin-pipeline#28 and
-  opencharly/plugin-vm#35, an empty commit produced a fresh `charly/pr-validator`
-  `ev=pull_request` run keyed to the new SHA. `gh workflow run pr-validator.yml -f
-  pr-number=<N> --ref <branch>` is the alternative, but it re-dispatches on the SAME head:
-  GitHub's rollup keeps BOTH check runs for that name, and a stale earlier `failure` of the
-  same name can keep the PR `BLOCKED` even after the dispatched run is green — a fresh SHA
-  from an empty commit is the reliable path. (The "empty commit does nothing" belief is
-  WRONG: the dispatcher `on: pull_request: types: [opened, synchronize, …]` has no
-  `paths:`/diff guard, so a no-content push still fires it.)
-- **A `workflow_dispatch` without `--ref` runs on the DEFAULT branch** and its check registers
-  there — the reusable workflow now re-dispatches itself on the PR head ref (self-heal),
-  so the green check always lands on the branch head.
-- **The workflow now dedupes + self-heals** (opencharly/.github pr-validator): a per-PR
-  `concurrency` group (`cancel-in-progress: true`) cancels the in-flight run on
-  re-dispatch/push, so duplicate same-name check runs can no longer poison mergeability;
-  a `workflow_dispatch` re-dispatches itself on the PR head ref so the green check lands
-  on the head.
-- **The PR body must match a FROZEN head.** Commit SHAs and diff-stats in the body are
-  mutable until the branch stops moving; a rebase/amend after writing the body guarantees
-  a Rule-4 body-truthfulness BLOCK. Freeze the branch, write the body against the final
-  head (real `git log --oneline origin/main...HEAD` + `git diff --stat` output), push ONCE,
-  and never touch the branch again until merge. Any required fix = ONE atomic batch:
-  commit → compute the new head → rewrite the body → push.
-- **`gh_pr_status` `mode:'watch'` may act as a one-shot** in some environments — use a bounded
-  `check` poll loop as the fallback (terminal verdicts only, never loop on a BLOCK).
+**Finish ALL PR-body text BEFORE the push that the validator will review.** The
+validator reads the body at review time and keys its verdict to the head SHA it
+sees; a body edited AFTER the push is reviewed against the OLD text and BLOCKs a
+body that is already correct. Re-editing the body does not re-run it (the head
+did not move). Measured: opencharly/plugin-vm#39's auto run reviewed head
+`c9457a9` while the body was still the round-1 text (the edit landed seconds
+later) → BLOCK; the manual re-dispatch after the edit → PASS on the SAME head.
+
+The order is therefore fixed and non-negotiable:
+
+1. Commit and push the SOURCE.
+2. Compute the FINAL head + diff-stats from that pushed commit
+   (`git log --oneline origin/main...HEAD`, `git diff --stat origin/main...HEAD`).
+3. Write the WHOLE body (`gh pr edit <n> --body-file …`) — Summary, evidence with
+   the real SHAs/diff-stats, rulebook section, attribution footer LAST.
+4. Only then run/trigger the validator. If you must move the head again (a real
+   fix), the body is now stale again — repeat 2–4 in ONE batch.
+
+A body-only fix after a pushed head needs a NEW commit so a fresh validator run is
+keyed to a head whose body is already final. An EMPTY commit IS such a commit and
+DOES re-trigger the run: the org required workflow declares `on: pull_request: types:
+[opened, synchronize, …]` with NO `paths:`/diff guard, so a no-content push still
+fires it. Proven: opencharly/plugin-pipeline#28 `be3ab30e6` is a genuinely
+EMPTY commit (identical tree to its parent, `git diff --stat` empty) and it fired
+a fresh `ev=pull_request` run keyed to its SHA. Prefer this over a same-head
+re-dispatch (which cannot clear an earlier same-name failure — see the POISON
+state below).
+
+`gh workflow run pr-validator.yml -f pr-number=<N> --ref <branch>` is the
+alternative, and **`--ref` is MANDATORY**: a `workflow_dispatch` with no `--ref`
+runs on the DEFAULT branch, so its check registers on `main` and counts for
+nothing on the PR. Measured on opencharly/plugin-vm#39 (head `c9457a9`): the same
+dispatch without `--ref` produced no head check; carrying the branch ref --
+`--ref feat/deploy-shape-override` -- it registered the green check on the branch head.
+
+**There is NO self-heal.** The reusable workflow sets a `head_ref` output but
+never consumes it (`grep -c 'steps.pr.outputs'` in
+`opencharly/.github/.github/workflows/pr-validator.yml` is 0); the org required
+workflow contains no re-dispatch step. A `workflow_dispatch` does NOT land its check on the
+PR head by itself — supply `--ref`.
+
+### The POISON state — green verdict, still BLOCKED
+
+GitHub's rollup collapses same-name check-runs to the WORST conclusion, so an
+earlier FAILURE of `validate / validate` keeps a PR `BLOCKED` even after a later
+same-head run is SUCCESS — it reads like a verdict BLOCK but is not. **A same-head
+re-dispatch cannot clear it.** Remedies (in order): push a NEW commit (a fresh SHA
+starts a clean check set). The per-PR concurrency dedupe now lives in the ONE org
+required workflow (`org-wide-pr-validator-required.yml`), not a per-repo
+dispatcher. Full mechanics and the dedupe YAML:
+[`references/validator-and-calver.md`](/recipes/internals/git-workflow/validator-and-calver/) "The POISON state".
+
+### `pr_state_watch.sh` — STOP on a terminal state, never poll in a loop
+
+`marketplace/scripts/pr_state_watch.sh <owner>/<repo> <pr-number>` watches the
+required check across ALL its same-name runs on the head and exits the instant a
+terminal state is reached, distinguishing a real verdict BLOCK from POISON.
+Exit codes: `0` MERGED · `2` BLOCKED · `3` CLOSED · `4` TIMEOUT · `5` ERROR. It is
+the ONLY sanctioned poll — `gh pr checks --watch` cannot see POISON (it reads the
+collapsed rollup), and a hand-rolled `while`/`sleep` loop is the R4 band-aid this
+replaces. On exit 2: read the verdict, fix, re-finalize the body, push a NEW
+commit — never re-dispatch the same head. Detail: the reference + the script header.
+
 
 ## Non-negotiable invariants
 
-- **No direct push to `main`** (the project rulebook's PR-only landing mandate — see "Post-Execution Policies"). Enforced by a per-repo branch RULESET on `refs/heads/main` — `creation` + `deletion` + `non_fast_forward` + a strict required status check named exactly **`validate / validate`**, with the `charly-auto-merge` GitHub App as the only bypass actor (its scoped bypass is what lets tag-on-merge's CHANGELOG commit land on a protected `main`). The LEGACY branch-protection API is deliberately NOT used: it has no bypass slot for that app, so `branch-protection.sh` deletes it wherever it survives, and `enforce_admins` plays no part. The `pre-push-gate` adds a local backstop in every harness that wires it — Claude Code included, via `.claude/settings.json`'s PreToolUse hooks. Organization-wide apply/verify is owned only by `opencharly/.github/scripts/branch-protection.sh`.
+- **No direct push to `main`** (the project rulebook's PR-only landing mandate — see "Post-Execution Policies"). Enforced by ONE organization branch RULESET on `refs/heads/main` (`creation` + `deletion` + `non_fast_forward` + a strict required status check named exactly **`validate / validate`**), with the `charly-auto-merge` GitHub App as the only bypass actor (its scoped bypass is what lets tag-on-merge's CHANGELOG commit land on a protected `main`). On GitHub Team that ONE ruleset also carries the **`workflows`** rule ("Require workflows to pass") naming `opencharly/.github/.github/workflows/org-wide-pr-validator-required.yml`, so the validator is required ONCE org-wide with no per-repo dispatcher to install. The LEGACY branch-protection API is deliberately NOT used: it has no bypass slot for that app, so `org-ruleset.sh` deletes it wherever it survives, and `enforce_admins` plays no part. The `pre-push-gate` adds a local backstop in every harness that wires it — Claude Code included, via `.claude/settings.json`'s PreToolUse hooks. Organization-wide apply/verify is owned only by `opencharly/.github/scripts/org-ruleset.sh`.
 - **Never force-push, on any branch, ever** (mandate, same rulebook section). `main` only fast-forwards via native auto-merge's squash; a `feat/` branch, once pushed, advances only by ADDING commits (the author's change plus any review-round fix commits), and the squash-merge collapses them. A stale `feat/` catches up with `gh pr update-branch` (a merge, NOT a rebase-force); tags are add-only. **Amending a `feat/` branch is a normal authoring action — legal until the first push** (amending a pushed branch would require a force-push, which is forbidden).
 - **R10-gated; the merge requires the `charly/pr-validator` gate's green check run.** R10 PASS authorizes opening the PR (with pasted evidence); a rule violation or R10 FAIL means a red `charly/pr-validator` check and no merge — fix in the same tree, re-run R10, re-push; the check resets and the validator re-runs.
 - **Zero warnings is part of R10** (project rulebook R1). A version-mismatch warning clears with `charly box reconcile`; any other warning gets [`/charly-internals:root-cause-analyzer`](/recipes/internals/root-cause-analyzer/) then a real fix — "warning" is never an accepted end state.
 - **Atomic on `main`, never on `feat/`.** The org-wide `charly/pr-validator` workflow's PASS enables GitHub native auto-merge (squash), which folds the author's change and any review-round fix commits into one commit on `main`; the `feat/` branch may freely accumulate fix commits across review rounds. The merge-time CalVer tag and the `CHANGELOG/<CalVer>.md` entry (written from the PR body — the PR body IS the changelog) are created after merge by the org-wide `tag-on-merge` workflow (see "CalVer" in [`references/validator-and-calver.md`](/recipes/internals/git-workflow/validator-and-calver/)). Two separate cutovers must never share one PR.
 - **Update the PR; never close-and-recreate** (except for work that will not land at all — a disproven premise, an abandoned approach). When a review demands changes, append a commit and push it fast-forward — the check resets and the validator re-runs. This is what makes the no-force-push rule livable: because `main` gets a squash, a branch carrying five fix commits still lands as one.
-- **Validator re-review is per-HEAD; body-only edits do not re-trigger it.** The org validator reviews the diff at the PR's head SHA and keys its verdict comment to that head. Editing only the PR body leaves the head unchanged, so a fix that is purely evidentiary (pasting real output, correcting an accounting line) needs a NEW commit to re-validate — `git commit --allow-empty` with a docs message is the standard append-only re-trigger (never force; see the "Validator re-trigger" bullet above for why an empty commit works and a dispatch does not). Corollary: a PR whose diff is EMPTY because the base already contains the change (you branched from a stale snapshot) is a no-op — close it rather than re-pushing (the validator flags it as body-truthfulness violation: body describes files the diff does not carry). Always `git fetch origin main` + diff against CURRENT main before opening or finalizing a PR.
-- **A dispatched workflow defaults to the DEFAULT BRANCH.** `gh workflow run <wf> --ref <branch>` is required to dispatch CI on a PR head — a dispatch that lands on main produces no check-run counts toward that PR's required checks (and `workflow_dispatch` with no `--ref` silently uses the default branch). For run-on-head diagnostics: target the PR's branch explicitly.
+- **FINISH THE BODY BEFORE THE PUSH; the validator is per-HEAD.** The org validator reviews the diff at the PR's head SHA and reads the body THEN, keying its verdict to that head. Body text edited AFTER the push is reviewed against the old text and BLOCKs a body that is already correct; editing the body alone does not re-run it (the head did not move). So: push source → compute the final head + diff-stats → write the WHOLE body (footer last) → only then trigger the validator. A body-only fix after a pushed head needs a NEW commit so a run lands on a head whose body is already final — `git commit --allow-empty -m "docs: re-freeze the PR body against the final head"` is the standard append-only move (never force), and it DOES fire a fresh `pull_request` run (no `paths:`/diff guard). A same-head `--ref` re-dispatch cannot clear an earlier same-name failure (the POISON state) — prefer the new commit. Full mechanics: "THE BODY-BEFORE-PUSH RULE" above. Corollary: a PR whose diff is EMPTY because the base already contains the change (you branched from a stale snapshot) is a no-op — close it rather than re-pushing (the validator flags it as body-truthfulness violation: body describes files the diff does not carry). Always `git fetch origin main` + diff against CURRENT main before opening or finalizing a PR.
+- **A dispatched workflow defaults to the DEFAULT BRANCH — `--ref` is MANDATORY.** `gh workflow run <wf> --ref <branch>` is required to dispatch CI on a PR head; a dispatch with no `--ref` runs on `main`, so its check registers there and counts for nothing on the PR's required checks. There is NO self-heal: the reusable workflow's `head_ref` output is never consumed and no dispatcher re-dispatches itself. For run-on-head diagnostics, target the PR's branch explicitly.
 - **Tree-safety before destructive actions (R6).** Check `git status` + `git stash list` before any destructive working-tree action — `git stash` discards in-progress work; `rm` on a tracked file is destructive. When the sandbox blocks an action, find a non-destructive alternative rather than working around it. The stash/pop cycle can itself silently un-stage a `git rm`: a stash taken while a deletion is staged restores the deletion as unstaged on `pop`, so a `git status` right after the cycle that shows the deleted file back as a plain unstaged change (rather than the staged deletion you left) has quietly lost the staging — re-stage it (`git rm <path>` again, or `git add -u`) before committing. A stash/pop round-trip is never a no-op on a mixed add+rm working tree.
 - **Right worktree — pin one absolute path for the whole edit→commit→push sequence.** Before branching, staging, or committing, confirm the worktree you are driving is the same one your edits landed in: `git -C <path> rev-parse --show-toplevel` must equal the path you edited, and `git -C <path> status --short` must list those edits. Under symlinked or near-twin sibling worktrees — a parent dir that is itself a symlink (`~/projects` → `~/Sync/projects`), or look-alike names such as `…/charly` vs `…/<other-worktree>` — `cd`-ing to the wrong sibling makes `git switch -c` + `git commit` run against a clean tree and report "nothing to commit", silently landing nothing (or landing in the wrong repo). Never change the path spelling mid-sequence. An unexpected "nothing to commit" right after editing a file is the signature of this mistake — stop and re-verify `--show-toplevel` before retrying (blind retry is an R1 violation).
 - **The universal PR-gate — audit before any PR action, unconditionally.** Before opening, updating, or merging any pull request, run the aggregate audit: `gh pr list` across every touched repo + `git worktree list` + the live teammate/agent roster. This is a standing preflight, run first every time — never reached for only once something already looks off — because skipping it risks a duplicate PR for scope already covered in flight, a branch update from a stale worktree, or a merge over a still-running validator's verdict. Full operational detail: [`/charly-internals:agents`](/recipes/internals/agents/) "The universal PR-gate".
@@ -92,6 +130,28 @@ validator's own spec.
 - **Check-coverage is part of R10.** The change must ship the test coverage that proves its functionality (`check:` checks for new/changed layers & images, Go tests for `charly` code) AND the live run must have exercised it. A change whose new functionality has no test that would fail without it is not landable.
 - **Every repo is tagged at merge.** The superproject, every `box/<distro>`, `plugins`, and `docs` all mint `v<YYYY.DDD.HHMM>` on their own merged HEAD — the tag marks the MERGE, decoupled from any `charly.yml` `version:` schema field, so a repo needs no `charly.yml` to be tagged. The sole exception is the sdk contract repo, which tags under its own Go-module scheme `v0.<YYYYDDD>.<HHMM with all leading zeros stripped>` (B2 step 0) — **not an exemption but a hard Go-module requirement**: `v<YYYY.DDD.HHMM>` is not a valid Go module version (semver forbids a leading-zero segment — `0733`→`733` — and a `major ≥ 2` would force a `/vN` module-path suffix that breaks every `import github.com/opencharly/sdk`), so the stripped `v0.<…>` form is mandatory, not a choice. A skipped tag is a defect, not an exemption: the orchestrator verifies the tag landed after each merge (`git ls-remote --tags origin v<VER>` non-empty) and, if tag-on-merge skipped it, backfills it add-only on the merged HEAD (`git tag -a v<VER> -m "<subject>" <merged-HEAD>` + `git push origin refs/tags/v<VER>`) — tags are immutable, so a backfill only adds one, never moves an existing tag.
 
+## Umbrella mechanics (when you work in the ~400-submodule umbrella)
+
+**These are umbrella-REPO-maintenance mechanics, run inside a checkout of the
+`opencharly/opencharly` umbrella — never commands a charly user runs with only the
+`charly` binary.** They are documented here because the umbrella `AGENTS.md`
+Skill Dispatcher routes its pinning/gitlink row to this skill, and the umbrella
+`AGENTS.md` names them as the sanctioned path for that maintenance work
+("Umbrella-native mechanics are the sanctioned path for umbrella work"). A charly
+end-user never sees `task`; they are the umbrella's own Taskfile targets.
+
+Inside the umbrella checkout the umbrella `AGENTS.md` governs (rule 7: read the
+subrepo's own rulebook before touching it; `charly/AGENTS.md` owns R0–R10 inside
+`charly/`). The umbrella's own commands — never an ad-hoc substitute — are:
+`task sync` (policy-B pin bump), `task verify` (the full pinning gate — there is
+NO CI gate), `task hooks` (install the per-commit gate), `task harness` (config
+parity), `task map`. Hard rules there: **never edit inside a submodule** (change
+lands by PR to the owning repo; the umbrella only records gitlinks), run submodule
+git through `git -C <absolute-path>` from the umbrella root, no worktrees inside
+submodules, pin only MERGED refs, and bound every command's output (SIGPIPE is
+ignored — `grep` floods on `Broken pipe`). Full detail:
+[`references/umbrella-mechanics.md`](/recipes/internals/git-workflow/umbrella-mechanics/).
+
 ## Reference Index
 
 | Topic | File |
@@ -100,13 +160,31 @@ validator's own spec.
 | B2 (multi-repo/multi-worktree coordination, per-module verification), B3 (agent teams in per-teammate worktrees), B6 (cross-repo `@github` landing), and B7 (multi-worktree landing + refresh, the canonical end-to-end) | [`references/multi-repo-coordination.md`](/recipes/internals/git-workflow/multi-repo-coordination/) |
 | B5 (the fresh evaluator + fork/PR path, the two-gate autonomous-landing model), CalVer generation, post-landing cleanliness + report format, and the validation-FAILS recovery sequence | [`references/validator-and-calver.md`](/recipes/internals/git-workflow/validator-and-calver/) |
 | Evidence discipline — provenance vs plausibility of a pasted gate, the three freshness surfaces (head / body / pasted output), positive-vs-negative claim decay, sweeping for claims a fix invalidated, the merged-tree gate for a `BEHIND` PR, source-and-regeneration as one cross-repo cutover, submodule pointers reverted by a non-conflicting merge, and why status-absence on a known head proves nothing | [`references/evidence-and-freshness.md`](/recipes/internals/git-workflow/evidence-and-freshness/) |
+| Umbrella mechanics — the ~400-submodule view, policy B, `task sync`/`verify`/`hooks`/`harness`, the no-edit-in-submodule rule, pin discipline | [`references/umbrella-mechanics.md`](/recipes/internals/git-workflow/umbrella-mechanics/) |
+| PR-state observation — the terminal-state poll | `marketplace/scripts/pr_state_watch.sh` (run it; it is the sanctioned poll) |
+
+## The PR-state watcher (STOP on terminal, never loop)
+
+The one sanctioned way to observe a landing is the script
+`scripts/pr_state_watch.sh` in the **`opencharly/marketplace`** repo — addressed
+as `marketplace/scripts/pr_state_watch.sh` from the umbrella checkout (its home
+on that repo's `origin/main`, landed via the companion
+`opencharly/marketplace#318`). It polls the required check across ALL its
+same-name runs on the head and **exits immediately** on any terminal state —
+`0` MERGED · `2` BLOCKED (a real verdict BLOCK, or the POISON stuck state, named
+in the output) · `3` CLOSED · `4` TIMEOUT · `5` ERROR. It is preferred over
+`gh pr checks --watch` (which reads the collapsed rollup and cannot see POISON)
+and over any hand-rolled `while`/`sleep` loop (the R4 band-aid). On exit 2, read
+the verdict, fix, re-finalize the body, push a NEW commit — never re-dispatch the
+same head to "see if it clears". Bounded knobs: `--interval`, `--timeout`.
 
 ## Cross-References
 
 - the project rulebook "Post-Execution Policies" — the mandate this skill operationalizes.
 - `marketplace/internals/agents/pr-validator.md` — the fresh evaluator's full spec.
-- `opencharly/.github/scripts/branch-protection.sh` — the sole organization-wide
-  branch-protection apply/verify owner.
+- `marketplace/scripts/pr_state_watch.sh` — the terminal-state PR poll (stop, never loop).
+- `opencharly/.github/scripts/org-ruleset.sh` — the sole organization-wide owner
+  of the ONE branch ruleset (required workflow + branch rules) apply/verify.
 - [`/charly-internals:cutover-policy`](/recipes/internals/cutover-policy/) — one-phase, atomic-commit, R10-at-the-end.
 - [`/charly-build:migrate`](/recipes/build/migrate/) — `version:` ↔ tag coupling, per-merge tags, push order.
 - [`/charly-build:reconcile`](/recipes/build/reconcile/) — cross-repo `@github` pin alignment used by B6.
