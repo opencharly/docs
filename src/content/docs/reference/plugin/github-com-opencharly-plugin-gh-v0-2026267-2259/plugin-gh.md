@@ -284,4 +284,4 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 
 ---
 
-See also the [candy reference](/reference/candy/github-com-opencharly-plugin-gh-v0-2026267-723/plugin-gh/) for this candy's install surface.
+See also the [candy reference](/reference/candy/github-com-opencharly-plugin-gh-v0-2026267-2259/plugin-gh/) for this candy's install surface.

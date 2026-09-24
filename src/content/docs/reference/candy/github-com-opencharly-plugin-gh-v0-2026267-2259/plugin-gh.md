@@ -8,8 +8,8 @@ description: "The canonical GitHub surface — one implementation of the gh read
 | | |
 |---|---|
 | **Version** | `2026.265.2200` |
-| **Repo** | `box/github.com/opencharly/plugin-gh:v0.2026267.723` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-gh-v0-2026267-723/plugin-gh/) |
+| **Repo** | `box/github.com/opencharly/plugin-gh:v0.2026267.2259` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-gh-v0-2026267-2259/plugin-gh/) |
 
 The canonical GitHub surface — one implementation of the gh read ops
 (pr_meta, pr_files, pr_diff, pr_commits, pr_thread, head_sha) plus
@@ -45,4 +45,4 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 | `check` | the generated params carry the document + issue-index types (SDD regen is current) |
 | `check` | the response cache is the shared spec/cache ArtifactStore (no hand-rolled cache) |
 | `check` | the plugin self-tests green (unit + cache + document assembly) |
-| `check` | the embedded |
+| `check` | the embedded #GhDocument schema compiles, validates a sample, and serializes |

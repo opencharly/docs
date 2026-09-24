@@ -90,7 +90,7 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | `fetch` | [plugin-authoring](/reference/plugin/github-com-opencharly-plugin-authoring-v2026-242-0525/plugin-authoring/) |
 | `generate` | [plugin-box](/reference/plugin/github-com-opencharly-plugin-box-v2026-242-0526/plugin-box/) |
 | `generate` | [plugin-box](/reference/plugin/github-com-opencharly-plugin-box-v2026-251-1834/plugin-box/) |
-| `gh` | [plugin-gh](/reference/plugin/github-com-opencharly-plugin-gh-v0-2026267-723/plugin-gh/) |
+| `gh` | [plugin-gh](/reference/plugin/github-com-opencharly-plugin-gh-v0-2026267-2259/plugin-gh/) |
 | `herdr` | [plugin-herdr](/reference/plugin/github-com-opencharly-plugin-herdr-v2026-245-1008/plugin-herdr/) |
 | `herdr` | [plugin-herdr](/reference/plugin/github-com-opencharly-plugin-herdr-v2026-251-0850/plugin-herdr/) |
 | `inspect` | [plugin-box](/reference/plugin/github-com-opencharly-plugin-box-v2026-242-0526/plugin-box/) |
@@ -306,7 +306,7 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | `externalprobe` | [plugin-example-external](/reference/plugin/github-com-opencharly-plugin-example-external-v2026-237-1420/plugin-example-external/) |
 | `externalprobe` | [plugin-example-external](/reference/plugin/github-com-opencharly-plugin-example-external-v2026-242-0556/plugin-example-external/) |
 | `file` | [plugin-file](/reference/plugin/github-com-opencharly-plugin-file-v2026-242-2145/plugin-file/) |
-| `gh` | [plugin-gh](/reference/plugin/github-com-opencharly-plugin-gh-v0-2026267-723/plugin-gh/) |
+| `gh` | [plugin-gh](/reference/plugin/github-com-opencharly-plugin-gh-v0-2026267-2259/plugin-gh/) |
 | `gpu` | [plugin-gpu](/reference/plugin/github-com-opencharly-plugin-gpu-v2026-237-1422/plugin-gpu/) |
 | `gpu` | [plugin-gpu](/reference/plugin/github-com-opencharly-plugin-gpu-v2026-242-0529/plugin-gpu/) |
 | `herdr` | [plugin-herdr](/reference/plugin/github-com-opencharly-plugin-herdr-v2026-245-1008/plugin-herdr/) |
