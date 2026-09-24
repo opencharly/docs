@@ -7,9 +7,20 @@ description: "The OpenCharly PR-review engine (`command:review`): it assembles t
 
 | | |
 |---|---|
+| **Placement** | runtime (out-of-process over gRPC) |
+| **Source** | `github.com/opencharly/plugin-review/candy/plugin-review` |
 | **Version** | `2026.263.2100` |
-| **Repo** | `box/github.com/opencharly/plugin-review:v2026.265.0505` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-review-v2026-265-0505/plugin-review/) |
+| **Candy** | `plugin-review` |
+
+This plugin is **not** listed in `charly/charly.yml`'s `compiled_plugins:`. It is not part of the shipped binary: charly builds and loads it out-of-process over gRPC when a plan references one of its words (the coexist path).
+
+## Providers
+
+The reserved words this plugin serves:
+
+- **`review`** — command class
+
+## What it does
 
 The OpenCharly PR-review engine (`command:review`): it assembles the
 COMPLETE PR context (the body, EVERY changed file's full unified diff,
@@ -21,12 +32,6 @@ sets everything from a GitHub Actions variable without a rebuild. A
 deterministic Verdict: PASS|BLOCK line, ONE PR comment, and
 $GITHUB_OUTPUT compatibility (response/success/verdict).
 
-## Acceptance plan
+---
 
-This candy's `plan:` — the runnable spec `charly check` executes against a live deployment. `check:` steps are idempotent probes; `run:` steps change state.
-
-| Intent | Step |
-|---|---|
-| `check` | the review plugin ships a buildable Go module (go.mod + provider main) and the embedded rulebook |
-| `check` | the review command self-tests green (command:review resolves) |
-| `check` | verdict extraction is exact (PASS/BLOCK only, line-anchored) |
+See also the [candy reference](/reference/candy/github-com-opencharly-plugin-review-v2026-266-2359/plugin-review/) for this candy's install surface.

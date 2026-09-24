@@ -7,22 +7,35 @@ description: "The gh command word, served by the plugin-gh plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-gh](/reference/plugin/github-com-opencharly-plugin-gh-v2026-252-1501/plugin-gh/) |
+| **Served by** | [plugin-gh](/reference/plugin/github-com-opencharly-plugin-gh-v0-2026267-2259/plugin-gh/) |
 | **Placement** | runtime (out-of-process over gRPC) |
-| **Version** | `2026.252.1500` |
+| **Version** | `2026.265.2200` |
 
 `gh` is a command word served by the `plugin-gh` plugin candy. This plugin is **not** listed in `charly/charly.yml`'s `compiled_plugins:`. It is not part of the shipped binary: charly builds and loads it out-of-process over gRPC when a plan references one of its words (the coexist path).
 
 ## About the plugin that serves it
 
 The canonical GitHub surface — one implementation of the gh read ops
-(pr_meta, pr_files, pr_diff, pr_commits, pr_thread, head_sha) as a
-typed, declarative verb (`gh: {op: ..., repo: ..., pr: ...}`) and the
-standalone `charly gh` CLI. Replaces every hand-rolled
+(pr_meta, pr_files, pr_diff, pr_commits, pr_thread, head_sha) plus
+`document`, which fetches a whole issue OR pull request (body, every
+comment, every review and inline review comment, the commits, and
+every changed file's patch AND full content at head) and emits it as
+a #GhDocument JSON or YAML artifact, plus `issues`, which lists a
+repo's OR an entire organization's issues AND pull requests as a
+compact #GhIssueIndex (scope, per-row repo/kind/labels/comment-count,
+the PR's cheap head signals, optional body) in ONE paginated call —
+/orgs/{org}/issues for the whole org, /repos/{owner}/{repo}/issues
+for one repo. Exposed as a typed, declarative verb
+(`gh: {op: ..., repo: ...|org: ..., number: ..., state: ..., kind: ...}`)
+and the standalone `charly gh` CLI. Replaces every hand-rolled
 exec.Command("gh") call: the client resolves the token explicitly
-(GH_TOKEN/GITHUB_TOKEN → the gh hosts.yml auth), targets
-api.github.com directly (never an ambiguous default-host redirect),
-and surfaces the HTTP status + body on every non-2xx — no more
-"gh meta failed" with swallowed stderr.
+(GH_TOKEN/GITHUB_TOKEN → the gh hosts.yml auth; an unauthenticated
+client omits the header so public reads work), targets api.github.com
+directly (never an ambiguous default-host redirect), surfaces the
+HTTP status + body on every non-2xx, paginates by the Link header's
+rel="next" (the ONE mechanism — no page-count guesswork), and caches
+every response on the shared charly cache ArtifactStore
+(ETag-revalidated for mutable reads, content-addressed for immutable
+blobs) so unchanged data is never re-fetched.
 
 `charly --help` prints the command tree, including where `gh` is invoked and under which parent.
