@@ -8,8 +8,8 @@ description: "RUNTIME (out-of-process) charly plugin serving `charly docs …` �
 | | |
 |---|---|
 | **Version** | `2026.215.1140` |
-| **Repo** | `box/github.com/opencharly/plugin-docs:v2026.261.1812` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-docs-v2026-261-1812/plugin-docs/) |
+| **Repo** | `box/github.com/opencharly/plugin-docs:v2026.267.0941` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-docs-v2026-267-0941/plugin-docs/) |
 
 RUNTIME (out-of-process) charly plugin serving `charly docs …` — the generator that
 renders the reference half of the opencharly.ai documentation site from this repo's
