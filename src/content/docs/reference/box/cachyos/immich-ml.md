@@ -18,9 +18,9 @@ This box composes:
 - `@github.com/opencharly/layer-nodejs:v2026.239.1624`
 - `@github.com/opencharly/layer-python-ml:v2026.243.0515`
 - `@github.com/opencharly/layer-supervisord:v2026.240.0121`
-- `@github.com/opencharly/pod-postgresql:v2026.239.1627`
-- `@github.com/opencharly/layer-vectorchord:v2026.243.1128`
+- `@github.com/opencharly/pod-postgresql:v2026.247.1304`
+- `@github.com/opencharly/layer-vectorchord:v2026.251.1508`
 - `@github.com/opencharly/pod-redis:v2026.239.1639`
-- `@github.com/opencharly/pod-immich:v2026.243.0410`
-- `@github.com/opencharly/pod-immich-ml:v2026.243.0516`
+- `@github.com/opencharly/pod-immich:v2026.251.1422`
+- `@github.com/opencharly/pod-immich-ml:v2026.255.1229`
 - `@github.com/opencharly/pod-dbus:v2026.243.1831`

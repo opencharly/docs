@@ -95,6 +95,53 @@ required workflow (`org-wide-pr-validator-required.yml`), not a per-repo
 dispatcher. Full mechanics and the dedupe YAML:
 [`references/validator-and-calver.md`](/recipes/internals/git-workflow/validator-and-calver/) "The POISON state".
 
+### The INCONCLUSIVE (verdict-less) class — the gate ran but produced no verdict
+
+A third terminal state sits beside PASS and BLOCK: **`## validator INCONCLUSIVE —
+no review verdict was produced (not a BLOCK; no code finding)`**. The required
+check stays **RED on purpose** (unreviewed code must never merge), but this is
+**NOT a finding about your diff** — it means the review engine produced no
+`Verdict:` line at all. Read the `## validator INCONCLUSIVE` comment's
+`Diagnostics` tail before touching your branch: it is the evidence that names the
+class. Do NOT "fix" your code for an INCONCLUSIVE — there is no code finding to
+fix — and do NOT re-dispatch the same head hoping for a different result; classify
+the cause from the diagnostics, then act on THAT.
+
+The two root causes, and how to tell them apart from the diagnostics tail:
+
+- **`turn 1: N tool call(s)` → `turn 2: final content len=0`** = the STALE-ENGINE
+  class. The gate's review engine is whatever `plugin-review` is **welded into the
+  charly binary** it runs; an engine OLDER than the fix that produced those lines
+  spins a tool loop and emits no verdict. The org pins a current engine via
+  `vars.CHARLY_VERSION`; a self-hosted runner whose IMAGE bakes an older `charly`
+  used to short-circuit that pin (`if command -v charly; then exit 0`) and silently
+  ran the stale welded engine. The pin enforcement that closes this is
+  `opencharly/.github#115` (`ensure-charly` now verifies the on-PATH `charly`
+  against the pin and downloads the pinned release when they differ). If you see
+  this signature, the cause is the RUNNER ENVIRONMENT, not your diff — escalate to
+  the operator (a stale runner image; the pin enforcement makes a stale on-PATH
+  engine harmless once the workflow at `main` is the enforced one).
+- **`inconclusive: … provider did not respond / attempt timed out`** (or an HTTP
+  status / stall marker) = the PROVIDER/ENDPOINT class. The evidence is in the
+  message: the provider returned a status, or the stream stalled / the whole-request
+  deadline elapsed. This is owned by the gate's provider configuration (the org
+  `AI_REVIEW_*` vars: provider/model, `AI_REVIEW_ATTEMPT_TIMEOUT`,
+  `AI_REVIEW_REASONING_EFFORT`, `AI_REVIEW_MAX_TOKENS`) — escalate to the operator,
+  who owns that configuration, rather than re-running blindly. Do not record it as
+  a "flake"; a provider-class INCONCLUSIVE is a real signal that the provider bound
+  or budget needs the operator's attention.
+
+**The distinction that matters:** a real **BLOCK** has a `## Review — BLOCK`
+heading and a `### Blocks` list you MUST fix; an **INCONCLUSIVE** has neither and
+must NOT be treated as a review finding (reporting it as one, or "fixing" code to
+satisfy it, is an R1 misdiagnosis). The gate's own workflow classifies INCONCLUSIVE
+as exit 3 and keeps the check RED; `pr_state_watch.sh` reports it distinctly from a
+verdict BLOCK. **Never merge around the red check** — an INCONCLUSIVE is an
+environment/provider condition to fix or escalate, not a licence to bypass the
+gate. The only merge under a red required check is an explicit, operator-issued
+override decision, taken by the operator on evidence THEY accept — it is never an
+agent's call, and never a documented standing procedure.
+
 ### `pr_state_watch.sh` — STOP on a terminal state, never poll in a loop
 
 `marketplace/scripts/pr_state_watch.sh <owner>/<repo> <pr-number>` watches the
@@ -138,14 +185,14 @@ commit — never re-dispatch the same head. Detail: the reference + the script h
 Skill Dispatcher routes its pinning/gitlink row to this skill, and the umbrella
 `AGENTS.md` names them as the sanctioned path for that maintenance work
 ("Umbrella-native mechanics are the sanctioned path for umbrella work"). A charly
-end-user never sees `task`; they are the umbrella's own Taskfile targets.
+end-user never sees them; they are the umbrella's own `charly task` entities.
 
 Inside the umbrella checkout the umbrella `AGENTS.md` governs (rule 7: read the
 subrepo's own rulebook before touching it; `charly/AGENTS.md` owns R0–R10 inside
 `charly/`). The umbrella's own commands — never an ad-hoc substitute — are:
-`task sync` (policy-B pin bump), `task verify` (the full pinning gate — there is
-NO CI gate), `task hooks` (install the per-commit gate), `task harness` (config
-parity), `task map`. Hard rules there: **never edit inside a submodule** (change
+`charly task sync` (policy-B pin bump), `charly task verify` (the full pinning gate — there is
+NO CI gate), `charly task hooks` (install the per-commit gate), `charly task harness` (config
+parity), `charly task map`. Hard rules there: **never edit inside a submodule** (change
 lands by PR to the owning repo; the umbrella only records gitlinks), run submodule
 git through `git -C <absolute-path>` from the umbrella root, no worktrees inside
 submodules, pin only MERGED refs, and bound every command's output (SIGPIPE is
@@ -160,7 +207,7 @@ ignored — `grep` floods on `Broken pipe`). Full detail:
 | B2 (multi-repo/multi-worktree coordination, per-module verification), B3 (agent teams in per-teammate worktrees), B6 (cross-repo `@github` landing), and B7 (multi-worktree landing + refresh, the canonical end-to-end) | [`references/multi-repo-coordination.md`](/recipes/internals/git-workflow/multi-repo-coordination/) |
 | B5 (the fresh evaluator + fork/PR path, the two-gate autonomous-landing model), CalVer generation, post-landing cleanliness + report format, and the validation-FAILS recovery sequence | [`references/validator-and-calver.md`](/recipes/internals/git-workflow/validator-and-calver/) |
 | Evidence discipline — provenance vs plausibility of a pasted gate, the three freshness surfaces (head / body / pasted output), positive-vs-negative claim decay, sweeping for claims a fix invalidated, the merged-tree gate for a `BEHIND` PR, source-and-regeneration as one cross-repo cutover, submodule pointers reverted by a non-conflicting merge, and why status-absence on a known head proves nothing | [`references/evidence-and-freshness.md`](/recipes/internals/git-workflow/evidence-and-freshness/) |
-| Umbrella mechanics — the ~400-submodule view, policy B, `task sync`/`verify`/`hooks`/`harness`, the no-edit-in-submodule rule, pin discipline | [`references/umbrella-mechanics.md`](/recipes/internals/git-workflow/umbrella-mechanics/) |
+| Umbrella mechanics — the ~400-submodule view, policy B, `charly task sync`/`verify`/`hooks`/`harness`, the no-edit-in-submodule rule, pin discipline | [`references/umbrella-mechanics.md`](/recipes/internals/git-workflow/umbrella-mechanics/) |
 | PR-state observation — the terminal-state poll | `marketplace/scripts/pr_state_watch.sh` (run it; it is the sanctioned poll) |
 
 ## The PR-state watcher (STOP on terminal, never loop)

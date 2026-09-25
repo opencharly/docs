@@ -19,11 +19,11 @@ Requires Go 1.26+ and [go-task](https://taskfile.dev).
 ```bash
 git clone --recurse-submodules https://github.com/opencharly/charly.git
 cd charly
-task build:binary              # builds ./bin/charly (CalVer-stamped) — never installs to the host
-task build:install-portable    # copies it to $HOME/.local/bin/charly
+scripts/bootstrap-charly.sh              # builds ./bin/charly (CalVer-stamped) — never installs to the host
+scripts/bootstrap-charly.sh --install    # copies it to $HOME/.local/bin/charly
 ```
 
-The install step is always yours to run: `build:binary` never installs anything, and
+The install step is always yours to run: the bootstrap build never installs anything, and
 `install-portable` writes only into your own `$HOME`. Nothing here touches a system directory or
 needs `sudo`.
 
@@ -75,17 +75,17 @@ The same checkout above is the development checkout. Build and run the binary fr
 rather than installing it:
 
 ```bash
-task build:binary        # builds ./bin/charly (CalVer-stamped) — never installs to the host
+scripts/bootstrap-charly.sh   # builds ./bin/charly (CalVer-stamped) — never installs to the host
 ./bin/charly box build   # build everything
 ```
 
 Every invocation against this checkout uses `./bin/charly`. There is no system-wide dev install,
 and that is the point: work from several checkouts or worktrees and each gets its own
-`task build:binary` and its own `./bin/charly`, with nothing shared between them.
+`scripts/bootstrap-charly.sh` build and its own `./bin/charly`, with nothing shared between them.
 
 :::caution[Use the binary you just built]
 A stale `bin/charly` is the classic way to waste an afternoon — it can fail in confusing ways
-that look like real bugs. If anything behaves strangely, re-run `task build:binary` and check
+that look like real bugs. If anything behaves strangely, re-run `scripts/bootstrap-charly.sh` and check
 `charly version` against your checkout before investigating further.
 :::
 

@@ -7,13 +7,13 @@ description: "The dsh command word, served by 3 plugin candies: plugin-dsh and p
 
 | | |
 |---|---|
-| **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github-com-opencharly-plugin-dsh-v2026-237-1419/plugin-dsh/) |
-| **plugin-dsh — Placement** | compiled-in (in-process) |
-| **plugin-dsh — Version** | `2026.226.1600` |
 | **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github-com-opencharly-plugin-dsh-v2026-239-1623/plugin-dsh/) |
 | **plugin-dsh — Placement** | compiled-in (in-process) |
 | **plugin-dsh — Version** | `2026.226.1600` |
 | **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github-com-opencharly-plugin-dsh-v2026-242-0528/plugin-dsh/) |
+| **plugin-dsh — Placement** | compiled-in (in-process) |
+| **plugin-dsh — Version** | `2026.226.1600` |
+| **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github-com-opencharly-plugin-dsh-v2026-266-2321/plugin-dsh/) |
 | **plugin-dsh — Placement** | compiled-in (in-process) |
 | **plugin-dsh — Version** | `2026.226.1600` |
 
@@ -68,6 +68,7 @@ counterpart, authored as a `check:` step (`dsh: version`,
 `web-running`, `profile-list`, `plugin-list`): it runs dsh commands
 INSIDE the venue via cc.Exec().RunCapture — the one place plugin-dsh
 diverges from plugin-agentteams' host-based cc.ResolveEndpoint (the
-loopback-bound web UI is probed in-box on 127.0.0.1:3080).
+loopback-bound, token-authenticated web UI is probed in-box on
+127.0.0.1:3080 with the launch token from $DSH_HOME/web-token).
 
 `charly --help` prints the command tree, including where each `dsh` is invoked and under which parent.

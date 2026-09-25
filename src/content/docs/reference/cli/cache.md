@@ -7,7 +7,7 @@ description: "The cache command word, served by the plugin-cache plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-cache](/reference/plugin/github-com-opencharly-plugin-cache-v2026-248-0730/plugin-cache/) |
+| **Served by** | [plugin-cache](/reference/plugin/github-com-opencharly-plugin-cache-v2026-266-1435/plugin-cache/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.248.0001` |
 
@@ -27,5 +27,12 @@ the plugin owns the whole operator surface; core keeps only the mechanism
 plugin-example-external; the command class is external-capable: charly
 prescans `cache` into the CLI grammar and dispatches it in-proc (compiled-in)
 or fork/execs this binary (external).
+
+The OCI-transport surface (`charly cache push <name> <ref>` / `pull`) moves
+a named spec/cache.ArtifactStore (an OCI Image Layout) to and from a
+registry, reaching candy/plugin-oci's verb:oci cache-push/cache-pull over
+the F10 peer-dispatch leg — the go-containerregistry transport stays
+single-homed in plugin-oci, never linked here. Needs the compiled-in
+placement (the reverse channel).
 
 `charly --help` prints the command tree, including where `cache` is invoked and under which parent.
