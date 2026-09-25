@@ -7,12 +7,12 @@ description: "The clean command word, served by 2 plugin candies: plugin-clean a
 
 | | |
 |---|---|
-| **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-237-1417/plugin-clean/) |
-| **plugin-clean — Placement** | compiled-in (in-process) |
-| **plugin-clean — Version** | `2026.202.1400` |
 | **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-242-0526/plugin-clean/) |
 | **plugin-clean — Placement** | compiled-in (in-process) |
 | **plugin-clean — Version** | `2026.202.1400` |
+| **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-266-2221/plugin-clean/) |
+| **plugin-clean — Placement** | compiled-in (in-process) |
+| **plugin-clean — Version** | `2026.255.0054` |
 
 `clean` is a command word served by 2 plugin candies — `plugin-clean` and `plugin-clean` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 
@@ -94,7 +94,7 @@ retention-defaults end-to-end for both the charly-labeled and the store-wide swe
 
 COMPILED-IN charly COMMAND-class plugin that OWNS the externalized `charly clean`
 CLI — the build-artifact retention/prune surface. The plugin owns the command end to
-end: the flag grammar (--dry-run / --images / --check / --deep / --keep / --invalidate),
+end: the flag grammar (--dry-run / --images / --check / --deep / --cache / --keep / --invalidate),
 the category orchestration, and the report output. No plugin-specific command LOGIC is
 left in core.
 
@@ -120,6 +120,18 @@ GB → 128 GB), because most of those bytes were layers SHARED with the ~3,400 r
 (largely stale-tagged) images — removal only frees layers an image held UNIQUELY. Pair
 `--deep` with `--invalidate` (which removes stale TAGS, freeing their exclusively-held
 layers too) to get closer to the reported figure.
+
+A live-build-guarded sweep DECLINES; it is not an error, and it no longer looks like
+an empty store. While any build is in flight (a held lock under ~/.cache/charly/
+locks/builds) the dangling-image sweeps (`dangling` for the charly-labeled default,
+`deep` for the store-wide purge) and the buildah staging sweep remove NOTHING — and
+the CLI now prints `<label>: SKIPPED — N build(s) in flight; <cause> (re-run when
+builds are idle)` IN PLACE OF the removed count. Previously a declined sweep and a
+genuinely empty store printed the identical `removed 0 untagged image(s)` line, so a
+host with tens of GB of removable dangling images looked like a blind tool — which is
+how an operator ends up at raw `podman rmi -f`, deleting the build-layer cache that
+makes the next build ~8x faster. The `staging` line now also prints unconditionally,
+so its absence can no longer mean two different things.
 
 This plugin OWNS the SHARED retention ENGINE too (retention.go:
 pruneImagesByRetention / pruneCheckRuns / pruneBuildCandyDirs / invalidateImageTags /
@@ -158,10 +170,11 @@ Invoke(OpRun) with the threaded in-proc reverse channel); verb:retention is invo
 directly by core adapters / peer plugins with no authored plugin_input, mirroring
 verb:credential. NewMeta advertises both while the served CUE schema carries no
 plugin_input (verb:retention's params are the internal spec.RetentionRequest RPC, never
-an authored plan step; command:clean's args are plain CLI tokens). The R10 witness is
-the disposable check-commands-local bed: `charly clean --dry-run` AND `charly clean
---deep --dry-run` both exit 0 and print their would-remove reports, proving the
-externalized command + the local retention engine + the loader-resolved
-retention-defaults end-to-end for both the charly-labeled and the store-wide sweep.
+an authored plan step; command:clean's args are plain CLI tokens). The full
+`charly clean` end-to-end — including the `--cache` category's CAS ArtifactStore
+GC — is exercised by this candy's own Go tests (`TestGCCacheStores` /
+`TestPrintRetentionResult_CacheCategory`) and by a live `charly clean --cache`
+run against real stores; the `--dry-run` / `--deep` sweeps are additionally
+witnessed by the charly superproject's `check-commands-local` bed.
 
 `charly --help` prints the command tree, including where each `clean` is invoked and under which parent.

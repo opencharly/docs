@@ -18,5 +18,5 @@ This box composes:
 - `@github.com/opencharly/layer-crabbox:v2026.250.1023`
 - `@github.com/opencharly/plugin-crabbox/candy/plugin-crabbox:v2026.250.1019`
 - `@github.com/opencharly/pod-crabbox:v2026.250.1019`
-- `@github.com/opencharly/layer-container-nesting:v2026.239.1647`
+- `@github.com/opencharly/layer-container-nesting:v2026.247.0157`
 - `crabbox-nesting-dns`
