@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-335 cards across 38 plugins, in four groups.
+337 cards across 38 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -282,6 +282,7 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [fedora-test](/recipes/distros/fedora-test/)
 - [github-runner](/recipes/distros/github-runner/)
 - [githubrunner](/recipes/distros/githubrunner/)
+- [layer-nerdctl](/recipes/distros/layer-nerdctl/)
 - [nested-podman-socket](/recipes/distros/nested-podman-socket/)
 - [nvidia](/recipes/distros/nvidia/)
 - [nvidia-layer](/recipes/distros/nvidia-layer/)
@@ -539,6 +540,7 @@ Development internals for charly contributors — Go source map, install-plan IR
 - [marketplace](/recipes/internals/marketplace/)
 - [ovmf](/recipes/internals/ovmf/)
 - [plugin](/recipes/internals/plugin/)
+- [plugin-nerdctl](/recipes/internals/plugin-nerdctl/)
 - [root-cause-analyzer](/recipes/internals/root-cause-analyzer/)
 - [skills](/recipes/internals/skills/)
 - [strict-policy](/recipes/internals/strict-policy/)
