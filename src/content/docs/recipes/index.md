@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-338 cards across 38 plugins, in four groups.
+340 cards across 38 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -93,6 +93,7 @@ Live-container evaluation and probe verbs — `charly check` orchestrator + per-
 - [check](/recipes/check/check/)
 - [check-sway-browser-vnc](/recipes/check/check-sway-browser-vnc/)
 - [crabbox](/recipes/check/crabbox/)
+- [cua](/recipes/check/cua/)
 - [dbus](/recipes/check/dbus/)
 - [jetkvm](/recipes/check/jetkvm/)
 - [libvirt](/recipes/check/libvirt/)
@@ -542,6 +543,7 @@ Development internals for charly contributors — Go source map, install-plan IR
 - [ovmf](/recipes/internals/ovmf/)
 - [plugin](/recipes/internals/plugin/)
 - [plugin-nerdctl](/recipes/internals/plugin-nerdctl/)
+- [repo-setup](/recipes/internals/repo-setup/)
 - [root-cause-analyzer](/recipes/internals/root-cause-analyzer/)
 - [skills](/recipes/internals/skills/)
 - [strict-policy](/recipes/internals/strict-policy/)
