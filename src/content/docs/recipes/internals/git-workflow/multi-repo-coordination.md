@@ -122,6 +122,81 @@ bin/charly | grep '<a string unique to the fix>'` (a new error message, flag nam
 symbol). The stamp answers "which commit"; the `strings` marker answers "is my change
 actually in this binary".
 
+## B2b — cross-session coordination: the PR comment is the channel
+
+Sessions are independent and OWN their artifacts (umbrella rule 9): a branch,
+worktree, file, or PR you did not create is another session's, and you never
+edit, revert, reformat, stage, or commit it — not even to "clean up" or unblock
+yourself.
+
+**When another session's PR blocks you** (a projection lands before the source
+that pins it; a consumer pin needs the producer merged; a shared file is
+mid-flight on their branch), the ONE sanctioned channel is a **PR comment on the
+PR that owns the blocking file** (or a new issue naming it). The comment must be
+actionable: name your session slug, the exact file/gitlink/pin you need, what
+change unblocks you, and the evidence. Then STOP; if it stays blocked, ask the
+operator. Never work around it (R4), never edit their artifact, never
+force-land, and never `-D`/reset their branch.
+
+**A fresh `pr-validator` runs comment intake**: every comment on the PR is
+investigated independently and weighed in the verdict (see
+`marketplace/internals/agents/pr-validator.md` "Comment intake"). So a
+coordination comment is not noise — it is the durable record the next reviewer
+reads. Reply on the same thread; do not open a duplicate PR for scope already in
+flight (the universal PR-gate audit).
+
+**Search first; file and OWN an issue.** Before starting any non-trivial work
+— and before filing anything — search the whole org for an EXISTING issue or PR
+covering it (`gh search issues <terms>`, `gh search prs <terms>`,
+`gh issue list -S <terms>`) and ADD to that thread (a comment with your
+evidence/plan) rather than creating a duplicate. If none exists, create ONE
+proper issue (a specific title, the problem, the evidence, the intended scope)
+and reference it from every PR (`Closes #N` / `relates to #N`). Never open a
+duplicate issue or PR.
+
+**The issue is the coordination point — claim it before you branch.** To stop
+two sessions working the same issue at once: check the issue for an owner
+(assignee, a claim comment, a status label); CLAIM it by commenting (and
+assigning yourself) BEFORE you create a branch, and state what slice you are
+taking. If another session owns it, coordinate on the thread — offer to take a
+slice, ask for status, or hand off — instead of opening a competing PR. Use
+issue comments for every cross-session move (claim, block, hand-off, duplicate,
+supersede); they are the durable record the next agent reads. **Replacing a thread?** When
+you replace a PR or an issue with a new one, comment on the OLD one referencing
+the new one (see "Replacing a PR or an ISSUE" in [`references/validator-and-calver.md`](/recipes/internals/git-workflow/validator-and-calver/)).
+
+**Close the issue when its PR merges.** A PR that resolves an issue references it
+(`Closes #N` / `relates to #N`), and the author (or an agent) MUST ensure the issue
+is CLOSED once the resolving PR merges — never leave a resolved issue open. If the
+merge did not auto-close it (no `Closes` keyword, a squash that dropped it, or a
+manual merge), close it explicitly and comment the resolving PR/commit. An issue
+with no merged resolving PR is not resolved; do not close it as done.
+
+**Before EVERY push, read the NEW comments on the PR AND on every related
+issue.** The pre-update-push read covers issues too: check the PR's comments +
+checks AND the latest comments/state of each issue the PR closes or relates to,
+and ACT on each (answer, claim, hand off, or satisfy it in the pushed state).
+An unread issue reply can mean another session has claimed or changed the work
+since you branched.
+
+**The commenting session MUST follow up.** A coordination comment is not
+fire-and-forget: after posting it, the blocked session re-checks that PR's thread
+for a reply at every natural step — before its own next push/commit, when it
+resumes, and at a BOUNDED cadence (a bounded poll, never a `sleep` loop — R4). When
+the owning session answers, react accordingly: proceed if unblocked, refine or
+answer if clarification is asked, or escalate to the operator if it stays blocked.
+A one-shot comment with no follow-up leaves the block unresolved and the record
+one-sided.
+
+**The PR-owning session MUST read AND act on every comment/reply before its next
+push.** The pre-update-push read (the "BEFORE ANY UPDATE PUSH" invariant) requires
+reading the thread; it equally requires ACTING on it — each comment, including a
+blocked session's reply, is answered in-thread or addressed in the pushed state.
+Pushing while an unanswered comment stands is a violation: the fresh `pr-validator`
+weighs the whole thread (comment intake), so an unaddressed comment is a real
+finding, not noise. The loop is: blocked session comments → owning session
+answers/acts → blocked session re-checks and reacts.
+
 ## B3 — agent teams in per-teammate worktrees
 
 When an agent team parallelizes work, **each teammate works in its OWN worktree**
