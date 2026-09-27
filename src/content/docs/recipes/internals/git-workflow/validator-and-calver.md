@@ -215,14 +215,14 @@ chronologically under a plain alphanumeric sort.
   bypass actor for the single CHANGELOG path); then tag the merged HEAD —
   `git tag -a v$VER -m "<subject>" <merged-HEAD>` and
   `git push origin refs/tags/v$VER` (every repo;
-  `sdk` substitutes its Go-module `v0.<…>` form). A schema cutover's
+  `sdk`, `spec`, and `plugin-gh` substitute their Go-module `v0.<…>` form). A schema cutover's
   `#SchemaVersion` + `version:` + `migrations.cue` re-stamp stays strictly above
   the current HEAD.
 
 One fresh stamp per merge, immutable (only ever added), independent of `charly.yml`
 `version:` (the schema version, bumped only by a cutover raising `#SchemaVersion`).
 Every repo (superproject, `box/<distro>`, `plugins`, `docs`) mints `v$VER` on its
-merged HEAD; `sdk` alone uses its Go-module `v0.<YYYYDDD>.<HHMM
+merged HEAD; `sdk`, `spec`, and `plugin-gh` (the proxy-consumed root-module repos) use their Go-module `v0.<YYYYDDD>.<HHMM
 leading-zeros-stripped>` scheme (not an exemption — Go modules require semver, which
 forbids a leading-zero segment — `0733`→`733`). A YAML schema/format change does
 both: the schema bump and the tag. See [`/charly-build:migrate`](/recipes/build/migrate/).
@@ -306,13 +306,30 @@ A FAIL is a return-to-implementation signal, not a stopping point:
    regression in waiting.
 4. The PR merges only when validation passes end-to-end on the final code.
 
-**If the BLOCK is body-only (no code change), the push is an EMPTY commit**
-(`git commit --allow-empty -m "docs: re-freeze the PR body against the final head"`)
-— and it DOES re-trigger the run: the org required workflow declares
-`on: pull_request: types: [opened, synchronize, …]` with no `paths:`/diff guard.
-Proven on opencharly/plugin-pipeline#28 (`be3ab30e6` is tree-identical to its
-parent and fired an `ev=pull_request` run). The body must ALREADY be final
-before that push — see the SKILL's "THE BODY-BEFORE-PUSH RULE".
+### Replacing a PR or an ISSUE — always comment on the OLD one
+
+Whenever you REPLACE a PR or an issue with a new one — an auto-closed PR picked up
+again (the gate auto-closes after N consecutive BLOCK rounds, or the operator
+closes it), a re-scoped or split issue, a superseded or re-filed issue/PR — you
+MUST post a comment on the OLD one that **references the new one** (its
+number/URL) and states what it supersedes. The old thread is a durable, public
+record: another agent (or the next `pr-validator` running comment intake) arriving
+at it must be able to follow the thread to where the work continued, and issue
+comments are the coordination channel (B2b). Never silently abandon a closed or
+replaced PR/issue; the reference comment is mandatory, not optional. (A closed PR
+whose diff never landed also has no tag/CHANGELOG; the new PR is the landing
+vehicle.)
+
+**If the BLOCK is body-only (no code change), fix the body then PREFER the
+`rerun` LABEL** — the org ships a plain per-repo `rerun-listener` (distributed
+by `opencharly/.github`'s `distribute-rerun-listener`) that re-runs THIS head's
+failed `charly/pr-validator` run on the same `GITHUB_SHA`, updating the SAME
+`validate / validate` check run IN PLACE (no duplicate, clears POISON) and
+re-reading the corrected body; the manual equivalent is `gh run rerun <run-id>`
+on the failed run. An empty re-freeze commit ALSO re-fires the gate (a
+`synchronize` push) but mints a NEW head SHA. (A body edit alone does NOT re-run
+the REQUIRED workflow — MEASURED: it ignores `on.types`; do not rely on
+`edited`.) See the SKILL's "THE BODY-BEFORE-PUSH RULE".
 
 ## The POISON state — a duplicate same-name check-run keeps a PASS PR BLOCKED
 
@@ -334,25 +351,29 @@ run is the failure; POISON's newest is SUCCESS with an older failure beneath.
 Use `marketplace/scripts/pr_state_watch.sh`, which classifies exactly this and
 names the shape in its output.
 
-**Remedies, in order:**
+**Remedy — the capability-free `gh run rerun`.** Re-run the FAILED run in place:
+`gh run rerun <run-id>` (find it via `gh run list --repo <r> --json
+databaseId,headSha,attempt`). A workflow re-run reuses the SAME `GITHUB_SHA`/ref
+and updates THAT run's check run — it does NOT append a second same-name
+check-run, so it clears the POISON without a new SHA or an empty commit
+(GitHub "Re-running workflows and jobs"; MEASURED on opencharly/sdk#301: the head
+carried exactly ONE `validate / validate` check run before and after the
+re-run). Do NOT `gh workflow run` re-dispatch on the same head — that mints a
+NEW run (a NEW duplicate check-run) and re-poisons.
 
-1. **Push a NEW commit** — a real fix, or the empty re-freeze commit above. A
-   fresh SHA starts a clean check set (this is the reliable path).
-2. The class is otherwise **already fixed org-wide**: the per-PR concurrency
-   dedupe lives in the ONE org required workflow
-   (`opencharly/.github/.github/workflows/org-wide-pr-validator-required.yml`),
-   so a re-dispatch/push cancels the in-flight run instead of stacking a second
-   check-run:
-   ```yaml
-   concurrency:
-     group: pr-validator-${{ github.repository }}-${{ github.event.pull_request.number }}
-     cancel-in-progress: true
-   permissions:
-     actions: write   # REQUIRED for cancel-in-progress to work
-   ```
-   That workflow is the SOLE producer of the required check (no per-repo
-   dispatcher exists since the org-ruleset cutover), so every repo inherits
-   the dedupe by construction.
+**The push dedupe (orthogonal).** A re-dispatch/push cancels the in-flight run via
+the ONE org required workflow's per-PR concurrency group
+(`opencharly/.github/.github/workflows/org-wide-pr-validator-required.yml`):
+```yaml
+concurrency:
+  group: pr-validator-${{ github.repository }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+permissions:
+  actions: write   # REQUIRED for cancel-in-progress to work
+```
+That workflow is the SOLE producer of the required check (no per-repo
+dispatcher exists since the org-ruleset cutover), so every repo inherits
+the dedupe by construction.
 
 **Never** re-dispatch the same head "to see if it clears" (it cannot), and never
 treat POISON as a verdict BLOCK by rewriting a correct body to appease a check
