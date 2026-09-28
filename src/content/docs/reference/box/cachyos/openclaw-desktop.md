@@ -18,8 +18,9 @@ This box composes:
 - `@github.com/opencharly/pod-selkies-desktop:v2026.247.1642`
 - `@github.com/opencharly/layer-openclaw-full:v2026.247.0718`
 - `@github.com/opencharly/pod-ollama:v2026.243.0411`
-- `@github.com/opencharly/layer-charly:v2026.243.0408`
+- `@github.com/opencharly/layer-charly:v2026.269.2324`
 - `@github.com/opencharly/layer-container-nesting:v2026.247.0157`
 - `@github.com/opencharly/layer-golang:v2026.239.1614`
 - `@github.com/opencharly/layer-gh:v2026.239.1624`
 - `@github.com/opencharly/pod-dbus:v2026.243.1831`
+- `tmp-sticky`

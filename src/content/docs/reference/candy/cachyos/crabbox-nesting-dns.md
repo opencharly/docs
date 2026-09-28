@@ -42,6 +42,5 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 | `run` | ensure the box user's crabbox cache root exists and is user-owned (the build runs as root, so the dirs land root-owned and the lease bootstrap then EPERMs — RCA 2026.247.1416) |
 | `run` | prepare the host-backed storage root for the box user |
 | `run` | override the user storage graphroot to the host-backed volume — the recipe's ~/.local/share sits on the box's fuse rootfs, so nested fuse-overlayfs dir-create EPERMs (RCA matrix 2026-09-04; a volume-backed upper is single-fuse and supports mkdir) |
-| `run` | restore /tmp to world-writable sticky — a build-time step left it 755 root and supervisord's /tmp/supervisord.log then EACCES at uid-1000 (RCA 2026.247.1406) |
 | `run` | create the system drop-in dir |
 | `check` | the nested-podman DNS drop-in is present in the image |

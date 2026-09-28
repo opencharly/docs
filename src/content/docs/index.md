@@ -122,7 +122,6 @@ The first lines of its output:
 agentteams [testing]
 agentteams-manager [testing]
 agentteams-worker [testing]
-alpine-repo-box [testing]
 arch.arch [testing]
 …
 ```
@@ -408,9 +407,8 @@ rather than compiled into the binary — so point charly at a project that suppl
 charly --repo opencharly/plugin-mcp mcp serve
 ```
 
-[AGENTS.md](https://github.com/opencharly/charly/blob/main/AGENTS.md) is the complete, harness-neutral rulebook; `CLAUDE.md` is one adapter of
-it, not a separate source of truth. Supporting a new harness means adding an adapter, never
-porting the project.
+[AGENTS.md](https://github.com/opencharly/charly/blob/main/AGENTS.md) is the complete, harness-neutral rulebook — the single source of truth.
+Every harness reads it directly, so there is no second copy to keep in sync.
 
 [opencharly/marketplace](https://github.com/opencharly/marketplace) ships one **skill** — a
 packaged instruction set an agent loads — for every candy, box, command and contributor

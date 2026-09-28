@@ -10,7 +10,7 @@ description: "Detail page of the plugin recipe card."
 ## The per-plugin CUE schema — the single source, two consumers
 
 **Every plugin ships its OWN `.cue` schema, and it is the SINGLE SOURCE for that
-plugin's params.** This is the project rulebook "Schema Driven Design (SDD)" pillar (`AGENTS.md` / `CLAUDE.md`) applied per-plugin: the schema
+plugin's params.** This is the project rulebook "Schema Driven Design (SDD)" pillar (`AGENTS.md`) applied per-plugin: the schema
 comes BEFORE the plugin's code, and both consumers below are derived from that one source (the
 cross-generator pipeline map + the generation-coverage current state live in [`/charly-internals:go`](/recipes/internals/go/)
 "Schema Driven Design (SDD)"). There is NO input-less exemption: a plugin whose capability declares no

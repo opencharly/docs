@@ -7,7 +7,7 @@ description: "The cache command word, served by the plugin-cache plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-cache](/reference/plugin/github-com-opencharly-plugin-cache-v2026-266-1435/plugin-cache/) |
+| **Served by** | [plugin-cache](/reference/plugin/github-com-opencharly-plugin-cache-v2026-270-1314/plugin-cache/) |
 | **Placement** | compiled-in (in-process) |
 | **Version** | `2026.248.0001` |
 
