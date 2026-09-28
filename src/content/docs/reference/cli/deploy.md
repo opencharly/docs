@@ -10,7 +10,7 @@ description: "The deploy command word, served by 2 plugin candies: plugin-fleet 
 | **plugin-fleet — Served by** | [plugin-fleet](/reference/plugin/github-com-opencharly-plugin-fleet-v2026-250-0829/plugin-fleet/) |
 | **plugin-fleet — Placement** | compiled-in (in-process) |
 | **plugin-fleet — Version** | `2026.193.1200` |
-| **plugin-fleet — Served by** | [plugin-fleet](/reference/plugin/github-com-opencharly-plugin-fleet-v2026-266-1111/plugin-fleet/) |
+| **plugin-fleet — Served by** | [plugin-fleet](/reference/plugin/github-com-opencharly-plugin-fleet-v2026-270-1319/plugin-fleet/) |
 | **plugin-fleet — Placement** | compiled-in (in-process) |
 | **plugin-fleet — Version** | `2026.193.1200` |
 

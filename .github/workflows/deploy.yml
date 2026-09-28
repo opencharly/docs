@@ -6,7 +6,7 @@
 # consumer fetch trees and was removed), and this workflow
 #
 #   1. clones the pinned charly (recursive, with its box/* submodules) into /tmp/charly
-#      at CI time and checks out the pinned commit d507ca5a, plus the pinned
+#      at CI time and checks out the pinned commit adf1b970, plus the pinned
 #      marketplace submodule (the corpus the skill pages project from),
 #   2. builds the charly binary from that checkout,
 #   3. regenerates the generated half of the content tree with `charly docs generate`
@@ -62,7 +62,7 @@ jobs:
           # submodules: --recursive at clone time pulls each box at its default-branch HEAD,
           # but the committed docs content was generated against the box commits the pinned
           # charly checkout records — checkout-then-init pins them exactly.
-          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout 5d0b66e75316f4d06057f2561bb0a8315929f910 && git -C /tmp/charly submodule update --init --recursive
+          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout adf1b9704a97501ac86a14af74e2e16bdc47e14f && git -C /tmp/charly submodule update --init --recursive
 
       - uses: actions/setup-node@v7
         with:
