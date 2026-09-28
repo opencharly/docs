@@ -7,7 +7,7 @@ description: "The review command word, served by the plugin-review plugin candy.
 
 | | |
 |---|---|
-| **Served by** | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-271-0500/plugin-review/) |
+| **Served by** | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-271-0909/plugin-review/) |
 | **Placement** | runtime (out-of-process over gRPC) |
 | **Version** | `2026.263.2100` |
 
@@ -17,7 +17,8 @@ description: "The review command word, served by the plugin-review plugin candy.
 
 The OpenCharly PR-review engine (`command:review`): it assembles the
 COMPLETE PR context (the body, EVERY changed file's full unified diff,
-the commits, EVERY comment) into ONE message and makes ONE model call —
+the commits, and the comment thread — newest comments whole, with any
+oversize thread summarised) into ONE message and makes ONE model call —
 no tool loop, no plan executor, no runtime prompt file. The prompt is
 EMBEDDED (prompt.md); every model-behaviour knob is an AI_REVIEW_* env
 var declared below and consumed by config.go (FromEnv), so an operator
