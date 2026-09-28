@@ -128,7 +128,7 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | `remove` | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-266-1109/plugin-pod/) |
 | `restart` | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-242-0531/plugin-pod/) |
 | `restart` | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-266-1109/plugin-pod/) |
-| `review` | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-271-0500/plugin-review/) |
+| `review` | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-271-0909/plugin-review/) |
 | `rm-candy` | [plugin-authoring](/reference/plugin/github-com-opencharly-plugin-authoring-v2026-237-1414/plugin-authoring/) |
 | `rm-candy` | [plugin-authoring](/reference/plugin/github-com-opencharly-plugin-authoring-v2026-242-0525/plugin-authoring/) |
 | `service` | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-242-0531/plugin-pod/) |
