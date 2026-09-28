@@ -8,8 +8,8 @@ description: "The OpenCharly PR-review engine (`command:review`): it assembles t
 | | |
 |---|---|
 | **Version** | `2026.263.2100` |
-| **Repo** | `box/github.com/opencharly/plugin-review:v2026.266.2359` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-review-v2026-266-2359/plugin-review/) |
+| **Repo** | `box/github.com/opencharly/plugin-review:v2026.271.0500` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-review-v2026-271-0500/plugin-review/) |
 
 The OpenCharly PR-review engine (`command:review`): it assembles the
 COMPLETE PR context (the body, EVERY changed file's full unified diff,

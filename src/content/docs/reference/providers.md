@@ -75,7 +75,7 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | `cp` | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-266-1109/plugin-pod/) |
 | `deploy` | [plugin-fleet](/reference/plugin/github-com-opencharly-plugin-fleet-v2026-250-0829/plugin-fleet/) |
 | `deploy` | [plugin-fleet](/reference/plugin/github-com-opencharly-plugin-fleet-v2026-266-1111/plugin-fleet/) |
-| `docs` | [plugin-docs](/reference/plugin/github-com-opencharly-plugin-docs-v2026-267-0941/plugin-docs/) |
+| `docs` | [plugin-docs](/reference/plugin/github-com-opencharly-plugin-docs-v2026-270-1430/plugin-docs/) |
 | `doctor` | [plugin-doctor](/reference/plugin/github-com-opencharly-plugin-doctor-v2026-237-1419/plugin-doctor/) |
 | `doctor` | [plugin-doctor](/reference/plugin/github-com-opencharly-plugin-doctor-v2026-242-0528/plugin-doctor/) |
 | `dsh` | [plugin-dsh](/reference/plugin/github-com-opencharly-plugin-dsh-v2026-239-1623/plugin-dsh/) |
@@ -128,7 +128,7 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 | `remove` | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-266-1109/plugin-pod/) |
 | `restart` | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-242-0531/plugin-pod/) |
 | `restart` | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-266-1109/plugin-pod/) |
-| `review` | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-266-2359/plugin-review/) |
+| `review` | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-271-0500/plugin-review/) |
 | `rm-candy` | [plugin-authoring](/reference/plugin/github-com-opencharly-plugin-authoring-v2026-237-1414/plugin-authoring/) |
 | `rm-candy` | [plugin-authoring](/reference/plugin/github-com-opencharly-plugin-authoring-v2026-242-0525/plugin-authoring/) |
 | `service` | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-242-0531/plugin-pod/) |
