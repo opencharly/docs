@@ -8,9 +8,11 @@
 #   1. clones the pinned charly (recursive, with its box/* submodules) into /tmp/charly
 #      at CI time and checks out the pinned commit adf1b970, plus the pinned
 #      marketplace submodule (the corpus the skill pages project from),
-#   2. builds the charly binary from that checkout,
-#   3. regenerates the generated half of the content tree with `charly docs generate`
-#      (the runtime plugin-docs generator, built on demand from the checkout),
+#   2. builds the charly binary from that checkout and the standalone plugin-docs CLI
+#      binary at the pinned plugin tag,
+#   3. regenerates the generated half of the content tree with that plugin-docs CLI
+#      (`plugin-docs-bin generate` — the same engine the `charly docs generate` word
+#      dispatches to),
 #   4. FAILS if the committed content does not match what the pinned charly generates
 #      (the drift gate: regeneration on a clean tree is a no-op, so any diff means a
 #      docs PR must bump the charly CI-time commit and carry the regenerated pages),
@@ -91,11 +93,11 @@ jobs:
           python3 /tmp/build_wiring.py .github/docs-corpus/pins.tsv /tmp/charly/candy/docs-corpus/charly.yml
 
       - name: Regenerate the generated content from the pinned charly
-        # The project root must be the charly checkout (the runtime plugin-docs binary
-        # builds on demand from the project's candy source); --root points at it too,
-        # --plugins at the marketplace checkout (the corpus the recipe pages project
-        # from), --out at this repo's content tree. The generator's link/sidebar gates
-        # run inside this step: a dead link fails the run.
+        # --root points at the pinned charly checkout; the generation runs the standalone
+        # plugin-docs CLI binary built in the step above; --plugins at the marketplace
+        # checkout (the corpus the recipe pages project from), --out at this repo's
+        # content tree. The generator's link/sidebar gates run inside this step: a dead
+        # link fails the run.
         run: |
           cd /tmp/charly && /tmp/plugin-docs-bin generate \
             --root /tmp/charly \
