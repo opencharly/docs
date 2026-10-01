@@ -1,6 +1,6 @@
 ---
 title: Install
-description: Install the charly CLI — from source, or with the mise dev-tool manager — and put it on your $PATH.
+description: Install the charly CLI from the signed package repositories (or the release binary via mise) and put it on your $PATH.
 sidebar:
   order: 1
 ---
@@ -8,37 +8,92 @@ sidebar:
 **Install `charly` once, then use it from anywhere.** The rest of this site is written for a
 machine with `charly` installed and no charly checkout anywhere: `--repo <owner>/<repo>` reads a
 published project straight from git, and `charly box new project <dir>` starts one of your own.
-Nothing on any other page asks you to clone this repository.
+Nothing on any other page asks you to clone a repository.
 
-Two install paths: the **published release binary** via [mise](https://mise.jdx.dev) (no toolchain needed), or a **source build** with Go + go-task. Working ON charly is the section after both.
+`charly` runs on Linux, `amd64` and `arm64`. The native packages pull in their runtime
+dependencies — podman for containers, qemu/libvirt for VMs, gocryptfs for encrypted volumes.
 
-## Install
+## Install from the package repositories
 
-Requires Go 1.26+ and [go-task](https://taskfile.dev).
+Every package is signed. On `arm64`, replace `amd64` with `arm64` in the repository URLs.
 
-```bash
-git clone --recurse-submodules https://github.com/opencharly/charly.git
-cd charly
-scripts/bootstrap-charly.sh              # builds ./bin/charly (CalVer-stamped) — never installs to the host
-scripts/bootstrap-charly.sh --install    # copies it to $HOME/.local/bin/charly
+### Fedora
+
+Create `/etc/yum.repos.d/charly.repo`:
+
+```ini
+[charly]
+name=charly
+baseurl=https://opencharly.github.io/charly-fedora/amd64
+enabled=1
+gpgcheck=1
+gpgkey=https://opencharly.github.io/charly-fedora/RPM-GPG-KEY-charly
 ```
 
-The install step is always yours to run: the bootstrap build never installs anything, and
-`install-portable` writes only into your own `$HOME`. Nothing here touches a system directory or
-needs `sudo`.
+```bash
+sudo dnf install charly
+```
 
-Because it writes to `$HOME/.local/bin`, it **shadows** any other `charly` earlier on your `$PATH`
-for your user. That is fine on a single-developer machine; on a shared host it silently changes
-which binary a bare `$PATH` lookup resolves to — for another session, a script, or a deploy step.
+### Debian and Ubuntu
 
-`charly version` prints the CalVer the binary was stamped with, so you can always tell which build
-is on your `$PATH`.
+On Ubuntu, use `charly-ubuntu` in place of `charly-debian`:
 
-Its runtime dependencies are the ones the features you use need — `podman`, `fuse-overlayfs` and
-`slirp4netns` for rootless containers, `qemu-full`, `libvirt`, `edk2-ovmf` and `swtpm` for
-`charly vm`, and `gnupg`, `pinentry`, `gocryptfs` and `tailscale` for secrets, encrypted volumes and
-tunnels. Install the ones you need with your own package manager; `charly doctor` reports what is
-missing.
+```bash
+curl -fsSL https://opencharly.github.io/charly-debian/charly.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/charly.gpg
+echo "deb [signed-by=/etc/apt/keyrings/charly.gpg] https://opencharly.github.io/charly-debian/ stable main" | sudo tee /etc/apt/sources.list.d/charly.list
+sudo apt update
+sudo apt install charly
+```
+
+### Arch Linux and CachyOS
+
+```bash
+curl -fsSL -o /tmp/charly.gpg https://opencharly.github.io/charly-arch/charly.gpg
+sudo pacman-key --add /tmp/charly.gpg
+sudo pacman-key --lsign-key 978DFF11A951A830F7ADA2D4062B073E9D1BAE2E
+```
+
+Append to `/etc/pacman.conf`, then install:
+
+```ini
+[charly]
+Server = https://opencharly.github.io/charly-arch/amd64
+SigLevel = Required
+```
+
+```bash
+sudo pacman -Sy charly
+```
+
+### Alpine
+
+```bash
+sudo wget -O /etc/apk/keys/charly.rsa.pub https://opencharly.github.io/charly-alpine/charly.rsa.pub
+echo "https://opencharly.github.io/charly-alpine/amd64" | sudo tee -a /etc/apk/repositories
+sudo apk update
+sudo apk add charly
+```
+
+### Variants
+
+Each repository carries three packages:
+
+| Package | What it bakes in |
+|---|---|
+| `charly` | the everyday set: secrets, feature, vm, doctor, clean, settings, candy, mcp, review, pipeline |
+| `charly-full` | the everyday set plus GPU udev rules and the preemption arbiter |
+| `charly-minimal` | doctor, clean, settings |
+
+There is also an [OpenWrt feed](https://github.com/opencharly/charly-openwrt) — the binary installs
+and runs there, but OpenWrt carries no podman or libvirt — and a build for the
+[JetKVM appliance](https://github.com/opencharly/charly-jetkvm).
+
+### Check the install
+
+```bash
+charly version   # the CalVer the binary was stamped with
+charly doctor    # what is installed, what is missing, which GPU charly sees
+```
 
 ## Install with mise
 
@@ -60,7 +115,7 @@ mise x -- charly version  # without the shim on PATH
 ```
 
 The binary is the same CalVer-stamped release build the package repos ship — `charly version`
-tells you which one. Runtime dependencies are the ones the features you use need; `charly doctor`
+tells you which one. A release binary brings no runtime dependencies with it; `charly doctor`
 reports what is missing.
 
 :::note[Why `github:opencharly/charly`?]
@@ -69,24 +124,28 @@ modern replacement for the deprecated `ubi:` backend. The full backend spec is w
 bare `charly` shorthand is not registered in mise's tool registry.
 :::
 
-## Development checkout (working ON charly)
+## Developing charly
 
-The same checkout above is the development checkout. Build and run the binary from the worktree
-rather than installing it:
+All development on charly itself happens in the umbrella repository,
+[opencharly/opencharly](https://github.com/opencharly/opencharly) — one clone of the whole org,
+with charly, the plugins, the distros and this site pinned as submodules:
 
 ```bash
-scripts/bootstrap-charly.sh   # builds ./bin/charly (CalVer-stamped) — never installs to the host
-./bin/charly box build   # build everything
+git clone --recurse-submodules https://github.com/opencharly/opencharly.git
+cd opencharly
+./charly/scripts/bootstrap-charly.sh   # builds ./charly/bin/charly (CalVer-stamped) — never installs it
 ```
 
-Every invocation against this checkout uses `./bin/charly`. There is no system-wide dev install,
-and that is the point: work from several checkouts or worktrees and each gets its own
-`scripts/bootstrap-charly.sh` build and its own `./bin/charly`, with nothing shared between them.
+Never edit a submodule in place. Each session works in its own git worktree under
+`.worktrees/<slug>/<repo>/`, branched off `origin/main`, builds its own binary there, and lands
+every change by pull request. The umbrella's
+[AGENTS.md](https://github.com/opencharly/opencharly/blob/main/AGENTS.md) has the full development
+model.
 
 :::caution[Use the binary you just built]
 A stale `bin/charly` is the classic way to waste an afternoon — it can fail in confusing ways
-that look like real bugs. If anything behaves strangely, re-run `scripts/bootstrap-charly.sh` and check
-`charly version` against your checkout before investigating further.
+that look like real bugs. If anything behaves strangely, re-run `scripts/bootstrap-charly.sh` in
+your worktree and check `charly version` against it before investigating further.
 :::
 
 To start your own project, create a `charly.yml` and a `candy/` directory in any directory.
