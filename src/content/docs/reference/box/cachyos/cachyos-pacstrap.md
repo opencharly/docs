@@ -6,6 +6,5 @@ title: "cachyos-pacstrap"
 
 | | |
 |---|---|
-| **Version** | `2026.144.1443` |
 | **Repo** | `box/cachyos` |
 | **Builder** | `builder:pacstrap` |

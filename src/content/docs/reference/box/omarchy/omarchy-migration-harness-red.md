@@ -7,7 +7,6 @@ description: "The S5 known-red image: the migration harness with a deliberately 
 
 | | |
 |---|---|
-| **Version** | `2026.243.0000` |
 | **Repo** | `box/omarchy` |
 | **Base** | `omarchy-migration-harness` |
 

@@ -7,7 +7,6 @@ description: "The check-charly-mise image: the REAL omarchy box plus the charly-
 
 | | |
 |---|---|
-| **Version** | `2026.242.0000` |
 | **Repo** | `box/omarchy` |
 | **Base** | `omarchy` |
 

@@ -7,7 +7,6 @@ description: "The S2 known-red image: the suite-base image with UPSTREAM MAIN's 
 
 | | |
 |---|---|
-| **Version** | `2026.243.0000` |
 | **Repo** | `box/omarchy` |
 | **Base** | `omarchy-suite-base` |
 

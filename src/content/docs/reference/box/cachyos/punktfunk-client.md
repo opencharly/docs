@@ -7,7 +7,6 @@ description: "The punktfunk streaming CLIENT on the CachyOS base — punktfunk-c
 
 | | |
 |---|---|
-| **Version** | `2026.241.1845` |
 | **Repo** | `box/cachyos` |
 | **Base** | `cachyos` |
 

@@ -7,7 +7,6 @@ description: "The Tier-1 evaluation image: the proven omarchy base plus the char
 
 | | |
 |---|---|
-| **Version** | `2026.243.0000` |
 | **Repo** | `box/omarchy` |
 | **Base** | `omarchy` |
 

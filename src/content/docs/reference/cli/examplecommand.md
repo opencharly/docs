@@ -13,9 +13,8 @@ description: "The examplecommand command word, served by 3 plugin candies: plugi
 | **plugin-example-command — Served by** | [plugin-example-command](/reference/plugin/github-com-opencharly-plugin-example-command-v2026-242-0531/plugin-example-command/) |
 | **plugin-example-command — Placement** | compiled-in (in-process) |
 | **plugin-example-command — Version** | `2026.175.0900` |
-| **plugin-example-command — Served by** | [plugin-example-command](/reference/plugin/github-com-opencharly-plugin-example-command-v2026-270-1758/plugin-example-command/) |
+| **plugin-example-command — Served by** | [plugin-example-command](/reference/plugin/github-com-opencharly-plugin-example-command-v2026-272-0057/plugin-example-command/) |
 | **plugin-example-command — Placement** | compiled-in (in-process) |
-| **plugin-example-command — Version** | `2026.175.0900` |
 
 `examplecommand` is a command word served by 3 plugin candies — `plugin-example-command` and `plugin-example-command` and `plugin-example-command` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 

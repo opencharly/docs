@@ -7,7 +7,6 @@ description: "The punktfunk streaming host on the CachyOS base, with a headless 
 
 | | |
 |---|---|
-| **Version** | `2026.241.2030` |
 | **Repo** | `box/cachyos` |
 | **Base** | `cachyos` |
 

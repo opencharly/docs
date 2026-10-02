@@ -6,6 +6,5 @@ title: "debian"
 
 | | |
 |---|---|
-| **Version** | `2026.144.1443` |
 | **Repo** | `box/debian` |
 | **Base** | `debian:13` |

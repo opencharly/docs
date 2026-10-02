@@ -6,6 +6,5 @@ title: "arch-pacstrap"
 
 | | |
 |---|---|
-| **Version** | `2026.156.2017` |
 | **Repo** | `box/arch` |
 | **Builder** | `builder:pacstrap` |

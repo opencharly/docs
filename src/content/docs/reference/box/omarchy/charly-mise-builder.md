@@ -7,7 +7,6 @@ description: "Omarchy stage base for the mise builder (curl+tar toolchain) — b
 
 | | |
 |---|---|
-| **Version** | `2026.242.0000` |
 | **Repo** | `box/omarchy` |
 | **Base** | `omarchy` |
 

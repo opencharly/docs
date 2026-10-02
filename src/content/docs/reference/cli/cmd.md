@@ -10,9 +10,8 @@ description: "The cmd command word, served by 2 plugin candies: plugin-cmd and p
 | **plugin-cmd — Served by** | [plugin-cmd](/reference/plugin/github-com-opencharly-plugin-cmd-v2026-242-0526/plugin-cmd/) |
 | **plugin-cmd — Placement** | compiled-in (in-process) |
 | **plugin-cmd — Version** | `2026.209.0000` |
-| **plugin-cmd — Served by** | [plugin-cmd](/reference/plugin/github-com-opencharly-plugin-cmd-v2026-270-1431/plugin-cmd/) |
+| **plugin-cmd — Served by** | [plugin-cmd](/reference/plugin/github-com-opencharly-plugin-cmd-v2026-272-2039/plugin-cmd/) |
 | **plugin-cmd — Placement** | compiled-in (in-process) |
-| **plugin-cmd — Version** | `2026.209.0000` |
 
 `cmd` is a command word served by 2 plugin candies — `plugin-cmd` and `plugin-cmd` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 

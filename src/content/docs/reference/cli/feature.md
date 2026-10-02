@@ -13,9 +13,8 @@ description: "The feature command word, served by 3 plugin candies: plugin-box a
 | **plugin-feature — Served by** | [plugin-feature](/reference/plugin/github-com-opencharly-plugin-feature-v2026-242-0530/plugin-feature/) |
 | **plugin-feature — Placement** | compiled-in (in-process) |
 | **plugin-feature — Version** | `2026.179.0000` |
-| **plugin-feature — Served by** | [plugin-feature](/reference/plugin/github-com-opencharly-plugin-feature-v2026-270-1429/plugin-feature/) |
+| **plugin-feature — Served by** | [plugin-feature](/reference/plugin/github-com-opencharly-plugin-feature-v2026-272-0145/plugin-feature/) |
 | **plugin-feature — Placement** | compiled-in (in-process) |
-| **plugin-feature — Version** | `2026.179.0000` |
 
 `feature` is a command word served by 3 plugin candies — `plugin-box` and `plugin-feature` and `plugin-feature` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 
