@@ -7,7 +7,6 @@ description: "The privileged pacstrap builder for Omarchy bootstrap VMs — Omar
 
 | | |
 |---|---|
-| **Version** | `2026.242.0000` |
 | **Repo** | `box/omarchy` |
 | **Base** | `omarchy` |
 

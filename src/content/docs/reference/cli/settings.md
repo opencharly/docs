@@ -10,9 +10,8 @@ description: "The settings command word, served by 2 plugin candies: plugin-sett
 | **plugin-settings — Served by** | [plugin-settings](/reference/plugin/github-com-opencharly-plugin-settings-v2026-242-0532/plugin-settings/) |
 | **plugin-settings — Placement** | compiled-in (in-process) |
 | **plugin-settings — Version** | `2026.181.0001` |
-| **plugin-settings — Served by** | [plugin-settings](/reference/plugin/github-com-opencharly-plugin-settings-v2026-270-1718/plugin-settings/) |
+| **plugin-settings — Served by** | [plugin-settings](/reference/plugin/github-com-opencharly-plugin-settings-v2026-272-0410/plugin-settings/) |
 | **plugin-settings — Placement** | compiled-in (in-process) |
-| **plugin-settings — Version** | `2026.181.0001` |
 
 `settings` is a command word served by 2 plugin candies — `plugin-settings` and `plugin-settings` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 

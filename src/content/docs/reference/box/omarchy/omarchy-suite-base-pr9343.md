@@ -7,7 +7,6 @@ description: "The S2 PR-injection image: the suite-base image with PR #9343 (oma
 
 | | |
 |---|---|
-| **Version** | `2026.243.0000` |
 | **Repo** | `box/omarchy` |
 | **Base** | `omarchy-suite-base` |
 

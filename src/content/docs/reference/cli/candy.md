@@ -10,9 +10,8 @@ description: "The candy command word, served by 2 plugin candies: plugin-candy a
 | **plugin-candy — Served by** | [plugin-candy](/reference/plugin/github-com-opencharly-plugin-candy-v2026-242-0526/plugin-candy/) |
 | **plugin-candy — Placement** | compiled-in (in-process) |
 | **plugin-candy — Version** | `2026.181.0001` |
-| **plugin-candy — Served by** | [plugin-candy](/reference/plugin/github-com-opencharly-plugin-candy-v2026-270-1457/plugin-candy/) |
+| **plugin-candy — Served by** | [plugin-candy](/reference/plugin/github-com-opencharly-plugin-candy-v2026-271-2318/plugin-candy/) |
 | **plugin-candy — Placement** | compiled-in (in-process) |
-| **plugin-candy — Version** | `2026.181.0001` |
 
 `candy` is a command word served by 2 plugin candies — `plugin-candy` and `plugin-candy` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 

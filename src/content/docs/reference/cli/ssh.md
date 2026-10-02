@@ -10,9 +10,8 @@ description: "The ssh command word, served by 2 plugin candies: plugin-ssh and p
 | **plugin-ssh — Served by** | [plugin-ssh](/reference/plugin/github-com-opencharly-plugin-ssh-v2026-242-0533/plugin-ssh/) |
 | **plugin-ssh — Placement** | compiled-in (in-process) |
 | **plugin-ssh — Version** | `2026.209.0000` |
-| **plugin-ssh — Served by** | [plugin-ssh](/reference/plugin/github-com-opencharly-plugin-ssh-v2026-270-1719/plugin-ssh/) |
+| **plugin-ssh — Served by** | [plugin-ssh](/reference/plugin/github-com-opencharly-plugin-ssh-v2026-272-0430/plugin-ssh/) |
 | **plugin-ssh — Placement** | compiled-in (in-process) |
-| **plugin-ssh — Version** | `2026.209.0000` |
 
 `ssh` is a command word served by 2 plugin candies — `plugin-ssh` and `plugin-ssh` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 

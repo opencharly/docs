@@ -10,9 +10,8 @@ description: "The check command word, served by 2 plugin candies: plugin-check a
 | **plugin-check — Served by** | [plugin-check](/reference/plugin/github-com-opencharly-plugin-check-v2026-242-2127/plugin-check/) |
 | **plugin-check — Placement** | compiled-in (in-process) |
 | **plugin-check — Version** | `2026.242.2345` |
-| **plugin-check — Served by** | [plugin-check](/reference/plugin/github-com-opencharly-plugin-check-v2026-270-0728/plugin-check/) |
+| **plugin-check — Served by** | [plugin-check](/reference/plugin/github-com-opencharly-plugin-check-v2026-272-2039/plugin-check/) |
 | **plugin-check — Placement** | compiled-in (in-process) |
-| **plugin-check — Version** | `2026.242.2345` |
 
 `check` is a command word served by 2 plugin candies — `plugin-check` and `plugin-check` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 

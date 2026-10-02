@@ -10,9 +10,8 @@ description: "The remove command word, served by 2 plugin candies: plugin-pod an
 | **plugin-pod — Served by** | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-242-0531/plugin-pod/) |
 | **plugin-pod — Placement** | compiled-in (in-process) |
 | **plugin-pod — Version** | `2026.201.0000` |
-| **plugin-pod — Served by** | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-270-1808/plugin-pod/) |
+| **plugin-pod — Served by** | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-274-0652/plugin-pod/) |
 | **plugin-pod — Placement** | compiled-in (in-process) |
-| **plugin-pod — Version** | `2026.201.0000` |
 
 `remove` is a command word served by 2 plugin candies — `plugin-pod` and `plugin-pod` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 

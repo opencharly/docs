@@ -7,7 +7,6 @@ description: "The canonical Omarchy base image — plain Arch plus Omarchy's own
 
 | | |
 |---|---|
-| **Version** | `2026.242.0000` |
 | **Repo** | `box/omarchy` |
 | **Base** | `arch.arch` |
 

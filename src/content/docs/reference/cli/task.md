@@ -7,9 +7,8 @@ description: "The task command word, served by the plugin-task plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-task](/reference/plugin/github-com-opencharly-plugin-task-v2026-268-1402/plugin-task/) |
+| **Served by** | [plugin-task](/reference/plugin/github-com-opencharly-plugin-task-v2026-272-0822/plugin-task/) |
 | **Placement** | compiled-in (in-process) |
-| **Version** | `2026.267.2313` |
 
 `task` is a command word served by the `plugin-task` plugin candy. This plugin is listed in `charly/charly.yml`'s `compiled_plugins:`, so its providers are compiled into the `charly` binary and register in-process.
 

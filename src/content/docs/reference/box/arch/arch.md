@@ -6,6 +6,5 @@ title: "arch"
 
 | | |
 |---|---|
-| **Version** | `2026.144.1443` |
 | **Repo** | `box/arch` |
 | **Base** | `quay.io/archlinux/archlinux:base-20260719.0.558306` |

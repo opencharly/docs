@@ -7,7 +7,6 @@ description: "Enables + starts the packaged charly-mcp unit on this deployment (
 
 | | |
 |---|---|
-| **Version** | `2026.249.2125` |
 | **Repo** | superproject |
 
 Enables + starts the packaged charly-mcp unit on this deployment (systemctl enable --now via the use_packaged service declaration). The units ship non-autostarting; this candy is the bed's explicit, charly-native start for the MCP checks.

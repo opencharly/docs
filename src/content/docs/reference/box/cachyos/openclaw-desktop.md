@@ -23,4 +23,3 @@ This box composes:
 - `@github.com/opencharly/layer-golang:v2026.239.1614`
 - `@github.com/opencharly/layer-gh:v2026.239.1624`
 - `@github.com/opencharly/pod-dbus:v2026.243.1831`
-- `tmp-sticky`

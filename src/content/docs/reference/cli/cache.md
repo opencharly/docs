@@ -7,9 +7,8 @@ description: "The cache command word, served by the plugin-cache plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-cache](/reference/plugin/github-com-opencharly-plugin-cache-v2026-270-1314/plugin-cache/) |
+| **Served by** | [plugin-cache](/reference/plugin/github-com-opencharly-plugin-cache-v2026-271-2314/plugin-cache/) |
 | **Placement** | compiled-in (in-process) |
-| **Version** | `2026.248.0001` |
 
 `cache` is a command word served by the `plugin-cache` plugin candy. This plugin is listed in `charly/charly.yml`'s `compiled_plugins:`, so its providers are compiled into the `charly` binary and register in-process.
 

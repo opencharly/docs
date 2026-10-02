@@ -10,9 +10,8 @@ description: "The preempt command word, served by 2 plugin candies: plugin-preem
 | **plugin-preempt — Served by** | [plugin-preempt](/reference/plugin/github-com-opencharly-plugin-preempt-v2026-242-0533/plugin-preempt/) |
 | **plugin-preempt — Placement** | compiled-in (in-process) |
 | **plugin-preempt — Version** | `2026.183.0000` |
-| **plugin-preempt — Served by** | [plugin-preempt](/reference/plugin/github-com-opencharly-plugin-preempt-v2026-270-1212/plugin-preempt/) |
+| **plugin-preempt — Served by** | [plugin-preempt](/reference/plugin/github-com-opencharly-plugin-preempt-v2026-274-0646/plugin-preempt/) |
 | **plugin-preempt — Placement** | compiled-in (in-process) |
-| **plugin-preempt — Version** | `2026.183.0000` |
 
 `preempt` is a command word served by 2 plugin candies — `plugin-preempt` and `plugin-preempt` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 

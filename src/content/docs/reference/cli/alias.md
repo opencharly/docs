@@ -10,9 +10,8 @@ description: "The alias command word, served by 2 plugin candies: plugin-alias a
 | **plugin-alias — Served by** | [plugin-alias](/reference/plugin/github-com-opencharly-plugin-alias-v2026-242-0525/plugin-alias/) |
 | **plugin-alias — Placement** | compiled-in (in-process) |
 | **plugin-alias — Version** | `2026.193.1052` |
-| **plugin-alias — Served by** | [plugin-alias](/reference/plugin/github-com-opencharly-plugin-alias-v2026-270-1431/plugin-alias/) |
+| **plugin-alias — Served by** | [plugin-alias](/reference/plugin/github-com-opencharly-plugin-alias-v2026-271-2241/plugin-alias/) |
 | **plugin-alias — Placement** | compiled-in (in-process) |
-| **plugin-alias — Version** | `2026.193.1052` |
 
 `alias` is a command word served by 2 plugin candies — `plugin-alias` and `plugin-alias` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 

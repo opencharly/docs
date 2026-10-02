@@ -13,9 +13,8 @@ description: "The ollama command word, served by 3 plugin candies: plugin-ollama
 | **plugin-ollama — Served by** | [plugin-ollama](/reference/plugin/github-com-opencharly-plugin-ollama-v2026-242-0532/plugin-ollama/) |
 | **plugin-ollama — Placement** | compiled-in (in-process) |
 | **plugin-ollama — Version** | `2026.229.1013` |
-| **plugin-ollama — Served by** | [plugin-ollama](/reference/plugin/github-com-opencharly-plugin-ollama-v2026-270-1719/plugin-ollama/) |
+| **plugin-ollama — Served by** | [plugin-ollama](/reference/plugin/github-com-opencharly-plugin-ollama-v2026-272-0330/plugin-ollama/) |
 | **plugin-ollama — Placement** | compiled-in (in-process) |
-| **plugin-ollama — Version** | `2026.229.1013` |
 
 `ollama` is a command word served by 3 plugin candies — `plugin-ollama` and `plugin-ollama` and `plugin-ollama` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 

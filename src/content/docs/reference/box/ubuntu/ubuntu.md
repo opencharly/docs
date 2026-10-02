@@ -6,6 +6,5 @@ title: "ubuntu"
 
 | | |
 |---|---|
-| **Version** | `2026.144.1443` |
 | **Repo** | `box/ubuntu` |
 | **Base** | `ubuntu:24.04` |

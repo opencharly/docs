@@ -10,9 +10,8 @@ description: "The clean command word, served by 2 plugin candies: plugin-clean a
 | **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-242-0526/plugin-clean/) |
 | **plugin-clean — Placement** | compiled-in (in-process) |
 | **plugin-clean — Version** | `2026.202.1400` |
-| **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-270-1431/plugin-clean/) |
+| **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-271-2313/plugin-clean/) |
 | **plugin-clean — Placement** | compiled-in (in-process) |
-| **plugin-clean — Version** | `2026.255.0054` |
 
 `clean` is a command word served by 2 plugin candies — `plugin-clean` and `plugin-clean` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 
