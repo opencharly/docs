@@ -23,7 +23,7 @@ The site has two halves, and they are maintained very differently.
 ```
 src/content/docs/start/            install, quickstart
 src/content/docs/concepts/         candies & boxes, candyboxing, lifecycle, RDD/ADE, schema
-src/content/docs/guides/           authoring a plugin, the CLI
+src/content/docs/guides/           authoring a candy, authoring a plugin, the CLI, troubleshooting, virtual machines, Kubernetes, agents
 ```
 
 **Generated** — everything that already exists in the pinned charly checkout, projected rather
