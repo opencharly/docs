@@ -8,8 +8,8 @@
 #   1. clones the pinned charly (recursive, with its box/* submodules) into /tmp/charly
 #      at CI time and checks out the pinned commit b79851d, plus the pinned
 #      marketplace submodule (the corpus the skill pages project from),
-#   2. builds the charly binary from that checkout and the standalone plugin-docs CLI
-#      binary at the pinned plugin tag,
+#   2. builds the standalone plugin-docs CLI binary at the pinned plugin tag (generation
+#      reads the pinned charly SOURCE TREE, so that checkout never has to compile),
 #   3. regenerates the generated half of the content tree with that plugin-docs CLI
 #      (`plugin-docs-bin generate` — the same engine the `charly docs generate` word
 #      dispatches to),
@@ -75,11 +75,6 @@ jobs:
         with:
           go-version-file: /tmp/charly/charly/go.mod
           cache-dependency-path: /tmp/charly/charly/go.sum
-
-      - name: Build the charly binary from the pinned checkout
-        run: |
-          mkdir -p /tmp/charly/bin
-          cd /tmp/charly/charly && go build -buildvcs=false -ldflags "-X main.BuildCalVer=docs-ci" -o /tmp/charly/bin/charly .
 
       - name: Build the standalone plugin-docs CLI binary
         run: |
