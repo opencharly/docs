@@ -74,4 +74,4 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 
 ---
 
-See also the [candy reference](/reference/candy/github-com-opencharly-plugin-fleet-v2026-272-2039/plugin-fleet/) for this candy's install surface.
+See also the [candy reference](/reference/candy/github-com-opencharly-plugin-fleet-v2026-276-1113/plugin-fleet/) for this candy's install surface.

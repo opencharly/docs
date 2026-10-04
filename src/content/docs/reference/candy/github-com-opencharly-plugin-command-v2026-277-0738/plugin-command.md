@@ -7,8 +7,8 @@ description: "The `command` check verb relocated into a candy: run a shell comma
 
 | | |
 |---|---|
-| **Repo** | `box/github.com/opencharly/plugin-command:v2026.272.0026` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-command-v2026-272-0026/plugin-command/) |
+| **Repo** | `box/github.com/opencharly/plugin-command:v2026.277.0738` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-command-v2026-277-0738/plugin-command/) |
 
 The `command` check verb relocated into a candy: run a shell command
 in-container (via the live check engine), host-side (os/exec under charly

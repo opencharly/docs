@@ -7,7 +7,7 @@ description: "The docs command word, served by the plugin-docs plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-docs](/reference/plugin/github-com-opencharly-plugin-docs-v2026-275-2127/plugin-docs/) |
+| **Served by** | [plugin-docs](/reference/plugin/github-com-opencharly-plugin-docs-v2026-277-1529/plugin-docs/) |
 | **Placement** | runtime (out-of-process over gRPC) |
 
 `docs` is a command word served by the `plugin-docs` plugin candy. This plugin is **not** listed in `charly/charly.yml`'s `compiled_plugins:`. It is not part of the shipped binary: charly builds and loads it out-of-process over gRPC when a plan references one of its words (the coexist path).

@@ -37,6 +37,7 @@ export default defineConfig({
           ],
         },
         { label: 'Recipe cards', collapsed: true, items: [{ autogenerate: { directory: 'recipes' } }] },
+        { label: 'Who We Are', link: '/soul/' },
         { label: 'The Vision', link: '/vision/' },
         { label: 'What it is reacting to', link: '/grievances/' },
         // A hand-added entry, deliberately last — the liberation page is the site's easter egg.

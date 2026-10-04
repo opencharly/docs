@@ -7,19 +7,8 @@ description: "RUNTIME (out-of-process) charly plugin serving `charly docs …` �
 
 | | |
 |---|---|
-| **Placement** | runtime (out-of-process over gRPC) |
-| **Source** | `github.com/opencharly/plugin-docs/candy/plugin-docs` |
-| **Candy** | `plugin-docs` |
-
-This plugin is **not** listed in `charly/charly.yml`'s `compiled_plugins:`. It is not part of the shipped binary: charly builds and loads it out-of-process over gRPC when a plan references one of its words (the coexist path).
-
-## Providers
-
-The reserved words this plugin serves:
-
-- **`docs`** — command class
-
-## What it does
+| **Repo** | `box/github.com/opencharly/plugin-docs:v2026.277.1529` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-docs-v2026-277-1529/plugin-docs/) |
 
 RUNTIME (out-of-process) charly plugin serving `charly docs …` — the generator that
 renders the reference half of the opencharly.ai documentation site from this repo's
@@ -51,48 +40,10 @@ than resolving through main's `import:` closure. That closure pulls arch, cachyo
 fedora only, so a catalog built on it silently omits every debian.* and ubuntu.* box
 while duplicating ten arch boxes under transitive cachyos.arch.* aliases.
 
-## Parameter schema
+## Acceptance plan
 
-The CUE schema below is the authoritative grammar for this plugin's input. It is the same single source that generates the plugin's Go parameter types and answers the runtime `Describe` RPC, so this page cannot disagree with either.
+This candy's `plan:` — the runnable spec `charly check` executes against a live deployment. `check:` steps are idempotent probes; `run:` steps change state.
 
-### `schema/docs.cue`
-
-```cue
-// plugin-docs's OWN self-contained CUE schema — the plugin's declaration
-// surface, used two ways exactly like every other plugin's schema (there is
-// no schema-less plugin):
-//
-//  1. SERVE over Describe — the host splices `base ++ plugin` at the load gate, so the
-//     plugin's declarations travel WITH it and a self-contained schema that will not
-//     splice is a LOUD load failure.
-//  2. DOCUMENT the plugin's published surface — the reference site's per-plugin page is
-//     rendered from its providers, this schema, and the candy description.
-//
-// command:docs's authored input is its pass-through CLI grammar (the OpRun `{args:
-// [...]}` envelope), so this schema DOCUMENTS the command contract rather than a
-// structured plugin_input. SELF-CONTAINED: it references no base def, so it compiles
-// STANDALONE (the property that lets the SDK compile it serve-side).
-#DocsPlugin: {
-	// The declared capability words (the plugin.providers surface), recorded here as
-	// part of the plugin's published declaration surface.
-	providers: [...string]
-
-	// The command word the plugin serves.
-	command: "docs"
-
-	// The subcommands of the `charly docs` CLI tree.
-	subcommands: ["generate"]
-
-	// What the command does, in one line (the public-docs surface).
-	contract: string & !=""
-
-	// The configuration surface: env var names the plugin reads, recorded here as part
-	// of the plugin's published declaration surface.
-	config?: [string]: string
-}
-```
-
-
----
-
-See also the [candy reference](/reference/candy/github-com-opencharly-plugin-docs-v2026-275-2127/plugin-docs/) for this candy's install surface.
+| Intent | Step |
+|---|---|
+| `check` | the docs command plugin ships a buildable Go module (go.mod + the provider package); the full `charly docs generate` end-to-end is exercised by the live R10 bed (check-docs) |

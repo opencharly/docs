@@ -22,13 +22,14 @@ The reserved words this plugin serves:
 - **`file-parity`** — verb class
 - **`git-submodules`** — verb class
 - **`module-pins`** — verb class
+- **`prune`** — verb class
 - **`splice-region`** — verb class
 - **`task`** — verb class
 
 ## What it does
 
 The generic declarative TASK runner for charly — the replacement for a
-Taskfile. Serves three task capabilities plus four generic maintenance
+Taskfile. Serves three task capabilities plus five generic maintenance
 verbs. Task capabilities: `kind:task` (a named, host-native, REUSABLE plan
 authored as a `task:` node in charly.yml, using the SAME #Step/#Op grammar a
 candy's plan uses), `command:task` (`charly task [list] [<name>] [--dry-run]
@@ -41,14 +42,19 @@ entity; the task body is the base-schema #Task, validated host-side against
 #TaskValue (a task's `plan: [...#Step]` references the base #Step grammar,
 which a self-contained plugin schema cannot carry).
 
-Four GENERIC, domain-neutral MAINTENANCE verbs replace repository shell
+Five GENERIC, domain-neutral MAINTENANCE verbs replace repository shell
 scripts, each parameterized by the repo's own data (paths/pairs/pins) so the
 plugin stays reusable by any repository: `verb:git-submodules` (status/bump/
 verify `.gitmodules` pins, incl. the policy-B comparison of a repo's pins
 against a pinned checkout's gitlinks), `verb:file-parity` (check/sync that
 paired files are byte-identical), `verb:splice-region` (splice a marked
-region from a fragment into a target), and `verb:module-pins` (adopt a
-source go.mod's require pins across every module a glob matches, then tidy).
+region from a fragment into a target), `verb:module-pins` (adopt a
+source go.mod's require pins across every module a glob matches, then tidy),
+and `verb:prune` (garbage-collect MERGED-UPSTREAM session worktrees +
+branches across the project root and every submodule — the mechanical
+reaper the close-out contract's per-session prose never provided; a branch
+is pruned only when its merge is PROVEN, and a CLOSED/abandoned PR is pruned
+only under an explicit opt-in).
 
 COMPILED-IN by default (the command needs the host's loaded project over
 the reverse channel; the maintenance verbs are host-native and act on the
@@ -142,9 +148,32 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 	// keys are the module paths whose pins are adopted (e.g. sdk, spec).
 	keys: [...string]
 }
+
+// #PruneInput garbage-collects merged-upstream session worktrees + branches: the
+// session-scoped `.worktrees/<slug>/<repo>/` linked worktrees, the umbrella
+// root's own worktrees, and the local `feat/` branches they pinned — across the
+// umbrella root AND every submodule. A branch is prunable when its work is
+// already on the merge target: its tip is an ancestor of `base`, OR its PR is
+// MERGED and its tip is contained in the merged PR head (the squash-merge case
+// git ancestry alone cannot see). A branch with commits BEYOND a merged head
+// (unmerged local work) is NEVER pruned. Domain-neutral: the repo and merge
+// target come from the authored input, never baked in (R3 / boundary law).
+#PruneInput: {
+	// mode: report lists what would be pruned (a dry run); prune performs it.
+	mode?: "report" | "prune"
+	// base is the merge target a branch must be merged into (default origin/main).
+	base?: string
+	// include_closed also prunes worktrees/branches whose PR is CLOSED (abandoned).
+	// Off by default: a closed branch may hold unmerged work.
+	include_closed?: bool @go(IncludeClosed)
+	// local_only skips the GitHub PR-state lookup. It then CANNOT see a
+	// squash-merged branch whose remote ref still survives (git ancestry alone
+	// misses it), so it prunes strictly less — never more.
+	local_only?: bool @go(LocalOnly)
+}
 ```
 
 
 ---
 
-See also the [candy reference](/reference/candy/github-com-opencharly-plugin-task-v2026-272-0822/plugin-task/) for this candy's install surface.
+See also the [candy reference](/reference/candy/github-com-opencharly-plugin-task-v2026-277-0711/plugin-task/) for this candy's install surface.
