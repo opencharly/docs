@@ -7,8 +7,8 @@ description: "The `charly deploy …` deployment CLI, externalized into a COMPIL
 
 | | |
 |---|---|
-| **Repo** | `box/github.com/opencharly/plugin-fleet:v2026.272.2039` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-fleet-v2026-272-2039/plugin-fleet/) |
+| **Repo** | `box/github.com/opencharly/plugin-fleet:v2026.276.1113` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-fleet-v2026-276-1113/plugin-fleet/) |
 
 The `charly deploy …` deployment CLI, externalized into a COMPILED-IN
 command:deploy plugin (F8) mirroring candy/plugin-vm. `charly deploy add`

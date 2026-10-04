@@ -7,8 +7,8 @@ description: "Compiled-in DUAL-PLACEMENT charly class:step plugin serving the BU
 
 | | |
 |---|---|
-| **Repo** | `box/github.com/opencharly/plugin-installstep:v2026.272.0244` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-installstep-v2026-272-0244/plugin-installstep/) |
+| **Repo** | `box/github.com/opencharly/plugin-installstep:v2026.276.1353` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-installstep-v2026-276-1353/plugin-installstep/) |
 
 Compiled-in DUAL-PLACEMENT charly class:step plugin serving the BUILD-context OpEmit
 leg for the compiler-emitted builtin InstallStep kinds. Two sub-categories: the PURE

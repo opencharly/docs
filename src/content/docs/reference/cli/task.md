@@ -7,7 +7,7 @@ description: "The task command word, served by the plugin-task plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-task](/reference/plugin/github-com-opencharly-plugin-task-v2026-272-0822/plugin-task/) |
+| **Served by** | [plugin-task](/reference/plugin/github-com-opencharly-plugin-task-v2026-277-0711/plugin-task/) |
 | **Placement** | compiled-in (in-process) |
 
 `task` is a command word served by the `plugin-task` plugin candy. This plugin is listed in `charly/charly.yml`'s `compiled_plugins:`, so its providers are compiled into the `charly` binary and register in-process.
@@ -15,7 +15,7 @@ description: "The task command word, served by the plugin-task plugin candy."
 ## About the plugin that serves it
 
 The generic declarative TASK runner for charly — the replacement for a
-Taskfile. Serves three task capabilities plus four generic maintenance
+Taskfile. Serves three task capabilities plus five generic maintenance
 verbs. Task capabilities: `kind:task` (a named, host-native, REUSABLE plan
 authored as a `task:` node in charly.yml, using the SAME #Step/#Op grammar a
 candy's plan uses), `command:task` (`charly task [list] [<name>] [--dry-run]
@@ -28,14 +28,19 @@ entity; the task body is the base-schema #Task, validated host-side against
 #TaskValue (a task's `plan: [...#Step]` references the base #Step grammar,
 which a self-contained plugin schema cannot carry).
 
-Four GENERIC, domain-neutral MAINTENANCE verbs replace repository shell
+Five GENERIC, domain-neutral MAINTENANCE verbs replace repository shell
 scripts, each parameterized by the repo's own data (paths/pairs/pins) so the
 plugin stays reusable by any repository: `verb:git-submodules` (status/bump/
 verify `.gitmodules` pins, incl. the policy-B comparison of a repo's pins
 against a pinned checkout's gitlinks), `verb:file-parity` (check/sync that
 paired files are byte-identical), `verb:splice-region` (splice a marked
-region from a fragment into a target), and `verb:module-pins` (adopt a
-source go.mod's require pins across every module a glob matches, then tidy).
+region from a fragment into a target), `verb:module-pins` (adopt a
+source go.mod's require pins across every module a glob matches, then tidy),
+and `verb:prune` (garbage-collect MERGED-UPSTREAM session worktrees +
+branches across the project root and every submodule — the mechanical
+reaper the close-out contract's per-session prose never provided; a branch
+is pruned only when its merge is PROVEN, and a CLOSED/abandoned PR is pruned
+only under an explicit opt-in).
 
 COMPILED-IN by default (the command needs the host's loaded project over
 the reverse channel; the maintenance verbs are host-native and act on the
