@@ -7,18 +7,22 @@ description: "The pipeline command word, served by the plugin-pipeline plugin ca
 
 | | |
 |---|---|
-| **Served by** | [plugin-pipeline](/reference/plugin/github-com-opencharly-plugin-pipeline-v2026-272-0332/plugin-pipeline/) |
+| **Served by** | [plugin-pipeline](/reference/plugin/github-com-opencharly-plugin-pipeline-v2026-277-2104/plugin-pipeline/) |
 | **Placement** | runtime (out-of-process over gRPC) |
 
 `pipeline` is a command word served by the `plugin-pipeline` plugin candy. This plugin is **not** listed in `charly/charly.yml`'s `compiled_plugins:`. It is not part of the shipped binary: charly builds and loads it out-of-process over gRPC when a plan references one of its words (the coexist path).
 
 ## About the plugin that serves it
 
-The generic agent/workflow engine — domain-neutral: the bare agent
-runtime (plan agent stage + the standalone 'charly pipeline agent'),
-the plan executor ('charly pipeline run <entity>'), deterministic
-probe verbs, template/frontmatter rendering, redo + fail-hard,
-skills by @github candy refs. Every pipeline is a declared plan
-(kind:pipeline entity, SDD CUE-first).
+The workflow front-end — domain-neutral: resolve + validate a declared
+kind:pipeline entity (spec.Pipeline, `steps:`), lower it with
+sdk/workflowkit to the (workflow.lobster, charly.yml) pair, and dispatch
+the pair to the `workflow` provider class as workflow-run. Also the bare
+agent runtime (the standalone 'charly pipeline agent'), deterministic
+probe verbs, template/frontmatter rendering, and skills by @github candy
+refs. Every stage kind is ALSO a reachable verb
+(verb:agent/probe/ade/generate/emit/media/gate), so a stage body can be
+driven as a `<word>: <input>` step from any plan. Execution/control flow
+belongs to the `workflow` ENGINE, not this plugin.
 
 `charly --help` prints the command tree, including where `pipeline` is invoked and under which parent.
