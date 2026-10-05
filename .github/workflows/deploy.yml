@@ -64,7 +64,12 @@ jobs:
           # submodules: --recursive at clone time pulls each box at its default-branch HEAD,
           # but the committed docs content was generated against the box commits the pinned
           # charly checkout records — checkout-then-init pins them exactly.
-          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout b8241dcdcc90d02e9a296847dc0a91f853b3488c && git -C /tmp/charly submodule update --init --recursive
+          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout 3cabeb3f003dedc6d6b201352cba792daf93c1cf && git -C /tmp/charly submodule update --init --recursive
+          # The four root narratives (SOUL.md/VISION.md/GRIEVANCES.md/LIBERATION.md) moved
+          # from the charly root to the UMBRELLA root (opencharly/opencharly#357); the
+          # generator reads them from the umbrella checkout passed as --narrative below.
+          # No submodule init — only the root files are read.
+          git clone https://github.com/opencharly/opencharly.git /tmp/umbrella && git -C /tmp/umbrella checkout e631aacf32df4e26a66f2cb6a75fc9e85e212399
 
       - uses: actions/setup-node@v7
         with:
@@ -78,7 +83,7 @@ jobs:
 
       - name: Build the standalone plugin-docs CLI binary
         run: |
-          git clone --depth 1 --branch v2026.277.1529 https://github.com/opencharly/plugin-docs.git /tmp/plugin-docs
+          git clone --depth 1 --branch v2026.278.0442 https://github.com/opencharly/plugin-docs.git /tmp/plugin-docs
           cd /tmp/plugin-docs/candy/plugin-docs && go build -o /tmp/plugin-docs-bin ./cmd/serve
 
       - name: Write the corpus wiring candy from the pins file
@@ -88,14 +93,17 @@ jobs:
           python3 /tmp/build_wiring.py .github/docs-corpus/pins.tsv /tmp/charly/candy/docs-corpus/charly.yml
 
       - name: Regenerate the generated content from the pinned charly
-        # --root points at the pinned charly checkout; the generation runs the standalone
-        # plugin-docs CLI binary built in the step above; --plugins at the marketplace
-        # checkout (the corpus the recipe pages project from), --out at this repo's
-        # content tree. The generator's link/sidebar gates run inside this step: a dead
-        # link fails the run.
+        # --root points at the pinned charly checkout (the catalog walk + landing page + the
+        # skill/recipe reference pages); --narrative points at the umbrella checkout, which
+        # holds the four root narratives (SOUL/VISION/GRIEVANCES/LIBERATION) at their new
+        # home — the generation runs the standalone plugin-docs CLI binary built in the step
+        # above; --plugins at the marketplace checkout (the corpus the recipe pages project
+        # from), --out at this repo's content tree. The generator's link/sidebar gates run
+        # inside this step: a dead link fails the run.
         run: |
           cd /tmp/charly && /tmp/plugin-docs-bin generate \
             --root /tmp/charly \
+            --narrative /tmp/umbrella \
             --plugins ${{ github.workspace }}/marketplace \
             --out ${{ github.workspace }}/src/content/docs
 

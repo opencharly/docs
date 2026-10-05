@@ -7,7 +7,7 @@ description: "The review command word, served by the plugin-review plugin candy.
 
 | | |
 |---|---|
-| **Served by** | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-272-0450/plugin-review/) |
+| **Served by** | [plugin-review](/reference/plugin/github-com-opencharly-plugin-review-v2026-278-0219/plugin-review/) |
 | **Placement** | runtime (out-of-process over gRPC) |
 
 `review` is a command word served by the `plugin-review` plugin candy. This plugin is **not** listed in `charly/charly.yml`'s `compiled_plugins:`. It is not part of the shipped binary: charly builds and loads it out-of-process over gRPC when a plan references one of its words (the coexist path).

@@ -400,8 +400,8 @@ has the full development model.
 | every command and flag | [The charly CLI](/guides/the-cli/) + the [CLI reference](/reference/cli/agent/) |
 | "what implements `cdp:`?" | [Provider index](/reference/providers/) |
 | something is broken | [Troubleshooting](/guides/troubleshooting/) |
-| who charly is | [Our soul](SOUL.md) |
-| why the project looks like this | [The vision](VISION.md) · [What it is reacting to](GRIEVANCES.md) · [Liberation](LIBERATION.md) |
+| who charly is | [Our soul](https://github.com/opencharly/opencharly/blob/main/SOUL.md) |
+| why the project looks like this | [The vision](https://github.com/opencharly/opencharly/blob/main/VISION.md) · [What it is reacting to](https://github.com/opencharly/opencharly/blob/main/GRIEVANCES.md) · [Liberation](https://github.com/opencharly/opencharly/blob/main/LIBERATION.md) |
 | to ask questions about the code | [DeepWiki](https://deepwiki.com/opencharly/charly) |
 | dated history | [`CHANGELOG/`](https://github.com/opencharly/charly/tree/main/CHANGELOG), one file per CalVer version |
 
