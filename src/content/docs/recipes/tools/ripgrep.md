@@ -30,9 +30,6 @@ my-box:
     candy: [ripgrep]
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-coder:dev-tools`](/recipes/coder/dev-tools/) -- bundles ripgrep alongside other CLI utilities
 

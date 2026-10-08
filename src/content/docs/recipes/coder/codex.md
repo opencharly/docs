@@ -26,9 +26,6 @@ my-box:
         candy: [codex]
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-coder:nodejs`](/recipes/coder/nodejs/) — Required Node.js runtime parent dependency
 - [`/charly-coder:claude-code`](/recipes/coder/claude-code/) — Sibling AI coding agent CLI bundled in same metalayers

@@ -26,9 +26,6 @@ my-box:
         candy: [oracle]
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-coder:nodejs`](/recipes/coder/nodejs/) -- runtime dependency
 

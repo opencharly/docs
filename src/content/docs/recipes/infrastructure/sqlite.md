@@ -31,9 +31,6 @@ my-box:
       - sqlite
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-coder:dev-tools`](/recipes/coder/dev-tools/) -- common dev CLI bundle that pairs with sqlite
 

@@ -26,9 +26,6 @@ my-box:
     candy: [nano-pdf]
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-languages:python`](/recipes/languages/python/) — required Python runtime dependency
 - [`/charly-coder:uv`](/recipes/coder/uv/) — sibling Python tooling in openclaw-full

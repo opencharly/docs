@@ -48,9 +48,6 @@ charly start openclaw
 
 - [`/charly-openclaw:openclaw`](/recipes/openclaw/openclaw/) — gateway npm package, supervisord service, data volume
 
-## Related Boxes
-
-
 ## Verification
 
 After `charly start`:

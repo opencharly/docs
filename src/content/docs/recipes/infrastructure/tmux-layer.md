@@ -31,9 +31,6 @@ my-box:
       - '@github.com/opencharly/layer-tmux'
 ```
 
-## Used In Boxes
-
-
 ## Related Skills
 
 - [`/charly-automation:tmux`](/recipes/automation/tmux/) — Typed persistent terminals, safe input, snapshots, transcripts, and agent runtimes

@@ -26,9 +26,6 @@ my-box:
     candy: [summarize]
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-coder:nodejs`](/recipes/coder/nodejs/) — runtime dependency
 - [`/charly-tools:whisper`](/recipes/tools/whisper/) — speech-to-text companion in the `openclaw-full-ml` candy

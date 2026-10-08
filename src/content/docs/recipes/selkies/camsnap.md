@@ -33,9 +33,6 @@ my-box:
     candy: [camsnap]
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-coder:golang`](/recipes/coder/golang/) — Required Go runtime parent dependency
 

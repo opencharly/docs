@@ -27,9 +27,6 @@ my-box:
             - clawhub
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-coder:nodejs`](/recipes/coder/nodejs/) — Required Node.js runtime parent dependency
 - [`/charly-openclaw:openclaw`](/recipes/openclaw/openclaw/) — OpenClaw gateway service that consumes installed skills

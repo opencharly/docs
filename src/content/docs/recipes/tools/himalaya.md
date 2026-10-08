@@ -26,9 +26,6 @@ my-box:
     candy: [himalaya]
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-coder:rust`](/recipes/coder/rust/) — required Rust toolchain dependency
 - [`/charly-infrastructure:gnupg`](/recipes/infrastructure/gnupg/) — pairs with himalaya for PGP-encrypted email

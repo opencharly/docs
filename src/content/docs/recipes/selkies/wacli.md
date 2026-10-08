@@ -33,9 +33,6 @@ my-box:
     candy: [wacli]
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-coder:golang`](/recipes/coder/golang/) — Go toolchain dependency
 - [`/charly-hermes:hermes`](/recipes/hermes/hermes/) — companion messaging stack with WhatsApp bridge

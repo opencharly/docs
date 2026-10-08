@@ -33,9 +33,6 @@ my-box:
     candy: [goplaces]
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-coder:golang`](/recipes/coder/golang/) — required Go toolchain dependency
 - [`/charly-tools:gogcli`](/recipes/tools/gogcli/) — sibling Google API CLI in openclaw-full

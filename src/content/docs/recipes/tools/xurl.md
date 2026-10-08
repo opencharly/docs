@@ -26,9 +26,6 @@ my-box:
     candy: [xurl]
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-coder:nodejs`](/recipes/coder/nodejs/) — runtime dependency
 - [`/charly-hermes:hermes`](/recipes/hermes/hermes/) — companion social/messaging agent

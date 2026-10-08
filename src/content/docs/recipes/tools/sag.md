@@ -37,9 +37,6 @@ my-box:
     candy: [sag]
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-coder:golang`](/recipes/coder/golang/) -- build/runtime dependency
 - [`/charly-tools:sherpa-onnx`](/recipes/tools/sherpa-onnx/) -- offline TTS sibling

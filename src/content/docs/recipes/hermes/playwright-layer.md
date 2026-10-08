@@ -27,9 +27,6 @@ my-box:
       - '@github.com/opencharly/layer-playwright'
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-coder:nodejs`](/recipes/coder/nodejs/) -- runtime dependency
 - [`/charly-selkies:chrome`](/recipes/selkies/chrome/) -- browser commonly driven by playwright

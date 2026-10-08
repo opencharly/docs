@@ -33,9 +33,6 @@ my-box:
     candy: [ordercli]
 ```
 
-## Used In Boxes
-
-
 ## Related Candies
 - [`/charly-coder:golang`](/recipes/coder/golang/) -- build/runtime dependency
 
