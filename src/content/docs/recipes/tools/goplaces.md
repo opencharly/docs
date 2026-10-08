@@ -40,7 +40,6 @@ my-box:
 ## Related Candies
 - [`/charly-coder:golang`](/recipes/coder/golang/) — required Go toolchain dependency
 - [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) — metalayer that includes goplaces
-- [`/charly-tools:gogcli`](/recipes/tools/gogcli/) — sibling Google API CLI in openclaw-full
 
 ## Related Commands
 - [`/charly-build:secrets`](/recipes/build/secrets/) — provision Google Places API key for the CLI
