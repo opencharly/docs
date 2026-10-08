@@ -260,11 +260,11 @@ When a `-p HOST:CONTAINER` flag publishes onto a host port that another listener
 Warning: port conflicts detected:
   Port 13000 is in use
     Fix: find and stop the process using port 13000
-    Or remap: charly start openclaw-desktop --port 13001:3000
+    Or remap: charly start charly-fedora --port 13001:3000
 Wrote /home/user/.config/containers/systemd/charly-<image>-<instance>.container
 ```
 
-The quadlet is still written with the conflicting port, so `charly start` will fail at bind time unless you either free the port, re-run `charly config` with a remap, or edit `charly.yml`. Detection uses a local `net.Listen` probe per published port at configure time. Handy for multi-instance deployments alongside a production fleet (e.g., running [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) as a test instance while [`/charly-selkies:selkies-labwc`](/recipes/selkies/selkies-labwc/) holds the canonical 3000/9222/9224/2222 range).
+The quadlet is still written with the conflicting port, so `charly start` will fail at bind time unless you either free the port, re-run `charly config` with a remap, or edit `charly.yml`. Detection uses a local `net.Listen` probe per published port at configure time. Handy for multi-instance deployments alongside a production fleet (e.g., running `/charly-distros:charly-fedora` as a test instance while [`/charly-selkies:selkies-labwc`](/recipes/selkies/selkies-labwc/) holds the canonical 3000/9222/9224/2222 range).
 
 ## Deploy State
 

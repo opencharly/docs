@@ -59,7 +59,7 @@ Resolved OCI security label:
 | `devices` | `[/dev/fuse, /dev/net/tun]` (from [`/charly-distros:container-nesting`](/recipes/distros/container-nesting/)) |
 | `privileged` | `false` |
 
-See [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) for the sibling rootless-first
+See `/charly-distros:charly-fedora` for the sibling rootless-first
 box that proves this posture works under streaming-desktop +
 nested-VM load, and [`/charly-distros:container-nesting`](/recipes/distros/container-nesting/) for the kernel
 `mount_too_revealing()` RCA.
@@ -73,7 +73,7 @@ mappings to work with. (That leg also handles host-networked containers
 via `HostConfig.NetworkMode` detection — `ContainerInspection.IsHostNetworked()` in
 `sdk/kit/checkvars.go` — so the bridge isn't strictly required
 — but it remains the portable default.) If host-port 2222 is already taken by
-another running box (canonical conflict: [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/)
+another running box (canonical conflict: `/charly-distros:charly-fedora`
 or any `selkies-desktop-*` variant), remap at config time:
 `charly config charly-arch -p 2223:2222`.
 
@@ -199,7 +199,7 @@ packages and scripts per distro.
 - [`/charly-distros:arch`](/recipes/distros/arch/) — parent base image
 - [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/) — Fedora counterpart, same candies, same rootless posture
 - [`/charly-coder:fedora-coder`](/recipes/coder/fedora-coder/) — kitchen-sink dev sibling (adds coding CLIs + DevOps)
-- [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) — streaming-desktop counterpart (charly toolchain + browser-accessible Wayland); shares the rootless-first posture
+- `/charly-distros:charly-fedora` — streaming-desktop counterpart (charly toolchain + browser-accessible Wayland); shares the rootless-first posture
 - [`/charly-distros:githubrunner`](/recipes/distros/githubrunner/) — self-hosted GitHub Actions runner; same uid=1000 posture
 
 ## Related Commands

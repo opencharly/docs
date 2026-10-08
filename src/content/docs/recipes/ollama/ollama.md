@@ -79,7 +79,7 @@ and Volumes.)
   such list through the Arch-only rule above, which is the part that does not
   move.
 - A consumer that composes neither pays for neither ON A PACKAGED DISTRO —
-  e.g. [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) (cachyos base, no GPU candy). On a
+  e.g. `/charly-distros:charly-fedora` (cachyos base, no GPU candy). On a
   tarball distro it still carries the bundled CUDA backend.
 
 ## Ports
@@ -177,7 +177,7 @@ composition.
 
 - [`/charly-distros:nvidia`](/recipes/distros/nvidia/) — the GPU base family
 - [`/charly-distros:cachyos`](/recipes/distros/cachyos/) — the CachyOS image family, which carries its own ollama boxes
-- [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) — a desktop image that serves a local ollama
+- `/charly-distros:charly-fedora` — a desktop image that serves a local ollama
 - [`/charly-jupyter:jupyter-ml-notebook`](/recipes/jupyter/jupyter-ml-notebook/) — receives `OLLAMA_HOST` via env_provide when ollama is deployed
 - [`/charly-openwebui:openwebui`](/recipes/openwebui/openwebui/) — receives `OLLAMA_HOST` via env_provide, auto-configures as `OLLAMA_BASE_URL`
 

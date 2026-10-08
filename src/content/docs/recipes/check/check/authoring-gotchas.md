@@ -374,16 +374,16 @@ Worked example: [`/charly-coder:sshd`](/recipes/coder/sshd/) ships exactly the `
 `charly check box` resolves its positional argument against local podman storage, not `charly.yml`. When the host has accumulated many CalVer tags for the same image (a normal consequence of iterative `charly box build` runs), the short form errors out:
 
 ```
-charly: error: ambiguous short name "openclaw-desktop" in local storage;
-           candidates: ghcr.io/opencharly/openclaw-desktop:latest,
-           ghcr.io/opencharly/openclaw-desktop:2026.109.1418,
+charly: error: ambiguous short name "charly-fedora" in local storage;
+           candidates: ghcr.io/opencharly/charly-fedora:latest,
+           ghcr.io/opencharly/charly-fedora:2026.281.1200,
            ... Re-run with a full ref.
 ```
 
 Use the fully-qualified registry ref:
 
 ```bash
-charly check box ghcr.io/opencharly/openclaw-desktop:latest
+charly check box ghcr.io/opencharly/charly-fedora:latest
 ```
 
 This is different from `charly box inspect`, `charly box build`, and `charly check live` (the live-service runner), which key off `charly.yml` and accept short names unambiguously. Only the disposable-container runner has this restriction because it does not consult `charly.yml` at all.

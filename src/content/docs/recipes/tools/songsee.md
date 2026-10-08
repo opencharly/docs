@@ -34,12 +34,9 @@ my-box:
 ```
 
 ## Used In Boxes
-
-- `openclaw-full` (via `openclaw-full` metalayer)
-
 ## Related Candies
 - [`/charly-coder:golang`](/recipes/coder/golang/) -- build/runtime dependency
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) -- parent metalayer that bundles songsee
+- `/charly-openclaw:openclaw-layer` -- parent metalayer that bundles songsee
 
 ## Related Commands
 - [`/charly-core:shell`](/recipes/core/shell/) -- run songsee CLI inside the container

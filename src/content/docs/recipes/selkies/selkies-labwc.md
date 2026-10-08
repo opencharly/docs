@@ -367,7 +367,7 @@ diagnostic recipe that found the leak.
 ## Related Boxes
 
 - [`/charly-selkies:selkies-labwc-nvidia`](/recipes/selkies/selkies-labwc-nvidia/) — the GPU sibling of this CPU box: the same `selkies-desktop` metalayer on the CachyOS GPU base (`cachyos.nvidia`, `build: [pac, aur]`) with `builder.pixi: arch.cuda-arch-builder` for real NVENC, in the `opencharly/distro-cachyos` submodule. See [`/charly-distros:cachyos`](/recipes/distros/cachyos/).
-- [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) — all-in-one CachyOS variant: this streaming desktop fused with the openclaw-full gateway + AI CLIs, a CPU ollama, and the full charly toolchain (build boxes, run nested pods, launch rootless libvirt VMs from inside the streaming desktop). Uses [`/charly-distros:container-nesting`](/recipes/distros/container-nesting/)'s `unmask=/proc/*` posture — no `--privileged`, still uid 1000.
+- `/charly-distros:charly-fedora` — all-in-one CachyOS variant: this streaming desktop fused with the openclaw gateway + AI CLIs, a CPU ollama, and the full charly toolchain (build boxes, run nested pods, launch rootless libvirt VMs from inside the streaming desktop). Uses [`/charly-distros:container-nesting`](/recipes/distros/container-nesting/)'s `unmask=/proc/*` posture — no `--privileged`, still uid 1000.
 - [`/charly-selkies:sway-browser-vnc`](/recipes/selkies/sway-browser-vnc/) — VNC-based alternative using Sway compositor instead of Selkies/labwc streaming
 
 ## Verification

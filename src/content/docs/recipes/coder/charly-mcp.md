@@ -124,7 +124,7 @@ Six deploy-scope tests ship with the candy:
 
 All `mcp:` checks pass `mcp_name: charly` so they stay unambiguous on
 boxes that also expose `jupyter` or `chrome-devtools` servers
-(e.g. [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/)).
+(e.g. `/charly-distros:charly-fedora`).
 
 ## Host networking caveat
 

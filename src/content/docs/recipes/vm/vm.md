@@ -620,7 +620,7 @@ rm /tmp/bootc.tar
 charly vm build <name> --transport containers-storage
 ```
 
-`--transport containers-storage` forces `bootc install` to pull from the machine's local store. Worked example: [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) "Two-level nested-virtualization proof".
+`--transport containers-storage` forces `bootc install` to pull from the machine's local store. Worked example: `/charly-distros:charly-fedora` "Two-level nested-virtualization proof".
 
 ### `charly vm destroy` — the DEPLOY name keys the domain (`--domain`) and missing targets are strict
 
@@ -697,7 +697,7 @@ Expected. The agent needs a `virtio-serial` channel that charly's QEMU backend d
 - [`/charly-build:pull`](/recipes/build/pull/) — fetch container images into local storage (prereq for bootc VM builds)
 - [`/charly-build:build`](/recipes/build/build/) — building container images before VM disk builds
 - [`/charly-image:layer`](/recipes/image/layer/) — `libvirt.snippets:` field in charly.yml
-- [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) — two-level nested-virtualization proof
+- `/charly-distros:charly-fedora` — two-level nested-virtualization proof
 - [`/charly-distros:cloud-init`](/recipes/distros/cloud-init/) — guest-side cloud-init package (complements host-side seed ISO rendering)
 - [`/charly-distros:qemu-guest-agent`](/recipes/distros/qemu-guest-agent/) — virtio-serial channel
 
