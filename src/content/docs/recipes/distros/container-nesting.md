@@ -379,7 +379,6 @@ this order:
 
 ## Used In Boxes
 
-- [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) — rootless path; box-level adds nothing
 - [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/) — root path; box-level adds `cap_add:[ALL] + security_opt:[label=disable, seccomp=unconfined]`
 - [`/charly-coder:charly-arch`](/recipes/coder/charly-arch/) — same root path as charly-fedora
 - [`/charly-distros:githubrunner`](/recipes/distros/githubrunner/) — same root path; doesn't compose the full charly toolchain but keeps nested podman for CI workloads

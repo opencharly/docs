@@ -28,7 +28,6 @@ my-box:
 
 ## Used In Boxes
 
-- `openclaw-full` (via `openclaw-full` metalayer)
 
 ## Related Candies
 - [`/charly-coder:nodejs`](/recipes/coder/nodejs/) — required runtime dependency

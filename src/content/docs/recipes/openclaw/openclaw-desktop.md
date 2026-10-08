@@ -221,7 +221,6 @@ ollama API, chrome-devtools-mcp port). The R10 bed is
 ## Key Candies
 
 - [`/charly-selkies:selkies-desktop-layer`](/recipes/selkies/selkies-desktop-layer/) — the streaming desktop metalayer
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) — gateway + the OpenClaw tools (claude-code/codex/gemini)
 - [`/charly-ollama:ollama`](/recipes/ollama/ollama/) — CPU/GPU-agnostic Ollama candy (GPU is box-level)
 - [`/charly-tools:charly`](/recipes/tools/charly/) — the full toolchain: charly binary + virtualization + gocryptfs + socat
 - [`/charly-distros:container-nesting`](/recipes/distros/container-nesting/) — rootless nested podman recipe (RCA for `unmask=/proc/*`)
@@ -230,7 +229,6 @@ ollama API, chrome-devtools-mcp port). The R10 bed is
 
 ## Related Boxes
 
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) — the headless gateway + tools WITHOUT the desktop / ollama / charly toolchain.
 - [`/charly-openclaw:openclaw`](/recipes/openclaw/openclaw/) — minimal gateway only.
 - [`/charly-selkies:selkies-labwc`](/recipes/selkies/selkies-labwc/) — the CPU streaming desktop WITHOUT openclaw / ollama / charly toolchain.
 - [`/charly-selkies:selkies-labwc-nvidia`](/recipes/selkies/selkies-labwc-nvidia/) — GPU streaming desktop (base nvidia), no openclaw/ollama/charly toolchain.

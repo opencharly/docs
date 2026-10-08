@@ -251,7 +251,6 @@ All four produce the same daily-dev surface (sshd on 2222, charly-mcp on 18765, 
 
 ## Related Boxes
 
-- [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) — sibling rootless-first power-user box; same security posture + container-nesting, but adds the streaming desktop. Prefer when you want browser-accessible GUI + dev tools.
 - [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/) — minimal charly toolchain (no coding CLIs, no DevOps), also uid=1000 with sudo.
 - [`/charly-coder:charly-arch`](/recipes/coder/charly-arch/) — Arch Linux counterpart of charly-fedora.
 - [`/charly-distros:githubrunner`](/recipes/distros/githubrunner/) — self-hosted GitHub Actions runner; same uid=1000 posture.

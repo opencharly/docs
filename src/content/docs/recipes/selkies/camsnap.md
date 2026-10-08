@@ -35,11 +35,9 @@ my-box:
 
 ## Used In Boxes
 
-- `openclaw-full` (via `openclaw-full` metalayer)
 
 ## Related Candies
 - [`/charly-coder:golang`](/recipes/coder/golang/) — Required Go runtime parent dependency
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) — Metalayer that bundles camsnap with other agent CLIs
 
 ## Related Commands
 - [`/charly-build:build`](/recipes/build/build/) — Builds the candy (Go install via a `command:` run step)

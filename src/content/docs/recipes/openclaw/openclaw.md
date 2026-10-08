@@ -50,7 +50,6 @@ charly start openclaw
 
 ## Related Boxes
 
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) — maximal variant (gateway + browser + all tools)
 
 ## Verification
 
