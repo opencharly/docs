@@ -35,7 +35,7 @@ my-box:
 
 ## Related Candies
 - [`/charly-coder:golang`](/recipes/coder/golang/) — required Go toolchain dependency
-- [`/charly-tools:goplaces`](/recipes/tools/goplaces/) — sibling Go-based CLI in openclaw-full
+- [`/charly-tools:goplaces`](/recipes/tools/goplaces/) — sibling Go-based CLI
 
 ## Related Commands
 - [`/charly-build:build`](/recipes/build/build/) — compiles gifgrep via the Go builder during image build

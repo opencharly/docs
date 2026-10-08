@@ -11,8 +11,7 @@ description: "Kitchen-sink development box: coding + AI-coding CLIs + DevOps too
 
 The everyday-development counterpart to [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/): all the
 coding + AI + DevOps tooling a developer needs in one box, no desktop,
-no streaming. Distinct from `openclaw-desktop` (which adds the
-browser-streamed Wayland desktop) — `fedora-coder` is headless and
+no streaming. `fedora-coder` is headless and
 meant to be accessed via `ssh -p 2222` or `charly shell`.
 
 > **Location:** lives in the **`opencharly/distro-fedora`** repo (git submodule at
@@ -85,8 +84,7 @@ normal `-p host:container` remapping (e.g. running `arch-coder` alongside
 
 No `uid:` / `gid:` / `user:` / `security:` override — inherits
 `1000/1000/user` from `defaults` and the candy-level security from
-[`/charly-distros:container-nesting`](/recipes/distros/container-nesting/). Rootless-first by design (shares this
-posture with [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/)).
+[`/charly-distros:container-nesting`](/recipes/distros/container-nesting/). Rootless-first by design.
 
 ## Resolved security posture (OCI label)
 
@@ -272,7 +270,7 @@ All four produce the same daily-dev surface (sshd on 2222, charly-mcp on 18765, 
 
 - Building, deploying, or troubleshooting the `fedora-coder` box.
 - Picking the right power-user base image for a coding/dev workload (this
-  vs. `charly-fedora` vs. `charly-arch` vs. `openclaw-desktop`).
+  vs. `charly-fedora` vs. `charly-arch`).
 - Understanding the rootless-first architectural pattern shared by the
   four power-user boxes (kernel RCA belongs in
   [`/charly-distros:container-nesting`](/recipes/distros/container-nesting/); the composition that proves it works

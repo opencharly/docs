@@ -28,7 +28,7 @@ my-box:
 
 ## Related Candies
 - [`/charly-languages:python`](/recipes/languages/python/) — required Python runtime dependency
-- [`/charly-coder:uv`](/recipes/coder/uv/) — sibling Python tooling in openclaw-full
+- [`/charly-coder:uv`](/recipes/coder/uv/) — sibling Python tooling
 
 ## Related Commands
 - [`/charly-build:build`](/recipes/build/build/) — installs nano-pdf via the pixi builder during image build

@@ -57,8 +57,7 @@ Resolved OCI security label:
 | `devices` | `[/dev/fuse, /dev/net/tun]` (from [`/charly-distros:container-nesting`](/recipes/distros/container-nesting/)) |
 | `privileged` | `false` |
 
-See [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) (streaming-desktop sibling) and
-[`/charly-coder:fedora-coder`](/recipes/coder/fedora-coder/) (kitchen-sink dev sibling) for other boxes
+See [`/charly-coder:fedora-coder`](/recipes/coder/fedora-coder/) (kitchen-sink dev sibling) for another box
 sharing this posture, and [`/charly-distros:container-nesting`](/recipes/distros/container-nesting/) for the
 kernel `mount_too_revealing()` RCA.
 

@@ -620,8 +620,7 @@ rm /tmp/bootc.tar
 charly vm build <name> --transport containers-storage
 ```
 
-`--transport containers-storage` forces `bootc install` to pull from the machine's local store. Worked example: [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) "Two-level nested-virtualization proof".
-
+`--transport containers-storage` forces `bootc install` to pull from the machine's local store. 
 ### `charly vm destroy` — the DEPLOY name keys the domain (`--domain`) and missing targets are strict
 
 The libvirt domain is keyed by the **DEPLOY name** — `charly-<VmDomainIdentity(deploy)>` (strip a

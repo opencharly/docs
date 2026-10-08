@@ -79,7 +79,7 @@ and Volumes.)
   such list through the Arch-only rule above, which is the part that does not
   move.
 - A consumer that composes neither pays for neither ON A PACKAGED DISTRO —
-  e.g. [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) (cachyos base, no GPU candy). On a
+  e.g. a CachyOS base with no GPU candy. On a
   tarball distro it still carries the bundled CUDA backend.
 
 ## Ports

@@ -10,7 +10,7 @@ description: "Self-hosted GitHub Actions runner on CachyOS, fully rootless — r
 # githubrunner
 
 Self-hosted GitHub Actions runner on **CachyOS**, fully rootless. Shares the
-rootless nested-container posture with [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) (uid=1000,
+rootless nested-container posture (uid=1000,
 no caps, `unmask=/proc/*` via [`/charly-distros:container-nesting`](/recipes/distros/container-nesting/)).
 
 ## Box Properties
