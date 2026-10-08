@@ -400,14 +400,10 @@ Self-contained skills for running the ollama LLM-server image.
 
 ### charly-openclaw
 
-Self-contained skills for the openclaw image family (CachyOS base): the headless openclaw gateway and the maximal non-browser openclaw-full.
+Self-contained skills for the openclaw image family (CachyOS base): the headless openclaw gateway and its gateway layer.
 
 - [clawhub](/recipes/openclaw/clawhub/)
 - [openclaw](/recipes/openclaw/openclaw/)
-- [openclaw-desktop](/recipes/openclaw/openclaw-desktop/)
-- [openclaw-full](/recipes/openclaw/openclaw-full/)
-- [openclaw-full-layer](/recipes/openclaw/openclaw-full-layer/)
-- [openclaw-full-ml-layer](/recipes/openclaw/openclaw-full-ml-layer/)
 - [openclaw-layer](/recipes/openclaw/openclaw-layer/)
 
 ### charly-openwebui
