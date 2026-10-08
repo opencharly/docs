@@ -177,7 +177,6 @@ composition.
 
 - [`/charly-distros:nvidia`](/recipes/distros/nvidia/) — the GPU base family
 - [`/charly-distros:cachyos`](/recipes/distros/cachyos/) — the CachyOS image family, which carries its own ollama boxes
-- [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) — a desktop image that serves a local ollama
 - [`/charly-jupyter:jupyter-ml-notebook`](/recipes/jupyter/jupyter-ml-notebook/) — receives `OLLAMA_HOST` via env_provide when ollama is deployed
 - [`/charly-openwebui:openwebui`](/recipes/openwebui/openwebui/) — receives `OLLAMA_HOST` via env_provide, auto-configures as `OLLAMA_BASE_URL`
 

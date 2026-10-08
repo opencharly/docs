@@ -45,7 +45,6 @@ charly start openclaw-full
 
 ## Key Candies
 
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) — Metalayer composition (all tools)
 - [`/charly-openclaw:openclaw`](/recipes/openclaw/openclaw/) — AI gateway service
 
 ## Related Boxes

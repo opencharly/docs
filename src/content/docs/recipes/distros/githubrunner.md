@@ -124,7 +124,6 @@ charly remove githubrunner -e RUNNER_TOKEN=<remove-token>
 ## Related Boxes
 
 - [`/charly-distros:cachyos`](/recipes/distros/cachyos/) — the CachyOS base (parent, via the `cachyos` namespace)
-- [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) — same rootless container-nesting posture (uid 1000, no caps)
 - [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/), [`/charly-coder:charly-arch`](/recipes/coder/charly-arch/) — the charly-toolchain siblings (root path, box-level full-hammer security)
 
 ## Related Commands

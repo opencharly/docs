@@ -26,13 +26,8 @@ my-box:
         candy: [oracle]
 ```
 
-## Used In Boxes
-
-- `openclaw-full` (via `openclaw-full` metalayer)
-
 ## Related Candies
 - [`/charly-coder:nodejs`](/recipes/coder/nodejs/) -- runtime dependency
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) -- parent metalayer that bundles oracle
 
 ## Related Commands
 - [`/charly-automation:openclaw-deploy`](/recipes/automation/openclaw-deploy/) -- gateway/skill configuration

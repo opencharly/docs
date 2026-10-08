@@ -33,13 +33,8 @@ my-box:
     candy: [ordercli]
 ```
 
-## Used In Boxes
-
-- `openclaw-full` (via `openclaw-full` metalayer)
-
 ## Related Candies
 - [`/charly-coder:golang`](/recipes/coder/golang/) -- build/runtime dependency
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) -- parent metalayer that bundles ordercli
 
 ## Related Commands
 - [`/charly-core:shell`](/recipes/core/shell/) -- run ordercli inside the container

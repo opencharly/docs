@@ -31,10 +31,6 @@ my-box:
       - '@github.com/opencharly/layer-tmux'
 ```
 
-## Used In Boxes
-
-- `openclaw-full` (via `openclaw-full` metalayer)
-
 ## Related Skills
 
 - [`/charly-automation:tmux`](/recipes/automation/tmux/) — Typed persistent terminals, safe input, snapshots, transcripts, and agent runtimes

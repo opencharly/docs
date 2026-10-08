@@ -26,13 +26,8 @@ my-box:
     candy: [nano-pdf]
 ```
 
-## Used In Boxes
-
-- `openclaw-full` (via `openclaw-full` metalayer)
-
 ## Related Candies
 - [`/charly-languages:python`](/recipes/languages/python/) — required Python runtime dependency
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) — metalayer that includes nano-pdf
 - [`/charly-coder:uv`](/recipes/coder/uv/) — sibling Python tooling in openclaw-full
 
 ## Related Commands

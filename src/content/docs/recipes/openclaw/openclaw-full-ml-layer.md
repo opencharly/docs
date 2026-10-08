@@ -39,7 +39,6 @@ openclaw-full-ml-box:
 
 
 ## Related Candies
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) -- base composition with all OpenClaw tools
 - [`/charly-tools:whisper`](/recipes/tools/whisper/) -- speech-to-text component
 - [`/charly-tools:sherpa-onnx`](/recipes/tools/sherpa-onnx/) -- offline TTS component
 

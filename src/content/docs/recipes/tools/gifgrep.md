@@ -33,13 +33,8 @@ my-box:
     candy: [gifgrep]
 ```
 
-## Used In Boxes
-
-- `openclaw-full` (via `openclaw-full` metalayer)
-
 ## Related Candies
 - [`/charly-coder:golang`](/recipes/coder/golang/) — required Go toolchain dependency
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) — metalayer that includes gifgrep
 - [`/charly-tools:goplaces`](/recipes/tools/goplaces/) — sibling Go-based CLI in openclaw-full
 
 ## Related Commands

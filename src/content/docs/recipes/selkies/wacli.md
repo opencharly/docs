@@ -33,13 +33,8 @@ my-box:
     candy: [wacli]
 ```
 
-## Used In Boxes
-
-- `openclaw-full` (via `openclaw-full` metalayer)
-
 ## Related Candies
 - [`/charly-coder:golang`](/recipes/coder/golang/) — Go toolchain dependency
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) — metalayer that bundles wacli
 - [`/charly-hermes:hermes`](/recipes/hermes/hermes/) — companion messaging stack with WhatsApp bridge
 
 ## Related Commands

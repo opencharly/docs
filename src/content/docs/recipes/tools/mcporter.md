@@ -26,13 +26,8 @@ my-box:
     candy: [mcporter]
 ```
 
-## Used In Boxes
-
-- `openclaw-full` (via `openclaw-full` metalayer)
-
 ## Related Candies
 - [`/charly-coder:nodejs`](/recipes/coder/nodejs/) — required runtime dependency
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) — metalayer that includes mcporter
 - [`/charly-coder:claude-code`](/recipes/coder/claude-code/) — sibling AI CLI commonly paired with MCP tools
 
 ## Related Commands

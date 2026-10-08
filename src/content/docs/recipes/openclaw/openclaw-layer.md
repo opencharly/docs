@@ -44,7 +44,6 @@ openclaw config              # uses the alias
 ## Used In Boxes
 
 - [`/charly-openclaw:openclaw`](/recipes/openclaw/openclaw/)
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/)
 
 ## Port Relay
 
