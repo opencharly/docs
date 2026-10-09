@@ -158,8 +158,7 @@ Two deliberate choices:
 - **No `user=` directive.** The supervisord programs inherit the parent
   supervisord's uid. On `charly-fedora`/`charly-arch`/`githubrunner`,
   supervisord runs as uid 0 → daemons run as uid 0 →
-  `qemu:///session` targets root's session. On a box whose supervisord
-  supervisord runs as uid 1000 → daemons run as uid 1000 →
+  `qemu:///session` targets root's session. On a box whose supervisord runs as uid 1000 → daemons run as uid 1000 →
   `qemu:///session` targets user's session. Both work because the
   session URI keys off `$XDG_RUNTIME_DIR` rather than a fixed socket
   path.

@@ -61,8 +61,6 @@ Resolved OCI security label:
 
 See [`/charly-distros:container-nesting`](/recipes/distros/container-nesting/) for the kernel
 `mount_too_revealing()` RCA, and `fedora-coder` for a sibling rootless-first box.
-[`/charly-distros:container-nesting`](/recipes/distros/container-nesting/) for the kernel
-`mount_too_revealing()` RCA.
 
 ### Network + port publishing
 
