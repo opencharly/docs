@@ -26,14 +26,10 @@ my-box:
         candy: [gemini]
 ```
 
-## Used In Boxes
-
-- `openclaw-full` (via `openclaw-full` metalayer)
-
 ## Related Candies
 - [`/charly-coder:nodejs`](/recipes/coder/nodejs/) — required runtime dependency
-- [`/charly-coder:claude-code`](/recipes/coder/claude-code/) — sibling AI CLI in openclaw-full and hermes-full
-- [`/charly-coder:codex`](/recipes/coder/codex/) — sibling AI CLI in openclaw-full and hermes-full
+- [`/charly-coder:claude-code`](/recipes/coder/claude-code/) — sibling AI CLI in hermes-full
+- [`/charly-coder:codex`](/recipes/coder/codex/) — sibling AI CLI in hermes-full
 
 ## Related Commands
 - [`/charly-build:secrets`](/recipes/build/secrets/) — provision Gemini API credentials for the CLI

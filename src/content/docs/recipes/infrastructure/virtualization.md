@@ -158,7 +158,7 @@ Two deliberate choices:
 - **No `user=` directive.** The supervisord programs inherit the parent
   supervisord's uid. On `charly-fedora`/`charly-arch`/`githubrunner`,
   supervisord runs as uid 0 → daemons run as uid 0 →
-  `qemu:///session` targets root's session. On `openclaw-desktop`,
+  `qemu:///session` targets root's session. On a box whose supervisord
   supervisord runs as uid 1000 → daemons run as uid 1000 →
   `qemu:///session` targets user's session. Both work because the
   session URI keys off `$XDG_RUNTIME_DIR` rather than a fixed socket
@@ -184,7 +184,7 @@ This candy makes that URI actually work inside a container at uid
   gets KVM acceleration.
 - `virsh -c qemu:///session domcapabilities` reports
   `<domain>kvm</domain>` once the daemons are running — verified
-  on `openclaw-desktop` at uid 1000.
+  on a rootless box at uid 1000.
 
 ## Tests baked into the candy
 
@@ -224,7 +224,7 @@ See [`/charly-check:check`](/recipes/check/check/) "`package:` + `package_map:` 
 
 ```yaml
 # charly.yml — rootless nested VM image
-openclaw-desktop:
+my-rootless-vm-box:
   candy:
     - ...
     - charly                  # the full toolchain — pulls virtualization
@@ -253,7 +253,6 @@ Drops on deb: `gvisor-tap-vsock`, `podman-machine` (not packaged; VM-mode networ
 
 ## Used In Boxes
 
-- [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) — rootless VM host inside a streaming desktop
 - [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/) — root VM host (same daemons, uid 0)
 - [`/charly-coder:charly-arch`](/recipes/coder/charly-arch/) — Arch counterpart
 - [`/charly-coder:debian-coder`](/recipes/coder/debian-coder/), [`/charly-coder:ubuntu-coder`](/recipes/coder/ubuntu-coder/) — deb-based consumers (via the `charly` candy)

@@ -30,13 +30,8 @@ my-box:
     candy: [ripgrep]
 ```
 
-## Used In Boxes
-
-- `openclaw-full` (via `openclaw-full` metalayer)
-
 ## Related Candies
 - [`/charly-coder:dev-tools`](/recipes/coder/dev-tools/) -- bundles ripgrep alongside other CLI utilities
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) -- parent metalayer that bundles ripgrep
 
 ## Related Commands
 - [`/charly-core:shell`](/recipes/core/shell/) -- run rg interactively inside the container
