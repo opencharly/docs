@@ -1,0 +1,61 @@
+/* OpenCharly brand theme — see /STYLE.md. No synthetic logo artwork. */
+:root {
+  --oc-cocoa: #1a0f0a;
+  --oc-ganache: #382a22;
+  --oc-caramel: #d4a574;
+  --oc-creme: #f8ebd7;
+  --oc-flame-blue: #2563eb;
+  --oc-gold: #d4af37;
+  --oc-ivory: #faf9f4;
+  --oc-family-forge: #f97316;
+  --oc-family-proof: #10b981;
+  --oc-family-agents: #a855f7;
+  --oc-family-runtime: #3b82f6;
+  --oc-family-network: #06b6d4;
+  --oc-family-security: #f59e0b;
+  --oc-family-tooling: #64748b;
+  --oc-family-media: #ec4899;
+  --oc-family-packaging: #8b5cf6;
+  --sl-font: 'Inter', system-ui, sans-serif;
+  --sl-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+:root[data-theme='dark'] {
+  --sl-color-bg: var(--oc-cocoa);
+  --sl-color-bg-nav: #21150f;
+  --sl-color-bg-sidebar: #21150f;
+  --sl-color-bg-inline-code: var(--oc-ganache);
+  --sl-color-hairline: #634c3a;
+  --sl-color-hairline-light: #49362a;
+  --sl-color-text: var(--oc-creme);
+  --sl-color-text-accent: #9bc3ff;
+  --sl-color-accent: #9bc3ff;
+  --sl-color-accent-low: #233858;
+  --sl-color-accent-high: #e2efff;
+  --sl-color-white: #fffaf3;
+  --sl-color-black: #160e09;
+}
+:root[data-theme='light'] {
+  --sl-color-bg: var(--oc-ivory);
+  --sl-color-bg-nav: #fffaf2;
+  --sl-color-bg-sidebar: #f6eee3;
+  --sl-color-text: #332219;
+  --sl-color-text-accent: #1746b2;
+  --sl-color-accent: #1746b2;
+  --sl-color-accent-low: #dce8ff;
+  --sl-color-accent-high: #102e75;
+  --sl-color-hairline: #d5c4b0;
+  --sl-color-hairline-light: #e8dacb;
+}
+:root { color-scheme: dark light; }
+body { font-family: var(--sl-font); }
+h1, h2, h3, .hero .tagline { font-family: 'Playfair Display', Georgia, serif; letter-spacing: -.015em; }
+.site-title { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; }
+:root[data-theme='dark'] .site-title { color: var(--oc-creme); }
+:root[data-theme='dark'] .main-pane { background: radial-gradient(ellipse at top right, #382a223d, transparent 55%), var(--oc-cocoa); }
+a:not(.sl-link-button):focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--oc-gold); outline-offset: 3px; }
+.sl-markdown-content :not(pre) > code { border-radius: .3rem; }
+.sl-markdown-content blockquote { border-inline-start-color: var(--oc-caramel); }
+.sl-markdown-content table { border-collapse: collapse; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
