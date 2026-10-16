@@ -7,7 +7,6 @@ description: "The load-time ANCHOR candy for the `kind: jetkvm` device entity."
 
 | | |
 |---|---|
-| **Version** | `2026.268.0001` |
 | **Repo** | `box/omarchy` |
 
 The load-time ANCHOR candy for the `kind: jetkvm` device entity. A flat

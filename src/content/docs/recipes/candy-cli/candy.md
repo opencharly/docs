@@ -19,6 +19,16 @@ description: "`charly candy set` / `charly candy add-<fmt>` — mutate a candy's
 - `charly candy add-<fmt> <name> <pkg…>` — append packages to the distro-format
   section `<fmt>` (e.g. `add-pac`, `add-deb`, `add-rpm`). The verb set derives from
   `sectionDistroPath`, so it cannot drift from the mapped formats.
+- `charly candy params <name> [--check]` — regenerate
+  `candy/<name>/params/cue_types_gen.go` from `candy/<name>/schema/*.cue`. This is
+  the pipeline's ONLY documented entry point: concatenate the schema (the
+  `schemaconcat` contract), head it `package params` + `@go(params)`, run the pinned
+  `cue exp gengotypes` (the `cuetoolchain` pin — provisioned checksum-verified into
+  the charly cache, so no `cue` install and no checkout are needed), then double
+  every json tag with a yaml tag (the `schemaretag` contract). `--check` writes
+  nothing: it exits non-zero when the committed file differs from that pipeline
+  OUTPUT, which is the drift gate a plugin repo's CI should run. `--schema/--pkg/--out`
+  is the explicit form for a schema that is not a candy's.
 
 ## When to use it
 

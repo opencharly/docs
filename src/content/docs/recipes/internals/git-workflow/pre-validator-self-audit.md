@@ -9,6 +9,11 @@ description: "Detail page of the git-workflow recipe card."
 
 # The pre-validator self-audit — one pass to avoid N BLOCK cycles
 
+The checklist the validator applies is the project rulebook's "What the
+validator checks" table: every check, the rule it enforces, and the skill
+section with its full criteria. The six classes below are the ones measured
+to cause first-push BLOCKs, and the preflight removes them before the push.
+
 ## Why (measured, umbrella #286)
 
 Across 9 docs PRs landed in one session, 6 FIRST pushes BLOCKed; 17 validator
@@ -17,7 +22,11 @@ first push. A BLOCK cycle costs a full `charly/pr-validator` run plus a
 re-review; a pre-push self-audit removes it. The one PR that PASSed first try
 had done this pass; the ones that did not, blocked.
 
-## The five classes (root causes)
+A SIXTH class was measured later, by opencharly/marketplace#404, on two more
+first-push BLOCKs — `opencharly/distro-fedora#79` and `opencharly/docs#142` —
+both body-only, and neither covered by classes 1-5.
+
+## The six classes (root causes)
 
 1. **Body claims the diff does not carry** (body-truthfulness): a pasted command
    output that cannot reproduce (a sweep returning `(none)` while a
@@ -28,11 +37,40 @@ had done this pass; the ones that did not, blocked.
    `documentation reviewed` claimed while a non-`.md` code/config file changed.
 3. **A1 incomplete rule accounting**: only some rules answered; a bare `N/A.`
    with no reason.
-4. **Surfaced-failure parking (R2/B14b)**: a failing check pasted with
+4. **Surfaced-failure parking (R1, CONC)**: a failing check pasted with
    "pre-existing / unrelated / environmental" framing and neither fixed nor
-   routed to a named batch.
-5. **Split cutover (B15/R2)**: content removed from surface A in this PR while
+   filed as a real issue under `## Filed issues`.
+
+   **A gate your change turns RED in ANOTHER repo is the same class, whatever its
+   framing.** "The normal producer-first order" describes *why* the red is
+   expected; it does not dispose of the finding. Measured: a plugin PR that
+   canonicalized data the consumer had committed made the consumer's own
+   fail-closed `drift` gate report one stale artifact; the consequence was
+   disclosed in the body and not filed, and the validator correctly BLOCKed it.
+   A producer PR cannot regenerate another repository's artifact — which is
+   exactly why the remedy is the FILED half: an issue in the repo that owns the
+   artifact, a `BLOCKS` on both threads, and the close condition stated.
+5. **Split cutover (HC)**: content removed from surface A in this PR while
    its replacement home on surface B is deferred.
+6. **The asserted-check overclaim (universal / negative quantifier)**: a claim
+   of COMPLETENESS stated as fact — "only occurrence in the repo", "every URL
+   checked", "no other file uses it", "the lists match `…`" — with no pasted
+   command and its output behind it. Measured pair: `distro-fedora#79` (a
+   repo-wide "only occurrence" with no command at all) and `docs#142` ("every
+   URL checked", two configured endpoints missing). A completeness claim IS a
+   check: paste the command that proves it, or drop the claim — never leave a
+   quantifier standing on the author's confidence.
+
+   **A PROPERTY of the surface the PR changes is the same species, and it does
+   not look like a quantifier.** Which fields are required, what a default is,
+   what a key's type is, what a value's indicator means — each is a check about
+   the very file the diff edits, and stating it from the design notes instead of
+   the committed file is the identical failure. Measured: `spec#247` round 1
+   BLOCKed on "*`#Skill`'s `name`, `description` and `content` become optional;
+   `family`, `owner`, `triggers` and `category` stay required*", when only
+   `family` and `owner` carried no `?` — `triggers` and `category` were already
+   optional and stayed so. No command stood behind the sentence, and the PR's
+   own test contradicted it.
 
 ## The preflight (run BEFORE the first push)
 
@@ -47,32 +85,97 @@ had done this pass; the ones that did not, blocked.
    placeholders. Show every filter/pathspec. If a known survivor exists (a
    deliberately deferred reference), name it — never imply the sweep is
    complete when it is not.
+   **3b. Re-read the WHOLE edited unit, not just the hunk.** A claim can
+   contradict the change inside the very text you edited: `distro-fedora#79`
+   was fixing a candy description while the description still said "injected
+   init" and "neither composed candy" — the fix and its contradiction shipped
+   together. Read the complete paragraph / string / template you touched, then
+   read its siblings (the other `description:`s in the same file) for the same
+   phrase. `docs#142` is the same failure one level up: a completeness claim
+   ("every URL checked") that two lines of the changed file already refuted.
+   **3c. Derive every asserted PROPERTY of the changed surface from the
+   COMMITTED file, and keep the claim and its command adjacent.** The command
+   that decides a requiredness, a default, a key's type or an indicator's
+   meaning runs against the file as committed — after the edit, from `HEAD` —
+   never the working tree and never the pre-edit text, and its output goes in the
+   body beside the claim or the claim is dropped. Reading the file and then
+   writing the claim from memory are indistinguishable in the resulting body;
+   only the pasted output tells them apart.
+   **3d. A fence is evidence about a HEAD, and it EXPIRES when the head moves —
+   re-run or drop EVERY fence in the body, not only the ones you just wrote.** A
+   fence carried across a head is indistinguishable from a fabricated paste to
+   the validator, which is right to block it. Measured: `spec#247` round 3 blocked
+   on a round-1 fence whose pasted `git diff --stat` showed `+38/−11` —
+   legitimate at round 1, when the generated file was not yet committed, and a
+   no-op by round 3. That round exposed the sub-case too: the command's first
+   re-run FAILED on a `TMPDIR` that did not exist, and a command that cannot
+   succeed is not evidence — an `rc` read from a pipeline rather than from the
+   command is how such a failure hides.
+   **3e. A consequence your change causes in ANOTHER repo is FILED, never
+   narrated.** When the diff turns a CONSUMER's gate red — its corpus, its
+   drift, a pin that no longer matches — file the issue in the repo that owns
+   the artefact, post `BLOCKS` on both threads, and state the close condition.
+   "Expected", "by design" and "the normal producer-first order" explain WHY it
+   is red; none of them is a disposition. R1's remedy for a consequence you
+   cannot fix in-tree is the filed half, and only the filed half.
 4. Account for EVERY applicable rule (the repo's numbered rules AND R1–R10)
    with a one-line `HOW` or `N/A — <reason>`; never a bare `N/A.`
 5. NEVER surface a failure you cannot own. Either fix it (including the coupled
    pin/migrate, not just the manifest) or omit it and paste only the repo's
-   authoritative gate. If it is genuinely separate, name the EXACT owning
-   batch/task id — "pre-existing/unrelated" with no exit is a BLOCK. The
+   authoritative gate. If it is genuinely separate (non-blocking), FILE it
+   and list the real `<repo>#<n>` under `## Filed issues` (R1) —
+   "pre-existing/unrelated" with no issue number is a BLOCK. The
    repo's authoritative gate must be **DISCOVERED** (its CURRENT workflow file
    under `.github/workflows/`, read from upstream — `gh api
    repos/<o>/<r>/contents/.github/workflows` / `git ls-remote`), never
    assumed from a brief or a memorized file name: `opencharly/.github#141`
    deleted the per-repo `deploy.yml` gate from ~376 repos, so a brief-baked
-   gate name is a falsity the body would carry (B10/R1).
+   gate name is a falsity the body would carry (R5/R1).
 6. One cutover = remove AND place in the SAME change. If the replacement home
-   does not exist yet, land the home first, or name a DISTINCT immediate-next
-   batch cutover with a stated non-blocking rationale (the pointer must not be
-   empty).
+   does not exist yet, land the home first (producer-first). Removing content
+   whose home is deferred is a split cutover and is blocking, never filed.
 7. Guardrail / validator-spec edits (a validator's own prompt, a
    `FORBIDDEN_*` list, a gate) are T4 self-modifying-security changes: they
    need a maintainer-account sign-off or must be split into their own
-   signed-off change. Never WEAKEN a marker without pasted proof; prefer
+   signed-off change. The sign-off is posted BEFORE the next push or re-run,
+   never after (B2b.1 "How and when a sign-off is made"). Never WEAKEN a marker without pasted proof; prefer
    strengthening.
 8. The PR title must match the diff.
 9. Arm the watcher (`marketplace/scripts/pr_state_watch.sh <owner>/<repo> <pr>`),
-   read every verdict IN FULL, fix ALL blocks in ONE commit, and push a NEW
-   commit — never re-dispatch the same head, never push again while at the
-   auto-close block limit.
+   and run the read-in-full gate before EVERY update push (the project
+   rulebook "Before every update push: read everything, fix everything"):
+   every new comment and the full verdict read IN FULL; EVERY finding fixed or
+   rebutted with evidence; a fresh RCA naming the missed control posted in the
+   round's comment; then ONE new commit and ONE push — never re-dispatch the
+   same head, never push again while at the auto-close block limit.
+10. List every issue R1 filed or updated under `## Filed issues`
+   (`<repo>#<n> — <one line>`), and post `STATUS` on your claimed thread
+   (the project rulebook Part II #11).
+
+## The mechanical half — `scripts/pr_body_lint.py`
+
+The classes that need no judgment are checked by a TOOL, not by eye.
+`marketplace/scripts/pr_body_lint.py` fails closed (exit 1) before the push on:
+a missing required section (`## Summary`, `## How tested`, `## Rulebook
+compliance`, `## Change classification`); a trailer that is not the LAST line (or
+an `Agent:` line not directly preceding it); a rule with no answer, or a bare
+`N/A` with no reason (class 3); an asserted check with no LATER fenced block
+carrying a `$ ` command (class 6); a pasted head SHA that is not `git rev-parse
+HEAD` (class 1); and any ellipsis character inside a fence. Run it on the body
+file BEFORE the push:
+
+```
+python3 scripts/pr_body_lint.py <body.md> --repo <worktree>
+```
+
+The rule ids required in `## Rulebook compliance` default to R0-R10; a repo with
+its own numbered rules passes `--rules R0,R1,R2,R3,R4,R5,R6,R7,R8,R9,R10`.
+Exit 0 is clean, exit 1 is a finding to fix before the push.
+
+It removes the classes that need no judgment; whether the evidence is
+SUFFICIENT stays the validator's call. A body-only BLOCK that survives a clean
+lint run is a judgment failure, not a lint failure — which is exactly why step
+3b is not optional.
 
 ## For the delegating parent
 

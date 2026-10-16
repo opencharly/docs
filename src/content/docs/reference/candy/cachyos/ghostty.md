@@ -7,7 +7,6 @@ description: "Ghostty GPU-accelerated terminal emulator Installs the ghostty ter
 
 | | |
 |---|---|
-| **Version** | `2026.144.1443` |
 | **Repo** | `box/cachyos` |
 
 Ghostty GPU-accelerated terminal emulator

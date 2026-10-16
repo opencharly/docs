@@ -14,5 +14,5 @@ title: "web"
 
 This box composes:
 
-- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
-- `@github.com/opencharly/pod-web-layer:v2026.239.1636`
+- `@github.com/opencharly/layer-supervisord:v2026.271.1817`
+- `@github.com/opencharly/pod-web-layer:v2026.274.0635`

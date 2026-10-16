@@ -303,7 +303,7 @@ The resolved OCI label then unions to
 `cap_add:[ALL] + security_opt:[unmask=/proc/*, label=disable, seccomp=unconfined]`,
 which matches their historical posture.
 
-Rootless boxes like [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) don't add a
+A rootless box that composes this candy adds no
 box-level `security:` block, so the resolved posture stays at
 `security_opt:[unmask=/proc/*]` only — zero capability escalation.
 
@@ -315,11 +315,11 @@ box-level `security:` block, so the resolved posture stays at
 
 ```yaml
 # charly.yml
-openclaw-desktop:
+my-rootless-box:
   base: cachyos.cachyos
   candy:
     - selkies-desktop
-    - openclaw-full
+
     - ollama
     - charly
     - container-nesting   # donates unmask + devices + config + env
@@ -331,7 +331,7 @@ openclaw-desktop:
 
 ```yaml
 # charly.yml
-charly-fedora:
+my-root-box:
   base: fedora
   uid: 0
   gid: 0
@@ -353,16 +353,16 @@ Both paths work; they just resolve to different OCI security labels.
 ## Verification
 
 ```bash
-# Rootless posture on openclaw-desktop
-charly box inspect openclaw-desktop | jq '.HostConfig? // .Config.Labels."ai.opencharly.security"'
+# Rootless posture on the box
+charly box inspect my-rootless-box | jq '.HostConfig? // .Config.Labels."ai.opencharly.security"'
 # → cap_add:[], security_opt:[unmask=/proc/*], devices:[/dev/fuse,/dev/net/tun]
 
 # Nested podman smoke (inside the running container)
-charly shell openclaw-desktop -c 'podman run --rm quay.io/libpod/alpine:latest true'
+charly shell my-rootless-box -c 'podman run --rm quay.io/libpod/alpine:latest true'
 # → exit 0, NO "mount proc to proc: Operation not permitted"
 
 # Diagnostic: inspect the OCI spec generated for a nested container
-charly shell openclaw-desktop -c '
+charly shell my-rootless-box -c '
   podman create --name t quay.io/libpod/alpine:latest /bin/true >/dev/null
   sf=$(find ~/.local/share/containers -name config.json -path "*/userdata/*" | head -1)
   jq ".linux.maskedPaths" "$sf"'
@@ -377,9 +377,71 @@ this order:
 3. `cat /etc/subuid` — must show the 1:999 + 1001:64535 pattern for the primary user.
 4. `podman inspect <outer-container> --format '{{.HostConfig.SecurityOpt}}'` — must include `unmask=/proc/*`.
 
+## Build-time `/tmp` corruption (the pre-pull trigger)
+
+A box composing this candy can ship an image whose `/tmp` is
+`root:root 0755` instead of `1777`, after which every uid-1000 writer of
+`/tmp` fails at container start:
+
+```
+supervisord: logfile=/tmp/supervisord.log — Permission denied
+pod-dbus:    unix:path=/tmp/dbus-session — EACCES
+```
+
+**Mechanism (RCA 2026-09-24, proven by a controlled 2×2 and by instrumented
+build probes):** a BuildKit **cache mount rooted under `/tmp`**
+(`--mount=type=cache,...,dst=/tmp/...`) combined with a **nested container
+runtime that writes under `/tmp` in the same RUN** makes BuildKit
+**materialise `/tmp` at the process umask (`0755`)** instead of preserving
+the lower layer's `1777`; the change is committed into the image. Either
+factor alone is harmless — only the combination breaks it:
+
+| cache dst | nested runtime in the same RUN | image `/tmp` |
+|---|---|---|
+| — | — | 1777 |
+| `/tmp/npm-cache` | no | 1777 |
+| outside `/tmp` | yes | 1777 |
+| `/tmp/npm-cache` | yes | **755** |
+
+This candy's **pre-pull step is exactly that combination** — a `command:`
+step run as `${USER}` (non-root) to which the emitter attaches a
+`dst=/tmp/npm-cache` cache, whose command is a `podman pull`. So *any* box
+composing `container-nesting` was affected; the trigger is not the box's
+own steps. The host `/tmp` is untouched (rootless isolation holds — the
+`0755` lives in the image's own overlay layer).
+
+**Detect** (build scope): `podman run --rm --entrypoint /bin/sh <image> -c
+'stat -c "%a %U:%G" /tmp'` must print `1777 root:root`.
+
+**Fix** — two layers, root fix first:
+
+1. **Root (source):** the emitter's caches must not live under `/tmp`. This
+   is `opencharly/sdk` — the emitter moves `EmitDownload`
+   (`/tmp/downloads`) and `EmitCmd`'s non-root `/tmp/npm-cache` to
+   `/var/cache/charly/...`. It is a **named batch member** of
+   opencharly/distro-cachyos#95 ("/tmp build-cache cutover — retire the
+   tmp-sticky belt once the SDK emitter is repinned"), which also carries
+   the `layer-claude-code` staging fix and the belt's retirement. Once the
+   SDK is repinned, no candy leaves `/tmp` at `0755` and the belt below is
+   removed.
+2. **Interim belt (defensive, order-independent, TEMPORARY):** until that
+   repin, a `run_as: root` `chmod 1777 /tmp` step composed **after** the
+   pre-pull, plus a `check:` asserting `stat -c '%a' /tmp` = `1777`. This
+   is a stopgap for images built by the CURRENT emitter — the product
+   defect it works around is the emitter's cache location (item 1), and
+   the belt is deleted when item 1 lands (R5), not kept as the fix. Compose
+   it LAST — but note the emitter orders candies by global popularity, not
+   authored position, so verify the emitted `chmod` line lands *after* the
+   nested runtime's RUN in the generated Containerfile rather than trusting
+   the authored order.
+
+A `download:` step that stages into `/tmp` as uid 1000 (e.g.
+`to: /tmp/foo-install.sh`) is a downstream **victim** — it fails once the
+pre-pull has already corrupted `/tmp` earlier in the same build; fix the
+trigger (item 1), and keep such staging out of `/tmp`.
+
 ## Used In Boxes
 
-- [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) — rootless path; box-level adds nothing
 - [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/) — root path; box-level adds `cap_add:[ALL] + security_opt:[label=disable, seccomp=unconfined]`
 - [`/charly-coder:charly-arch`](/recipes/coder/charly-arch/) — same root path as charly-fedora
 - [`/charly-distros:githubrunner`](/recipes/distros/githubrunner/) — same root path; doesn't compose the full charly toolchain but keeps nested podman for CI workloads
@@ -404,7 +466,7 @@ this order:
 - Authoring or debugging any candy/box that needs nested podman, buildah, or skopeo.
 - Chasing `mount_too_revealing` / `mount proc to proc: Operation not permitted` errors — this is the authoritative RCA.
 - Choosing between `--privileged`, `cap_add: ALL`, and `unmask=/proc/*` — this skill documents why the surgical `unmask` fix is the minimum-privilege path and the others are hammers.
-- Evaluating the security posture of [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/), [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/), [`/charly-coder:charly-arch`](/recipes/coder/charly-arch/), or [`/charly-distros:githubrunner`](/recipes/distros/githubrunner/).
+- Evaluating the security posture of [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/), [`/charly-coder:charly-arch`](/recipes/coder/charly-arch/), or [`/charly-distros:githubrunner`](/recipes/distros/githubrunner/).
 
 ## Related
 

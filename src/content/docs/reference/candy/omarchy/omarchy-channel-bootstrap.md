@@ -7,7 +7,6 @@ description: "The ONE channel-bootstrap helper for the omarchy keeper lanes (T11
 
 | | |
 |---|---|
-| **Version** | `2026.247.1300` |
 | **Repo** | `box/omarchy` |
 
 The ONE channel-bootstrap helper for the omarchy keeper lanes (T11 —

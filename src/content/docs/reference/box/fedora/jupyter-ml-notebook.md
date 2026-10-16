@@ -14,11 +14,11 @@ title: "jupyter-ml-notebook"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.243.0408`
-- `@github.com/opencharly/pod-jupyter-ml:v2026.239.1604`
-- `@github.com/opencharly/layer-notebook-templates:v2026.240.0201`
-- `@github.com/opencharly/layer-notebook-finetuning:v2026.239.1606`
-- `@github.com/opencharly/layer-notebook-ollama:v2026.239.1601`
-- `@github.com/opencharly/layer-notebook-llm-on-supercomputers:v2026.240.0119`
-- `@github.com/opencharly/layer-notebook-openrouter:v2026.239.1600`
-- `@github.com/opencharly/pod-dbus:v2026.239.1555`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
+- `@github.com/opencharly/pod-jupyter-ml:v2026.274.0802`
+- `@github.com/opencharly/layer-notebook-templates:v2026.272.0457`
+- `@github.com/opencharly/layer-notebook-finetuning:v2026.272.0321`
+- `@github.com/opencharly/layer-notebook-ollama:v2026.272.0611`
+- `@github.com/opencharly/layer-notebook-llm-on-supercomputers:v2026.272.0441`
+- `@github.com/opencharly/layer-notebook-openrouter:v2026.272.0413`
+- `@github.com/opencharly/pod-dbus:v2026.274.0648`

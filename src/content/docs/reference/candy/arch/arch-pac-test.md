@@ -7,7 +7,6 @@ description: "pacman repo install smoke test — installs neovim and ripgrep Min
 
 | | |
 |---|---|
-| **Version** | `2026.144.1443` |
 | **Repo** | `box/arch` |
 
 pacman repo install smoke test — installs neovim and ripgrep

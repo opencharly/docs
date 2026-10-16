@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-341 cards across 38 plugins, in four groups.
+358 cards across 42 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -88,6 +88,8 @@ Live-container evaluation and probe verbs — `charly check` orchestrator + per-
 
 - [adb](/recipes/check/adb/)
 - [android](/recipes/check/android/)
+- [android-sdk](/recipes/check/android-sdk/)
+- [android-test-apps](/recipes/check/android-test-apps/)
 - [appium](/recipes/check/appium/)
 - [cdp](/recipes/check/cdp/)
 - [check](/recipes/check/check/)
@@ -103,6 +105,7 @@ Live-container evaluation and probe verbs — `charly check` orchestrator + per-
 - [quickshell](/recipes/check/quickshell/)
 - [record](/recipes/check/record/)
 - [spice](/recipes/check/spice/)
+- [transcode](/recipes/check/transcode/)
 - [vnc](/recipes/check/vnc/)
 - [wl](/recipes/check/wl/)
 - [wl-overlay](/recipes/check/wl-overlay/)
@@ -156,12 +159,25 @@ The `charly review` read-only GitHub PR review engine — verb:pr tools, the cha
 
 ## Kinds — schema authoring
 
+### charly-fireactions
+
+Fireactions — GitHub Actions runners on Firecracker microVMs: the pool model where a runner is a microVM, the containerd snapshotter constraint that decides whether a pool needs a spare block device, the opencharly fork and why it is pinned, the host layer that installs the VMM and kernel, and the beds that gate the host and the runner.
+
+- [fireactions](/recipes/fireactions/fireactions/)
+
+### charly-firecracker
+
+Schema authoring reference for the `firecracker` microVM substrate — the root-drive + kernel artefact, the VMM API surface (what it answers and what it rejects), and the boot recipe that needs no TAP, no root and no network.
+
+- [firecracker](/recipes/firecracker/firecracker/)
+
 ### charly-image
 
 Schema authoring reference for `kind: box` and `kind: candy` — charly.yml composition, task verbs, validation.
 
 - [image](/recipes/image/image/)
 - [layer](/recipes/image/layer/)
+- [mise](/recipes/image/mise/)
 
 ### charly-kubernetes
 
@@ -171,6 +187,14 @@ Schema authoring for `kind: kubernetes` — Kustomize manifests, cluster probes 
 - [helm](/recipes/kubernetes/helm/)
 - [kind](/recipes/kubernetes/kind/)
 - [kubernetes](/recipes/kubernetes/kubernetes/)
+
+### charly-kubevirt
+
+Schema authoring for the `kubevirt:` deploy substrate (the 7th) — `kind: kubevirt` templates and `kubevirt:`/`target: kubevirt` deploys, the VirtualMachine CR lifecycle (DataVolume, runStrategy, VMI Ready + AgentConnected, managed `virtctl port-forward`), the out-of-process `kubevirt:` check verb, and the pinned KubeVirt + CDI platform install.
+
+- [check-kubevirt](/recipes/kubevirt/check-kubevirt/)
+- [kubevirt](/recipes/kubevirt/kubevirt/)
+- [kubevirt-operator](/recipes/kubevirt/kubevirt-operator/)
 
 ### charly-local
 
@@ -269,6 +293,7 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [arch-pac-test](/recipes/distros/arch-pac-test/)
 - [arch-test](/recipes/distros/arch-test/)
 - [cachyos](/recipes/distros/cachyos/)
+- [cachyos-extras](/recipes/distros/cachyos-extras/)
 - [cachyos-pacstrap](/recipes/distros/cachyos-pacstrap/)
 - [cachyos-pacstrap-builder](/recipes/distros/cachyos-pacstrap-builder/)
 - [charly-fedora](/recipes/distros/charly-fedora/)
@@ -285,6 +310,7 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [fedora-test](/recipes/distros/fedora-test/)
 - [github-runner](/recipes/distros/github-runner/)
 - [githubrunner](/recipes/distros/githubrunner/)
+- [githubrunner-ubuntu](/recipes/distros/githubrunner-ubuntu/)
 - [layer-nerdctl](/recipes/distros/layer-nerdctl/)
 - [nested-podman-socket](/recipes/distros/nested-podman-socket/)
 - [nvidia](/recipes/distros/nvidia/)
@@ -400,7 +426,7 @@ Self-contained skills for running the ollama LLM-server image.
 
 ### charly-openclaw
 
-Self-contained skills for the openclaw image family (CachyOS base): the headless openclaw gateway and the maximal non-browser openclaw-full.
+Self-contained skills for the openclaw image family (CachyOS base): the headless openclaw gateway.
 
 - [clawhub](/recipes/openclaw/clawhub/)
 - [openclaw](/recipes/openclaw/openclaw/)
@@ -423,6 +449,13 @@ Self-contained skills for the punktfunk streaming-host image family (CachyOS bas
 
 - [punktfunk-host](/recipes/punktfunk/punktfunk-host/)
 
+### charly-qdrant
+
+Self-contained skills for the Qdrant vector-search service family: the pinned static-musl service candy (REST 6333 / gRPC 6334, persistent storage, admin API-key auth from the credential store) and the `charly qdrant` management CLI plus the declarative `qdrant:` check verb.
+
+- [qdrant](/recipes/qdrant/qdrant/)
+- [qdrant-cli](/recipes/qdrant/qdrant-cli/)
+
 ### charly-selkies
 
 Self-contained skills + MCP wiring for the selkies-desktop family (Wayland desktop in a container with VNC + Chrome).
@@ -433,8 +466,10 @@ Self-contained skills + MCP wiring for the selkies-desktop family (Wayland deskt
 - [chrome-devtools-mcp](/recipes/selkies/chrome-devtools-mcp/)
 - [chrome-sway](/recipes/selkies/chrome-sway/)
 - [desktop-fonts](/recipes/selkies/desktop-fonts/)
+- [desktop-media](/recipes/selkies/desktop-media/)
 - [fastfetch](/recipes/selkies/fastfetch/)
 - [ffmpeg](/recipes/selkies/ffmpeg/)
+- [fonts-extended](/recipes/selkies/fonts-extended/)
 - [heroic](/recipes/selkies/heroic/)
 - [kde-selkies](/recipes/selkies/kde-selkies/)
 - [kde-shell](/recipes/selkies/kde-shell/)
@@ -478,10 +513,12 @@ CLI utilities and the charly binary deploy artifacts — ripgrep, himalaya, whis
 - [blogwatcher](/recipes/tools/blogwatcher/)
 - [charly](/recipes/tools/charly/)
 - [crabbox](/recipes/tools/crabbox/)
+- [crabbox-cli](/recipes/tools/crabbox-cli/)
 - [cue](/recipes/tools/cue/)
 - [docs-site](/recipes/tools/docs-site/)
 - [dsh](/recipes/tools/dsh/)
 - [dsh-cli](/recipes/tools/dsh-cli/)
+- [dsh-tui](/recipes/tools/dsh-tui/)
 - [gifgrep](/recipes/tools/gifgrep/)
 - [gogcli](/recipes/tools/gogcli/)
 - [goplaces](/recipes/tools/goplaces/)

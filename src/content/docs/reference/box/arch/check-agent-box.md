@@ -16,13 +16,13 @@ Disposable support image for the complete agent-control R10 bed. It contains the
 
 This box composes:
 
-- `@github.com/opencharly/layer-gh:v2026.239.1624`
-- `@github.com/opencharly/layer-charly:v2026.243.0408`
-- `@github.com/opencharly/plugin-agent/candy/plugin-agent:v2026.242.0525`
-- `@github.com/opencharly/plugin-agent-pi/candy/plugin-agent-pi:v2026.242.0525`
-- `@github.com/opencharly/plugin-tmux/candy/plugin-tmux:v2026.242.0534`
-- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
-- `@github.com/opencharly/layer-tmux:v2026.240.0202`
-- `@github.com/opencharly/pod-sshd:v2026.239.1637`
-- `@github.com/opencharly/layer-pi-agent:v2026.239.1638`
-- `@github.com/opencharly/layer-claude-code:v2026.239.1626`
+- `@github.com/opencharly/layer-gh:v2026.272.0136`
+- `@github.com/opencharly/layer-charly:v2026.274.0345`
+- `@github.com/opencharly/plugin-agent/candy/plugin-agent:v2026.271.2242`
+- `@github.com/opencharly/plugin-agent-pi/candy/plugin-agent-pi:v2026.274.0808`
+- `@github.com/opencharly/plugin-tmux/candy/plugin-tmux:v2026.272.0422`
+- `@github.com/opencharly/layer-supervisord:v2026.271.1817`
+- `@github.com/opencharly/layer-tmux:v2026.272.0425`
+- `@github.com/opencharly/pod-sshd:v2026.272.0324`
+- `@github.com/opencharly/layer-pi-agent:v2026.274.0613`
+- `@github.com/opencharly/layer-claude-code:v2026.271.2310`

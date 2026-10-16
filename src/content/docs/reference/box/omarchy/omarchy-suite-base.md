@@ -31,5 +31,5 @@ no side effects, no upstream source tree needed.
 
 This box composes:
 
-- `@github.com/opencharly/layer-tmux:v2026.240.0202`
-- `@github.com/opencharly/layer-asciinema:v2026.246.1622`
+- `@github.com/opencharly/layer-tmux:v2026.272.0425`
+- `@github.com/opencharly/layer-asciinema:v2026.273.1825`

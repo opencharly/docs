@@ -29,7 +29,7 @@ Mixing those concerns into the shared `tailscale` candy would either
 break bootc consumers (with build-time errors from missing daemon
 socket) or require a target-aware conditional inside the shared candy
 — exactly the kind of `<name>-host` polymorphism that the project rulebook
-"Init-system polymorphism" rule (`AGENTS.md` / `CLAUDE.md`) forbids.
+"Init-system polymorphism" rule (`AGENTS.md`) forbids.
 
 `tailscale-up` is the runtime-config sibling: it depends on `tailscale`,
 self-gates on `systemctl is-active tailscaled`, and only fires when
@@ -172,7 +172,7 @@ A proper auto-rename would require the Tailscale REST API
 (`PATCH https://api.tailscale.com/api/v2/device/{id}/name`) plus an
 operator-managed PAT or OAuth secret — significant credential-
 management scope. If a future need arises for fully-automated rename
-(fleet provisioning, CI runners), that's the right path; today's
+(deploy provisioning, CI runners), that's the right path; today's
 manual remediation covers the actual single-host case.
 
 ## Bring-up flow for a fresh CachyOS host
@@ -181,7 +181,7 @@ manual remediation covers the actual single-host case.
 # 1. Apply the charly-cachyos template — installs everything, including
 #    tailscale (daemon enabled) + tailscale-up (operator/hostname
 #    setters armed for next-time-up state changes).
-charly fleet add charly-cachyos
+charly deploy add charly-cachyos
 
 # 2. Authenticate the daemon via the user's tailnet (browser SSO):
 sudo tailscale up
@@ -192,10 +192,10 @@ tailscale status | head -2
 
 # 4. Optional re-apply (idempotent) to confirm the runtime task takes
 #    effect now that the daemon is logged in:
-charly fleet add charly-cachyos
+charly deploy add charly-cachyos
 ```
 
-Subsequent `charly fleet add charly-cachyos` invocations re-run the runtime
+Subsequent `charly deploy add charly-cachyos` invocations re-run the runtime
 task and re-confirm the operator + hostname state. Hostname changes
 (`sudo hostnamectl set-hostname new-name`) propagate to the tailnet
 on the next deploy.

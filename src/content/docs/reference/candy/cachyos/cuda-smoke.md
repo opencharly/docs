@@ -7,7 +7,6 @@ description: "Deterministic CUDA compute smoke test compiled with nvcc at build 
 
 | | |
 |---|---|
-| **Version** | `2026.148.1730` |
 | **Repo** | `box/cachyos` |
 
 Deterministic CUDA compute smoke test compiled with nvcc at build time

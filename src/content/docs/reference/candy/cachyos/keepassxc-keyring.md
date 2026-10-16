@@ -7,7 +7,6 @@ description: "KeePassXC as the freedesktop.org Secret Service provider on a targ
 
 | | |
 |---|---|
-| **Version** | `2026.144.1443` |
 | **Repo** | `box/cachyos` |
 
 KeePassXC as the freedesktop.org Secret Service provider on a target:local host

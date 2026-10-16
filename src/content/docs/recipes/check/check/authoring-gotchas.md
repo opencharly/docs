@@ -26,7 +26,7 @@ steps to the agent grader.
 
 | Stage | Who | Command | What |
 |---|---|---|---|
-| **Specify** | you / an agent | hand-edit the candy's `plan:` list (or `charly box set candy.<name>.plan ...`) | Author the `description:` string + `plan:` steps on the CANDY that provides the behaviour (it bakes into every box that composes the candy — R3). |
+| **Specify** | you / an agent | hand-edit the candy's `plan:` list (or `charly box set candy.<name>.plan ...`) | Author the `description:` string + `plan:` steps on the CANDY that provides the behaviour (it bakes into every box that composes the candy — R2). |
 | **Bind** | author (implicit) | `charly feature pending <entity>` lists the agent-graded steps | Use a `check:` step (inline verb) → deterministic; use an `agent-check:` step (prose) → agent-graded. |
 | **Run** | you / CI | `charly box feature run <image>` / `charly check feature run <deployment>` | Execute the plan; per-step pass/fail + grader evidence. |
 | **Iterate** | you / an agent | edit + re-run, OR `charly check run <bed>` (an `iterate:` bed) | Drive red→green by hand, or let the plateau-bounded AI loop write the code until the `check:` steps pass. |
@@ -116,7 +116,7 @@ in P12a — core constructs `&AgentGrader{}` directly, so it lives in `kit`, rea
 core code), and `sdk/deploykit/description_collect.go` (`CollectDescriptions`; the former `charly/description_collect.go` is DELETED, K-wave 2) for the `charly feature
 list/pending/validate` surface. The `Runner.Grader` dispatch is `kit.RunPlan` (`sdk/kit/planrun.go`)
 directly — the former 1-line `charly/description_run.go` wrapper was dissolved in P12a.
-Target resolution is shared with the harness loop and `charly check box`/`live` (R3).
+Target resolution is shared with the harness loop and `charly check box`/`live` (R2).
 
 ## Authoring Gotchas (learned the hard way)
 
@@ -268,10 +268,10 @@ them fails in `charly check box` because the mount isn't attached.
       file: /workspace
       filetype: directory
 
-# ✓ context: [deploy] so it runs only against live containers
+# ✓ context: [runtime] so it runs only against live deployments
 - check: the workspace directory exists
   id: workspace-dir
-  context: [deploy]
+  context: [runtime]
   file:
       file: /workspace
       filetype: directory
@@ -367,23 +367,23 @@ the shell is a login shell — reproduced: `runuser -l user -s /bin/bash
 -n -l` prints the full NOPASSWD listing. This bit the earlier shipping
 form of the test; the sshd candy now uses `-u … --`.
 
-Worked example: [`/charly-coder:sshd`](/recipes/coder/sshd/) ships exactly the `-u user --` pattern. Alternative: give the step `context: [deploy]` so it runs against a live container where you control the user-switch externally.
+Worked example: [`/charly-coder:sshd`](/recipes/coder/sshd/) ships exactly the `-u user --` pattern. Alternative: give the step `context: [runtime]` so it runs against a live container where you control the user-switch externally.
 
 ### 12. `charly check box <short-name>` is ambiguous with multiple CalVer tags — use the full registry ref
 
 `charly check box` resolves its positional argument against local podman storage, not `charly.yml`. When the host has accumulated many CalVer tags for the same image (a normal consequence of iterative `charly box build` runs), the short form errors out:
 
 ```
-charly: error: ambiguous short name "openclaw-desktop" in local storage;
-           candidates: ghcr.io/opencharly/openclaw-desktop:latest,
-           ghcr.io/opencharly/openclaw-desktop:2026.109.1418,
+charly: error: ambiguous short name "my-box" in local storage;
+           candidates: ghcr.io/opencharly/my-box:latest,
+           ghcr.io/opencharly/my-box:<tag>,
            ... Re-run with a full ref.
 ```
 
 Use the fully-qualified registry ref:
 
 ```bash
-charly check box ghcr.io/opencharly/openclaw-desktop:latest
+charly check box ghcr.io/opencharly/my-box:latest
 ```
 
 This is different from `charly box inspect`, `charly box build`, and `charly check live` (the live-service runner), which key off `charly.yml` and accept short names unambiguously. Only the disposable-container runner has this restriction because it does not consult `charly.yml` at all.
@@ -413,31 +413,51 @@ when the pattern would also match the wrapping bash. The harness
 defense is a safety net, not a license to use the broken pattern
 deliberately.
 
-### 13. A step is SIGKILLed at 90s unless it declares `timeout:`
+### 13. A step is SIGKILLed at its never-hang bound unless it declares `timeout:`
 
-`ProbeNeverHang` (`sdk/kit/runner.go`) bounds every probe ATTEMPT at
-`runnerProbeNeverHangFallback` = **90 seconds**. A step that runs longer is killed,
-and the runner names the bound in the message — but the underlying exec-layer text is
-still `process terminated by signal (signal: killed)`, which describes the mechanism
-of death and not its cause. Read alone, it looks like the command crashed.
+`ProbeNeverHang` (`sdk/kit/runner.go`) bounds every probe ATTEMPT. The
+live `charly check` path sets that bound from the readiness table —
+`cfg.ProbeTimeout = poll.ReadinessProvider().PerAttemptFor(PollLocal)`
+(`candy/plugin-check/plugin_runner.go`), whose class fallback is
+`readinessPerAttemptFallback` = **120 seconds** (`spec/poll/poll.go`).
+The `runnerProbeNeverHangFallback` = 90s constant in `sdk/kit/runner.go`
+is ONLY the bare-`NewRunner` guard (a test / a plugin); it is never the
+bound on the real check paths. **Read the number out of the kill message
+rather than assuming** — an actual run prints
+`killed by the per-attempt never-hang bound of 2m0s`. A step that runs
+longer is killed, and the underlying exec-layer text is still
+`process terminated by signal (signal: killed)`, which describes the
+mechanism of death and not its cause. Read alone, it looks like a crash.
 
-What crosses 90s in practice: **installing charly from a published distro repo pulls
-~190 packages** (podman, qemu, libvirt, gnupg, tailscale). On a 2-vCPU cloud-image VM
-`dnf install` does not finish in time while `pacman -S` does — so two beds differing
-only in package manager come out one green and one "killed", which invites a
-distro-specific theory (repo layout, signing, cloud image) when the variable is
-elapsed time against a shared floor. **Compare the step's duration to 90s before
-theorising about the distro.**
+What crosses the bound in practice is any step whose own work is
+minutes-long:
+
+- **Installing charly from a published distro repo pulls ~190 packages**
+  (podman, qemu, libvirt, gnupg, tailscale). On a 2-vCPU cloud-image VM
+  `dnf install` does not finish in time while `pacman -S` does — so two
+  beds differing only in package manager come out one green and one
+  "killed", which invites a distro-specific theory (repo layout, signing,
+  cloud image) when the variable is elapsed time against a shared floor.
+- **A full nested-container acceptance loop** — e.g. `cbx-e2e-loop`,
+  which leases a real nested container via `local-container`, syncs a git
+  workdir and streams a command. Its own work is minutes-long: on
+  distro-cachyos the enclosing `check-live` bucket (129 checks incl. this
+  one) measures **2m39s idle and 3m07s under concurrent host load** —
+  both above the 120s default, so the step is killed by the bound on its
+  own duration, not by a wedge (before the bound was declared it was
+  killed at `2m0s`; with `timeout: 10m` it PASSes). A check bed's long
+  acceptance steps are a normal case for an authored bound — not a sign
+  of a hang.
 
 The fix is authored, not code: `#Op` carries `timeout?: #Duration`, and
-`ProbeNeverHang` honours a longer authored value over the floor (the effective
-ceiling becomes `declared + 30s`). Declaring it is USING the mechanism's own
-parameter — not an R4 workaround:
+`ProbeNeverHang` honours a longer authored value over the floor (the
+effective ceiling becomes `declared + 30s`). Declaring it is USING the
+mechanism's own parameter — not an R3 workaround:
 
 ```yaml
 - check: dnf install charly installs the package
   id: fedora-charly-installed
-  timeout: 10m          # ~190 packages on 2 vCPUs; the 90s floor kills this
+  timeout: 10m          # ~190 packages on 2 vCPUs; the floor kills this
   exit_status: 0
   command: |
       sudo dnf install -y charly &&

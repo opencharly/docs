@@ -14,5 +14,5 @@ title: "redis-client"
 
 This box composes:
 
-- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
-- `@github.com/opencharly/pod-redis-client-layer:v2026.240.0122`
+- `@github.com/opencharly/layer-supervisord:v2026.271.1817`
+- `@github.com/opencharly/pod-redis-client-layer:v2026.272.0228`

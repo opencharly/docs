@@ -14,6 +14,6 @@ title: "cstream-check"
 
 This box composes:
 
-- `@github.com/opencharly/layer-cstream-desktop:v2026.243.1831`
+- `@github.com/opencharly/layer-cstream-desktop:v2026.274.0802`
 - `cstream-probe-account`
-- `@github.com/opencharly/plugin-cstream/candy/plugin-cstream:v2026.242.1502`
+- `@github.com/opencharly/plugin-cstream/candy/plugin-cstream:v2026.272.0722`

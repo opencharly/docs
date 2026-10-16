@@ -54,9 +54,9 @@ under the nested compositor, and charly's own wl: verb reports hyprland.
 
 This box composes:
 
-- `@github.com/opencharly/layer-cstream-desktop:v2026.243.1039`
-- `@github.com/opencharly/layer-omarchy-shell/candy/omarchy-shell:v2026.243.1941`
-- `@github.com/opencharly/layer-omarchy-hyprland/candy/omarchy-hyprland:v2026.243.1042`
-- `@github.com/opencharly/layer-omarchy-terminal/candy/omarchy-terminal:v2026.242.0616`
-- `@github.com/opencharly/layer-omarchy-themes/candy/omarchy-themes:v2026.242.0837`
-- `@github.com/opencharly/layer-omarchy-fonts/candy/omarchy-fonts:v2026.242.0557`
+- `@github.com/opencharly/layer-cstream-desktop:v2026.274.0802`
+- `@github.com/opencharly/layer-omarchy-shell/candy/omarchy-shell:v2026.274.0805`
+- `@github.com/opencharly/layer-omarchy-hyprland/candy/omarchy-hyprland:v2026.274.0907`
+- `@github.com/opencharly/layer-omarchy-terminal/candy/omarchy-terminal:v2026.274.0623`
+- `@github.com/opencharly/layer-omarchy-themes/candy/omarchy-themes:v2026.274.0625`
+- `@github.com/opencharly/layer-omarchy-fonts/candy/omarchy-fonts:v2026.274.0650`

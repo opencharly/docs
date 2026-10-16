@@ -7,7 +7,6 @@ description: "CachyOS base-image verification layer: proves the pacman scriptlet
 
 | | |
 |---|---|
-| **Version** | `2026.231.1219` |
 | **Repo** | `box/cachyos` |
 
 CachyOS base-image verification layer: proves the pacman scriptlet network

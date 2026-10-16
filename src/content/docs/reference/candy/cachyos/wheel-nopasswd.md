@@ -7,7 +7,6 @@ description: "Passwordless sudo for the wheel group Installs sudo, ensures the w
 
 | | |
 |---|---|
-| **Version** | `2026.144.1443` |
 | **Repo** | `box/cachyos` |
 
 Passwordless sudo for the wheel group

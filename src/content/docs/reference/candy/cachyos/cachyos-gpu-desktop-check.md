@@ -7,7 +7,6 @@ description: "Shared desktop/GPU-stream verification layer for the CachyOS GPU w
 
 | | |
 |---|---|
-| **Version** | `2026.151.0543` |
 | **Repo** | `box/cachyos` |
 
 Shared desktop/GPU-stream verification layer for the CachyOS GPU workstation

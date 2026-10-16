@@ -14,5 +14,5 @@ title: "k8s-box"
 
 This box composes:
 
-- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
-- `@github.com/opencharly/pod-k8s-layer:v2026.240.0123`
+- `@github.com/opencharly/layer-supervisord:v2026.271.1817`
+- `@github.com/opencharly/pod-k8s-layer:v2026.274.0635`

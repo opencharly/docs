@@ -6,7 +6,7 @@
 # consumer fetch trees and was removed), and this workflow
 #
 #   1. clones the pinned charly (recursive, with its box/* submodules) into /tmp/charly
-#      at CI time and checks out the pinned commit b79851d, plus the pinned
+#      at CI time and checks out the recorded source commit, plus the pinned
 #      marketplace submodule (the corpus the skill pages project from),
 #   2. builds the standalone plugin-docs CLI binary at the pinned plugin tag (generation
 #      reads the pinned charly SOURCE TREE, so that checkout never has to compile),
@@ -64,7 +64,7 @@ jobs:
           # submodules: --recursive at clone time pulls each box at its default-branch HEAD,
           # but the committed docs content was generated against the box commits the pinned
           # charly checkout records — checkout-then-init pins them exactly.
-          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout 3cabeb3f003dedc6d6b201352cba792daf93c1cf && git -C /tmp/charly submodule update --init --recursive
+          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout bafd8dbc3110904872831998fb4caa701cc2990c && git -C /tmp/charly submodule update --init --recursive
           # The four root narratives (SOUL.md/VISION.md/GRIEVANCES.md/LIBERATION.md) moved
           # from the charly root to the UMBRELLA root (opencharly/opencharly#357); the
           # generator reads them from the umbrella checkout passed as --narrative below.
@@ -76,15 +76,22 @@ jobs:
           node-version-file: .node-version
           cache: npm
 
+      # setup-go hashes only files inside GITHUB_WORKSPACE. Keep the module it
+      # actually compiles here, rather than keying its cache on /tmp/charly.
+      - name: Fetch the pinned docs generator
+        run: git clone --depth 1 --branch v2026.289.0814 https://github.com/opencharly/plugin-docs.git .docs-generator
+
       - uses: actions/setup-go@v7
         with:
-          go-version-file: /tmp/charly/charly/go.mod
-          cache-dependency-path: /tmp/charly/charly/go.sum
+          go-version-file: .docs-generator/candy/plugin-docs/go.mod
+          cache-dependency-path: .docs-generator/candy/plugin-docs/go.sum
 
       - name: Build the standalone plugin-docs CLI binary
-        run: |
-          git clone --depth 1 --branch v2026.278.0442 https://github.com/opencharly/plugin-docs.git /tmp/plugin-docs
-          cd /tmp/plugin-docs/candy/plugin-docs && go build -o /tmp/plugin-docs-bin ./cmd/serve
+        working-directory: .docs-generator/candy/plugin-docs
+        run: go build -o /tmp/plugin-docs-bin ./cmd/serve
+
+      - name: Test the generated-content drift gate
+        run: python3 .github/docs-corpus/test_check_drift.py
 
       - name: Write the corpus wiring candy from the pins file
         run: |
@@ -111,14 +118,7 @@ jobs:
         # Regeneration on a clean tree is a no-op by contract. A diff here means a
         # docs PR must bump the charly pin (the CI-time commit) and commit the regenerated
         # pages in the same change.
-        run: |
-          if ! git diff --exit-code -- src/content/docs; then
-            echo "DRIFT: the committed site does not match the pinned charly checkout."
-            echo "Bump the charly CI-time commit in deploy.yml and commit the regenerated"
-            echo "content in the same docs PR (this workflow is the gate)."
-            exit 1
-          fi
-          echo "content: committed tree matches the pinned charly (regeneration is a no-op)."
+        run: bash .github/docs-corpus/check_drift.sh
 
       # `npm ci` rather than `npm install`: it installs strictly from the committed lockfile and
       # FAILS if package.json and the lockfile disagree. That is deliberate — a lockfile missing

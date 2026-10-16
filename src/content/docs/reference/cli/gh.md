@@ -7,9 +7,8 @@ description: "The gh command word, served by the plugin-gh plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-gh](/reference/plugin/github-com-opencharly-plugin-gh-v0-2026267-2259/plugin-gh/) |
+| **Served by** | [plugin-gh](/reference/plugin/github-com-opencharly-plugin-gh-v0-2026281-737/plugin-gh/) |
 | **Placement** | runtime (out-of-process over gRPC) |
-| **Version** | `2026.265.2200` |
 
 `gh` is a command word served by the `plugin-gh` plugin candy. This plugin is **not** listed in `charly/charly.yml`'s `compiled_plugins:`. It is not part of the shipped binary: charly builds and loads it out-of-process over gRPC when a plan references one of its words (the coexist path).
 

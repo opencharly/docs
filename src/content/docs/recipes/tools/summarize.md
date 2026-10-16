@@ -26,14 +26,8 @@ my-box:
     candy: [summarize]
 ```
 
-## Used In Boxes
-
-- `openclaw-full` (via `openclaw-full` metalayer)
-
 ## Related Candies
 - [`/charly-coder:nodejs`](/recipes/coder/nodejs/) — runtime dependency
-- [`/charly-openclaw:openclaw-full`](/recipes/openclaw/openclaw-full/) — metalayer that bundles summarize
-- [`/charly-tools:whisper`](/recipes/tools/whisper/) — speech-to-text companion in the `openclaw-full-ml` candy
 
 ## Related Commands
 - [`/charly-core:shell`](/recipes/core/shell/) — run summarize CLI inside the container

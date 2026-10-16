@@ -24,8 +24,8 @@ merges + tags):
    module version — e.g. superproject `v2026.185.0751` ⇄ sdk `v0.2026185.751`) —
    whenever the cutover touched sdk content;
 1. each `box/<distro>` submodule — PR → auto-merge + tag-on-merge tags (it has `charly.yml`);
-2. `plugins` — PR → auto-merge **+ tag-on-merge tags `v<YYYY.DDD.HHMM>`** (no `charly.yml`,
-   so no schema `version:` bump — but the tag marks the merge, same as every repo);
+2. `plugins` — PR → auto-merge **+ tag-on-merge tags `v<YYYY.DDD.HHMM>`** (it carries no `charly.yml`; the
+   tag marks the merge, same as every repo);
 3. the superproject — stage the now-MERGED submodule pointers (a touched sdk:
    adopt the tagged sdk release as the new shared pinned require in every
    module — `charly task mods-tidy` re-syncs go.sum and the canonical-go.mod gate
@@ -124,7 +124,7 @@ actually in this binary".
 
 ## B2b — cross-session coordination: the PR comment is the channel
 
-Sessions are independent and OWN their artifacts (umbrella rule 9): a branch,
+Sessions are independent and OWN their artifacts (umbrella `AGENTS.md`, "Session-scoped ownership"): a branch,
 worktree, file, or PR you did not create is another session's, and you never
 edit, revert, reformat, stage, or commit it — not even to "clean up" or unblock
 yourself.
@@ -132,10 +132,12 @@ yourself.
 **When another session's PR blocks you** (a projection lands before the source
 that pins it; a consumer pin needs the producer merged; a shared file is
 mid-flight on their branch), the ONE sanctioned channel is a **PR comment on the
-PR that owns the blocking file** (or a new issue naming it). The comment must be
-actionable: name your session slug, the exact file/gitlink/pin you need, what
-change unblocks you, and the evidence. Then STOP; if it stays blocked, ask the
-operator. Never work around it (R4), never edit their artifact, never
+PR that owns the blocking file** (or a new issue naming it). It is a `BLOCKS`
+comment, and it goes on **BOTH threads**: the blocking PR/issue AND your own. The
+comment must be actionable: name your session slug, the exact file/gitlink/pin
+you need, what change unblocks you, and the evidence. Then STOP; if it stays
+blocked, ask the operator. When the block clears, post `UNBLOCKS` on both
+threads. Never work around it (R3), never edit their artifact, never
 force-land, and never `-D`/reset their branch.
 
 **A fresh `pr-validator` runs comment intake**: every comment on the PR is
@@ -172,30 +174,45 @@ merge did not auto-close it (no `Closes` keyword, a squash that dropped it, or a
 manual merge), close it explicitly and comment the resolving PR/commit. An issue
 with no merged resolving PR is not resolved; do not close it as done.
 
-**Before EVERY push, read the NEW comments on the PR AND on every related
-issue.** The pre-update-push read covers issues too: check the PR's comments +
-checks AND the latest comments/state of each issue the PR closes or relates to,
-and ACT on each (answer, claim, hand off, or satisfy it in the pushed state).
-An unread issue reply can mean another session has claimed or changed the work
-since you branched.
-
 **The commenting session MUST follow up.** A coordination comment is not
 fire-and-forget: after posting it, the blocked session re-checks that PR's thread
 for a reply at every natural step — before its own next push/commit, when it
-resumes, and at a BOUNDED cadence (a bounded poll, never a `sleep` loop — R4). When
+resumes, and at a BOUNDED cadence (a bounded poll, never a `sleep` loop — R3). When
 the owning session answers, react accordingly: proceed if unblocked, refine or
 answer if clarification is asked, or escalate to the operator if it stays blocked.
 A one-shot comment with no follow-up leaves the block unresolved and the record
 one-sided.
 
+**Keep other sessions informed — progress and blocks are posted, never discovered**
+(the project rulebook Part II #11). Coordination is a duty the OWNER performs:
+
+- **Look before you start, and again before every push.** Search the org for open
+  issues and PRs touching your scope (`gh search prs <terms> --owner opencharly
+  --state open`, `gh search issues …`), read their latest `CLAIM`/`OWNING`/`STATUS`,
+  and check `git worktree list`. Never start or push over a live claim.
+- **Post `STATUS` at every milestone** on your claimed issue or PR: when you claim it,
+  when you open the PR, at the end of each review round, when you are blocked or
+  unblocked, and when you hand over or land. Each `STATUS` names the current head,
+  what is done, what is next, and when the next update is due. Silence is what lets
+  the takeover window (B2b.1) start, so an owner who wants to keep a claim keeps
+  posting.
+- **Say so the moment you block someone.** When YOUR issue or PR is blocking another
+  session's progress (you hold a file, a producer they pin, a gitlink they need), post
+  `BLOCKS` on BOTH threads immediately. Name the blocked item, the blocking change,
+  and your expected unblock. Do not wait for them to find it.
+- **Answer coordination before your own work.** A `BLOCKS`, a `TAKING OVER`, or a
+  question addressed to your slug is read in full and answered in-thread before your
+  next push.
+- **Record every thread** you claimed or posted `BLOCKS` on in the session ledger
+  ([`/charly-internals:agents`](/recipes/internals/agents/)), so an interrupted session resumes its reporting.
+- **Close out:** `RESOLVED` on every coordination thread you opened, once the work
+  lands.
+
 **The PR-owning session MUST read AND act on every comment/reply before its next
-push.** The pre-update-push read (the "BEFORE ANY UPDATE PUSH" invariant) requires
-reading the thread; it equally requires ACTING on it — each comment, including a
-blocked session's reply, is answered in-thread or addressed in the pushed state.
-Pushing while an unanswered comment stands is a violation: the fresh `pr-validator`
-weighs the whole thread (comment intake), so an unaddressed comment is a real
-finding, not noise. The loop is: blocked session comments → owning session
-answers/acts → blocked session re-checks and reacts.
+push**: the "BEFORE ANY UPDATE PUSH" invariant in this skill's SKILL.md, which covers
+the PR AND every related issue. An unread issue reply can mean another session has
+claimed or changed the work since you branched. The loop is: blocked session
+comments → owning session answers/acts → blocked session re-checks and reacts.
 
 ### B2b.1 — agent identity and the coordination verb grammar
 
@@ -280,7 +297,7 @@ after ALL of:
 
 1. **A coordination comment posted on the scope FIRST** — an ownership
    board, or a `BLOCKS`/`STATUS` addressed to the owner, asking them to
-   reply `OWNING — ETA` or `HANDING OVER — <reason>`. **No comment, no
+   reply with their status or `HANDING OVER — <reason>`. **No comment, no
    takeover, ever.**
 2. **The window elapsing** with **no answer from the original session AND
    no progress** (the progress signal above). **The window is 60 minutes**
@@ -292,8 +309,12 @@ after ALL of:
    The takeover is WITHDRAWABLE if the owner replies.
 
 **Auto-close carry-forward — continue on a CLEAN thread, cross-referenced
-on FOUR surfaces.** The validator auto-closes a PR after its BLOCK
-threshold (`AI_REVIEW_AUTO_CLOSE_AFTER`, default 5). When a PR closes
+on FOUR surfaces.** The validator auto-closes a PR once its count reaches the
+repo's `AI_REVIEW_AUTO_CLOSE_AFTER`, default 5 org-wide. A repo may override it, so
+read it with `gh variable list --repo <o>/<r>`: `opencharly/charly` sets 20. The
+count is the validator's `BLOCK` verdicts PLUS its engine/eval `INCONCLUSIVE`
+verdicts. A clear INFRASTRUCTURE `INCONCLUSIVE` (the provider endpoint or the
+GitHub runner, not the engine; `Verdict class: infra`) is excluded. When a PR closes
 (auto-close, superseded, or withdrawn) and the work continues in a NEW PR
 for the same issue/scope, ALL FOUR are mandatory:
 
@@ -308,6 +329,19 @@ for the same issue/scope, ALL FOUR are mandatory:
 4. Ownership transfer: a slug that claimed the predecessor but not the
    successor must `HANDING OVER` (or be named in the successor's body); a
    silent drop is not allowed.
+
+**A multi-repo cutover's middle producer is NOT auto-closable without a
+successor.** When a PR is the PRODUCER leg of an acknowledged multi-repo
+relocation/cutover (a sibling consumer's landability waits on it), the
+auto-close at the block limit must not silently drop it: the successor PR
+(or the owning issue, with the leg re-driven) MUST exist — or the auto-close
+is refused/deferred — so the cutover is never left with a deleted producer
+and no replacement. The consumer leg names the producer and `BLOCKS` on it;
+the producer's successor is opened before the producer's thread is abandoned.
+**Field evidence:** the umbrella add PR (the replacement leg of the
+narrative relocation) auto-closed at the block limit with **no successor**,
+while its consumer `charly#791` had already merged the deletion — leaving
+the content in no repository's `main` (opencharly/opencharly#356).
 
 **Never push to a PR at the block limit** — a push that yields another
 verdict at the limit auto-closes it. Land **ALL** findings in **ONE**
@@ -326,6 +360,21 @@ rule requires a maintainer sign-off, cite it in the PR body with the author
 label of the sign-off comment. An agent NEVER impersonates the operator. (The
 validator's rulebook `AI_REVIEW_PROMPT` owns the canonical statement; this
 restates the mandate and references it.)
+
+**How and when a sign-off is made.** When a verdict, or a rule such as T4,
+requests a maintainer sign-off:
+
+1. **Who:** the sign-off is a PR comment posted by a maintainer-set account.
+   The operator writes it, or an agent writes it ONLY at the operator's
+   explicit direction and says so in the comment. An agent never posts one on
+   its own initiative.
+2. **When:** the comment is posted, and the PR body updated to cite its
+   comment id, BEFORE the next push or validator re-run. Then push or re-run
+   exactly once. One BLOCK that requests a sign-off is expected; a second run
+   while it is still missing is a violation ("BEFORE ANY UPDATE PUSH", step
+   (f)).
+3. **A PR that is a T4 change from the start:** ask the operator for the
+   sign-off as soon as the PR exists, rather than waiting for the BLOCK.
 
 **No R10 class exemption (current project state).** A plugin-library or
 schema change runs the **full assembled `disposable: true` bed** — there
@@ -419,7 +468,7 @@ have been closed.
      run on the current head within the working window. Leave it.
    - **stalled** — none of the above. Start the formal takeover (B2b).
 3. **Act, then arm — never hand-poll.** Close the superseded. For each stalled PR
-   post the ownership-board comment (`OWNING — ETA <when>` / `HANDING OVER —
+   post the ownership-board comment (`OWNING` or `STATUS` / `HANDING OVER —
    <reason>`) and arm `gh_watch.sh --events comment,stall <item>` so the reply OR
    the window's end wakes you ([`references/watch-and-wake.md`](/recipes/internals/git-workflow/watch-and-wake/)); after the window
    with no reply, `TAKING OVER — authority: window-expired` (B2b). Treat a
@@ -569,7 +618,7 @@ change — the mirror is a composite, and **the last leg to pin inherits every
 projection beneath it**. That is not hypothetical: it is how a four-cutover forced
 union — `charly#278` — came to carry four cutovers' candy sources in one commit: the
 check-verb resolver, the git-workflow landing lessons, the merge-tree guard, atop
-the R4a sweep. None of those authors chose to couple their work; no intermediate
+the R4 sweep. None of those authors chose to couple their work; no intermediate
 self-consistent superproject state existed for them to land against.
 
 So: land each mirror leg immediately before its superproject leg, keeping at most one
@@ -640,7 +689,7 @@ safety) — do **NOT** bump the `@github` build pins: they lag deliberately, `ch
 box reconcile` reports "already reconciled", and bumping them pulls multi-cutover
 producer drift (a separate version-adoption cutover, NOT reconciliation).
 
-**6. Refresh EVERY worktree — PART of landing, NEVER a follow-up (R2).** For each
+**6. Refresh EVERY worktree — PART of landing, NEVER a follow-up (Hard Cutover).** For each
 worktree: the one on `main` → `git -C <wt> merge --ff-only origin/main`; each other
 → `git -C <wt> checkout --detach origin/main`; THEN refresh only already-initialized
 submodules with `git -C <wt> submodule update --recursive` (no `--init`). Initialize

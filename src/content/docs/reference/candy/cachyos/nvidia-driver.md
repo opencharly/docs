@@ -7,7 +7,6 @@ description: "NVIDIA open kernel driver + Wayland userspace for a VFIO GPU-passt
 
 | | |
 |---|---|
-| **Version** | `2026.150.2158` |
 | **Repo** | `box/cachyos` |
 
 NVIDIA open kernel driver + Wayland userspace for a VFIO GPU-passthrough CachyOS VM guest

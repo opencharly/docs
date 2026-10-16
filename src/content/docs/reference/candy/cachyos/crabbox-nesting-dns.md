@@ -7,7 +7,6 @@ description: "Bakes a working resolver AND a private UTS namespace into the nest
 
 | | |
 |---|---|
-| **Version** | `2026.247.0100` |
 | **Repo** | `box/cachyos` |
 
 Bakes a working resolver AND a private UTS namespace into the nested

@@ -7,10 +7,10 @@ description: "The dsh command word, served by 3 plugin candies: plugin-dsh and p
 
 | | |
 |---|---|
-| **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github-com-opencharly-plugin-dsh-v2026-242-0528/plugin-dsh/) |
+| **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github-com-opencharly-plugin-dsh-v2026-239-1623/plugin-dsh/) |
 | **plugin-dsh — Placement** | compiled-in (in-process) |
 | **plugin-dsh — Version** | `2026.226.1600` |
-| **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github-com-opencharly-plugin-dsh-v2026-269-2116/plugin-dsh/) |
+| **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github-com-opencharly-plugin-dsh-v2026-242-0528/plugin-dsh/) |
 | **plugin-dsh — Placement** | compiled-in (in-process) |
 | **plugin-dsh — Version** | `2026.226.1600` |
 | **plugin-dsh — Served by** | [plugin-dsh](/reference/plugin/github-com-opencharly-plugin-dsh-v2026-272-0111/plugin-dsh/) |
@@ -50,8 +50,7 @@ counterpart, authored as a `check:` step (`dsh: version`,
 `web-running`, `profile-list`, `plugin-list`): it runs dsh commands
 INSIDE the venue via cc.Exec().RunCapture — the one place plugin-dsh
 diverges from plugin-agentteams' host-based cc.ResolveEndpoint (the
-loopback-bound, token-authenticated web UI is probed in-box on
-127.0.0.1:3080 with the launch token from $DSH_HOME/web-token).
+loopback-bound web UI is probed in-box on 127.0.0.1:3080).
 
 ## About `plugin-dsh`, which serves it
 

@@ -3,4 +3,5 @@ node_modules/
 .astro/
 .DS_Store
 .wrangler/
+.docs-generator/
 bin/
