@@ -75,6 +75,6 @@ charly check run check-crabbox-e2e-pod  # steps=13 PASS (coordinator+broker)
 
 ## Cross-References
 
-- [`/charly-tools:crabbox`](/recipes/tools/crabbox/) — the CLI candy.
+- [`/charly-tools:crabbox-cli`](/recipes/tools/crabbox-cli/) — the CLI candy.
 - [`/charly-check:crabbox`](/recipes/check/crabbox/) — the check verb.
 - [`/charly-crabbox:crabbox-coordinator`](/recipes/crabbox/crabbox-coordinator/) — the coordinator candy.

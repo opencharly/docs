@@ -14,7 +14,7 @@ description: "the `crabbox:` check verb — probe the Crabbox CLI or its local c
 `crabbox:` probes the [Crabbox](https://github.com/openclaw/crabbox) CLI
 and its optional local Node.js/PostgreSQL coordinator, served
 out-of-process over go-plugin gRPC by `opencharly/plugin-crabbox`.
-Install the CLI with [`/charly-tools:crabbox`](/recipes/tools/crabbox/) (opencharly/layer-crabbox)
+Install the CLI with [`/charly-tools:crabbox-cli`](/recipes/tools/crabbox-cli/) (opencharly/layer-crabbox)
 and the coordinator with [`/charly-crabbox:crabbox-coordinator`](/recipes/crabbox/crabbox-coordinator/)
 (opencharly/pod-crabbox).
 

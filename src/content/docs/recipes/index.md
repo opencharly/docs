@@ -477,7 +477,7 @@ CLI utilities and the charly binary deploy artifacts — ripgrep, himalaya, whis
 
 - [blogwatcher](/recipes/tools/blogwatcher/)
 - [charly](/recipes/tools/charly/)
-- [crabbox](/recipes/tools/crabbox/)
+- [crabbox-cli](/recipes/tools/crabbox-cli/)
 - [cue](/recipes/tools/cue/)
 - [docs-site](/recipes/tools/docs-site/)
 - [dsh](/recipes/tools/dsh/)
