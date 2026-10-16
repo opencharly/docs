@@ -1,12 +1,12 @@
 # OpenCharly website style guide
 
-> Canonical design reference: the supplied OpenCharly visual style guide and GitHub avatar. This document governs the Astro/Starlight site at https://opencharly.ai.
+> Canonical design reference: the supplied OpenCharly Cinematic Assetboard. This document governs the Astro/Starlight site at https://opencharly.ai.
 
 ## Design identity
 
 OpenCharly is the agentic DevOps tool for people and their agents. The website should feel like a premium chocolatier's workshop fused with precision engineering: cinematic, richly rendered, warm, whimsical and technically credible. **A kinder internet.**
 
-Use the original gold crown with colored droplets and the original OpenCharly wordmark. **Do not redraw the logo as generic flat SVG geometry.** The supplied Charly avatar is the canonical mascot: cream armor, copper mechanisms, black faceplate, amber eyes and chocolate apron with a gold crown. Keep its proportions and materials.
+Use the original gold crown with colored droplets and the original OpenCharly wordmark. **Do not redraw the logo as generic flat SVG geometry.** The supplied Charly illustration is the canonical mascot: cream armor, copper mechanisms, black faceplate, amber eyes and chocolate apron with a gold crown. Keep its proportions and materials.
 
 ## Brand palette
 
@@ -20,7 +20,7 @@ Use the original gold crown with colored droplets and the original OpenCharly wo
 | Gold | `#D4AF37` | Crown and signature accents |
 | Ivory | `#FAF9F4` | Light background |
 
-The source palette is retained verbatim. For accessibility, links on dark cocoa use a lighter derived blue (`#9BC3FF`), and light-theme links use `#1746B2`. Derived UI colors are implementation choices, not new official brand swatches.
+The theme uses this warm palette. For accessibility, links on dark cocoa use a lighter derived blue (`#9BC3FF`), and light-theme links use `#1746B2`. Derived UI colors are implementation choices, not new official brand swatches.
 
 ## Nine families
 
@@ -28,10 +28,10 @@ The source palette is retained verbatim. For accessibility, links on dark cocoa 
 | --- | --- | --- |
 | Forge & Build | `#F97316` | Forged gear |
 | Proof & Evaluation | `#10B981` | Verification emblem |
-| Agents & Intelligence | `#A855F7` | Illuminated brain |
+| Agents & Intelligence | `#AB50F6` | Illuminated brain |
 | Runtime & Boxes | `#3B82F6` | Crystal cube |
 | Network & Connectivity | `#06B6D4` | Connected sphere |
-| Systems & Security | `#F59E0B` | Shield |
+| Systems & Security | `#F4A308` | Shield |
 | Tooling & Developer UX | `#64748B` | Terminal |
 | Media & Interfaces | `#EC4899` | Media symbol |
 | Packaging & Distribution | `#8B5CF6` | Package |
@@ -51,20 +51,24 @@ Use **Playfair Display** for display headings and **Inter** for UI, navigation a
 - Do not edit generated `src/content/docs/index.md`, `reference/**`, or `recipes/**` by hand. The homepage content comes from `charly/README.md`.
 - Use responsive raster formats for cinematic illustrations. SVG is appropriate only for authentic source vector artwork or simple functional UI symbols, never as a cheap redraw of the official logo.
 
-## Implementation
+## Implementation and source limits
 
-The live Starlight tokens are in `src/styles/opencharly.css`, included via `astro.config.mjs`. The theme sets dark and light surfaces, contrast-safe links, typography, keyboard focus and reduced motion. It deliberately does **not** install a generic third-party theme or replace the favicon with an approximation.
+`src/styles/opencharly.css` defines the warm neutral ramps, contrast-safe links, typography, focus and reduced-motion behavior. Starlight retains its navigation, search, sidebar, code controls and generated narrative. The `Hero` override adds artwork only on the homepage; the original hero renders its generated title, tagline and actions. The `SiteTitle` override presents the crown and wordmark on an intentional black plaque in both themes. Family cards are a visual showcase, not a new navigation taxonomy.
 
-### Asset acceptance checklist
+The operator approved extraction from the flattened **1774 × 887 RGB assetboard**. `assets/brand/assetboard.png` is the sole source copy. The dimensions printed inside the board describe unavailable originals; they are not the dimensions or transparency of these supplied pixels. All extracted assets preserve the black background. Do not remove it with color keying, redraw the logo, or enlarge the source and imply added detail.
 
-- [ ] Obtain original layered/high-resolution crown and wordmark source, then export approved web formats.
-- [ ] Prepare the canonical GitHub avatar for web delivery without changing Charly's design.
-- [ ] Export the nine family illustrations from approved source art (not text-bearing screenshots).
-- [ ] Compose one cinematic homepage hero using original artwork.
-- [ ] Export approved favicon and social sharing preview from original brand artwork.
+Run `node scripts/extract-brand.mjs` after `npm ci` to reproduce `public/brand/`. The script is the canonical crop manifest, with pixel coordinates excluding printed filenames, family labels and swatches. It exports:
 
-The flattened guide crops produced during exploration are **reference material only**, not approved production-ready transparent logos. Until source-quality artwork is available, preserve the site's existing favicon rather than ship a degraded replacement.
+- Crown (216 × 178), wordmark (462 × 88), workshop hero (826 × 300) and waving mascot (305 × 291) as WebP.
+- Nine family illustrations (190 × 152; packaging 184 × 152) as WebP, with HTML labels supplied separately for accessibility.
+- Smaller 400px and 640px hero variants, without upscaling.
+- Opaque 16px, 32px, 48px and 180px PNG favicons from the crown. Padding accommodates the crown's original aspect ratio.
+- A 1200 × 630 PNG social card composed from native-size crops on black, without enlarging their pixels.
+
+The hero is capped at its source width, the mascot at 190 CSS pixels, family artwork at 190 CSS pixels, and the header wordmark below its native dimensions. These are intentionally compact web assets from a reference board; future higher-resolution source art should replace the canonical board and crop manifest together.
 
 ## Quality bar
 
-Check WCAG AA text contrast, keyboard and focus states, light/dark modes, mobile layouts, 200% zoom, reduced motion, and `npm ci && npm run build`. Keep the generated-docs workflow and the repository's PR-only validation policy intact.
+The site includes branded English search labels and a custom recovery page built with StarlightPage. The recovery route owns the 404 output, with links home and to installation; it is excluded from search indexing.
+
+Check WCAG AA text contrast, keyboard and focus states, light/dark modes, mobile layouts, 200% zoom, reduced motion, reproducible asset extraction and `npm ci && npm run build`. Verify favicon and social metadata in the built HTML. Keep generated content owned by its generation workflow and retain the repository's PR-only validation policy.

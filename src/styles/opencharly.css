@@ -9,10 +9,10 @@
   --oc-ivory: #faf9f4;
   --oc-family-forge: #f97316;
   --oc-family-proof: #10b981;
-  --oc-family-agents: #a855f7;
+  --oc-family-agents: #ab50f6;
   --oc-family-runtime: #3b82f6;
   --oc-family-network: #06b6d4;
-  --oc-family-security: #f59e0b;
+  --oc-family-security: #f4a308;
   --oc-family-tooling: #64748b;
   --oc-family-media: #ec4899;
   --oc-family-packaging: #8b5cf6;
@@ -58,4 +58,35 @@ a:not(.sl-link-button):focus-visible, button:focus-visible, input:focus-visible,
 .sl-markdown-content table { border-collapse: collapse; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+/* Neutral ramps keep secondary labels and technical UI warm in both themes. */
+:root[data-theme='dark'] {
+  --sl-color-gray-1: #f2e4d4;
+  --sl-color-gray-2: #d8c6b5;
+  --sl-color-gray-3: #b19c88;
+  --sl-color-gray-4: #77614f;
+  --sl-color-gray-5: #49362a;
+  --sl-color-gray-6: #291b13;
+  --sl-color-gray-7: #21150f;
+}
+:root[data-theme='light'] {
+  --sl-color-white: #261910;
+  --sl-color-black: #fffaf3;
+  --sl-color-gray-1: #39271c;
+  --sl-color-gray-2: #574234;
+  --sl-color-gray-3: #715d4e;
+  --sl-color-gray-4: #a58c75;
+  --sl-color-gray-5: #dbcbb9;
+  --sl-color-gray-6: #f0e5d8;
+  --sl-color-gray-7: #f8f1e8;
+  --sl-color-bg-inline-code: #efe3d4;
+}
+:root[data-theme='light'] :is(a, button, input, select):focus-visible { outline-color: #805500; }
+:root[data-theme='dark'] :is(a, button, input, select):focus-visible { outline-color: #edca68; }
+.sl-markdown-content h2 { margin-top: 2.5rem; }
+.sl-markdown-content pre { border: 1px solid var(--sl-color-hairline); }
+.sl-markdown-content a:not(.sl-link-button) { text-underline-offset: .2em; }
+@media print {
+  .oc-families, .oc-mascot, .oc-workshop { display: none; }
 }

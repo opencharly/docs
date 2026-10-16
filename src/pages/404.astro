@@ -1,0 +1,22 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+---
+
+<StarlightPage
+  frontmatter={{
+    title: 'Page not found',
+    description: 'Find your way back to the OpenCharly documentation.',
+    template: 'splash',
+    editUrl: false,
+    pagefind: false,
+    hero: {
+      tagline: "This page may have moved. Let's get you back to the workshop.",
+      actions: [
+        { text: 'OpenCharly home', link: '/', icon: 'right-arrow' },
+        { text: 'Get started', link: '/start/install/', variant: 'minimal' },
+      ],
+    },
+  }}
+>
+  <p>Use <strong>Search OpenCharly</strong> above to find a command, recipe or guide.</p>
+</StarlightPage>

@@ -1,0 +1,60 @@
+---
+import DefaultHero from '@astrojs/starlight/components/Hero.astro';
+const home = Astro.url.pathname === import.meta.env.BASE_URL;
+const families = [
+  ['forge', 'Forge & Build'], ['proof', 'Proof & Evaluation'],
+  ['agents', 'Agents & Intelligence'], ['runtime', 'Runtime & Boxes'],
+  ['network', 'Network & Connectivity'], ['security', 'Systems & Security'],
+  ['tooling', 'Tooling & Developer UX'], ['media', 'Media & Interfaces'],
+  ['packaging', 'Packaging & Distribution'],
+];
+---
+{home ? (
+  <div class="oc-home">
+    <div class="oc-workshop">
+      <img class="oc-scene" src="/brand/hero.webp" srcset="/brand/hero-400.webp 400w, /brand/hero-640.webp 640w, /brand/hero.webp 826w" sizes="(max-width: 50rem) 100vw, 826px" width="826" height="300" alt="Charly caramelizes a crème brûlée in a copper chocolate workshop overlooking the mountains." fetchpriority="high" decoding="async" />
+      <p class="oc-signature">A kinder internet</p>
+    </div>
+    <div class="oc-welcome">
+      <div class="oc-intro"><DefaultHero /></div>
+      <img class="oc-mascot" src="/brand/mascot.webp" width="305" height="291" alt="Charly, the cream and copper robot chocolatier, waves hello." decoding="async" />
+    </div>
+    <section class="oc-families" aria-labelledby="oc-family-title">
+      <p class="oc-eyebrow">Inside the workshop</p>
+      <h2 id="oc-family-title">Nine families. One sweet toolkit.</h2>
+      <ul>
+        {families.map(([id, name], index) => (
+          <li style={`--family: var(--oc-family-${id})`}>
+            <img src={`/brand/${id}.webp`} width={id === 'packaging' ? 184 : 190} height="152" alt="" loading="lazy" decoding="async" />
+            <span class="oc-family-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <span class="oc-family-name">{name}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+) : <DefaultHero />}
+<style>
+  .oc-home { margin-block-start: 1rem; }
+  .oc-workshop { position: relative; overflow: hidden; max-width: 826px; background: #000; border: 1px solid #71532e; border-radius: 1rem; }
+  .oc-scene { display: block; width: 100%; height: auto; }
+  .oc-signature { position: absolute; inset-inline-start: 1rem; bottom: .7rem; margin: 0; padding: .3rem .7rem; background: #000d; color: #f8ebd7; border: 1px solid #a78449; border-radius: .25rem; font-size: .65rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+  .oc-welcome { display: grid; align-items: center; gap: 1rem; margin-block: 1.75rem 2.5rem; }
+  .oc-intro { min-width: 0; }
+  .oc-mascot { display: block; width: min(65%, 190px); height: auto; margin-inline: auto; background: #000; border: 1px solid #71532e; border-radius: 50% 50% 1rem 1rem; }
+  .oc-intro :global(.hero) { display: block; padding: 0; }
+  .oc-intro :global(.hero .stack) { text-align: start; gap: 1.4rem; }
+  .oc-intro :global(.hero .copy) { align-items: flex-start; gap: .8rem; }
+  .oc-intro :global(.hero h1) { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 1.1; }
+  .oc-intro :global(.hero .tagline) { font-family: var(--sl-font); font-size: 1.1rem; color: var(--sl-color-text); line-height: 1.6; }
+  .oc-intro :global(.hero .actions) { justify-content: flex-start; gap: .8rem 1.4rem; }
+  .oc-families { padding-block: 1.5rem 2.25rem; border-block: 1px solid var(--sl-color-hairline); }
+  .oc-eyebrow { color: var(--sl-color-text-accent); font-size: .7rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; margin: 0 0 .5rem; }
+  .oc-families h2 { margin: 0 0 1.5rem; font-size: clamp(1.6rem, 4vw, 2.1rem); line-height: 1.3; }
+  .oc-families ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; padding: 0; margin: 0; list-style: none; }
+  .oc-families li { display: grid; grid-template-columns: auto 1fr; align-content: start; align-items: baseline; gap: .35rem; padding: .7rem; background: #000; color: #f8ebd7; border: 1px solid #58402a; border-radius: .65rem; }
+  .oc-families img { display: block; grid-column: 1 / -1; width: min(100%, 190px); height: auto; margin: 0 auto .4rem; }
+  .oc-family-number { color: var(--family); font-size: .7rem; font-weight: 700; }
+  .oc-family-name { font-size: .75rem; font-weight: 600; line-height: 1.5; }
+  @media (min-width: 50rem) { .oc-welcome { grid-template-columns: minmax(0, 1fr) 140px; gap: 1.5rem; } .oc-mascot { width: 140px; } .oc-families ul { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+</style>
