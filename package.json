@@ -18,5 +18,9 @@
   },
   "devDependencies": {
     "wrangler": "4.118.0"
+  },
+  "overrides": {
+    "postcss-selector-parser": "^7.1.6",
+    "js-yaml": "^4.3.2"
   }
 }
