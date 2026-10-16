@@ -79,7 +79,7 @@ jobs:
       # setup-go hashes only files inside GITHUB_WORKSPACE. Keep the module it
       # actually compiles here, rather than keying its cache on /tmp/charly.
       - name: Fetch the pinned docs generator
-        run: git clone --depth 1 --branch v2026.278.0442 https://github.com/opencharly/plugin-docs.git .docs-generator
+        run: git clone --depth 1 --branch v2026.289.0814 https://github.com/opencharly/plugin-docs.git .docs-generator
 
       - uses: actions/setup-go@v7
         with:

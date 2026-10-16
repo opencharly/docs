@@ -162,7 +162,6 @@ Conflicts with [`/charly-coder:fedora-coder`](/recipes/coder/fedora-coder/) / [`
 - [`/charly-coder:debian-coder`](/recipes/coder/debian-coder/) — deb-family sibling on Debian 13.
 - [`/charly-coder:ubuntu-coder`](/recipes/coder/ubuntu-coder/) — deb-family sibling on Ubuntu 24.04 (adopt mode).
 - [`/charly-coder:charly-arch`](/recipes/coder/charly-arch/) — slimmer Arch alternative with just the charly toolchain (no AI CLIs or DevOps tooling).
-- [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) — adds a browser-streamed Wayland desktop (plus the openclaw gateway, AI CLIs, and a CPU ollama) with the same rootless charly toolchain.
 
 ## Related layers
 

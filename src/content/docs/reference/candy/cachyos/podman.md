@@ -7,7 +7,6 @@ description: "Rootful podman container engine for a VM guest Installs podman + c
 
 | | |
 |---|---|
-| **Version** | `2026.148.1730` |
 | **Repo** | `box/cachyos` |
 
 Rootful podman container engine for a VM guest

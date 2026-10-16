@@ -39,7 +39,7 @@ never by stripping the candy.
 
 1. `charly box build <image> --dev-local-pkg` — build the test artifact (pod beds only). The check-bed runner sets `--dev-local-pkg` automatically, so a bed bakes the **in-development** charly toolchain (built via the `charly generate-packages` plugin from the local binary + plugins) — never a stale published release. A bed thus always tests the code under development; a production box build downloads the released package. See [`/charly-tools:charly`](/recipes/tools/charly/) "Check-vs-production binary source" + [`/charly-internals:install-plan`](/recipes/internals/install-plan/) "Check-vs-production charly toolchain".
 2. `charly check box <image>` — box-section + baked candy-section probes.
-3. `charly fleet add <bed> <ref>` — apply the bed (or `charly vm create` for vm beds).
+3. `charly deploy add <bed> <ref>` — apply the bed (or `charly vm create` for vm beds).
 4. (pod beds) `charly config <bed>` + `charly start <bed>`.
 5. `charly check live <bed>` — full three-section live probe pass.
 6. `charly update <bed>` — fresh-rebuild re-verification (R10 acceptance gate).
@@ -184,7 +184,6 @@ bed name against the live tree before launching it.
 | `check-jupyter-pod` / `check-jupyter-ml-pod` | pod | `image: jupyter` / `image: jupyter-ml` | jupyter-mcp regression coverage; jupyter-ml spacy/quarto + GPU MCP probes |
 | `check-versa-pod` | pod | `image: versa` | versa OSM analytics + vector-tile + marimo MCP |
 | `check-android-emulator-pod` | pod | `image: android-emulator` | Android 14 emulator (/dev/kvm) + adb/appium |
-| `check-openclaw-pod` / `check-openclaw-full-pod` / `check-openclaw-desktop-pod` | pod | `image: openclaw*` | minimal / maximal / streamed-desktop headless gateway |
 | `check-cachyos-gpu-vm` / `check-selkies-labwc-nvidia-vm` / `check-selkies-kde-nvidia-vm` | vm | `from: cachyos-gpu-vm` | VFIO GPU-passthrough + nested selkies NVENC streaming (`requires_exclusive: [nvidia-gpu]` — serialized) |
 | `check-arch-pacstrap-vm` / `check-arch-vm` / `check-cachyos-vm` / `check-debian-debootstrap-vm` / `check-ubuntu-debootstrap-vm` / `check-fedora-vm` | vm | `from: <distro>-vm` | the distro bootstrap-VM beds (pacstrap / debootstrap) |
 | `check-cross-pod-cdp` / `check-cross-vm-http` / `check-cross-local-http` / `check-cross-local-driver` | pod/vm/local | — | cross-deployment probing (pod→pod, host→pod/VM) |
@@ -223,7 +222,7 @@ hardcodes that name — it flows from the `iterate.sandbox:` field through
 `ResolveIterateSandbox`, and prompts reference it via the `${TARGET_NAME}`
 substitution token. **The sandbox is an operator-provisioned per-host
 deploy** — the runner restarts-but-never-creates it: provision once with
-`charly fleet add check-sandbox <ref> --disposable` + `charly start
+`charly deploy add check-sandbox <ref> --disposable` + `charly start
 check-sandbox` (the ref must provide charly + nested podman + the configured
 AI CLI; the per-host overlay never ships with the repo). On a host without
 the entry, `charly check run <bed>` fails fast with exactly that
@@ -257,7 +256,7 @@ construction.
 `check-pod` ~110s idle but **842s measured under a concurrent roster** (one build →
 deploy → check → fresh-update → teardown cycle covering all four mechanisms) ·
 `check-local-vm` ~45s · `check-sidecar-pod` ~180–290s · `check-k3s-vm` ~5–7 min ·
-`check-openclaw-full-pod` ~1414s · the heavy feature beds
+the heavy feature beds
 (`check-sway-browser-vnc-pod` ~2477s ≈ 41 min incl. image build) longer.
 
 **These are load-dependent, and the idle figures mislead.** A bed's own newest
@@ -279,7 +278,7 @@ libvirt domain / emulator it spawns outlives a single turn. (1) **Launch it as a
 harness-tracked background task** (`run_in_background`) — never foreground (the
 Bash tool's `timeout`, 120s default / 600s max, kills the call mid-`vm-create`,
 orphaning the domain) and
-never a sleep/poll loop (the R4 bandaid). (2) **Let the completion notification
+never a sleep/poll loop (the R3 bandaid). (2) **Let the completion notification
 drive the next step** — the harness re-invokes the launching session when the run
 exits, so the launcher must survive to completion to be notified: the persistent
 main session does; an ephemeral sub-agent (returns synchronously) and an idle
@@ -303,10 +302,15 @@ use `--if-exists`, which is idempotent and still cleans managed metadata. Confir
 identity with `charly vm list`; see [`/charly-vm:vm`](/recipes/vm/vm/) "`charly vm destroy` — the DEPLOY name keys the
 domain" and [`/charly-internals:agents`](/recipes/internals/agents/) "The binding rule".
 
-Final target and member teardown are recorded acceptance steps. In particular, a targetless group
-records `cleanup-members`; a failed members-down operation fails the bed rather than leaving cleanup
-to inference from a later host inventory. The group fresh-rebuild transition likewise records and
-requires `rebuild-members-down` before bringing the members back up.
+Final target and member teardown happen on the SUCCESS tail as recorded acceptance steps (a
+targetless group records `cleanup-members`), **and** on every unwinding failure path through the
+bed runner's ONE venue-teardown owner: a failed run disposes of its deployed target and its members
+unless retention was explicitly requested (`--keep-on-failure`, `--keep`/`--keep-venue`,
+`keep_venue:`, or the root's `ephemeral.keep_on_failure:`). On the success path a failed
+members-down operation fails the bed; on the failure path it is reported as a warning so the
+original step error survives. The SIGNAL path cannot tear down at all (nothing unwinds), so
+`charly check stop` names the scoped destroy verb instead. The group fresh-rebuild transition
+likewise records and requires `rebuild-members-down` before bringing the members back up.
 
 ### Golden snapshots: stop the keeper after capture
 
@@ -461,7 +465,7 @@ explicit pin, so the guard never fires inside a bed.
 
 **Which verb/bed proves what (the project rulebook R7):** `charly check box` passes on
 zero-content stages too — it is not a substitute for the generated-artifact
-checks (R8). For the R10 gate, pick the disposable bed whose kind matches
+checks (R7). For the R10 gate, pick the disposable bed whose kind matches
 what you changed (`check-pod` for the combined box/candy/pod/deploy-target
 mechanism, `check-local`, `check-k3s-vm`, or a feature bed). `charly check run`
 on an `iterate:` bed is the multi-hour AI-iteration benchmark, never a quick
@@ -491,11 +495,11 @@ The project rulebook R10 carries the mandate; this matrix is the authoritative d
 
 | Change class | Pre-flight | The R10 gate | Tier on a clean pass | Explicitly NOT required |
 |---|---|---|---|---|
-| **Documentation-only change class** — `*.md` (`AGENTS.md` / `CLAUDE.md`, the marketplace corpus's `**/SKILL.md`, READMEs, CHANGELOG), comment-only code edits, or a submodule pointer bump to an all-documentation submodule commit; zero behavior change | markdown integrity, link checks | The non-runtime standards: adversarial consistency review, the R5 grep self-test, cross-reference validation, and command-safety gates | `documentation reviewed` | ANY bed run or image build — beds cannot fail on prose |
+| **Documentation-only change class** — `*.md` (`AGENTS.md`, the marketplace corpus's `**/SKILL.md`, READMEs, CHANGELOG), comment-only code edits, or a submodule pointer bump to an all-documentation submodule commit; zero behavior change | markdown integrity, link checks | The non-runtime standards: adversarial consistency review, the R5 grep self-test, cross-reference validation, and command-safety gates | `documentation reviewed` | ANY bed run or image build — beds cannot fail on prose |
 | **Hook / workflow scripts** — `.claude/hooks/*.sh`, `.claude/workflows/*.js` | `bash -n` / async-body parse | Execute the changed script live: run the hook directly (paste its output); a workflow whose control flow changed runs against ONE bed matching the change. Prompt-string-only workflow edits: parse + the non-runtime standards | `fully tested and validated` | The full bed fan-out |
 | **Harness project configuration** — `AGENTS.md`, `.codex/**`, repo-native `.agents/**`, or an executable that provisions or validates those surfaces | Parse the changed configuration; run the project profile and static-validator checks; verify exact gitlink and linked-worktree provenance | Run the final-tree repository harness gate: execute each changed validator/provisioner directly, verify only the gitlinks dispatched by the change class at their recorded revisions, and run the committed developer-profile checks. A Git-provisioning change also proves its canonical-object reference and exact-gitlink behavior in a dedicated linked worktree. Record the exact approved commands and active managed sandbox available for this run. This proves repository-controlled behavior; never claim that it proves settings loaded by a newly launched harness process. The fresh validator independently decides whether the final-tree delta additionally requires a Charly R10 bed and runs it when required. | `fully tested and validated` | A forced restart/new session, alternate home/cache/workspace, or unrelated VM/container roster that cannot exercise repository configuration |
 | **`charly` Go code** | `go test ./...` + `go vet` + the R9 source build `scripts/bootstrap-charly.sh` (R9 freshness + `charly version` check on the worktree binary) | `charly check run <bed>` for EACH bed whose kind matches a touched code path: box/candy/pod/deploy-target mechanism → `check-pod`; `target: local` → `check-local`; VM / kubernetes → `check-k3s-vm`; a feature surface → its feature bed. Cross-cutting loader / resolver / IR / unified-schema changes → run the matching beds as one `kind:check-roster` roster (`charly check run <roster>`, its `lanes` pool overlapping every bed) — in-spec for that class, not a scope override; a roster run that does not include every matching bed is a partial roster, never a green gate | `fully tested and validated` | Beds whose substrate the change cannot reach |
-| **Contract / library module** — a Go module with NO `charly.yml` project, NO `main`/deployable target and therefore NO `disposable: true` entity (the `github.com/opencharly/spec` + `github.com/opencharly/sdk` contract modules; any standalone library repo) | none beyond the suite | Run the repo's OWN committed module CI (`.github/workflows/ci.yml`: `go build ./...` + `go test ./...` + `gofmt -l .` + `golangci-lint run ./...`) GREEN on the PR head — the module suite IS the gate, because no bed CAN exist (a bed that cannot fail on the change proves nothing). The suite must genuinely EXECUTE the changed paths (a test that would FAIL without the change), not merely compile them. The `no disposable target` premise is a negative claim: prove it with executed output (`git ls-files \| grep -c 'charly.yml'` → 0; `git grep -c 'disposable: true'` → no match). A change whose behaviour is observable only at a CONSUMER's live boundary names the consumer PR running that bed — the bed rides the consumer change (producer→consumer order, B6), never the library PR | `fully tested and validated` | A `charly check run` bed in the module repo — none can exist there; the consumer boundary bed belongs to the consumer PR |
+| **Contract / library module** — a Go module with NO `main`/deployable target and therefore NO `disposable: true` entity (the `github.com/opencharly/spec` + `github.com/opencharly/sdk` contract modules; any standalone library repo). Shipping no `charly.yml` is NOT the discriminator: `spec` carries one holding only its `repo:`/`task:` maintenance manifest, and a task-only manifest is no bed venue | none beyond the suite | Run the repo's OWN committed module CI (`.github/workflows/ci.yml`: `go build ./...` + `go test ./...` + `gofmt -l .` + `golangci-lint run ./...`) GREEN on the PR head — the module suite IS the gate, because no bed CAN exist (a bed that cannot fail on the change proves nothing). The suite must genuinely EXECUTE the changed paths (a test that would FAIL without the change), not merely compile them. The `no disposable target` premise is a negative claim: prove it with executed output on the PR head — `git grep -nE '^[[:space:]]*disposable:' -- '*.yml' '*.yaml'` returns no match, and the root `charly.yml` is absent or declares no `box:`/`deploy:`/`check:` node. Key the grep to the ANCHORED key at line start: the bare string also sits in CHANGELOG prose and in Go string literals, and a bare `grep 'charly.yml'` also matches the `*.charly.yml.golden` `workflowkit` fixtures — either form makes the premise false-negative on `sdk`. A change whose behaviour is observable only at a CONSUMER's live boundary names the consumer PR running that bed — the bed rides the consumer change (producer→consumer order, B6), never the library PR | `fully tested and validated` | A `charly check run` bed in the module repo — none can exist there; the consumer boundary bed belongs to the consumer PR |
 | **Candy / box / pod / vm / kubernetes / local / android config** | `charly box validate` | Build + run a bed that composes the changed entity (a candy edit → a bed whose image stacks that candy); when no bed composes it, the R7 sequence on a disposable deploy: build → `charly check box` → deploy → `charly check live` → fresh `charly update` | `fully tested and validated` | Beds that do not compose the changed entity |
 | **`iterate:` / ai check config** | `charly box validate` | The affected `iterate:` bed run as specified (see "Flag discipline") | `fully tested and validated` | Unrelated beds |
 
@@ -556,9 +560,9 @@ These are the standards referenced in the project rulebook's AI attribution tier
 0. **Prove every high-risk assumption before you edit (RDD — Risk Driven Development)** — the proactive bookend to Standard 11's fresh-rebuild gate. Low-risk orientation ("what does layer X do") is a skill lookup (R0, zero risk); every high-risk assumption — including any a skill or the code merely *asserts*, and above all whether this layer composition at its latest available versions builds / deploys / runs together — is proven on a `disposable: true` bed first (`charly check` it). Never accept docs or code as ground truth for a high-risk decision; if the bed disagrees with a skill, the skill is stale — fix it. Standard 0 (validate forward, riskiest-first) and Standard 11 (re-verify on a fresh rebuild) are the two ends of the same loop.
 
 1. **Build a real artifact** (R7) — `charly box build <image>` / `go build` / `charly vm build <vm>`. Not just `go test`. Not just `charly box generate`.
-2. **Verify the emitted artifact's content** (R8) — `grep -c supervisord-conf .build/<image>/Containerfile` for any image that uses supervisord; `charly check libvirt domain-xml <vm>` for a VM.
-3. **Verify critical OCI / capability labels post-build** (R8) — `charly box labels <ref> --format init` (or any `ai.opencharly.<key>` shorthand) prints the built ref's label and exits non-zero when absent; `charly box labels <ref>` lists the whole capability contract ([`/charly-internals:capabilities`](/recipes/internals/capabilities/)). Empty / missing label → the detection path silently returned nil → regression.
-4. **Deploy to a disposable target** (R10) — never experiment on a resource that doesn't carry `disposable: true`. If no suitable disposable target exists, create one first (`charly fleet add <name> <ref> --disposable` or mark a VM `disposable: true` in `charly.yml` and `charly vm create`). The setup is part of the task. On a disposable target: `charly update <name>` (unattended). On anything else: confirm with the user before any irreversible destroy — except preempting a declared-`preemptible:` holder, which is standing-authorized (reversible: graceful stop + guaranteed restore).
+2. **Verify the emitted artifact's content** (R7) — `grep -c supervisord-conf .build/<image>/Containerfile` for any image that uses supervisord; `charly check libvirt domain-xml <vm>` for a VM.
+3. **Verify critical OCI / capability labels post-build** (R7) — `charly box labels <ref> --format init` (or any `ai.opencharly.<key>` shorthand) prints the built ref's label and exits non-zero when absent; `charly box labels <ref>` lists the whole capability contract ([`/charly-internals:capabilities`](/recipes/internals/capabilities/)). Empty / missing label → the detection path silently returned nil → regression.
+4. **Deploy to a disposable target** (R10) — never experiment on a resource that doesn't carry `disposable: true`. If no suitable disposable target exists, create one first (`charly deploy add <name> <ref> --disposable` or mark a VM `disposable: true` in `charly.yml` and `charly vm create`). The setup is part of the task. On a disposable target: `charly update <name>` (unattended). On anything else: confirm with the user before any irreversible destroy — except preempting a declared-`preemptible:` holder, which is standing-authorized (reversible: graceful stop + guaranteed restore).
 5. **Target must reach steady-state** — `charly status <image>` → `running`; `charly check libvirt info <vm>` → state `running`; SPICE socket file exists and accepts a handshake. If the service start-limit is hit, the container is crashing — read `charly logs <image>` and reproduce in a disposable shell (`charly shell <image>`, running the service command manually).
 6. **Run the declarative test suite** — `charly check live <image>` full three-section pass against the live container (or `--uri` / `--host` remote equivalent for a remote target).
 7. **Verify the deployed binary is the one you built** (R9) — `charly version` on the target matches the expected CalVer, and `charly status <image>` (detail `Image ref:` line; JSON `image_ref`) shows the running container's image ref carries THIS build's CalVer tag, not the prior one. Source-only changes (Syncthing, git push) do not update the deployed binary; you must build AND deploy on the target host.
@@ -574,6 +578,49 @@ These are the standards referenced in the project rulebook's AI attribution tier
    than inferring it from a PASS. Same failure family as invoking a stale
    `/usr/bin/charly`: "the binary under test must be the one invoked" applies to
    every binary in the chain.
+
+   **The compiled-in mirror of this standard.** The remedy above is stated for an
+   OUT-OF-PROCESS verb and does not generalise: a candy named in charly's
+   `compiled_plugins:` is emitted by `pluginsgen` as a `registerCompiledPlugin(...)`
+   call and resolved as a `require` pin, so the plugin is LINKED INTO `bin/charly` —
+   and no environment variable re-points a linked symbol. `CHARLY_PLUGIN_DIR` is read
+   only by the out-of-process loader (`charly/plugin_loader.go`) and is never
+   consulted for a compiled-in plugin; `CHARLY_REPO_OVERRIDE` re-points the candy
+   RESOLVER and the local plugin source, not the Go module graph. A bed run on a
+   stock binary therefore cannot fail on an unmerged compiled-in plugin AT ALL — the
+   same "proves nothing about your rebuild" failure this standard exists to catch,
+   and harder to notice, because the plugin genuinely is in the binary and the run
+   genuinely is a bed run.
+
+   The sanctioned override is
+   `scripts/bootstrap-charly.sh --dev-plugin <candy-name>=<repo-checkout>`
+   (repeatable). `pluginsgen` re-points its ENTIRE read of that repo at the local
+   checkout and emits a SEPARATE `go.work.dev` selected only by an explicit `GOWORK=`,
+   so the committed `go.work`/`go.work.sum` stay byte-identical (a workspace's sum
+   file is keyed to its own path, so a dev build's lock lands in `go.work.dev.sum`);
+   a later run WITHOUT the flag deletes `go.work.dev`, so a stale dev workspace can
+   never resolve a local tree for a plain build. The build prints a `DEV BUILD`
+   banner on stderr and refuses `--install`. Before compilation the generator
+   validates both halves: the name must appear in `compiled_plugins:`, and the
+   checkout's `candy/<candy-name>/go.mod` must declare module
+   `github.com/opencharly/<candy-name>/candy/<candy-name>` — the path the generated
+   registration imports.
+
+   Then assert the changed path EXECUTED rather than inferring it from a PASS — the
+   discipline above, against two traps that have each shipped a false green:
+
+   - `go version -m <binary>` reports the plugin's module as `(devel)` in a
+     `--dev-plugin` build and as the module-proxy tag in a release build. That is the
+     cheap discriminator between the two binaries, and it is necessary but NOT
+     sufficient: it proves the module GRAPH, not that the changed arm ran.
+   - Set-difference the two binaries' plugin symbol tables (`go tool nm`) — never
+     `grep` for the changed name with a package-anchored pattern (`<pkg>.<name>`).
+     A method's symbol carries its receiver between the package and the name —
+     `<pkg>.(*T).Method`, e.g.
+     `github.com/opencharly/plugin-check/candy/plugin-check.(*bedRunState).snapshotStep`
+     — so an anchored pattern matches every plain function and no method at all: a
+     change confined to method bodies reads as absent, and a real regression reads
+     as clean. (An unanchored `<pkg>` grep does find them — the trap is the anchor.)
 9. **Verify runtime deps are installed via package management** (R9) — on the host: `charly doctor` (dependency status), or the host package manager directly (`rpm -q <pkg>` / `pacman -Q <pkg>` — host packages are not charly-managed resources, so the package manager IS their interface); inside a container: `charly cmd <box> 'rpm -q <pkg>'`. Manual installs do not count — they won't survive a fresh install on a synced host. Every runtime dep must live in `setup.sh` + the charly candy's `packaging:` section (`candy/charly/charly.yml`).
 10. **Leave the target healthy, not paused/errored** — the final `charly status` (and `charly check libvirt info <vm>` for a VM) is healthy. If the target is in a broken state during exploration, `charly update` it back to the committed config before continuing — never layer experiments on broken state.
 11. **Re-verify on a fresh rebuild after committing the source-level fix** (R10) — `charly update <disposable-target>` one more time from clean, with the new source applied. Run standards 1–10 again against this fresh rebuild. **This is the acceptance gate.** A fix that works on a hand-patched target but not on a fresh rebuild is a regression waiting for the next unrelated rebuild to wipe your patch. Paste both the exploratory-pass output and the fresh-rebuild-pass output into the conversation — the user sees both.
@@ -585,7 +632,7 @@ These are the standards referenced in the project rulebook's AI attribution tier
 `DeployExecutor` chain that lands probes inside the leaf's actual
 venue — `command: id` for a pod-in-VM leaf returns the inner pod's user, not
 the parent VM's. Live-check and AI-iteration-scoring chain construction go
-through the same code path `charly fleet add` uses.
+through the same code path `charly deploy add` uses.
 For deeply-nested paths, each segment adds one hop:
 
 ```bash
@@ -594,7 +641,7 @@ charly check live check-vm.inner                      # → SSH + podman exec ch
 charly check live check-vm.inner.deeper               # → SSH + 2× podman exec (3 hops)
 ```
 
-Same chain primitive (`NestedExecutor`) used everywhere — `charly fleet
+Same chain primitive (`NestedExecutor`) used everywhere — `charly deploy
 add`, `charly check live`, `charly check run` (AI iteration scoring).
 
 **Exception — a pod leaf nested in a VM delegates its check to the guest.** Because
@@ -618,7 +665,7 @@ probing") for the symmetric authoring surface in a bed's plan (venue-from-positi
 
 A green `go test ./...` run does not prove a cutover done — build, deploy, run, and test the live target every time. A post-`charly update` re-test must run against the freshly deployed container, not the prior one still resident from before the update (an `is not running` error on the new container means the update broke it, not that "tests pass in aggregate"). A service-start failure (`A dependency job for X failed` + immediate exit) is a real error to read (`charly logs`) and reproduce (`charly shell`), never a presumed transient. `disposable: true` is the sole destroy authorization — a `lifecycle: dev` tag and "it's a dev box" framing grant none; everything else needs user confirmation regardless of hostname. A fix verified only on a target hand-patched over an afternoon is unverified; re-run `charly update` from clean and re-verify before claiming success. A plan that said "one PR" gets no invented Phase 2. Docs and code are not proof for a high-risk assumption — prove it on a disposable bed first (Standard 0); conversely, don't bed-test a low-risk fact a skill already states — that is wasted effort. Risk, not documentation status, is the trigger.
 
-If the container needs state that's only available in deploy (volumes, env, tunnel), author the step at `context: [deploy]`. If it needs something at build only (binary path, package presence), author at `context: [build]`. Both contexts must pass for the cutover to be real.
+If the step needs state that's only available on a live deployment (volumes, env, tunnel), author it at `context: [runtime]` — the context `charly check live` activates. If it needs something at build only (binary path, package presence), author at `context: [build]`. Note that those two ARE the check engine's contexts: a `check:` step scoped `context: [deploy]` is active in NEITHER mode and never runs (`opencharly/opencharly#413`, `opencharly/plugin-check#111`); `deploy` keeps its meaning on a `run:` step, where it names the install timeline. Both active contexts must pass for the cutover to be real.
 
 **Confidence tier mapping:** The "fully tested and validated" confidence level in the project rulebook's AI-attribution table requires all the standards met — including the fresh-rebuild re-verification. Anything short of that ships at a lower confidence tier.
 

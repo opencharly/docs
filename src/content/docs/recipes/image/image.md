@@ -498,7 +498,7 @@ charly box inspect android-emulator --format ports
 
 ## OCI Labels
 
-Every image `charly` builds carries a set of `ai.opencharly.*` OCI labels embedding the resolved image config so that `charly config` and `charly fleet` can work without the project source tree. The full list is assembled in `sdk/deploykit/write_labels.go` (emission) / read back via `ExtractMetadata` (`spec/container/box_metadata_coneb.go`) — label names in `spec/spec/label_consts.go`, the `spec.BoxMetadata` struct in `spec/schema/boxmetadata.cue` (see [`/charly-internals:capabilities`](/recipes/internals/capabilities/)):
+Every image `charly` builds carries a set of `ai.opencharly.*` OCI labels embedding the resolved image config so that `charly config` and `charly deploy` can work without the project source tree. The full list is assembled in `sdk/deploykit/write_labels.go` (emission) / read back via `ExtractMetadata` (`spec/container/box_metadata_coneb.go`) — label names in `spec/spec/label_consts.go`, the `spec.BoxMetadata` struct in `spec/schema/boxmetadata.cue` (see [`/charly-internals:capabilities`](/recipes/internals/capabilities/)):
 
 | Label | Contents |
 |---|---|
@@ -526,7 +526,7 @@ The label→config apply path **explicitly skips reading** any tunnel label when
 2. **`--update-all` safety.** Propagating config changes across deployed services must not accidentally rewrite tunnel settings from image labels and blow away per-instance overrides.
 3. **Instance inheritance gap.** Tunnel config is **not** auto-inherited from the base `charly config <image>` call to an `charly config <image> -i <instance>` call. This is a deliberate gap — see [`/charly-selkies:selkies-labwc`](/recipes/selkies/selkies-labwc/) (Multi-Instance Proxy Deployment) for the manual workaround and [`/charly-core:deploy`](/recipes/core/deploy/) (Instance Tunnel Inheritance) for the full lifecycle.
 
-**Practical implication:** you can inspect an image's tunnel declaration with `charly box inspect <image>` and see nothing useful — that's correct. To see a tunnel's actual state, read `charly.yml` directly (`charly fleet show <image>`) or the generated quadlet (`charly status <image>`).
+**Practical implication:** you can inspect an image's tunnel declaration with `charly box inspect <image>` and see nothing useful — that's correct. To see a tunnel's actual state, read `charly.yml` directly (`charly deploy show <image>`) or the generated quadlet (`charly status <image>`).
 
 ## Common Workflows
 
@@ -594,7 +594,7 @@ experimental:
 
 ## Cross-kind name reuse
 
-Every entity is a top-level **name-first** node, so within a single document the top-level node names are **globally unique**: a `candy` (image or layer), a `pod`, a `vm`, a `kubernetes`, and a `local` in ONE `charly.yml` MUST NOT share a name (they would collide on the same YAML key — `charly box validate` flags it; rename one, e.g. the convention of suffixing the template a deploy inherits). Cross-FILE name reuse across SEPARATE discovered files (a layer `candy/redis` + an image `box/redis` — both `candy:` nodes, routed to distinct internal maps `uf.Candy` vs `uf.Box` by `base:`/`from:` presence) IS still permitted, and verbs disambiguate by command context. Authoring verbs (`charly box set`, `charly box new box`, `charly box add-candy`, `charly box rm-candy`, `charly box new project`) write exclusively to `charly.yml` — a per-kind sibling file is reachable only via the `import:` statement from `charly.yml`, never as a default authoring target. Missing `charly.yml` → hard error pointing at `charly box new project .` or `charly migrate`. See the project rulebook "cross-FILE cross-kind reuse is fine, but a single document's top-level node names are GLOBALLY UNIQUE" (`AGENTS.md` / `CLAUDE.md`).
+Every entity is a top-level **name-first** node, so within a single document the top-level node names are **globally unique**: a `candy` (image or layer), a `pod`, a `vm`, a `kubernetes`, and a `local` in ONE `charly.yml` MUST NOT share a name (they would collide on the same YAML key — `charly box validate` flags it; rename one, e.g. the convention of suffixing the template a deploy inherits). Cross-FILE name reuse across SEPARATE discovered files (a layer `candy/redis` + an image `box/redis` — both `candy:` nodes, routed to distinct internal maps `uf.Candy` vs `uf.Box` by `base:`/`from:` presence) IS still permitted, and verbs disambiguate by command context. Authoring verbs (`charly box set`, `charly box new box`, `charly box add-candy`, `charly box rm-candy`, `charly box new project`) write exclusively to `charly.yml` — a per-kind sibling file is reachable only via the `import:` statement from `charly.yml`, never as a default authoring target. Missing `charly.yml` → hard error pointing at `charly box new project .` or `charly migrate`. See the project rulebook "cross-FILE cross-kind reuse is fine, but a single document's top-level node names are GLOBALLY UNIQUE" (`AGENTS.md`).
 
 ### Files are generic kind-containers (per-kind filenames are a convenience)
 

@@ -7,7 +7,6 @@ description: "CachyOS desktop look-and-feel — settings, theming, SDDM theme, w
 
 | | |
 |---|---|
-| **Version** | `2026.151.0543` |
 | **Repo** | `box/cachyos` |
 
 CachyOS desktop look-and-feel — settings, theming, SDDM theme, wallpapers, Plymouth

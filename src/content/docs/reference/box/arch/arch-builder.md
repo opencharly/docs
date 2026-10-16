@@ -14,7 +14,7 @@ title: "arch-builder"
 
 This box composes:
 
-- `@github.com/opencharly/layer-pixi:v2026.239.1634`
-- `@github.com/opencharly/layer-nodejs:v2026.239.1624`
-- `@github.com/opencharly/layer-build-toolchain:v2026.239.1636`
-- `@github.com/opencharly/layer-yay:v2026.240.0121`
+- `@github.com/opencharly/layer-pixi:v2026.272.0440`
+- `@github.com/opencharly/layer-nodejs:v2026.272.0322`
+- `@github.com/opencharly/layer-build-toolchain:v2026.271.1840`
+- `@github.com/opencharly/layer-yay:v2026.272.0425`

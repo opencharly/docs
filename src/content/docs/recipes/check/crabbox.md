@@ -14,7 +14,7 @@ description: "the `crabbox:` check verb — probe the Crabbox CLI or its local c
 `crabbox:` probes the [Crabbox](https://github.com/openclaw/crabbox) CLI
 and its optional local Node.js/PostgreSQL coordinator, served
 out-of-process over go-plugin gRPC by `opencharly/plugin-crabbox`.
-Install the CLI with [`/charly-tools:crabbox`](/recipes/tools/crabbox/) (opencharly/layer-crabbox)
+Install the CLI with [`/charly-tools:crabbox-cli`](/recipes/tools/crabbox-cli/) (opencharly/layer-crabbox)
 and the coordinator with [`/charly-crabbox:crabbox-coordinator`](/recipes/crabbox/crabbox-coordinator/)
 (opencharly/pod-crabbox).
 
@@ -34,7 +34,14 @@ and the coordinator with [`/charly-crabbox:crabbox-coordinator`](/recipes/crabbo
 |---|---|
 | In-venue CLI — credential-free | `version` (`crabbox --version`) `providers` (`crabbox providers`) `config` (`crabbox config show`) `doctor` (`crabbox doctor` — needs NO broker configured, or a REACHABLE one) |
 | Coordinator HTTP probe (host-side, port 8080) | `health` (`/v1/health`) `ready` (`/v1/ready`) |
-| In-venue CLI — broker-backed (requires `crabbox login` in the venue) | `leases` (`crabbox status --all`) `usage` (`crabbox usage`) `events` (`crabbox events <run_id>`) `logs` (`crabbox logs <run_id>`) |
+| In-venue CLI — broker-backed (requires `crabbox login` in the venue) | `leases` (`crabbox list` — the ID/NAME/STATE/TYPE/IP inventory) `usage` (`crabbox usage`) `events` (`crabbox events <run_id>`) `logs` (`crabbox logs <run_id>`) |
+
+Per-lease state is `crabbox status <id-or-slug>` — *"Show lease state; add
+`--wait` to block until ready"*. It is deliberately NOT this verb's `leases`
+method: `status` is not an enumerator, and it has **no `--all` flag** (measured
+on the pinned v0.78.0: `crabbox status --all` exits *"flag provided but not
+defined: -all"*), so the earlier prose that documented `leases` as
+`crabbox status --all` named a command that cannot run.
 
 All methods are read-only — there are no mutating methods in this first cut.
 
@@ -47,6 +54,7 @@ All methods are read-only — there are no mutating methods in this first cut.
 | `timeout` | HTTP probe timeout (default 10s) |
 | `json_path` | dotted path into the response; stdout becomes that value |
 | `run_id` | run identifier for the `events`/`logs` methods |
+| `provider` | the provider to select for the methods whose CLI command DEFINES `--provider` (`doctor`, `leases`) |
 
 ## Scalar shorthand
 
@@ -68,3 +76,21 @@ broker — the venue must hold a prior `crabbox login` (shared-token:
 `crabbox login --url http://127.0.0.1:8080 --token-stdin`). `doctor` exits
 nonzero when a broker is configured but unreachable — gate it on
 coordinator readiness first.
+
+## Selecting a provider
+
+`provider:` is passed through as `--provider <name>` for the two methods whose CLI
+command defines the flag — `doctor` and `leases` (`crabbox list`) — and nowhere
+else, because attaching it to a command that does not define it is an argument
+error, not a selection. Measured on the pinned v0.78.0:
+
+```
+$ crabbox doctor --provider local-container   -> ok provider-selection provider=local-container source=flag selected=true
+$ crabbox list   --provider aws              -> the ID/NAME/STATE/TYPE/IP inventory
+$ crabbox usage  --provider aws              -> flag provided but not defined: -provider
+$ crabbox providers --provider aws           -> flag provided but not defined: -provider
+```
+
+Unset, the CLI keeps its own configured/ambient selection — which is what every
+step got before this input existed, so an authored step that does not name a
+provider behaves exactly as it did.

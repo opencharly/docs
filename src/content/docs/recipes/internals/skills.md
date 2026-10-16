@@ -18,10 +18,47 @@ how to update them.
 
 ## Skill Dispatchers
 
-`AGENTS.md` is the single, complete, harness-neutral rulebook: every
-harness reads it directly, and the trigger → skill dispatcher lives there.
+The umbrella `AGENTS.md` is the single, harness-neutral rulebook: every
+harness reads it directly, and the trigger → skill dispatcher lives in its
+Part I ("R0. Skills first"). A subrepo's `AGENTS.md` carries only that repo's
+extra rows (e.g. `charly/AGENTS.md`'s "R0 for the core"), never a copy.
 When multiple triggers apply, load all matching skills before acting.
 Full index: `marketplace/README.md`.
+
+**How the umbrella table is maintained.** It is a HAND-CURATED, compact subset
+of the generated dispatcher (`marketplace/DISPATCHER.md`, emitted by
+`charly marketplace generate` from each skill entity's `triggers:` — one row per
+trigger; that file is the authority for the full set). Compact means ONE row per
+trigger with every skill it selects in one cell, never one row per skill. Being
+prose, the table lives OUTSIDE the `BEGIN/END GENERATED SKILL DISPATCHER`
+markers, so `charly task skills` (`scripts/sync-dispatcher.sh`) is a no-op until a
+consumer adds the markers; then it splices the full generated fragment in place.
+To add, rename, or remove a skill, update the row in the same PR and keep every
+ref resolving to `marketplace/<family>/skills/<skill>/SKILL.md`.
+
+## Adding a `triggers:` is a CONFIG change — and its proof is the emitted row
+
+A skill entity's `triggers:` is not prose: `emit_dispatcher.go` consumes it to emit
+exactly one `DISPATCHER.md` row per triggers-bearing skill (`if s.Type == "agent" ||
+len(s.Triggers) == 0 { continue }`). A change that only adds `triggers:` to a skill
+entity therefore alters a GENERATED artifact — it is a **config** change, and the
+`documentation reviewed` attribution tier does not apply to it.
+
+The gate is the generated artifact, not a structure check. `charly box validate`
+proves the YAML parses; it does NOT prove the routing the change exists to add, and
+A1/R10 forbid deferring the effect to the nightly refresh bot. Run the corpus's own
+generator and paste the emitted rows:
+
+```bash
+charly marketplace generate --root <root> --out <out>
+grep -n '<family>:<skill>' <out>/DISPATCHER.md
+```
+
+When the owning repo's marketplace pin is OLDER than the branch (the common case for
+an unmerged skill change), the live corpus cannot see the change at all — and
+`CHARLY_REPO_OVERRIDE` cannot substitute a directly-pinned repo (the separate defect
+opencharly/opencharly#387). Generate from a MINIMAL root carrying the exact changed
+skill entities plus the real family registry, and paste the rows.
 
 ## The corpus must actually LOAD — audit delivery, not just content
 
@@ -94,7 +131,7 @@ and fails outright on a project-scoped plugin.
 | New candy or box added | Create skill via `charly box new candy` scaffold or manual SKILL.md |
 | Bug fix changes behavior | Document the fix in affected skills |
 | Cross-skill behavior discovered | Update Cross-References in all affected skills |
-| A doc / skill / comment diverges from observed reality (discovered by ANY means — not only a bed or a deleted identifier) | Treat as an incident (R1): RCA it, then sweep EVERY sibling doc/skill/comment carrying the same false/outdated/misleading claim and fix them all in the current cutover (blocking, R2). The rows below are special cases of this |
+| A doc / skill / comment diverges from observed reality (discovered by ANY means — not only a bed or a deleted identifier) | Treat as an incident (R1): RCA it, then sweep EVERY sibling doc/skill/comment carrying the same false/outdated/misleading claim and fix them all in the current cutover (blocking, R1). The rows below are special cases of this |
 | A live bed contradicts a skill's claim (Risk Driven Development found it stale) | Fix the stale skill in the same change — RDD keeps the living docs honest; for a high-risk claim the running system is ground truth, not the doc |
 | Removed identifier still referenced in skill paragraph (R5 self-test failed) | Update / delete the paragraph in the same commit as the removal (R5) |
 | Project-rulebook heading / R-number / clause name changes (they are a public API) | Sweep every mirroring surface in the same commit — see "Mirroring surfaces" below (R5) |
@@ -131,7 +168,7 @@ build together catch a stale cross-reference that a `git grep` sweep missed.
 1. **Edit the OWNING candy repo's `skill:` entity, then regenerate.** Since the candy
    de-submodule cutover the charly repo owns NO `skill:` entities — each family lives
    in its standalone owning repo (internals → layer-charly-internals (+ layer-charly-
-   internals-extra for strict-policy/vm-spec/agents); build → layer-charly-build;
+   internals-extra for strict-policy/vm-spec); build → layer-charly-build;
    check → layer-charly-check; kubernetes → layer-charly-kubernetes; image →
    layer-charly-image; core → pod-charly-core; automation → pod-charly-automation;
    local → layer-charly-local; pod → layer-charly-pod; hooks/verbs → pod-charly-hooks
@@ -158,7 +195,7 @@ indistinguishable from a legitimate update.
 
 Measured: a wholesale `charly marketplace generate` touched **21** files in `plugins`
 and **41** in `docs` when three candy sources had changed. The extra ones were reverts,
-~500 lines of landed prose including 317 from one `git-workflow` reference and 107 from
+about 500 lines of landed prose including 317 from one `git-workflow` reference and 107 from
 the `pr-validator` agent spec. Nothing in the output flagged it.
 
 So: after regenerating, **restore every file whose candy source you did not touch**, and
@@ -255,7 +292,7 @@ A skill is either a single `SKILL.md`, or an entry `SKILL.md` plus sibling `refe
 | Image composition, deployment, verification | per-pod plugin or `/charly-distros:<name>` / `/charly-infrastructure:<name>` for base images |
 | Skill disambiguation (which skill to use) | the active harness root rulebook's R0 Skill Dispatcher |
 | Detailed operational patterns | Relevant `/charly-core:*` / `/charly-build:*` / `/charly-check:*` / `/charly-automation:*` / kind-plugin skill |
-| Hard rule / gate / mandate (the WHAT and the MUST) | each harness root rulebook, with equivalent policy and an owning-skill pointer |
+| Hard rule / gate / mandate (the WHAT and the MUST) | the umbrella `AGENTS.md` when org-wide, a subrepo's `AGENTS.md` when specific to that repo — stated ONCE, with an owning-skill pointer |
 | Operationalization / matrix / catalog / worked example (the HOW) | The ONE owning skill (see the Authoritative-copy registry below) |
 | Version history / past changes / renames / cutover narration | the repo's `CHANGELOG/` (per-CalVer `<YYYY.DDD.HHMM>.md`) — never the project rulebook or a skill |
 | Long-term thesis / vision / aspiration ("why & where it's going") | `VISION.md` (repo root) — never restating command usage, architecture, or history |
@@ -294,7 +331,7 @@ poles — the user overview and the history.
   harness or a harness-specific file. Harness mechanics live in the per-harness
   config or skill.
 
-The umbrella rulebook's rule 11 ("Todo ledger & interruption safety") is a
+The umbrella rulebook's "Ledger and interruption safety" rule is a
 worked example of the split: the rulebook states the MUST and names the owning
 skill, and the sibling [`/charly-internals:agents`](/recipes/internals/agents/) owns the ledger procedure
 (see [`/charly-internals:agents`](/recipes/internals/agents/), "Todo ledger & interruption safety").
@@ -325,7 +362,7 @@ language.
 | Landing mechanics (branch loop, the two-step PR + `pr-validator` merge/tag, CalVer-generated-at-merge, branch protection, multi-repo order) | [`/charly-internals:git-workflow`](/recipes/internals/git-workflow/) |
 | Agent/workflow/team primitives, hooks doctrine | [`/charly-internals:agents`](/recipes/internals/agents/) |
 | Kernel/plugin doctrine (core = kernel; every capability a plugin candy), the two authoring shapes, placement, the three-lane transport doctrine, the seams catalog, **the kernel/plugin boundary law** (E/M/B/D/R) + the incomplete-seam mandate | [`/charly-internals:plugin`](/recipes/internals/plugin/) |
-| Skill Dispatcher, RDD/ADE/SDD mandates, acceptance checklist, attribution tiers, Documentation-only change class anchor, Key Rules index | harness root rulebook (`AGENTS.md`) |
+| Skill Dispatcher, RDD/ADE/SDD mandates, R1–R10, acceptance checklist, attribution tiers, Documentation-only change class anchor, "What the validator checks" table, "Commit, push, land" | the umbrella `AGENTS.md`, Part I (`charly/AGENTS.md` carries only the charly-core rules: core dispatcher rows, the kernel/plugin boundary law, the core SDD pipeline, R9 + the core Go gate) |
 
 A registry owner may hold its canonical text in a `references/<file>.md` split file rather than the top-level `SKILL.md` body (see "Progressive disclosure" above) — the row still names the SKILL as sole owner regardless of which file inside it carries the detail.
 
@@ -333,15 +370,17 @@ A registry owner may hold its canonical text in a `references/<file>.md` split f
 
 **The project rulebook's section headings, R-numbers, and named clauses ("flag-override
 clause", "gate by change class", "Documentation-only change class",
-"documentation reviewed" tier, "Acceptance checklist", "Post-Execution
-Policies", …) are a public API.** These surfaces reference them and MUST be
+"documentation reviewed" tier, "Acceptance checklist", "Commit, push,
+land", "What the validator checks", …) are a public API.** These surfaces reference them and MUST be
 swept in the same commit as any rename or removal (R5):
 
 - the 2 hooks in `.claude/hooks/` (`pre-commit-gate.sh`, `pre-push-gate.sh` — deterministic
   command-mechanics gates only; there is no reminder-hook layer),
 - the agents in `marketplace/internals/agents/*.md`,
-- the 9 per-directory signpost `AGENTS.md` files (`charly/`, `candy/`,
-  `marketplace/`, `docs/`, each `box/<distro>`),
+- `charly/AGENTS.md` (the charly-core rules; it points at the umbrella `AGENTS.md`
+  for every org-wide section and must never restate one),
+- the per-directory signpost `AGENTS.md` files (`candy/`, `marketplace/`, `docs/`,
+  each `box/<distro>`),
 - the workflows in `.claude/workflows/*.js`,
 - every SKILL.md that quotes a section name (grep before assuming).
 

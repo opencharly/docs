@@ -24,4 +24,4 @@ bootstrap toolchain is present AND that core still resolves to Omarchy.
 
 This box composes:
 
-- `@github.com/opencharly/layer-pacstrap-builder:v2026.239.1633`
+- `@github.com/opencharly/layer-pacstrap-builder:v2026.272.0421`

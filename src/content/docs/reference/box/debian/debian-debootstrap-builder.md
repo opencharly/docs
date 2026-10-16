@@ -14,4 +14,4 @@ title: "debian-debootstrap-builder"
 
 This box composes:
 
-- `@github.com/opencharly/layer-debootstrap-builder:v2026.239.1637`
+- `@github.com/opencharly/layer-debootstrap-builder:v2026.272.0019`

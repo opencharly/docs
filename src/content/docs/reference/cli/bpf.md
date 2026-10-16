@@ -7,12 +7,11 @@ description: "The bpf command word, served by 2 plugin candies: plugin-bpf and p
 
 | | |
 |---|---|
-| **plugin-bpf — Served by** | [plugin-bpf](/reference/plugin/github-com-opencharly-plugin-bpf-v2026-243-1059/plugin-bpf/) |
-| **plugin-bpf — Placement** | runtime (out-of-process over gRPC) |
-| **plugin-bpf — Version** | `2026.243.0001` |
 | **plugin-bpf — Served by** | [plugin-bpf](/reference/plugin/github-com-opencharly-plugin-bpf-v2026-260-1008/plugin-bpf/) |
 | **plugin-bpf — Placement** | runtime (out-of-process over gRPC) |
 | **plugin-bpf — Version** | `2026.243.0001` |
+| **plugin-bpf — Served by** | [plugin-bpf](/reference/plugin/github-com-opencharly-plugin-bpf-v2026-271-2243/plugin-bpf/) |
+| **plugin-bpf — Placement** | runtime (out-of-process over gRPC) |
 
 `bpf` is a command word served by 2 plugin candies — `plugin-bpf` and `plugin-bpf` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 

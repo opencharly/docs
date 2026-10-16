@@ -7,7 +7,6 @@ description: "The keeper-golden tooling payload for the omarchy channel bases: a
 
 | | |
 |---|---|
-| **Version** | `2026.247.1400` |
 | **Repo** | `box/omarchy` |
 
 The keeper-golden tooling payload for the omarchy channel bases: acpid (fast

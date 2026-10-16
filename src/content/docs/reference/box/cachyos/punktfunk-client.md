@@ -16,7 +16,7 @@ The punktfunk streaming CLIENT on the CachyOS base — punktfunk-client and its 
 
 This box composes:
 
-- `@github.com/opencharly/layer-punktfunk-client:v2026.243.1116`
-- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
-- `@github.com/opencharly/pod-sway:v2026.241.2004`
-- `@github.com/opencharly/pod-pipewire:v2026.243.0508`
+- `@github.com/opencharly/layer-punktfunk-client:v2026.272.0448`
+- `@github.com/opencharly/layer-supervisord:v2026.271.1817`
+- `@github.com/opencharly/pod-sway:v2026.274.0758`
+- `@github.com/opencharly/pod-pipewire:v2026.273.1856`

@@ -106,7 +106,7 @@ inherited from the moved majority; a validator REJECTS a remainder whose only ju
 stays-core header, demanding call-chain evidence first; and the orchestrator audits every stays-claim
 against this boundary law with that evidence, never rubber-stamping the header. Precedent:
 the former `charly/host_build_deploy_add.go` (the `deploy-add` HostBuild seam, DELETED, K-wave 2)
-documented that the `charly fleet add` CLI moved to `command:fleet`
+documented that the `charly deploy add` CLI moved to `command:deploy`
 (candy/plugin-fleet, P13) while the deploy KERNEL it drives "STAYS CORE" on exactly this "cannot cross
 the process boundary" claim — overruled as a boundary-law violation (the deploy-dispatch kernel is
 tracked K-wave residue, not permanent core). Full three-role breakdown: [`/charly-internals:agents`](/recipes/internals/agents/)
@@ -166,7 +166,7 @@ generic `candy/plugin-fleet` `OpDeployDispatch` dispatch every substrate now sha
 existing seams a de-typing rides — no new seam is usually needed, only the consumer stops re-typing.
 
 **Every K-wave move is a generalization, not a mechanical relocation.** Moving a capability's call site
-into its owning plugin is R3 ("no duplication; generic, reusable solutions over ad-hoc patches") and
+into its owning plugin is R2 ("no duplication; generic, reusable solutions over ad-hoc patches") and
 Prioritize Clean Architecture applied to the migration itself (see the project rulebook — not restated here). In
 practice: reach for an EXISTING generic seam first (`HostBuild`, `InvokeProvider`, `OpResolve`/`OpEmit`,
 the substrate lifecycle/preresolve `InvokeProvider` legs, `OpDeployDispatch`) or build ONE generic, F11-reviewed, class-generic action noun — never a

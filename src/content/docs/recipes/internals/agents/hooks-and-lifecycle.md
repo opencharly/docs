@@ -121,13 +121,16 @@ orchestrator, never one teammate marching through a queue.
 
 **The hard trigger.** If a subagent/teammate has produced **no
 ARTIFACT** — a pushed commit, an opened PR, a merge, a tag, or measured
-output — after **two re-briefs**, or its session passes **~50 messages
-without a produced artifact**, **STOP it and spawn a FRESH subagent with
-a clean brief.** Do not append a third correction. Re-briefing a stalled
-session is the one reuse that is never legitimate: it is the failure this
-rule exists for — and it reads like continue-same-task while being its
-opposite (a stalled session is not continuing its own unit; it is not
-producing at all).
+output — after **two re-briefs** of the SAME task, **STOP it and spawn a
+FRESH subagent with a clean brief.** Do not append a third correction.
+Re-briefing a stalled session is the one reuse that is never legitimate:
+it is the failure this rule exists for — and it reads like
+continue-same-task while being its opposite (a stalled session is not
+continuing its own unit; it is not producing at all). **A turn/message
+count is NOT a trigger** — a long task's turns are not a stall (a
+"message" is an assistant TURN; monitor by artifact and cadence, never by
+a counter). The only countable trigger is the **orchestrator's own**
+re-briefs of the SAME task, capped at two.
 
 **Why re-tasking a stalled session fails — the measured evidence.** A
 session ran **7 hours / 351 messages** and produced **no artifact** on a
@@ -369,25 +372,23 @@ Hooks in this project enforce deterministic command mechanics only. There
 is no reminder layer — rule knowledge lives in the project rulebook and
 skills, loaded fresh by every agent at session start.
 
-The two gate scripts live in `.claude/hooks/` but are **not wired in Claude Code** —
-`.claude/settings.json` declares no `PreToolUse` hooks, so under Claude Code they
-fire on nothing. They remain wired in the harnesses that invoke them:
-`.reasonix/settings.json`, and `~/.kimi-code/config.toml`, which delegates to
-`.claude/hooks/` when the repo markers are present. Most of the discipline they
-encode is judged for every harness by the fresh `pr-validator` at merge and by
-GitHub branch protection — but not all of it, so do not read the unwiring as
-costing nothing. Measured: both scripts DO block what they exist for (`git commit
+The two gate scripts live in `.claude/hooks/` and are wired as `PreToolUse(Bash)`
+hooks in **every** harness that roots at this umbrella: `.claude/settings.json`
+(Claude Code, since umbrella commit `5e485a8`, 2026-08-28), `.reasonix/settings.json`,
+and `~/.kimi-code/config.toml`, which delegates to `.claude/hooks/` when the repo
+markers are present. Measured: both scripts block what they exist for (`git commit
 --no-verify`, a `core.hooksPath` override, `git push --force`, a direct push to
-`main` all exit 2), and branch protection covers `main` ALONE — no rulesets, no
-other protected branch. So a `feat/` branch force-push, which the rulebook forbids
-everywhere, has no server-side block under Claude Code, and the `pr-validator`
-cannot substitute: it inspects a branch that has already been rewritten. Under
-this harness the agent is the enforcement for those mechanics.
+`main` all exit 2). Branch protection covers `main` ALONE — no rulesets, no other
+protected branch — so the hooks are what guards a `feat/`-branch force-push, which
+the rulebook forbids everywhere; the `pr-validator` cannot substitute, because it
+inspects a branch that has already been rewritten. Attribution, change class, and
+rulebook compliance are judged once by the fresh `pr-validator` at merge — never by
+the hooks.
 
 | Hook | Event (where wired) | Role |
 |---|---|---|
-| `pre-commit-gate.sh` | `PreToolUse(Bash)` in `.reasonix` / kimi; **unwired in Claude Code** | blocks hook bypass (`--no-verify`/`-n`/`core.hooksPath`), untokenizable commit commands, configured Go lint failures for staged Go modules, and a new-or-grown `charly/*_aliases.go` file or declaration-form kit-alias line (the ZERO-ALIASES gate) |
-| `pre-push-gate.sh` | `PreToolUse(Bash)` in `.reasonix` / kimi; **unwired in Claude Code** | blocks force-push and a direct push to `main` |
+| `pre-commit-gate.sh` | `PreToolUse(Bash)` in `.claude/settings.json` (Claude Code), `.reasonix` / kimi | blocks hook bypass (`--no-verify`/`-n`/`core.hooksPath`), untokenizable commit commands, configured Go lint failures for staged Go modules, and a new-or-grown `charly/*_aliases.go` file or declaration-form kit-alias line (the ZERO-ALIASES gate) |
+| `pre-push-gate.sh` | `PreToolUse(Bash)` in `.claude/settings.json` (Claude Code), `.reasonix` / kimi | blocks force-push and a direct push to `main` |
 
 Attribution identity/confidence, change class, CHANGELOG coverage,
 architecture, and R0–R10 evidence belong exclusively to the fresh
@@ -499,6 +500,10 @@ push), a delegated report, or a compaction. The rule:
 - **One list, whole-picture.** The ledger is a single session-wide list; read
   it before acting and update it in place (the todo tool REPLACES the list,
   so re-state the items you are not changing).
+- **Coordination threads are ledger items.** Every issue or PR you `CLAIM`ed, and
+  every thread you posted `BLOCKS` on, stays in the ledger until you post its
+  `RESOLVED`/`UNBLOCKS`. That way an interrupted session resumes its reporting
+  duties (the project rulebook Part II #11; [`/charly-internals:git-workflow`](/recipes/internals/git-workflow/) B2b).
 - **Long operations are ledger-first.** Before a long-running step, ensure
   the list names it, so a later interruption resumes from state, not memory.
 - **A watcher alert is an ADDITION.** An automated push adds an item; it

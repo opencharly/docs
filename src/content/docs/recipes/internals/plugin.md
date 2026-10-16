@@ -21,7 +21,6 @@ makes a candy a plugin is that block:
 ```yaml
 my-plugin:
   candy:
-    version: 2026.180.1200          # mandatory CalVer (any candy)
     description: |-                 # mandatory (ADE)
       What this plugin provides.
     plugin:
@@ -37,7 +36,7 @@ my-plugin:
 ```
 
 A candy with no `plugin:` block is an ordinary candy; one WITH it is a plugin. Full candy authoring surface
-applies ([`/charly-image:layer`](/recipes/image/layer/)), including the mandatory `version:`/`description:`/`plan:`+`check:` (ADE).
+applies ([`/charly-image:layer`](/recipes/image/layer/)), including the mandatory `description:` and `plan:`+`check:` (ADE).
 
 ## Placement — EXTERNAL by default for new plugins
 

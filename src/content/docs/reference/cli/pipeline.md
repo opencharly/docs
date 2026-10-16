@@ -7,7 +7,7 @@ description: "The pipeline command word, served by the plugin-pipeline plugin ca
 
 | | |
 |---|---|
-| **Served by** | [plugin-pipeline](/reference/plugin/github-com-opencharly-plugin-pipeline-v2026-277-2104/plugin-pipeline/) |
+| **Served by** | [plugin-pipeline](/reference/plugin/github-com-opencharly-plugin-pipeline-v2026-282-2329/plugin-pipeline/) |
 | **Placement** | runtime (out-of-process over gRPC) |
 
 `pipeline` is a command word served by the `plugin-pipeline` plugin candy. This plugin is **not** listed in `charly/charly.yml`'s `compiled_plugins:`. It is not part of the shipped binary: charly builds and loads it out-of-process over gRPC when a plan references one of its words (the coexist path).

@@ -45,9 +45,9 @@ or workspace during a session reads as a session switch and triggers
 
 This box composes:
 
-- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
-- `@github.com/opencharly/pod-sway:v2026.241.2004`
-- `@github.com/opencharly/layer-xdg-portal:v2026.243.1016`
-- `@github.com/opencharly/pod-pipewire:v2026.243.0508`
-- `@github.com/opencharly/layer-punktfunk:v2026.242.1658`
-- `@github.com/opencharly/plugin-punktfunk/candy/plugin-punktfunk:v2026.243.1139`
+- `@github.com/opencharly/layer-supervisord:v2026.271.1817`
+- `@github.com/opencharly/pod-sway:v2026.274.0758`
+- `@github.com/opencharly/layer-xdg-portal:v2026.274.1258`
+- `@github.com/opencharly/pod-pipewire:v2026.273.1856`
+- `@github.com/opencharly/layer-punktfunk:v2026.272.0431`
+- `@github.com/opencharly/plugin-punktfunk/candy/plugin-punktfunk:v2026.272.0440`

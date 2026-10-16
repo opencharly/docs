@@ -7,7 +7,6 @@ description: "Thin SPICE seat for the check-cardwire-vm bed — a sway (wlroots)
 
 | | |
 |---|---|
-| **Version** | `2026.240.1943` |
 | **Repo** | `box/cachyos` |
 
 Thin SPICE seat for the check-cardwire-vm bed — a sway (wlroots)

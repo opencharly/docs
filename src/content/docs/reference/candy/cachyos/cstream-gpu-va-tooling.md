@@ -7,7 +7,6 @@ description: "BED FIXTURE ONLY -- never composed into a shipped box."
 
 | | |
 |---|---|
-| **Version** | `2026.243.0429` |
 | **Repo** | `box/cachyos` |
 
 BED FIXTURE ONLY -- never composed into a shipped box.
