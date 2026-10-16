@@ -471,7 +471,7 @@ Source: `sdk/deploykit/security.go`, `sdk/deploykit/quadlet.go`.
 
 ### Image Transfer
 
-When `engine.build=docker`, `charly config` auto-detects if the image is missing from podman and transfers via `docker save | podman load`. `charly update` re-transfers if needed.
+When `engine.run=docker`, `charly config` auto-detects if the image is missing from podman and transfers via `docker save | podman load`. `charly update` re-transfers if needed.
 
 Source: `sdk/deploykit/quadlet.go` + `sdk/deploykit/quadlet_pod.go` (generation), `charly/commands.go` (command structs).
 
