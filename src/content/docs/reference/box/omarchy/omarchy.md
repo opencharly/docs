@@ -25,4 +25,4 @@ effect on an Arch base.
 
 This box composes:
 
-- `@github.com/opencharly/layer-omarchy-base/candy/omarchy-base:v2026.242.0701`
+- `@github.com/opencharly/layer-omarchy-base/candy/omarchy-base:v2026.272.0437`

@@ -38,7 +38,7 @@ Used for testing Traefik routing, service health checks, and the `testapi` candy
 
 ## Related Boxes
 - [`/charly-distros:fedora`](/recipes/distros/fedora/) — parent base image
-- [`/charly-distros:valkey-test`](/recipes/distros/valkey-test/) — sibling test box (disabled)
+- [`/charly-distros:valkey-test`](/recipes/distros/valkey-test/) — sibling test box
 
 ## Related Commands
 - [`/charly-build:build`](/recipes/build/build/) — build the fedora-test box

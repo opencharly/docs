@@ -7,7 +7,6 @@ description: "AUR build smoke test — installs yay-bin from the AUR Minimal can
 
 | | |
 |---|---|
-| **Version** | `2026.144.1443` |
 | **Repo** | `box/arch` |
 
 AUR build smoke test — installs yay-bin from the AUR

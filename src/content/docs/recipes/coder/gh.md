@@ -82,7 +82,6 @@ my-box:
 ## Used In Boxes
 
 - [`/charly-coder:charly-arch`](/recipes/coder/charly-arch/), [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/), [`/charly-coder:fedora-coder`](/recipes/coder/fedora-coder/) — power-user boxes that compose gh explicitly
-- [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) — streaming-desktop sibling
 - Any box composing `hermes-full`
 
 ## Related Candies

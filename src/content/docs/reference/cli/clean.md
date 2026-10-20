@@ -10,7 +10,7 @@ description: "The clean command word, served by 2 plugin candies: plugin-clean a
 | **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-242-0526/plugin-clean/) |
 | **plugin-clean — Placement** | compiled-in (in-process) |
 | **plugin-clean — Version** | `2026.202.1400` |
-| **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-271-2313/plugin-clean/) |
+| **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-287-2341/plugin-clean/) |
 | **plugin-clean — Placement** | compiled-in (in-process) |
 
 `clean` is a command word served by 2 plugin candies — `plugin-clean` and `plugin-clean` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
@@ -137,7 +137,17 @@ pruneImagesByRetention / pruneCheckRuns / pruneBuildCandyDirs / invalidateImageT
 pruneDeepDanglingImages + the charly-labeled image-tag CalVer/label inventory) — K1-alpha
 core-minimization relocated it here from charly/retention.go, since it has ZERO
 core-only dependencies (kit.CalVer/kit.ParseCalVer/kit.ListLocalImages/kit.BuildActivityDir
-are all sdk-portable). `charly clean`'s own CLI calls the engine LOCALLY (no wire hop,
+are all sdk-portable). Image-tag retention orders by CREATION TIME — the only recency
+key total over the tags charly mints — with the build-tag CalVer as the tiebreak, and
+budgets two ordinals per box (the newest N distinct IMAGES, a distinct image being a
+distinct content identity = the image-config digest the engine reports as the image ID,
+and at most N tags of each). The `ai.opencharly.version` label is DELIBERATELY NOT an
+ordering key: the schema-versioning-removal cutover stopped emitting it, so ordering by
+it ranked a pre-cutover labelled image ABOVE a newer unlabelled one — an inversion that
+selected the newest image for removal (opencharly/plugin-clean#10). It survives only as
+the `charly box list tags` version column, whose wire field the spec repo still defines;
+the retention exemption (a tag whose `:YYYY.DDD.HHMM` cannot be read is never removed)
+therefore guards on the build tag ALONE. `charly clean`'s own CLI calls the engine LOCALLY (no wire hop,
 same package). The other three callers — `charly box build`'s post-build prune,
 `charly box list tags`, and candy/plugin-check's post-run prune — reach it via
 verb:retention (a spec.RetentionRequest → spec.RetentionReply Invoke), the SAME
@@ -162,6 +172,21 @@ keep-default (images/check/deep) error there; list/invalidate need no default an
 standalone even out-of-process. There is NO hidden core-command forward — the plugin
 does the work directly, resolving the project config default itself; no core symbol
 crosses the boundary, no ad-hoc podman.
+
+The `scopes` category reaps HUNG transient build scopes — the systemd USER scopes
+buildah/podman put a build container into (`<runtime>-buildah-<id>.scope`; measured live
+on a real build: runc-buildah-buildah2754860408.scope). Image builds are the only charly
+operation that starts a transient scope, and nothing else reaps a hung one: the
+builder's own teardown dies with the builder, and the run metadata `charly reap-orphans`
+scans is gone with the worktree (opencharly/plugin-clean#11 measured one ACTIVE for seven
+days at 309% CPU and 12.27 load on 16 cores). A scope is stopped
+(`systemctl --user stop`, whose default KillMode=control-group takes its whole tree
+down) only when it has been ACTIVE for at least 1h AND no buildah/podman builder process
+is alive anywhere on the host; the sweep also declines wholesale while charly's own
+build-activity lock is held. It runs by default and with --deep, and any other explicit
+category suppresses it. It needs neither the engine binary nor the resolved
+keep-defaults, so it is a CLI-only host-hygiene surface: no peer reaches it over
+verb:retention, and no new spec wire field carries it.
 
 Two capabilities: command:clean dispatches through the COMPILED-IN registry path
 (registerCompiledPlugin → resolve(ClassCommand,"clean") → dispatchInProcCommand →

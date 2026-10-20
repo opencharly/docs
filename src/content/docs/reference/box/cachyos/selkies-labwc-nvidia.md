@@ -14,6 +14,6 @@ title: "selkies-labwc-nvidia"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.243.0408`
-- `@github.com/opencharly/pod-selkies-desktop:v2026.247.1642`
-- `@github.com/opencharly/pod-dbus:v2026.243.1831`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
+- `@github.com/opencharly/pod-selkies-desktop:v2026.274.1323`
+- `@github.com/opencharly/pod-dbus:v2026.274.0648`

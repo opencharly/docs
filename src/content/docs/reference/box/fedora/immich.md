@@ -14,11 +14,10 @@ title: "immich"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.243.0408`
-- `@github.com/opencharly/layer-nodejs:v2026.239.1624`
-- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
-- `@github.com/opencharly/pod-postgresql:v2026.239.1627`
-- `@github.com/opencharly/layer-vectorchord:v2026.239.1602`
-- `@github.com/opencharly/pod-redis:v2026.239.1639`
-- `@github.com/opencharly/pod-immich:v2026.239.1559`
-- `@github.com/opencharly/pod-dbus:v2026.239.1555`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
+- `@github.com/opencharly/layer-nodejs:v2026.272.0322`
+- `@github.com/opencharly/layer-supervisord:v2026.271.1817`
+- `@github.com/opencharly/layer-vectorchord:v2026.273.1836`
+- `@github.com/opencharly/pod-redis:v2026.272.0226`
+- `@github.com/opencharly/pod-immich:v2026.274.0650`
+- `@github.com/opencharly/pod-dbus:v2026.274.0648`

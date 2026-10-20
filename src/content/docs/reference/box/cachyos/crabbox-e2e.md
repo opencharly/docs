@@ -14,9 +14,9 @@ title: "crabbox-e2e"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.243.0408`
-- `@github.com/opencharly/layer-crabbox:v2026.250.1023`
-- `@github.com/opencharly/plugin-crabbox/candy/plugin-crabbox:v2026.250.1019`
-- `@github.com/opencharly/pod-crabbox:v2026.250.1019`
-- `@github.com/opencharly/layer-container-nesting:v2026.247.0157`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
+- `@github.com/opencharly/layer-crabbox:v2026.274.0609`
+- `@github.com/opencharly/plugin-crabbox/candy/plugin-crabbox:v2026.272.0026`
+- `@github.com/opencharly/pod-crabbox:v2026.274.0652`
+- `@github.com/opencharly/layer-container-nesting:v2026.271.2309`
 - `crabbox-nesting-dns`

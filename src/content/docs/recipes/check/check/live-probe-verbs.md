@@ -219,13 +219,13 @@ auto-picks.
 plan:
     - check: the MCP server answers a ping
       id: mcp-ping
-      context: [deploy]
+      context: [runtime]
       mcp: ping
       timeout: 10s              # optional; default 30s
 
     - check: the MCP server lists its notebook tools
       id: mcp-list-tools
-      context: [deploy]
+      context: [runtime]
       mcp: list-tools
       stdout:
           - contains: insert_cell   # plaintext "name\tdescription" per line
@@ -233,7 +233,7 @@ plan:
 
     - check: calling list_notebooks succeeds (no IsError)
       id: mcp-call-tool
-      context: [deploy]
+      context: [runtime]
       mcp:
           method: call
           tool: list_notebooks  # required
@@ -242,7 +242,7 @@ plan:
 
     - check: reading a resource returns a non-empty body
       id: mcp-read-resource
-      context: [deploy]
+      context: [runtime]
       mcp:
           method: read
           uri: file:///tmp/example.txt

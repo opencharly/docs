@@ -20,4 +20,4 @@ project's own box registry.
 
 This box composes:
 
-- `@github.com/opencharly/plugin-mise/candy/curl-tar:v2026.242.2133`
+- `@github.com/opencharly/plugin-mise/candy/curl-tar:v2026.274.2100`

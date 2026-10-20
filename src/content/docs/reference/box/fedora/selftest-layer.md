@@ -14,5 +14,5 @@ title: "selftest-layer"
 
 This box composes:
 
-- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
-- `@github.com/opencharly/pod-sshd:v2026.239.1637`
+- `@github.com/opencharly/layer-supervisord:v2026.271.1817`
+- `@github.com/opencharly/pod-sshd:v2026.272.0324`

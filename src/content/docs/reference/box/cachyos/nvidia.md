@@ -14,6 +14,6 @@ title: "nvidia"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.243.0408`
-- `@github.com/opencharly/layer-nvidia:v2026.236.116`
-- `@github.com/opencharly/layer-cuda:v2026.243.0408`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
+- `@github.com/opencharly/layer-nvidia:v2026.271.1817`
+- `@github.com/opencharly/layer-cuda:v2026.274.0643`

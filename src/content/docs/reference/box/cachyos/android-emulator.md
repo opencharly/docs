@@ -30,8 +30,8 @@ auto-emits AddDevice=/dev/kvm.
 
 This box composes:
 
-- `@github.com/opencharly/layer-nodejs:v2026.239.1624`
-- `@github.com/opencharly/layer-java-openjdk:v2026.239.1627`
-- `@github.com/opencharly/layer-android-sdk:v2026.250.1813`
-- `@github.com/opencharly/pod-appium-server:v2026.251.0815`
-- `@github.com/opencharly/pod-android-emulator-layer:v2026.251.1403`
+- `@github.com/opencharly/layer-nodejs:v2026.272.0322`
+- `@github.com/opencharly/layer-java-openjdk:v2026.272.0237`
+- `@github.com/opencharly/layer-android-sdk:v2026.274.0719`
+- `@github.com/opencharly/pod-appium-server:v2026.274.0750`
+- `@github.com/opencharly/pod-android-emulator-layer:v2026.274.0910`

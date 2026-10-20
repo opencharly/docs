@@ -14,4 +14,4 @@ title: "arch-pacstrap-builder"
 
 This box composes:
 
-- `@github.com/opencharly/layer-pacstrap-builder:v2026.239.1633`
+- `@github.com/opencharly/layer-pacstrap-builder:v2026.272.0421`

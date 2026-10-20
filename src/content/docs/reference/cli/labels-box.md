@@ -7,7 +7,7 @@ description: "The labels:box command word, served by the plugin-box plugin candy
 
 | | |
 |---|---|
-| **Served by** | [plugin-box](/reference/plugin/github-com-opencharly-plugin-box-v2026-272-2039/plugin-box/) |
+| **Served by** | [plugin-box](/reference/plugin/github-com-opencharly-plugin-box-v2026-288-0503/plugin-box/) |
 | **Placement** | compiled-in (in-process) |
 
 `labels:box` is a command word served by the `plugin-box` plugin candy. This plugin is listed in `charly/charly.yml`'s `compiled_plugins:`, so its providers are compiled into the `charly` binary and register in-process.

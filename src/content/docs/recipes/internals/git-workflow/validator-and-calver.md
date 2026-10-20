@@ -12,6 +12,23 @@ description: "Detail page of the git-workflow recipe card."
 The PR path is the sole landing path for everyone — write-access holders and
 outside contributors alike. There is no direct-merge fast path.
 
+**The post-execution sequence** (the rulebook's "Landing and proof" mandate, in order):
+
+1. After the final gate, recheck the complete diff, manifest, gitlinks, changelogs,
+   attribution, worktree state, and retained evidence.
+2. Commit on a `feat/` branch at the confidence the proof supports, push without
+   force, and open ONE PR with a structured body supplied by `--body-file`.
+3. A fresh, independent `pr-validator` reloads protected policy, binds the exact base
+   and head, personally runs the derived gate, and posts its durable verdict before
+   any gated action.
+4. Only PASS posts `charly/pr-validator`, arms native auto-merge (squash) on the bound
+   head, and lets `tag-on-merge` mint the merge-time CalVer tag; branch and worktree
+   cleanup follow (orchestrator-owned in the orchestrator+teammates model, the owning
+   session's own otherwise). A changed head, a warning, an anomaly, or a live
+   unfinished bed revokes PASS.
+5. After `main` advances, update every interacting PR (`gh pr update-branch`) and run
+   a risk-proportional delta gate; never guess across divergent submodule lineage.
+
 ### Validator handoff is parent-owned and complete
 
 **Before spawning every fresh `pr-validator` round, the parent/orchestrator supplies a
@@ -204,8 +221,8 @@ chronologically under a plain alphanumeric sort.
 
 - **The author writes no CalVer and no CHANGELOG file.** The PR body IS the
   changelog (title + body are the release-notes source). For a schema cutover
-  the author still bumps `#SchemaVersion` / `migrations.cue` strictly above
-  current `main` — but the final CalVer for tag and changelog filename is minted
+  the author still ships the `migrations.cue` entry in the same change (the
+  table is version-free — there is no `#SchemaVersion` to bump) — but the final CalVer for tag and changelog filename is minted
   at merge, never by the author.
 - **tag-on-merge, at merge:** `VER=$(date -u +%Y.%j.%H%M)` (guard uniqueness — if
   `v$VER` or `CHANGELOG/$VER.md` already exists on the current `main`, advance to
@@ -215,17 +232,17 @@ chronologically under a plain alphanumeric sort.
   bypass actor for the single CHANGELOG path); then tag the merged HEAD —
   `git tag -a v$VER -m "<subject>" <merged-HEAD>` and
   `git push origin refs/tags/v$VER` (every repo;
-  `sdk`, `spec`, and `plugin-gh` substitute their Go-module `v0.<…>` form). A schema cutover's
-  `#SchemaVersion` + `version:` + `migrations.cue` re-stamp stays strictly above
-  the current HEAD.
+  `sdk`, `spec`, and `plugin-gh` substitute their Go-module `v0.<…>` form). A schema cutover
+  ships its `migrations.cue` entry in the change that alters the schema; there is
+  no `#SchemaVersion` / `version:` re-stamp.
 
-One fresh stamp per merge, immutable (only ever added), independent of `charly.yml`
-`version:` (the schema version, bumped only by a cutover raising `#SchemaVersion`).
+One fresh stamp per merge, immutable (only ever added) — the tag marks the MERGE,
+the `migrations.cue` entry marks the SCHEMA.
 Every repo (superproject, `box/<distro>`, `plugins`, `docs`) mints `v$VER` on its
 merged HEAD; `sdk`, `spec`, and `plugin-gh` (the proxy-consumed root-module repos) use their Go-module `v0.<YYYYDDD>.<HHMM
 leading-zeros-stripped>` scheme (not an exemption — Go modules require semver, which
 forbids a leading-zero segment — `0733`→`733`). A YAML schema/format change does
-both: the schema bump and the tag. See [`/charly-build:migrate`](/recipes/build/migrate/).
+both: it ships its `migrations.cue` entry and it gets its tag. See [`/charly-build:migrate`](/recipes/build/migrate/).
 
 **A merged `CHANGELOG/<CalVer>.md` is immutable, exactly like the tag sharing its
 CalVer.** Once tag-on-merge writes the entry from a PR body at
@@ -242,7 +259,7 @@ instant it lands, not a convenience.
 - **Working-tree cleanliness.** After the merge, `git status` is clean in every
   repo (refresh worktrees per B7 step 6). Untracked files that aren't part of the
   cutover (test artifacts, build outputs) belong in `.gitignore`; if they aren't,
-  that joins the next thematic batch cutover (the Cutover Sizing Law,
+  that is FILED (R1) and its fix joins its thematic batch (the Cutover Sizing Law,
   [`/charly-internals:cutover-policy`](/recipes/internals/cutover-policy/) "Cutover sizing — the batch law").
 - **Report format.** The final message states: what was committed (commit subject +
   hash, per repo), the confidence tier with the proof that supports it, the PR + the
@@ -323,10 +340,12 @@ vehicle.) The canonical, four-surface form of this rule lives in B2b
 rule for a hand-off, B2b owns the detail.
 
 **If the BLOCK is body-only (no code change), fix the body then re-run the
-gate MANUALLY with `gh run rerun <run-id>`** on the failed `charly/pr-validator`
-run (find it with `gh run list --repo <r> --json databaseId,headSha,conclusion`).
-A re-run reuses the SAME `GITHUB_SHA` and updates the SAME `validate / validate`
-check run IN PLACE (no duplicate, clears POISON) and re-reads the corrected body.
+gate MANUALLY with `gh api -X POST repos/<owner>/<repo>/actions/runs/<run-id>/rerun`**
+on the failed `charly/pr-validator` run (find it with `gh run list --repo <r> --json
+databaseId,headSha,conclusion`; `gh run rerun` cannot re-run the org-required
+workflow — it 404s resolving the workflow against the target repo). The re-run is a
+new attempt on the SAME `GITHUB_SHA`; its newer `validate / validate` check run
+supersedes the failure and it re-reads the corrected body.
 An empty re-freeze commit ALSO re-fires the gate (a `synchronize` push) but mints
 a NEW head SHA. (A body edit alone does NOT re-run the REQUIRED workflow —
 MEASURED and confirmed by the GitHub docs: it ignores `on.types`; do not rely on
@@ -343,24 +362,29 @@ and `gh pr checks` shows `fail`.
 check's name to the WORST conclusion. A body-only fix does not move the head,
 so re-dispatching the validator on the SAME head APPENDS a second check-run of
 the same name beside the earlier one instead of replacing it. The newer
-SUCCESS never cancels the older FAILURE. Measured: opencharly/plugin-vm#39 head
+SUCCESS never cancels the older non-passing run. Measured: opencharly/plugin-vm#39 head
 `c9457a9` carried two `validate / validate` runs — failure (auto `pull_request`
 at 04:40:06) and success (manual `--ref` dispatch at 04:44:11) — and the PR
 stayed BLOCKED with a PASS verdict.
 
 **Distinguish it from a verdict BLOCK.** A verdict BLOCK's NEWEST same-name
-run is the failure; POISON's newest is SUCCESS with an older failure beneath.
+run is the non-passing one; POISON's newest is SUCCESS with an older non-passing
+run beneath (a `CANCELLED` run poisons exactly as a `FAILURE` does —
+opencharly/opencharly#460).
 Use `marketplace/scripts/pr_state_watch.sh`, which classifies exactly this and
 names the shape in its output.
 
-**Remedy — the capability-free `gh run rerun`.** Re-run the FAILED run in place:
-`gh run rerun <run-id>` (find it via `gh run list --repo <r> --json
-databaseId,headSha,attempt`). A workflow re-run reuses the SAME `GITHUB_SHA`/ref
-and updates THAT run's check run — it does NOT append a second same-name
-check-run, so it clears the POISON without a new SHA or an empty commit
-(GitHub "Re-running workflows and jobs"; MEASURED on opencharly/sdk#301: the head
-carried exactly ONE `validate / validate` check run before and after the
-re-run). Do NOT `gh workflow run` re-dispatch on the same head — that mints a
+**Remedy — the capability-free REST re-run.** Re-run the FAILED run:
+`gh api -X POST repos/<owner>/<repo>/actions/runs/<run-id>/rerun` (find it via
+`gh run list --repo <r> --json databaseId,headSha,attempt`; `gh run rerun` exits 1
+on the org-required workflow — `HTTP 404 … /actions/workflows/<id>` — and re-runs
+nothing). The re-run is a new ATTEMPT of the same run on the SAME `GITHUB_SHA`: it
+creates a NEW same-name check run, and the newest-per-name view the merge gate
+reads then shows only that attempt, so a passing re-run clears the state without a
+new SHA or an empty commit. MEASURED on opencharly/docs#142 (head `041625863`):
+`check-runs?filter=all` lists `110609410070 failure` and `110611257957 success`;
+`filter=latest` lists only the success; the PR merged. (A count taken with the
+default `latest` filter shows ONE check run and hides the superseded attempt.) Do NOT `gh workflow run` re-dispatch on the same head — that mints a
 NEW run (a NEW duplicate check-run) and re-poisons.
 
 **The push dedupe (orthogonal).** A re-dispatch/push cancels the in-flight run via

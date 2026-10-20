@@ -14,11 +14,11 @@ title: "charly-fedora"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.243.0408`
-- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
-- `@github.com/opencharly/layer-charly:v2026.241.1407`
-- `@github.com/opencharly/layer-golang:v2026.239.1614`
-- `@github.com/opencharly/layer-gh:v2026.239.1624`
-- `@github.com/opencharly/pod-sshd:v2026.239.1637`
-- `@github.com/opencharly/layer-container-nesting:v2026.239.1647`
-- `@github.com/opencharly/layer-nvidia:v2026.236.116`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
+- `@github.com/opencharly/layer-supervisord:v2026.271.1817`
+- `@github.com/opencharly/layer-charly:v2026.274.0345`
+- `@github.com/opencharly/layer-golang:v2026.272.0137`
+- `@github.com/opencharly/layer-gh:v2026.272.0136`
+- `@github.com/opencharly/pod-sshd:v2026.272.0324`
+- `@github.com/opencharly/layer-container-nesting:v2026.271.2309`
+- `@github.com/opencharly/layer-nvidia:v2026.271.1817`

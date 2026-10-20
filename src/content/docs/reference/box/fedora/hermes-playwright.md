@@ -14,7 +14,6 @@ title: "hermes-playwright"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.243.0408`
-- `@github.com/opencharly/pod-hermes:v2026.239.1605`
-- `@github.com/opencharly/layer-hermes-playwright:v2026.239.1612`
-- `@github.com/opencharly/pod-dbus:v2026.239.1555`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
+- `@github.com/opencharly/layer-hermes-playwright:v2026.274.0758`
+- `@github.com/opencharly/pod-dbus:v2026.274.0648`

@@ -33,21 +33,21 @@ check-sway-browser-vnc-pod:
         plan:
             - check: CDP /json/version answers over the published HOST_PORT
               id: esbv-pod-http-cdp
-              context: [deploy]
+              context: [runtime]
               http:
                 http: "http://127.0.0.1:${HOST_PORT:9222}/json/version"
                 status: 200
             - check: CDP enumerates the live debugging targets
               id: esbv-pod-cdp-list
-              context: [deploy]
+              context: [runtime]
               cdp: list
             - check: the Sway tree is reachable over the Wayland socket
               id: esbv-pod-wl-sway-tree
-              context: [deploy]
+              context: [runtime]
               wl: sway-tree
             - check: a terminal recording starts
               id: esbv-pod-record-start
-              context: [deploy]
+              context: [runtime]
               record:
                 method: start
                 record_name: check-term
@@ -86,7 +86,7 @@ Note: `charly config <key>` persists `image: <key>` (it assumes deploy-key ==
 image-name; see [`/charly-core:deploy`](/recipes/core/deploy/)). Because this bed's key
 (`check-sway-browser-vnc-pod`) differs from its image (`sway-browser-vnc`), set
 the operator ref to `sway-browser-vnc` in `~/.config/charly/charly.yml` (the check
-runner / `charly fleet add` does this for you — `charly` "never clobbers
+runner / `charly deploy add` does this for you — `charly` "never clobbers
 operator-authored refs").
 
 ## Related Skills

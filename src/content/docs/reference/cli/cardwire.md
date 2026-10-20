@@ -7,12 +7,11 @@ description: "The cardwire command word, served by 2 plugin candies: plugin-card
 
 | | |
 |---|---|
-| **plugin-cardwire — Served by** | [plugin-cardwire](/reference/plugin/github-com-opencharly-plugin-cardwire-v2026-243-1202/plugin-cardwire/) |
-| **plugin-cardwire — Placement** | runtime (out-of-process over gRPC) |
-| **plugin-cardwire — Version** | `2026.243.0001` |
 | **plugin-cardwire — Served by** | [plugin-cardwire](/reference/plugin/github-com-opencharly-plugin-cardwire-v2026-260-0911/plugin-cardwire/) |
 | **plugin-cardwire — Placement** | runtime (out-of-process over gRPC) |
 | **plugin-cardwire — Version** | `2026.243.0001` |
+| **plugin-cardwire — Served by** | [plugin-cardwire](/reference/plugin/github-com-opencharly-plugin-cardwire-v2026-271-2322/plugin-cardwire/) |
+| **plugin-cardwire — Placement** | runtime (out-of-process over gRPC) |
 
 `cardwire` is a command word served by 2 plugin candies — `plugin-cardwire` and `plugin-cardwire` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
 

@@ -17,11 +17,11 @@ Two-layer fedora-minimal image backing the check-pod kind:check bed (`charly che
 
 This box composes:
 
-- `@github.com/opencharly/layer-supervisord:v2026.240.0121`
-- `@github.com/opencharly/layer-check-base-layer:v2026.239.1620`
-- `@github.com/opencharly/layer-check-stack-layer:v2026.241.1216`
-- `@github.com/opencharly/plugin-example-external/candy/plugin-example-external:v2026.237.1420`
-- `@github.com/opencharly/plugin-example-step/candy/plugin-example-step:v2026.237.1421`
-- `@github.com/opencharly/layer-examplestep-consumer:v2026.241.1216`
-- `@github.com/opencharly/plugin-example-builder/candy/plugin-example-builder:v2026.237.1420`
-- `@github.com/opencharly/layer-examplebuilder-consumer:v2026.239.1621`
+- `@github.com/opencharly/layer-supervisord:v2026.271.1817`
+- `@github.com/opencharly/layer-check-base-layer:v2026.271.2234`
+- `@github.com/opencharly/layer-check-stack-layer:v2026.271.2308`
+- `@github.com/opencharly/plugin-example-external/candy/plugin-example-external:v2026.272.0057`
+- `@github.com/opencharly/plugin-example-step/candy/plugin-example-step:v2026.272.0141`
+- `@github.com/opencharly/layer-examplestep-consumer:v2026.274.0449`
+- `@github.com/opencharly/plugin-example-builder/candy/plugin-example-builder:v2026.272.0107`
+- `@github.com/opencharly/layer-examplebuilder-consumer:v2026.272.0058`

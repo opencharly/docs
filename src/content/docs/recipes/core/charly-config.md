@@ -15,9 +15,9 @@ description: "`charly config` commands, image deployment setup, quadlet generati
 
 This is the **single entry point** for **container** deployment setup. `charly start` requires `charly config` to have been run first in quadlet mode.
 
-**Relationship to `charly fleet add`** — `charly config` remains the primary way to create/update a quadlet and provision secrets/volumes/sidecars for a container deploy. `charly fleet add <name> <ref>` (container target) wraps both `charly config` and `charly start` and additionally handles `--add-candy` overlay synthesis (an overlay Containerfile is built before the quadlet references the resulting overlay image). `charly fleet add host` bypasses `charly config` entirely — the host target has no quadlet; it writes systemd units directly (when `--with-services` is enabled) and records every action in the ledger at `~/.config/opencharly/installed/`. See [`/charly-core:deploy`](/recipes/core/deploy/) for the command family and [`/charly-local:local-deploy`](/recipes/local/local-deploy/) for host-target semantics.
+**Relationship to `charly deploy add`** — `charly config` remains the primary way to create/update a quadlet and provision secrets/volumes/sidecars for a container deploy. `charly deploy add <name> <ref>` (container target) wraps both `charly config` and `charly start` and additionally handles `--add-candy` overlay synthesis (an overlay Containerfile is built before the quadlet references the resulting overlay image). `charly deploy add host` bypasses `charly config` entirely — the host target has no quadlet; it writes systemd units directly (when `--with-services` is enabled) and records every action in the ledger at `~/.config/opencharly/installed/`. See [`/charly-core:deploy`](/recipes/core/deploy/) for the command family and [`/charly-local:local-deploy`](/recipes/local/local-deploy/) for host-target semantics.
 
-**`charly config` vs `charly settings` — common verb confusion.** `charly config <image>` configures an image for deployment (quadlet + secrets + volumes + data seed). `charly settings list` shows runtime config keys (secret_backend, vm.backend, etc.). A trailing `charly config show` parses as `charly config setup show` with `show` as the image positional — and errors with `image "show" is not available locally`. To inspect runtime configuration use `charly settings list`; to inspect a configured image's resolved deploy state use `charly box inspect <image>` or `charly fleet show <name>`.
+**`charly config` vs `charly settings` — common verb confusion.** `charly config <image>` configures an image for deployment (quadlet + secrets + volumes + data seed). `charly settings list` shows runtime config keys (secret_backend, vm.backend, etc.). A trailing `charly config show` parses as `charly config setup show` with `show` as the image positional — and errors with `image "show" is not available locally`. To inspect runtime configuration use `charly settings list`; to inspect a configured image's resolved deploy state use `charly box inspect <image>` or `charly deploy show <name>`.
 
 ## Quick Reference
 
@@ -264,12 +264,12 @@ Warning: port conflicts detected:
 Wrote /home/user/.config/containers/systemd/charly-<image>-<instance>.container
 ```
 
-The quadlet is still written with the conflicting port, so `charly start` will fail at bind time unless you either free the port, re-run `charly config` with a remap, or edit `charly.yml`. Detection uses a local `net.Listen` probe per published port at configure time. Handy for multi-instance deployments alongside a production fleet (e.g., running [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) as a test instance while [`/charly-selkies:selkies-labwc`](/recipes/selkies/selkies-labwc/) holds the canonical 3000/9222/9224/2222 range).
+The quadlet is still written with the conflicting port, so `charly start` will fail at bind time unless you either free the port, re-run `charly config` with a remap, or edit `charly.yml`. Detection uses a local `net.Listen` probe per published port at configure time. Handy for multi-instance deployments alongside a production fleet (e.g., running [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/) as a test instance while [`/charly-selkies:selkies-labwc`](/recipes/selkies/selkies-labwc/) holds the canonical 3000/9222/9224/2222 range).
 
 ## Deploy State
 
 All configuration is persisted to `~/.config/charly/charly.yml` in the compact
-node-form — a `version:` stamp, an optional top-level `provides:` directive, and each
+node-form — an optional top-level `provides:` directive, and each
 deploy as a name-first `<name>: {<substrate-kind>: <body>}` entry whose substrate-kind
 value carries the scalars, collections (`port:`/`volume:`/…), and `plan:` inline, with
 any nested/peer members as sibling child nodes (no `deploy:` map wrapper, no `target:`
@@ -315,12 +315,12 @@ charly config my-app --bind workspace=/new/path
 
 ### Full instance removal
 
-`charly remove <image> -i <instance>` is the complete teardown: it stops the container, deletes the quadlet file, and reloads systemd. `charly config remove` only disables the quadlet service (the quadlet file remains), and `charly fleet reset` removes the charly.yml entry — neither is a full removal on its own:
+`charly remove <image> -i <instance>` is the complete teardown: it stops the container, deletes the quadlet file, and reloads systemd. `charly config remove` only disables the quadlet service (the quadlet file remains), and `charly deploy reset` removes the charly.yml entry — neither is a full removal on its own:
 
 ```bash
 charly remove <image> -i <instance>          # Complete teardown: stop container, delete quadlet, reload systemd
 charly config remove <image> -i <instance>   # Disable quadlet service only (quadlet file remains)
-charly fleet reset <image> -i <instance>     # Remove charly.yml entry only
+charly deploy reset <image> -i <instance>     # Remove charly.yml entry only
 ```
 
 Run `charly config <image> --update-all` after removing an instance so the clean state propagates to the remaining deployments.
@@ -489,7 +489,7 @@ When `charly config <image>` runs, it automatically migrates any existing plaint
 1. Scan `dc.Images[deployKey(image, instance)].Env` for names that match `meta.SecretAccepts` / `meta.SecretRequires`
 2. For each match: copy the value to the credential store at the layer-declared `(service, key)` path (default `charly/secret/<NAME>`), remove the entry from `dc.Env`, mark the deploy config dirty
 3. On first mutation, back up `charly.yml` → `charly.yml.bak.<unix-timestamp>`
-4. Persist the cleaned deploy config via `SaveFleetConfig`
+4. Persist the cleaned deploy config via `SaveDeployConfig`
 5. Log each migrated entry on stderr: `"Migrated plaintext OPENROUTER_API_KEY from charly.yml to credential store (charly/api-key/openrouter)"`
 
 Idempotent — running on a clean host is a no-op. This gives pre-upgrade hosts an automatic one-time cleanup with a rollback point preserved.
@@ -563,13 +563,13 @@ Kong `sep:"none"` on all `-e` flags means commas in values are preserved (no spl
 
 `normalizeNoProxy()` auto-converts semicolons to commas in `NO_PROXY`/`no_proxy` values during env resolution. Legacy semicolon values in charly.yml are auto-healed.
 
-**NO_PROXY enrichment:** When `HTTP_PROXY` or `HTTPS_PROXY` is present, `charly config` automatically appends all deployed container hostnames to `NO_PROXY`. This is necessary because Chrome does not support CIDR ranges in NO_PROXY (unlike curl) — without explicit hostnames, Chrome routes internal traffic like `http://charly-immich-ml:2283` through the external proxy, causing Bad Gateway errors. Applied in both the main config path and `--update-all`. Source: `spec/hostenv/envfile.go` (`EnrichNoProxy`), `sdk/deploykit/fleet_derive.go` (`DeployedContainerNames`).
+**NO_PROXY enrichment:** When `HTTP_PROXY` or `HTTPS_PROXY` is present, `charly config` automatically appends all deployed container hostnames to `NO_PROXY`. This is necessary because Chrome does not support CIDR ranges in NO_PROXY (unlike curl) — without explicit hostnames, Chrome routes internal traffic like `http://charly-immich-ml:2283` through the external proxy, causing Bad Gateway errors. Applied in both the main config path and `--update-all`. Source: `spec/hostenv/envfile.go` (`EnrichNoProxy`), `sdk/deploykit/deploy_derive.go` (`DeployedContainerNames`).
 
 **Tunnel persistence:** `charly config setup` automatically persists tunnel config from charly.yml back to charly.yml via `saveDeployState`. Tunnel is a deploy-time concern — see [`/charly-core:deploy`](/recipes/core/deploy/) for tunnel configuration.
 
 **Tunnel is charly.yml-only:** `labels.go:238` deliberately skips parsing the `ai.opencharly.tunnel` OCI image label. Tunnel config is ONLY sourced from `charly.yml`. New instances created with `charly config setup -i <name>` do NOT inherit tunnel config from the base image's charly.yml entry — you must manually add `tunnel: {provider: tailscale, private: all}` to the instance's charly.yml entry, then re-run `charly config setup` to regenerate the quadlet with `ExecStartPost=tailscale serve` commands.
 
-Source: `spec/hostenv/envfile.go` (`normalizeNoProxy`), `sdk/deploykit/deploy_state.go` (`MergeEnvVars`, `SaveDeployState`), `sep:"none"` in `candy/plugin-fleet/fleet_cmd.go` + `candy/plugin-pod/pod_cmd.go` (the former `charly/config_image.go`/`shell.go`/`start.go` are DELETED, K-wave 2).
+Source: `spec/hostenv/envfile.go` (`normalizeNoProxy`), `sdk/deploykit/deploy_state.go` (`MergeEnvVars`, `SaveDeployState`), `sep:"none"` in `candy/plugin-fleet/deploy_cmd.go` + `candy/plugin-pod/pod_cmd.go` (the former `charly/config_image.go`/`shell.go`/`start.go` are DELETED, K-wave 2).
 
 ## Cross-References
 

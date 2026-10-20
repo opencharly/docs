@@ -19,7 +19,7 @@ and a profile's plugins.
 
 ## Command tree
 
-- `charly dsh status --box <name> [--instance <name>]` — dsh version + web UI health in the box.
+- `charly dsh status --box <name> [--instance <name>]` — dsh version + web UI health in the box (the web UI probe reads the launch token from `$DSH_HOME/web-token`).
 - `charly dsh profile list --box <name> [--instance <name>]` — profiles under `$DSH_HOME/profiles`.
 - `charly dsh plugin list --box <name> [--instance <name>] --profile <name>` — a profile's plugins (default profile: `web`).
 
@@ -39,9 +39,21 @@ provider runs dsh commands INSIDE the venue via `cc.Exec()`
 carries the dsh binary + $DSH_HOME layout). Methods:
 
 - `dsh: version` — `dsh --version` in the venue (build + deploy context).
-- `dsh: web-running` — probe `http://127.0.0.1:3080/` in-box via curl
-  (deploy context; skips under `charly check box` — no running
-  service on a disposable `podman run --rm`).
+- `dsh: web-running` — read the launch token from
+  `$DSH_HOME/web-token` (persisted there by the dsh candy's
+  entrypoint on service start), exchange it on
+  `http://127.0.0.1:3080/?token=<token>`, then exercise an `/api/*`
+  call with the resulting cookie. dsh web authenticates at TWO layers:
+  the launch token (a tokenless `GET /` returns 401) AND a Host/Origin
+  browser-trust fence every `/api/*` call passes before authentication.
+  The probe asserts both, so it proves the app's API surface actually
+  answers and not merely that `/` responds. A reverse-proxy deployment
+  must additionally start `dsh web --trusted-host <host:port>` — a
+  host-side requirement this IN-BOX probe (always dialing 127.0.0.1)
+  cannot itself observe. A missing token file fails the probe with a
+  clear error rather than a silent tokenless probe. Deploy context;
+  skips under `charly check box` — no running service on a disposable
+  `podman run --rm`.
 - `dsh: profile-list` — list profiles under `$DSH_HOME/profiles` (build + deploy context).
 - `dsh: plugin-list` — list plugins for a profile (`profile: <name>`,
   default `web`) via `dsh plugin --profile <name> list` (build + deploy context).

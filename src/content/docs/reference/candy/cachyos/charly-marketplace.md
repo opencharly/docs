@@ -7,7 +7,6 @@ description: "The shared candy CLOSURE this repo resolves against — one `candy
 
 | | |
 |---|---|
-| **Version** | `2026.239.1634` |
 | **Repo** | `box/cachyos` |
 
 The shared candy CLOSURE this repo resolves against — one `candy:` list naming
