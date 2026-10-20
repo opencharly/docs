@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-358 cards across 42 plugins, in four groups.
+361 cards across 43 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -505,6 +505,14 @@ Self-contained skills + MCP wiring for the selkies-desktop family (Wayland deskt
 - [xdg-portal](/recipes/selkies/xdg-portal/)
 - [xfce4-terminal](/recipes/selkies/xfce4-terminal/)
 - [xterm](/recipes/selkies/xterm/)
+
+### charly-strata
+
+The Strata family — the inference-engine layer, its cachyos-based image, the `charly strata` management CLI, and both beds: the deterministic GPU-free one and the exclusive-host GPU one.
+
+- [strata](/recipes/strata/strata/)
+- [strata-cli](/recipes/strata/strata-cli/)
+- [strata-layer](/recipes/strata/strata-layer/)
 
 ### charly-tools
 
