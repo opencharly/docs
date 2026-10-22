@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-361 cards across 43 plugins, in four groups.
+362 cards across 43 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -101,6 +101,7 @@ Live-container evaluation and probe verbs — `charly check` orchestrator + per-
 - [jetkvm](/recipes/check/jetkvm/)
 - [libvirt](/recipes/check/libvirt/)
 - [openclaw](/recipes/check/openclaw/)
+- [openclaw-cmd](/recipes/check/openclaw-cmd/)
 - [punktfunk](/recipes/check/punktfunk/)
 - [quickshell](/recipes/check/quickshell/)
 - [record](/recipes/check/record/)
