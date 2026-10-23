@@ -16,7 +16,12 @@
 #   4. FAILS if the committed content does not match what the pinned charly generates
 #      (the drift gate: regeneration on a clean tree is a no-op, so any diff means a
 #      docs PR must bump the charly CI-time commit and carry the regenerated pages),
-#   5. builds the Astro site and deploys to Cloudflare Pages.
+#   5. REPORTS whether the pinned marketplace corpus is behind the corpus's merged
+#      main — reported, never failed: a corpus that is behind is an advance
+#      available now, and the remedy is a regeneration PR that bumps the pin, not a
+#      gate (the drift gate above cannot see a stale corpus, because the PINNED
+#      corpus regenerates its own old pages perfectly),
+#   6. builds the Astro site and deploys to Cloudflare Pages.
 #
 # WHY A WORKFLOW RATHER THAN CLOUDFLARE'S GIT INTEGRATION: connecting a Cloudflare Pages project
 # to a GitHub org requires an OAuth handshake that Cloudflare must initiate — there is no API for
@@ -57,6 +62,31 @@ jobs:
           # (it leaked the whole charly repo into consumer fetch trees): the
           # generator's source tree is cloned recursively at CI time (next step).
           submodules: recursive
+
+      - name: Test the corpus-currency report
+        run: bash .github/docs-corpus/test_check_corpus_currency.sh
+
+      - name: Report the corpus pin's currency
+        # The corpus pin is advanced by a MANUAL act after the corpus lands, so the
+        # site trails the corpus by however long nobody ran the regeneration — and
+        # the drift gate further down CANNOT see it: the PINNED corpus generates its
+        # own (old) pages perfectly, so a stale corpus is invisible to it.
+        #
+        # This step asks the second question the workflow can answer from what it
+        # already has: is the pinned corpus behind the corpus's merged main? The
+        # answer is REPORTED, never failed — a corpus that is behind is an advance
+        # available NOW, the same shape the pin contract calls `behind`: a
+        # reportable state, not a broken edge. A workflow that FAILED on it would be
+        # red on every push until somebody ran the regeneration PR, and the remedy is
+        # that PR, not a gate.
+        run: |
+          set -o pipefail
+          bash .github/docs-corpus/check_corpus_currency.sh . | tee /tmp/corpus-currency.txt
+          {
+            echo "### corpus pin"
+            echo ""
+            cat /tmp/corpus-currency.txt
+          } >>"$GITHUB_STEP_SUMMARY"
 
       - name: Fetch the pinned charly source (CI-time temp checkout, recursive for box/*)
         run: |
