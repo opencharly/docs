@@ -61,6 +61,13 @@ jobs:
           # fetched via the submodule below. charly is NOT a submodule anymore
           # (it leaked the whole charly repo into consumer fetch trees): the
           # generator's source tree is cloned recursively at CI time (next step).
+          #
+          # `fetch-depth` is left at its default (1), so the corpus submodule is
+          # a DEPTH-1 clone: actions/checkout runs `git submodule update --init
+          # --force --depth=<fetch-depth>` (actions/checkout@v7,
+          # `src/git-command-manager.ts`, `submoduleUpdate`). The corpus-currency
+          # report below therefore deepens the corpus's history before it judges
+          # ancestry — a depth-1 history cannot answer that question.
           submodules: recursive
 
       - name: Test the corpus-currency report
@@ -79,6 +86,13 @@ jobs:
         # reportable state, not a broken edge. A workflow that FAILED on it would be
         # red on every push until somebody ran the regeneration PR, and the remedy is
         # that PR, not a gate.
+        #
+        # The report names the PIN CONTRACT's states (`cur`, `behind`,
+        # `not-on-the-served-line`) plus two it refuses to guess (`undecidable`,
+        # `unreadable`), and it judges only from a history that can answer: the
+        # corpus checkout here is a depth-1 clone (the checkout step above), so the
+        # report deepens it first and says `undecidable` when it cannot. A report
+        # that stated a state it could not establish would be worse than no report.
         run: |
           set -o pipefail
           bash .github/docs-corpus/check_corpus_currency.sh . | tee /tmp/corpus-currency.txt
