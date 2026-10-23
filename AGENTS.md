@@ -40,6 +40,12 @@ Canonical files:
   and every PR: clone the pinned charly, build the binary, regenerate the
   generated half, FAIL on any drift, build Astro, deploy. A drift failure means a
   regeneration must land.
+- The workflow also **REPORTS the corpus pin's currency** — whether the pinned
+  `marketplace` commit is behind the corpus's merged main. It is reported, never
+  failed: a corpus that is behind is an advance available now, and the remedy is
+  a regeneration PR that bumps the pin, not a gate. The drift gate cannot see
+  this on its own — the PINNED corpus regenerates its own (old) pages perfectly,
+  so a stale corpus is invisible to it.
 
 ## Modify this repo
 
@@ -48,7 +54,8 @@ Canonical files:
   `README.md`; `grievances`/`vision`/`liberation` project charly's root files;
   `reference/**` projects the pinned charly checkout; `recipes/**` projects the
   marketplace corpus. Edit the source, then land a regeneration PR here that
-  bumps the pinned charly commit and carries the regenerated pages.
+  bumps the pinned charly commit — and, for a corpus change, the pinned
+  `marketplace` commit — and carries the regenerated pages.
 - The home page is one of the generated ones — to change the front page, change
   the charly `README.md`.
 
