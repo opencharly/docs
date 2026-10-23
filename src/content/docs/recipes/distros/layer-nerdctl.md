@@ -10,7 +10,7 @@ description: "nerdctl (containerd CLI) + the rootless containerd/buildkit/CNI st
 # layer-nerdctl
 
 nerdctl (the containerd CLI) plus the rootless containerd + buildkit + CNI
-stack, as ONE candy. Composed by a box that wants the opt-in `engine: nerdctl`
+stack, as ONE candy. Composed by a box that wants the opt-in `engine: containerd`
 engine.
 
 ## What it installs
@@ -83,9 +83,12 @@ specific deploy needs the publish side, set it deliberately in
 
 ## Engine capability
 
-The `engine: nerdctl` word is served by `opencharly/plugin-nerdctl`
+The `engine: containerd` word is served by `opencharly/plugin-nerdctl`
 (out-of-process) or compiled in; every engine op delegates to
-`container.InvokeEngineOp("nerdctl", …)` in the spec module. nerdctl has no
+`container.InvokeEngineOp("containerd", …)` in the spec module. `containerd` is
+the engine WORD; `nerdctl` is the CLI BINARY that drives it — the spec-owned
+`#EngineBinaries` map (`containerd → nerdctl`) is the one home for that mapping.
+nerdctl has no
 `--keep-id`, so the start-plan runs the workload as `--user 0:0` (uid 0 == the
 host user under rootless), guaranteeing uid-identical sharing; a non-zero uid
 needs the subuid caveat.
@@ -106,5 +109,6 @@ needs the subuid caveat.
 
 ## Use when
 
-Working with the nerdctl engine, the layer-nerdctl candy, the rootless
-containerd/buildkit checklist, or an `engine: nerdctl` deploy.
+Working with the containerd engine (driven through the nerdctl CLI), the
+layer-nerdctl candy, the rootless containerd/buildkit checklist, or an
+`engine: containerd` deploy.
