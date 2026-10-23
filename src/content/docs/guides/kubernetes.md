@@ -34,11 +34,14 @@ A local-cluster sibling reuses the same Kustomize + `kubectl` machinery without 
 upstream `kind` tool, served by the `deploy:kindcluster` provider beside `deploy:kubernetes` in
 `plugin-kube` ([kind](/recipes/kubernetes/kind/)).
 
-kind provisions its node containers on the operator's own container engine, and charly's engine
-word maps 1:1 to kind's `KIND_EXPERIMENTAL_PROVIDER`. Three disposable beds witness the three
-engines — podman (`check-kindcluster`), docker (`check-kindcluster-docker`) and rootless nerdctl
-(`check-kindcluster-nerdctl`) — differing only in `engine:` and a collision-free cluster name and
-kubeconfig context, since a kind cluster name is unique only within an engine.
+kind provisions its node containers on the operator's own container engine. charly's engine
+word maps to kind's `KIND_EXPERIMENTAL_PROVIDER` through the engine capability data
+(`podman` → `podman`, `docker` → `docker`, `containerd` → `nerdctl`), and any word outside
+the engine vocabulary is refused. Three disposable beds witness the three engines — podman
+(`check-kindcluster`), docker (`check-kindcluster-docker`) and rootless containerd
+(`check-kindcluster-nerdctl`, whose entity name keeps kind's `nerdctl` provider word) — differing
+only in `engine:` and a collision-free cluster name and kubeconfig context, since a kind cluster
+name is unique only within an engine.
 
 ## k3s runs in a VM, not a pod
 
@@ -69,7 +72,7 @@ Every bed below is declared in charly's own `charly.yml`:
 | `check-kubevirt-operator` | the KubeVirt + CDI platform install on a disposable k3s VM |
 | `check-kindcluster` | kind on the podman engine |
 | `check-kindcluster-docker` | kind on the docker engine |
-| `check-kindcluster-nerdctl` | kind on the rootless nerdctl engine |
+| `check-kindcluster-nerdctl` | kind on the rootless containerd engine (the entity name keeps kind's `nerdctl` provider word) |
 | `check-kindcluster-workload` | the `deploy:kindcluster` workload leg — a locally-built image loaded into the kind node and applied through the shared Kustomize generator |
 | `check-kindcluster-lock` | teardown lock inheritance — a kindcluster root with a deploy-level member, torn down together |
 | `check-kind-host-vm` | the kind-host profile applied into a disposable eval-vm guest, off the operator's workstation |

@@ -31,8 +31,10 @@ a `target: local` deploy on the host (or a box that runs kind inside).
 
 ## Engine selection — KIND_EXPERIMENTAL_PROVIDER
 
-The engine is charly's own engine word (`podman`/`docker`/`nerdctl`), which
-maps 1:1 to kind's `KIND_EXPERIMENTAL_PROVIDER`. The `kindcluster:` deploy's
+The engine is charly's own engine word (`podman`/`docker`/`containerd`), mapped
+to kind's `KIND_EXPERIMENTAL_PROVIDER` through the engine capability data
+(`podman` → `podman`, `docker` → `docker`, `containerd` → `nerdctl`); a word
+outside the engine vocabulary is refused. The `kindcluster:` deploy's
 `engine:` field (or the resolved `engine.run`) drives it; there is no
 separate selector.
 
@@ -42,7 +44,7 @@ separate selector.
 |--------|--------------|
 | `docker` | A reachable daemon (rootless or rootful). Nothing else. |
 | rootless `podman` | cgroup v2 + a log driver kind can tail (`k8s-file`); raised pids/inotify limits. |
-| rootless `nerdctl` | Rootless containerd running (`containerd-rootless-setuptool.sh install`). |
+| rootless `containerd` | Rootless containerd running (`containerd-rootless-setuptool.sh install`); the nerdctl CLI drives it. |
 
 kindnet is kind's CNI; there is **no Traefik and no ServiceLB**, so the
 `kube: addons` check verb (which waits on the k3s addon stack) does NOT
@@ -65,7 +67,7 @@ kind nodes have their own image store, separate from the host engine's. A
 locally-built image must be loaded in — and `kind load docker-image` is
 BROKEN on podman (measured: "image not present locally" despite the image
 existing). The provider uses the engine-agnostic `kind load image-archive`
-path, so it works on docker, podman, and nerdctl.
+path, so it works on docker, podman, and containerd.
 
 ## Teardown
 
