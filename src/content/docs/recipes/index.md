@@ -280,7 +280,7 @@ Self-contained skills for running the comfyui image-generation/diffusion image.
 
 ### charly-crabbox
 
-Self-contained skills for the crabbox image family: the Crabbox CLI (layer-crabbox), the local Node/PostgreSQL coordinator (pod-crabbox) and the `crabbox:` check verb (plugin-crabbox) — the fully-local remote-execution control plane.
+Self-contained skills for the crabbox image family: the Crabbox CLI (layer-crabbox), the local Node/PostgreSQL coordinator (pod-crabbox-coordinator) and the `crabbox:` check verb (plugin-crabbox) — the fully-local remote-execution control plane.
 
 - [crabbox-coordinator](/recipes/crabbox/crabbox-coordinator/)
 
@@ -590,7 +590,7 @@ Development internals for charly contributors — Go source map, install-plan IR
 - [marketplace](/recipes/internals/marketplace/)
 - [ovmf](/recipes/internals/ovmf/)
 - [plugin](/recipes/internals/plugin/)
-- [plugin-nerdctl](/recipes/internals/plugin-nerdctl/)
+- [plugin-containerd](/recipes/internals/plugin-containerd/)
 - [repo-setup](/recipes/internals/repo-setup/)
 - [root-cause-analyzer](/recipes/internals/root-cause-analyzer/)
 - [skills](/recipes/internals/skills/)
