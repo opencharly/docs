@@ -54,8 +54,19 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # This job's TOTAL deadline. It is a backstop, not the discriminating
+    # bound: the step bounds below are what say WHICH step died, and this
+    # only fires when the whole job is stuck. Sized from the measured runs
+    # (55 successful runs, 2026-09-22..2026-10-24, longest 13.9 min,
+    # median 10.6 min): 60 min is 4.3x the measured maximum, and it stays
+    # UNDER the org validator's own 70-minute head-settle bound, so a stall
+    # in this workflow closes with a named failure — and closes BEFORE the
+    # validator's own wait gives up, which is the deadlock half of
+    # opencharly/docs#162.
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v7
+        timeout-minutes: 10
         with:
           # The pinned marketplace is the corpus the recipe pages project from —
           # fetched via the submodule below. charly is NOT a submodule anymore
@@ -70,10 +81,35 @@ jobs:
           # ancestry — a depth-1 history cannot answer that question.
           submodules: recursive
 
+      # EVERY step in this workflow carries a deadline, and this is the control
+      # that keeps it that way. A step with no `timeout-minutes` has no bound:
+      # if the command it runs hangs — a clone that never finishes, a generator
+      # waiting on a lock — the step runs until the runner's own six-hour limit
+      # and the job never reports WHICH step died. This repo's workflow had no
+      # bound on any of its steps (opencharly/docs#162), so the rule is
+      # enforced here, on the workflows of this repo.
+      #
+      # The check runs FIRST, before the expensive steps: a workflow that has
+      # lost a deadline is a defect in the workflow, and finding it before the
+      # regeneration says so.
+      - name: Check that every workflow step carries a deadline
+        run: python3 .github/scripts/check_step_timeouts.py
+        timeout-minutes: 5
+
+      # A check that cannot fail is not a check. The self-test proves the
+      # checker rejects an unbounded step — and, the case a grep falls into,
+      # that a `timeout-minutes:` written inside a `run:` block is TEXT to the
+      # shell and does NOT satisfy the rule.
+      - name: Prove the step-deadline checker rejects an unbounded step
+        run: python3 .github/scripts/check_step_timeouts.py --self-test
+        timeout-minutes: 5
+
       - name: Test the corpus-currency report
+        timeout-minutes: 5
         run: bash .github/docs-corpus/test_check_corpus_currency.sh
 
       - name: Report the corpus pin's currency
+        timeout-minutes: 10
         # The corpus pin is advanced by a MANUAL act after the corpus lands, so the
         # site trails the corpus by however long nobody ran the regeneration — and
         # the drift gate further down CANNOT see it: the PINNED corpus generates its
@@ -103,6 +139,7 @@ jobs:
           } >>"$GITHUB_STEP_SUMMARY"
 
       - name: Fetch the pinned charly source (CI-time temp checkout, recursive for box/*)
+        timeout-minutes: 15
         run: |
           # Clone WITHOUT --recursive, then checkout the pinned commit, THEN init the box/*
           # submodules: --recursive at clone time pulls each box at its default-branch HEAD,
@@ -116,6 +153,7 @@ jobs:
           git clone https://github.com/opencharly/opencharly.git /tmp/umbrella && git -C /tmp/umbrella checkout e631aacf32df4e26a66f2cb6a75fc9e85e212399
 
       - uses: actions/setup-node@v7
+        timeout-minutes: 10
         with:
           node-version-file: .node-version
           cache: npm
@@ -123,27 +161,42 @@ jobs:
       # setup-go hashes only files inside GITHUB_WORKSPACE. Keep the module it
       # actually compiles here, rather than keying its cache on /tmp/charly.
       - name: Fetch the pinned docs generator
+        timeout-minutes: 10
         run: git clone --depth 1 --branch v2026.289.0814 https://github.com/opencharly/plugin-docs.git .docs-generator
 
       - uses: actions/setup-go@v7
+        timeout-minutes: 10
         with:
           go-version-file: .docs-generator/candy/plugin-docs/go.mod
           cache-dependency-path: .docs-generator/candy/plugin-docs/go.sum
 
       - name: Build the standalone plugin-docs CLI binary
+        timeout-minutes: 15
         working-directory: .docs-generator/candy/plugin-docs
         run: go build -o /tmp/plugin-docs-bin ./cmd/serve
 
       - name: Test the generated-content drift gate
+        timeout-minutes: 10
         run: python3 .github/docs-corpus/test_check_drift.py
 
       - name: Write the corpus wiring candy from the pins file
+        timeout-minutes: 5
         run: |
           mkdir -p /tmp/charly/candy/docs-corpus
           cp .github/docs-corpus/build_wiring.py /tmp/build_wiring.py
           python3 /tmp/build_wiring.py .github/docs-corpus/pins.tsv /tmp/charly/candy/docs-corpus/charly.yml
 
       - name: Regenerate the generated content from the pinned charly
+        # 30 min, from the measured runs: this step is the whole cost of the
+        # job (3.3-10.8 min across 55 measured runs, longest 10.8 min), and
+        # it is the step opencharly/docs#162 observed still running while
+        # the PR's other check waited on it. It carried no deadline of its
+        # own, so a stall here had nothing to fail against and the run never
+        # said WHICH step was stuck. 30 min is 2.8x the observed maximum, so
+        # real work does not trip it, and it fires far sooner than the
+        # runner's own six-hour limit. It is under the job's 60-minute
+        # total, so the step's message is what the reader sees.
+        timeout-minutes: 30
         # --root points at the pinned charly checkout (the catalog walk + landing page + the
         # skill/recipe reference pages); --narrative points at the umbrella checkout, which
         # holds the four root narratives (SOUL/VISION/GRIEVANCES/LIBERATION) at their new
@@ -159,6 +212,7 @@ jobs:
             --out ${{ github.workspace }}/src/content/docs
 
       - name: Drift gate — the committed content must match the pinned charly
+        timeout-minutes: 10
         # Regeneration on a clean tree is a no-op by contract. A diff here means a
         # docs PR must bump the charly pin (the CI-time commit) and commit the regenerated
         # pages in the same change.
@@ -175,15 +229,18 @@ jobs:
       # package files and so stamps every deployment `commit_dirty: true`. Arguing for `npm ci`
       # and then installing a floating dependency two steps later gives the rationale away.
       - name: Install dependencies
+        timeout-minutes: 10
         run: npm ci --no-audit --no-fund
 
       - name: Build
+        timeout-minutes: 15
         run: npm run build
 
       # The site's own link-integrity gate ran in the generator step above (now available here,
       # since the pinned charly checkout carries it). What this job can still prove is that the
       # committed content builds cleanly from a clean install on a clean machine.
       - name: Verify the build produced a site
+        timeout-minutes: 5
         run: |
           test -f dist/index.html
           echo "pages built: $(find dist -name '*.html' | wc -l)"
@@ -193,6 +250,7 @@ jobs:
       # rather than skip, turning every fork contribution red for a reason the contributor
       # cannot fix.
       - name: Deploy to Cloudflare Pages
+        timeout-minutes: 20
         if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         uses: cloudflare/wrangler-action@v4
         with:
