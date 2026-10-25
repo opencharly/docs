@@ -9,9 +9,16 @@ turns that stall into a time-bounded failure that NAMES the step it died in; a
 job bound turns the whole job's stall into a failure with a total deadline.
 
 This repo's deploy workflow had no bound on any of its sixteen steps and no
-total deadline on its job (opencharly/docs#162), and the tag-on-merge
-dispatcher had none either, so the rule is enforced here, on the workflows of
-this repo.
+total deadline on its job (opencharly/docs#162), so the rule is enforced here,
+on the workflows this repo OWNS.
+
+One file in `.github/workflows/` is not this repo's to fix: `tag-on-merge.yml`
+is a DISTRIBUTED COPY of opencharly/.github's canonical template, installed
+into every repo by that repo's bootstrap and bound back to the template by its
+reconcile script. A deadline added to the copy here would be erased by that
+reconcile pass, and the deadline belongs to the template. The copy is
+therefore REPORTED by this checker, never silently skipped -- and a path named
+explicitly on the command line is always asserted.
 
 NO YAML PARSER, ON PURPOSE. The docs site carries no YAML dependency
 (package.json: astro, starlight, sharp, wrangler), and a check that needs a
@@ -39,6 +46,25 @@ TIMEOUT_RE = re.compile(r"^(?P<value>\d+)\s*(#.*)?$")
 MAX_TIMEOUT = 360
 # The keys that label a step when it has no `name:`.
 LABEL_KEYS = ("name", "uses", "run")
+
+# Workflow files this repo does NOT own, and why each is not asserted here.
+#
+# `.github/workflows/tag-on-merge.yml` is a DISTRIBUTED COPY of opencharly/
+# .github's canonical template (`.github/workflows/tag-on-merge-dispatcher.yml`):
+# that repo's `scripts/bootstrap-repo-main.sh` installs the template into every
+# repo, and its `scripts/reconcile-tag-on-merge-callers.sh` binds the copies
+# back to the template (opencharly/.github#192). A deadline added to the COPY
+# here would be erased by that reconcile pass, and the deadline belongs to the
+# TEMPLATE, which is what the org-wide sweep owns (opencharly/.github#256).
+# The copy is REPORTED, never silently skipped: a skipped surface that says
+# nothing is a gap nobody can see.
+ORG_DISTRIBUTED = {
+    ".github/workflows/tag-on-merge.yml": (
+        "a distributed copy of opencharly/.github's tag-on-merge-dispatcher.yml; "
+        "its deadline belongs in that template (opencharly/.github#256), and the "
+        "copy-to-template binding is opencharly/.github#192"
+    ),
+}
 
 
 def _commented_out(value: str) -> str:
@@ -278,6 +304,35 @@ def check_text(text: str, label: str = "<workflow>") -> list[str]:
     return findings
 
 
+def _label_of_path(path: Path) -> str:
+    """The repo-relative label of a path, or the path itself when it is outside."""
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
+def partition(paths: list[Path], explicit: bool) -> tuple[list[Path], list[str]]:
+    """The paths this checker asserts, and a note for each one it does not.
+
+    An EXPLICIT path is always asserted: a caller that points at a file wants
+    that file checked, and the tool must not narrow a request it was given.
+    The DEFAULT scan asserts this repo's own workflow files and REPORTS the
+    org-distributed ones, with the owner named -- a skip that says nothing is
+    a gap nobody can see.
+    """
+    asserted: list[Path] = []
+    notes: list[str] = []
+    for path in paths:
+        label = _label_of_path(path)
+        reason = ORG_DISTRIBUTED.get(label)
+        if reason and not explicit:
+            notes.append(f"{label}: not asserted here - {reason}")
+            continue
+        asserted.append(path)
+    return asserted, notes
+
+
 def check_files(paths: list[Path]) -> list[str]:
     findings: list[str] = []
     for path in paths:
@@ -286,11 +341,7 @@ def check_files(paths: list[Path]) -> list[str]:
         except OSError as exc:
             findings.append(f"{path}: cannot be read: {exc}")
             continue
-        try:
-            label = str(path.relative_to(ROOT))
-        except ValueError:
-            label = str(path)
-        findings.extend(check_text(text, label))
+        findings.extend(check_text(text, _label_of_path(path)))
     return findings
 
 
@@ -587,12 +638,46 @@ jobs:
     expect("a step bound shorter than its job's is fine",
            check_text(live_step_bound) == [], str(check_text(live_step_bound)))
 
+    # The SCOPE. A workflow file the ORG distributes and reconciles is not this
+    # repo's to bound: the deadline belongs to the canonical template, and a
+    # deadline added to the copy would be erased by the org's own reconcile
+    # pass. The copy is therefore REPORTED by the default scan, and the report
+    # must name the file and its owner -- a skip that says nothing is a gap
+    # nobody can see. An EXPLICIT path is still asserted: a caller that points
+    # at a file wants that file checked.
+    org_caller = ROOT / ".github" / "workflows" / "tag-on-merge.yml"
+    asserted, notes = partition([org_caller], explicit=False)
+    expect("an org-distributed copy is not asserted by the default scan",
+           asserted == [], str(asserted))
+    expect("the org-distributed copy is reported, not silently skipped",
+           len(notes) == 1, str(notes))
+    expect("the report names the file",
+           "tag-on-merge.yml" in notes[0] if notes else False, str(notes))
+    expect("the report names the owner",
+           "opencharly/.github" in notes[0] if notes else False, str(notes))
+    asserted, notes = partition([org_caller], explicit=True)
+    expect("an explicit path is asserted even when it is org-distributed",
+           asserted == [org_caller], str(asserted))
+    expect("an explicit path carries no skip note", notes == [], str(notes))
+    own = ROOT / ".github" / "workflows" / "deploy.yml"
+    asserted, notes = partition([own], explicit=False)
+    expect("a repo-owned workflow is asserted by the default scan",
+           asserted == [own], str(asserted))
+    expect("a repo-owned workflow carries no skip note", notes == [], str(notes))
+    lookalike = ROOT / ".github" / "workflows" / "tag-on-merge-extra.yml"
+    asserted, notes = partition([lookalike], explicit=False)
+    expect("a file that merely resembles the org-distributed one is still asserted",
+           asserted == [lookalike], str(asserted))
+    outside = Path("/etc/other-repo/workflows/deploy.yml")
+    asserted, notes = partition([outside], explicit=False)
+    expect("a path outside this repo is asserted", asserted == [outside], str(asserted))
+
     if failures:
         print("check-step-timeouts self-test: FAILED")
         for failure in failures:
             print(f"- {failure}")
         raise SystemExit(1)
-    print("check-step-timeouts self-test: OK (unbounded steps, jobs and traps are all caught)")
+    print("check-step-timeouts self-test: OK (unbounded steps, jobs and traps are all caught, and the org-distributed copy is reported)")
 
 
 def main() -> int:
@@ -605,15 +690,27 @@ def main() -> int:
         print("check-step-timeouts: FAILED")
         print("- no workflow files found")
         return 1
-    findings = check_files(paths)
+    asserted, notes = partition(paths, explicit=bool(arguments))
+    findings = check_files(asserted)
     if findings:
         print("check-step-timeouts: FAILED")
         for finding in findings:
             print(f"- {finding}")
+        for note in notes:
+            print(f"note: {note}")
+        return 1
+    if not asserted:
+        print("check-step-timeouts: FAILED")
+        print("- no workflow file to assert")
+        for note in notes:
+            print(f"note: {note}")
         return 1
     print(
-        f"check-step-timeouts: OK ({len(paths)} workflow file(s); every job and every step carries a deadline)"
+        f"check-step-timeouts: OK ({len(asserted)} workflow file(s) asserted; "
+        f"every job and every step carries a deadline)"
     )
+    for note in notes:
+        print(f"note: {note}")
     return 0
 
 

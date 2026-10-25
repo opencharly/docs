@@ -56,13 +56,15 @@ jobs:
     runs-on: ubuntu-latest
     # This job's TOTAL deadline. It is a backstop, not the discriminating
     # bound: the step bounds below are what say WHICH step died, and this
-    # only fires when the whole job is stuck. Sized from the measured runs
-    # (55 successful runs, 2026-09-22..2026-10-24, longest 13.9 min,
-    # median 10.6 min): 60 min is 4.3x the measured maximum, and it stays
-    # UNDER the org validator's own 70-minute head-settle bound, so a stall
-    # in this workflow closes with a named failure — and closes BEFORE the
-    # validator's own wait gives up, which is the deadlock half of
-    # opencharly/docs#162.
+    # only fires when the whole job is stuck. Sized from the measured runs:
+    # the 56 successful runs of the FIXED window 2026-09-22..2026-10-24
+    # (median 10.6 min), whose longest — 15.15 min, on 2026-09-22 — is also
+    # the longest this job has ever run in the retained history (583
+    # successful runs, back to 2026-08-03). 60 min is 4.0x that maximum,
+    # and it stays UNDER the org validator's own 70-minute head-settle
+    # bound, so a stall in this workflow closes with a named failure — and
+    # closes BEFORE the validator's own wait gives up, which is the
+    # deadlock half of opencharly/docs#162.
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v7
@@ -87,11 +89,17 @@ jobs:
       # waiting on a lock — the step runs until the runner's own six-hour limit
       # and the job never reports WHICH step died. This repo's workflow had no
       # bound on any of its steps (opencharly/docs#162), so the rule is
-      # enforced here, on the workflows of this repo.
+      # enforced here, on the workflows this repo OWNS.
       #
       # The check runs FIRST, before the expensive steps: a workflow that has
       # lost a deadline is a defect in the workflow, and finding it before the
       # regeneration says so.
+      #
+      # It reports, and does not assert, the one workflow file this repo does
+      # not own: `.github/workflows/tag-on-merge.yml` is a distributed copy of
+      # opencharly/.github's canonical template, and a deadline added to the
+      # copy here would be erased by the org's own reconcile pass — the
+      # deadline belongs to the template (opencharly/.github#256).
       - name: Check that every workflow step carries a deadline
         run: python3 .github/scripts/check_step_timeouts.py
         timeout-minutes: 5
@@ -102,6 +110,14 @@ jobs:
       # shell and does NOT satisfy the rule.
       - name: Prove the step-deadline checker rejects an unbounded step
         run: python3 .github/scripts/check_step_timeouts.py --self-test
+        timeout-minutes: 5
+
+      # And a self-test that cannot fail is not a self-test. Each mechanism of
+      # the checker is removed, one at a time, and the self-test must turn RED
+      # on the fixture that covers it: a mutation that still passes is a
+      # mechanism the coverage does not reach.
+      - name: Prove the step-deadline self-test can fail (mutation harness)
+        run: python3 .github/scripts/test_check_step_timeouts.py
         timeout-minutes: 5
 
       - name: Test the corpus-currency report
@@ -188,14 +204,14 @@ jobs:
 
       - name: Regenerate the generated content from the pinned charly
         # 30 min, from the measured runs: this step is the whole cost of the
-        # job (3.3-10.8 min across 55 measured runs, longest 10.8 min), and
-        # it is the step opencharly/docs#162 observed still running while
-        # the PR's other check waited on it. It carried no deadline of its
-        # own, so a stall here had nothing to fail against and the run never
-        # said WHICH step was stuck. 30 min is 2.8x the observed maximum, so
-        # real work does not trip it, and it fires far sooner than the
-        # runner's own six-hour limit. It is under the job's 60-minute
-        # total, so the step's message is what the reader sees.
+        # job (3.3-10.8 min across the same 56 measured runs, longest
+        # 10.8 min), and it is the step opencharly/docs#162 observed still
+        # running while the PR's other check waited on it. It carried no
+        # deadline of its own, so a stall here had nothing to fail against
+        # and the run never said WHICH step was stuck. 30 min is 2.8x the
+        # observed maximum, so real work does not trip it, and it fires far
+        # sooner than the runner's own six-hour limit. It is under the job's
+        # 60-minute total, so the step's message is what the reader sees.
         timeout-minutes: 30
         # --root points at the pinned charly checkout (the catalog walk + landing page + the
         # skill/recipe reference pages); --narrative points at the umbrella checkout, which
