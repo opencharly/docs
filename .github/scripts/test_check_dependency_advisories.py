@@ -116,7 +116,7 @@ def emit(name: str, destination: str) -> int:
         count = text.count(anchor)
         if count != 1:
             print(
-                f"the anchor for {what} occurs {count} times, expected 1 — "
+                f"FAIL: the anchor for {what} occurs {count} times, expected 1 — "
                 f"the mutation cannot be applied, so it would prove nothing",
                 file=sys.stderr,
             )
