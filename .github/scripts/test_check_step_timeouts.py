@@ -35,6 +35,13 @@ from its own path — a mutant written anywhere else would compute a different
 root and would turn the self-test red for the WRONG reason, which would let a
 broken mutation pass unnoticed.
 
+THE `--emit` MODE IS THE WRITER, NOT A SECOND IMPLEMENTATION. Every mutant
+this harness tests is written THROUGH `--emit` — the same mode a diagnostic
+caller uses — so the mode is covered by construction rather than by a parallel
+copy of the mutation, and the anchor assertion lives in exactly one place
+(`emit`). A harness that mutated the source itself while shipping an unexercised
+`--emit` beside it would carry the same rule twice and prove neither copy.
+
 usage: python3 .github/scripts/test_check_step_timeouts.py
        python3 .github/scripts/test_check_step_timeouts.py --emit <mutant> <path>
 exit:  0 = every mutant turned the self-test red; 1 = a mutant still passed.
@@ -92,9 +99,10 @@ MUTANTS = [
 def emit(name: str, destination: str) -> int:
     """Write ONE mutant to a path, so another harness can use it as a control.
 
-    The anchor assertion is the same one the harness makes: an anchor that has
-    moved must FAIL LOUDLY here too, because a mutant that is not the mutation
-    it claims to be is a control that proves nothing.
+    This is the ONLY place the anchor is asserted and the ONLY place the
+    mutation is applied. An anchor that has moved must FAIL LOUDLY here,
+    because a mutant that is not the mutation it claims to be is a control that
+    proves nothing.
     """
     text = SOURCE.read_text(encoding="utf-8")
     for candidate, anchor, replacement, what, _case in MUTANTS:
@@ -103,7 +111,8 @@ def emit(name: str, destination: str) -> int:
         count = text.count(anchor)
         if count != 1:
             print(
-                f"FAIL: the anchor for {what} occurs {count} times, expected 1",
+                f"FAIL: the anchor for {what} occurs {count} times, expected 1 — "
+                f"the mutation cannot be applied, so it would prove nothing",
                 file=sys.stderr,
             )
             return 1
@@ -124,23 +133,28 @@ def main() -> int:
             return 2
         return emit(arguments[1], arguments[2])
 
-    text = SOURCE.read_text(encoding="utf-8")
     failures: list[str] = []
     passed = 0
 
-    for name, anchor, replacement, what, case in MUTANTS:
-        count = text.count(anchor)
-        if count != 1:
-            failures.append(
-                f"{name}: the anchor for {what} occurs {count} times, expected 1 — "
-                f"the mutation cannot be applied, so it would prove nothing"
-            )
-            continue
+    for name, _anchor, _replacement, what, case in MUTANTS:
         with tempfile.TemporaryDirectory() as temporary:
             scripts = Path(temporary) / ".github" / "scripts"
             scripts.mkdir(parents=True)
             mutant = scripts / f"{name}.py"
-            mutant.write_text(text.replace(anchor, replacement), encoding="utf-8")
+            # The mutant is written THROUGH this harness's own `--emit` mode --
+            # the same path a diagnostic caller uses -- so the mode is covered
+            # by construction, and the anchor assertion happens exactly once.
+            written = subprocess.run(
+                [sys.executable, str(Path(__file__).resolve()), "--emit", name, str(mutant)],
+                capture_output=True,
+                text=True,
+            )
+            if written.returncode != 0:
+                failures.append(
+                    f"{name}: the mutation could not be applied — "
+                    f"{(written.stderr.strip() or written.stdout.strip())}"
+                )
+                continue
             completed = subprocess.run(
                 [sys.executable, str(mutant), "--self-test"],
                 capture_output=True,
