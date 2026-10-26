@@ -33,6 +33,11 @@ Canonical files:
 ## Build / validate / test
 
 - `npm ci && npm run build` — the local Astro build.
+- `python3 .github/scripts/check_dependency_advisories.py` — the
+  dependency-advisory gate. It audits the tree the committed lockfile resolves
+  (the same tree `npm ci` installs) and FAILS on a known advisory in the
+  **production** tree or the **dev** tree. The generation workflow runs it, its
+  self-test, and the mutation harness that proves the self-test can fail.
 - The merge gate is the **org-wide** `charly/pr-validator` (required check
   `validate / validate`, defined in `opencharly/.github`); this repo carries no
   per-repo candy gate.
