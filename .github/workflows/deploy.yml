@@ -174,6 +174,39 @@ jobs:
           node-version-file: .node-version
           cache: npm
 
+      # The audit becomes a GATE (opencharly/docs#163). The production tree
+      # was clean only by the accident of a lockfile: GHSA-rj75-hqrm-r3gf sat
+      # in it for weeks and was visible only to whoever happened to run
+      # `npm audit`. This check reads the tree npm resolves from the committed
+      # lockfile -- the same tree `npm ci` installs, so it does not depend on
+      # an install having run -- and fails on a finding in EITHER tree: the
+      # production tree (what the site ships) and the dev tree (the deploy
+      # tool, which holds the Cloudflare Pages token and runs privileged
+      # during a deploy).
+      #
+      # It runs EARLY, before the expensive steps, because a finding here is
+      # cheap to find and expensive to discover after a ten-minute
+      # regeneration.
+      - name: Check that the dependency tree carries no known advisory
+        timeout-minutes: 5
+        run: python3 .github/scripts/check_dependency_advisories.py
+
+      # A check that cannot fail is not a check. The self-test drives the
+      # real `npm audit` against real fixtures -- one carrying a published
+      # advisory in its PRODUCTION tree, one carrying it in its dev tree, one
+      # clean, and one npm cannot audit at all -- against the real npm
+      # advisory database. Nothing is simulated.
+      - name: Prove the dependency-advisory checker rejects a production-tree finding
+        timeout-minutes: 10
+        run: python3 .github/scripts/check_dependency_advisories.py --self-test
+
+      # And a self-test that cannot fail is not a self-test. Each mechanism
+      # of the checker is removed, one at a time, and the self-test must turn
+      # RED on the fixture that covers exactly that mechanism.
+      - name: Prove the dependency-advisory self-test can fail (mutation harness)
+        timeout-minutes: 10
+        run: python3 .github/scripts/test_check_dependency_advisories.py
+
       # setup-go hashes only files inside GITHUB_WORKSPACE. Keep the module it
       # actually compiles here, rather than keying its cache on /tmp/charly.
       - name: Fetch the pinned docs generator
