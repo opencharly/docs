@@ -121,10 +121,11 @@ answer had to be measured by hand — was FALSE, and it is deleted here and in
 sentence.
 
 **`charly task verify` passes on a tree whose submodules are behind their
-remotes.** Measured on the umbrella of 2026-10-15, at the commit that advanced
-the wave of 20: policy B and the checkout audit were GREEN (`429 submodule(s);
-422 checkout(s) clean at their gitlink; 7 uninitialized`) while **five of the
-six `distro-*` gitlinks were behind their remote `main`**. That is not a defect
+remotes.** Measured on the umbrella at the commit that advanced
+the wave of 20: policy B and the checkout audit were GREEN on 2026-10-15 (`429
+submodule(s); 422 checkout(s) clean at their gitlink; 7 uninitialized`) while
+**five of the six `distro-*` gitlinks were behind their remote `main`**. That is
+not a defect
 in `verify` — it is `verify` answering its own question — which is why a
 currency claim needs its own measurement, and its honest form is the currency
 mode's own report — never "verify is green".
@@ -282,13 +283,13 @@ and the producer-first leg order: [`references/pin-intent-and-currency.md`](/rec
 `charly task sync` (git-submodules `bump`) and `charly task verify` are two
 sanctioned verbs that meet at ONE object: the gitlink. `bump` MATERIALISES each
 advance of a path that HAS a checkout — `switch --quiet --detach <ref>` inside
-the submodule — and STAGES it (`git add <path>` in the superproject), so the
+the submodule — and STAGES it (`git add -- ':(literal)<path>'` in the superproject), so the
 index and the checkouts AGREE the moment it returns. A path with NO checkout has
 no tree to move, so its pin is advanced IN THE INDEX and its checkout follows on
 the next `init` (`plugin-task#37`): after a wave over a light tree the index
 holds pins the tree has no checkouts for yet, by design, and `init` closes that
 gap. `verify` reads the recorded gitlink from the superproject's **index** (`git
-ls-files -s <path>`) and compares it with the submodule checkout's **HEAD**: two
+ls-files -s -- ':(literal)<path>'`) and compares it with the submodule checkout's **HEAD**: two
 repositories, two objects, maintained by different verbs.
 
 **So the pair is coherent at `sync`'s exit and conflicts the moment the advances
@@ -303,8 +304,9 @@ pins were CORRECT read as a broken one and the one command the reader needed
 
 **What to do about it.** The direction and the remedy now ship in the verb
 (`plugin-task#27`), so a mismatch names its own class: *checkout ahead of the
-index* (`unstaged advance` — `git add <path>` records it, `git submodule update
-<path>` discards it), *checkout behind the index* (`git submodule update <path>`),
+index* (`unstaged advance` — `git add -- ':(literal)<path>'` records it, `git
+submodule update -- ':(literal)<path>'` discards it), *checkout behind the index*
+(`git submodule update -- ':(literal)<path>'`),
 or *off its recorded gitlink*. It stays a FAIL either way — a commit that records
 the old pin is still wrong — because the two states are object-identical and the
 honest report is the direction plus both remedies, never a guessed cause. On a
