@@ -15,5 +15,5 @@ title: "comfyui"
 This box composes:
 
 - `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
-- `@github.com/opencharly/pod-comfyui:v2026.274.0700`
+- `@github.com/opencharly/pod-comfyui:v2026.290.1729`
 - `@github.com/opencharly/pod-dbus:v2026.274.0648`

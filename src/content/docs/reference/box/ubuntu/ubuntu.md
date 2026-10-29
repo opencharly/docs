@@ -8,3 +8,10 @@ title: "ubuntu"
 |---|---|
 | **Repo** | `box/ubuntu` |
 | **Base** | `ubuntu:24.04` |
+
+
+## Composition
+
+This box composes:
+
+- `ubuntu-skills`

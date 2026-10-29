@@ -8,3 +8,10 @@ title: "arch"
 |---|---|
 | **Repo** | `box/arch` |
 | **Base** | `quay.io/archlinux/archlinux:base-20260719.0.558306` |
+
+
+## Composition
+
+This box composes:
+
+- `arch-skills`

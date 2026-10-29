@@ -14,11 +14,12 @@ title: "versa"
 
 This box composes:
 
+- `cachyos-app-skills`
 - `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
-- `@github.com/opencharly/layer-nvidia:v2026.271.1817`
-- `@github.com/opencharly/layer-cuda:v2026.274.0643`
-- `@github.com/opencharly/pod-marimo:v2026.274.0753`
-- `@github.com/opencharly/pod-airflow:v2026.274.1033`
+- `@github.com/opencharly/layer-nvidia:7766a9d06ec5fe8c276c091a68fb72cea12688e3`
+- `@github.com/opencharly/layer-cuda:v2026.290.2052`
+- `@github.com/opencharly/pod-marimo:v2026.290.2104`
+- `@github.com/opencharly/pod-airflow:v2026.290.2110`
 - `@github.com/opencharly/pod-osm-tools:v2026.274.0631`
 - `@github.com/opencharly/pod-maputnik:v2026.274.0617`
 - `@github.com/opencharly/pod-pmtiles-viewer:v2026.274.0620`

@@ -20,4 +20,5 @@ This box composes:
 - `@github.com/opencharly/layer-gh:v2026.272.0136`
 - `@github.com/opencharly/pod-sshd:v2026.272.0324`
 - `@github.com/opencharly/layer-container-nesting:v2026.271.2309`
-- `@github.com/opencharly/layer-nvidia:v2026.271.1817`
+- `@github.com/opencharly/layer-nvidia:v2026.289.1705`
+- `arch-skills`

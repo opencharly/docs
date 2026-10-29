@@ -7,7 +7,7 @@ description: "The feature:box command word, served by the plugin-box plugin cand
 
 | | |
 |---|---|
-| **Served by** | [plugin-box](/reference/plugin/github-com-opencharly-plugin-box-v2026-288-0503/plugin-box/) |
+| **Served by** | [plugin-box](/reference/plugin/github-com-opencharly-plugin-box-v2026-301-1542/plugin-box/) |
 | **Placement** | compiled-in (in-process) |
 
 `feature:box` is a command word served by the `plugin-box` plugin candy. This plugin is listed in `charly/charly.yml`'s `compiled_plugins:`, so its providers are compiled into the `charly` binary and register in-process.

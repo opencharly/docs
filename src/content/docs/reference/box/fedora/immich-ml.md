@@ -16,8 +16,8 @@ This box composes:
 
 - `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
 - `@github.com/opencharly/layer-nodejs:v2026.272.0322`
-- `@github.com/opencharly/layer-cuda:v2026.274.0643`
-- `@github.com/opencharly/layer-python-ml:v2026.274.0754`
+- `@github.com/opencharly/layer-cuda:v2026.290.1513`
+- `@github.com/opencharly/layer-python-ml:v2026.290.1914`
 - `@github.com/opencharly/layer-supervisord:v2026.271.1817`
 - `@github.com/opencharly/layer-vectorchord:v2026.273.1836`
 - `@github.com/opencharly/pod-redis:v2026.272.0226`

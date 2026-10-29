@@ -15,4 +15,4 @@ title: "python-ml"
 This box composes:
 
 - `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
-- `@github.com/opencharly/layer-python-ml:v2026.274.0754`
+- `@github.com/opencharly/layer-python-ml:v2026.290.1914`

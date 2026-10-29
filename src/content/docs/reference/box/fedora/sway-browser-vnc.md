@@ -14,5 +14,6 @@ title: "sway-browser-vnc"
 
 This box composes:
 
+- `fedora-skills`
 - `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
 - `@github.com/opencharly/layer-sway-desktop-vnc:v2026.274.1428`

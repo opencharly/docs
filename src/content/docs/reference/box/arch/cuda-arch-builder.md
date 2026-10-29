@@ -14,5 +14,5 @@ title: "cuda-arch-builder"
 
 This box composes:
 
-- `@github.com/opencharly/layer-cuda:v2026.274.0643`
+- `@github.com/opencharly/layer-cuda:v2026.290.1513`
 - `@github.com/opencharly/layer-nvenc-headers:v2026.272.0603`

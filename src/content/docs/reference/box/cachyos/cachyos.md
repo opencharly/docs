@@ -7,11 +7,12 @@ title: "cachyos"
 | | |
 |---|---|
 | **Repo** | `box/cachyos` |
-| **Base** | `docker.io/cachyos/cachyos-v3@sha256:2f87e702822dc3bc1c527215ace3f7b1b20c5d9d4171bb78e012557be477d487` |
+| **Base** | `docker.io/cachyos/cachyos-v3@sha256:f50fa29540b3de01845f908202c91e4cddc7d1cdaac1b25ad33332afba94184b` |
 
 
 ## Composition
 
 This box composes:
 
+- `cachyos-os-skills`
 - `cachyos-base-check`

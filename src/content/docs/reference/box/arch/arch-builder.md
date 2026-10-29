@@ -18,3 +18,4 @@ This box composes:
 - `@github.com/opencharly/layer-nodejs:v2026.272.0322`
 - `@github.com/opencharly/layer-build-toolchain:v2026.271.1840`
 - `@github.com/opencharly/layer-yay:v2026.272.0425`
+- `arch-skills`

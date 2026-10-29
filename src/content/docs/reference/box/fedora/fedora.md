@@ -8,3 +8,10 @@ title: "fedora"
 |---|---|
 | **Repo** | `box/fedora` |
 | **Base** | `quay.io/fedora/fedora:43` |
+
+
+## Composition
+
+This box composes:
+
+- `fedora-skills`

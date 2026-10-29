@@ -15,5 +15,5 @@ title: "crabbox"
 This box composes:
 
 - `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
-- `@github.com/opencharly/layer-crabbox:v2026.274.0609`
-- `@github.com/opencharly/plugin-crabbox/candy/plugin-crabbox:v2026.272.0026`
+- `@github.com/opencharly/layer-crabbox:v2026.293.1001`
+- `@github.com/opencharly/plugin-crabbox/candy/plugin-crabbox:v2026.293.1011`

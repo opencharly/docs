@@ -15,6 +15,6 @@ title: "unsloth-studio"
 This box composes:
 
 - `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
-- `@github.com/opencharly/pod-unsloth-studio:v2026.274.0809`
+- `@github.com/opencharly/pod-unsloth-studio:v2026.290.1913`
 - `@github.com/opencharly/layer-notebook-finetuning:v2026.272.0321`
 - `@github.com/opencharly/pod-dbus:v2026.274.0648`

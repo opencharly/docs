@@ -16,7 +16,7 @@ This box composes:
 
 - `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
 - `@github.com/opencharly/layer-nodejs:v2026.272.0322`
-- `@github.com/opencharly/layer-python-ml:v2026.274.0754`
+- `@github.com/opencharly/layer-python-ml:v2026.290.1914`
 - `@github.com/opencharly/layer-supervisord:v2026.271.1817`
 - `@github.com/opencharly/pod-postgresql:v2026.272.0233`
 - `@github.com/opencharly/layer-vectorchord:v2026.273.1836`
