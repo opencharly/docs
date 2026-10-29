@@ -21,12 +21,12 @@ description: "Every reserved word — verb, kind, deploy target, step, builder, 
 
 | Word | Served by |
 |---|---|
-| `box` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-242-0525/plugin-build/) |
 | `box` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-287-2220/plugin-build/) |
-| `ensure` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-242-0525/plugin-build/) |
+| `box` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-296-1104/plugin-build/) |
 | `ensure` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-287-2220/plugin-build/) |
-| `generate` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-242-0525/plugin-build/) |
+| `ensure` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-296-1104/plugin-build/) |
 | `generate` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-287-2220/plugin-build/) |
+| `generate` | [plugin-build](/reference/plugin/github-com-opencharly-plugin-build-v2026-296-1104/plugin-build/) |
 
 ## `builder` — 6 words
 
