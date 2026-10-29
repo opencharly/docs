@@ -33,7 +33,7 @@ plugin-sidecar	v2026.242.0532
 plugin-substrate	v2026.242.0533
 plugin-candy-kind	v2026.242.0527
 plugin-harness-kind	v2026.242.0529
-plugin-build	v2026.242.0525
+plugin-build	v2026.296.1104
 plugin-installstep	v2026.242.0532
 plugin-tunnel	v2026.242.0609
 plugin-tmux	v2026.242.0534
