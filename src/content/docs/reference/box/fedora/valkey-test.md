@@ -14,6 +14,7 @@ title: "valkey-test"
 
 This box composes:
 
+- `fedora-skills`
 - `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
 - `@github.com/opencharly/layer-supervisord:v2026.271.1817`
 - `@github.com/opencharly/pod-valkey:v2026.272.0326`

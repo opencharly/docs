@@ -12,7 +12,7 @@ Canonical files:
 
 - the repo's generation workflow (`.github/workflows/`) — the SOLE owner of
   generation, the drift gate and the Cloudflare Pages deploy; the pinned charly
-  commit lives there.
+  and umbrella commits live there, in its own `env:` block.
 - `astro.config.mjs` — the Starlight config; its sidebar `link:` targets are
   resolved against the emitted routes by generation (a dead one fails the run).
 - `package.json` — the Astro/Starlight toolchain and the `astro build` script.
@@ -45,22 +45,27 @@ Canonical files:
   and every PR: clone the pinned charly, build the binary, regenerate the
   generated half, FAIL on any drift, build Astro, deploy. A drift failure means a
   regeneration must land.
-- The workflow also **REPORTS the corpus pin's currency** — whether the pinned
-  `marketplace` commit is behind the corpus's merged main. It is reported, never
-  failed: a corpus that is behind is an advance available now, and the remedy is
-  a regeneration PR that bumps the pin, not a gate. The drift gate cannot see
-  this on its own — the PINNED corpus regenerates its own (old) pages perfectly,
-  so a stale corpus is invisible to it.
+- The workflow also **REPORTS each pinned input's currency** — whether the
+  pinned `marketplace` commit, the pinned `charly` commit and the pinned
+  umbrella commit are behind their producers' merged mains. It is reported,
+  never failed: a pin that is behind is an advance available now, and the
+  remedy is a regeneration PR that bumps the pin, not a gate. The drift gate
+  cannot see this on its own — the PINNED sources regenerate their own (old)
+  pages perfectly, so a stale pin is invisible to it. The two CI-time commits
+  are recorded once, in the workflow's own `env:` block, which both the clone
+  step and the report read (`.github/scripts/check_pin_currency.sh`); the
+  report's own fixtures are `.github/scripts/test_check_pin_currency.sh`.
 
 ## Modify this repo
 
 - Hand-authored pages (`start/`, `concepts/`, `guides/`) are edited here directly.
 - Generated pages are never edited here: `index.md` projects the charly
-  `README.md`; `grievances`/`vision`/`liberation` project charly's root files;
-  `reference/**` projects the pinned charly checkout; `recipes/**` projects the
-  marketplace corpus. Edit the source, then land a regeneration PR here that
-  bumps the pinned charly commit — and, for a corpus change, the pinned
-  `marketplace` commit — and carries the regenerated pages.
+  `README.md`; `grievances`/`vision`/`liberation`/`soul` project the umbrella's
+  root files; `reference/**` projects the pinned charly checkout; `recipes/**`
+  projects the marketplace corpus. Edit the source, then land a regeneration PR
+  here that bumps the pinned charly commit — the pinned umbrella commit, for a
+  narrative change, and the pinned `marketplace` commit, for a corpus change —
+  and carries the regenerated pages.
 - The home page is one of the generated ones — to change the front page, change
   the charly `README.md`.
 

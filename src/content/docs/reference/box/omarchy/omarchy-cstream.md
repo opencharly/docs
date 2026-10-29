@@ -60,3 +60,4 @@ This box composes:
 - `@github.com/opencharly/layer-omarchy-terminal/candy/omarchy-terminal:v2026.274.0623`
 - `@github.com/opencharly/layer-omarchy-themes/candy/omarchy-themes:v2026.274.0625`
 - `@github.com/opencharly/layer-omarchy-fonts/candy/omarchy-fonts:v2026.274.0650`
+- `omarchy-skills`

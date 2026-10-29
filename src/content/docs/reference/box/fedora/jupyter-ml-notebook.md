@@ -14,6 +14,7 @@ title: "jupyter-ml-notebook"
 
 This box composes:
 
+- `fedora-skills`
 - `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
 - `@github.com/opencharly/pod-jupyter-ml:v2026.274.0802`
 - `@github.com/opencharly/layer-notebook-templates:v2026.272.0457`

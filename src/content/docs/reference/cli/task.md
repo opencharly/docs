@@ -9,7 +9,7 @@ description: "The task command word, served by 2 plugin candies: plugin-task and
 |---|---|
 | **plugin-task — Served by** | [plugin-task](/reference/plugin/github-com-opencharly-plugin-task-v2026-276-1230/plugin-task/) |
 | **plugin-task — Placement** | compiled-in (in-process) |
-| **plugin-task — Served by** | [plugin-task](/reference/plugin/github-com-opencharly-plugin-task-v2026-283-0105/plugin-task/) |
+| **plugin-task — Served by** | [plugin-task](/reference/plugin/github-com-opencharly-plugin-task-v2026-300-0951/plugin-task/) |
 | **plugin-task — Placement** | compiled-in (in-process) |
 
 `task` is a command word served by 2 plugin candies — `plugin-task` and `plugin-task` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
@@ -67,7 +67,7 @@ which a self-contained plugin schema cannot carry).
 Five GENERIC, domain-neutral MAINTENANCE verbs replace repository shell
 scripts, each parameterized by the repo's own data (paths/pairs/pins) so the
 plugin stays reusable by any repository: `verb:git-submodules` (status/bump/
-verify `.gitmodules` pins, incl. the policy-B comparison of a repo's pins
+verify `.gitmodules` pins, incl. the EDGE comparison of a repo's pins
 against a pinned checkout's gitlinks), `verb:file-parity` (check/sync that
 paired files are byte-identical), `verb:splice-region` (splice a marked
 region from a fragment into a target), `verb:module-pins` (adopt a

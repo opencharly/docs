@@ -14,6 +14,7 @@ title: "fedora-coder"
 
 This box composes:
 
+- `fedora-skills`
 - `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
 - `@github.com/opencharly/pod-sshd:v2026.272.0324`
 - `@github.com/opencharly/pod-charly-mcp:v2026.274.0406`

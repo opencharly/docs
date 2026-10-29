@@ -8,3 +8,10 @@ title: "debian-debootstrap"
 |---|---|
 | **Repo** | `box/debian` |
 | **Builder** | `builder:debootstrap` |
+
+
+## Composition
+
+This box composes:
+
+- `debian-skills`

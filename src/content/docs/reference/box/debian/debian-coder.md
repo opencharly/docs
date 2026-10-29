@@ -40,3 +40,4 @@ This box composes:
 - `@github.com/opencharly/layer-github-actions:v2026.272.0135`
 - `@github.com/opencharly/layer-google-cloud-npm:v2026.273.1835`
 - `@github.com/opencharly/layer-grafana-tools:v2026.272.0139`
+- `debian-skills`

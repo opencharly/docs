@@ -16,11 +16,12 @@
 #   4. FAILS if the committed content does not match what the pinned charly generates
 #      (the drift gate: regeneration on a clean tree is a no-op, so any diff means a
 #      docs PR must bump the charly CI-time commit and carry the regenerated pages),
-#   5. REPORTS whether the pinned marketplace corpus is behind the corpus's merged
-#      main — reported, never failed: a corpus that is behind is an advance
-#      available now, and the remedy is a regeneration PR that bumps the pin, not a
-#      gate (the drift gate above cannot see a stale corpus, because the PINNED
-#      corpus regenerates its own old pages perfectly),
+#   5. REPORTS whether each of the site's THREE pinned source inputs — the
+#      marketplace corpus, the charly commit and the umbrella commit — is behind
+#      its producer's merged main. Reported, never failed: a pin that is behind is
+#      an advance available now, and the remedy is a regeneration PR that bumps the
+#      pin, not a gate (the drift gate above cannot see a stale pin, because the
+#      PINNED sources regenerate their own old pages perfectly),
 #   6. builds the Astro site and deploys to Cloudflare Pages.
 #
 # WHY A WORKFLOW RATHER THAN CLOUDFLARE'S GIT INTEGRATION: connecting a Cloudflare Pages project
@@ -51,6 +52,19 @@ concurrency:
 permissions:
   contents: read
 
+# THE SOURCE PINS, RECORDED ONCE. The site's generated half is a projection of
+# three pinned inputs, and every one of them is advanced by a MANUAL act after
+# its producer lands. These two CI-time commits are recorded HERE, once, and
+# this single record is consumed by the clone step below and read by the
+# pin-currency report — so a SHA can never be written in one place and
+# forgotten in the other. The corpus pin is the `marketplace` gitlink, which is
+# a gitlink by nature and needs no record here.
+env:
+  CHARLY_REPO: https://github.com/opencharly/charly.git
+  CHARLY_PIN: be7a505f476c1a5b0302d878e0b5686a2cde3e07
+  UMBRELLA_REPO: https://github.com/opencharly/opencharly.git
+  UMBRELLA_PIN: 1c88fcf15f8fb9dd8b2814210472a63d3a79d0e2
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -78,7 +92,7 @@ jobs:
           # `fetch-depth` is left at its default (1), so the corpus submodule is
           # a DEPTH-1 clone: actions/checkout runs `git submodule update --init
           # --force --depth=<fetch-depth>` (actions/checkout@v7,
-          # `src/git-command-manager.ts`, `submoduleUpdate`). The corpus-currency
+          # `src/git-command-manager.ts`, `submoduleUpdate`). The pin-currency
           # report below therefore deepens the corpus's history before it judges
           # ancestry — a depth-1 history cannot answer that question.
           submodules: recursive
@@ -120,20 +134,21 @@ jobs:
         run: python3 .github/scripts/test_check_step_timeouts.py
         timeout-minutes: 5
 
-      - name: Test the corpus-currency report
+      - name: Test the pin-currency report
         timeout-minutes: 5
-        run: bash .github/docs-corpus/test_check_corpus_currency.sh
+        run: bash .github/scripts/test_check_pin_currency.sh
 
-      - name: Report the corpus pin's currency
+      - name: Report each pinned input's currency
         timeout-minutes: 10
-        # The corpus pin is advanced by a MANUAL act after the corpus lands, so the
-        # site trails the corpus by however long nobody ran the regeneration — and
-        # the drift gate further down CANNOT see it: the PINNED corpus generates its
-        # own (old) pages perfectly, so a stale corpus is invisible to it.
+        # EVERY pinned input is advanced by a MANUAL act after its producer lands, so
+        # the site trails its producers by however long nobody ran the regeneration —
+        # and the drift gate further down CANNOT see it: the PINNED sources generate
+        # their own (old) pages perfectly, so a stale pin is invisible to it. That
+        # blind spot is not the corpus's alone; it is the charly pin's and the
+        # umbrella pin's exactly as much, and the drift gate is blind to all three.
         #
-        # This step asks the second question the workflow can answer from what it
-        # already has: is the pinned corpus behind the corpus's merged main? The
-        # answer is REPORTED, never failed — a corpus that is behind is an advance
+        # This step asks the second question: is each pinned input itself current?
+        # The answer is REPORTED, never failed — a pin that is behind is an advance
         # available NOW, the same shape the pin contract calls `behind`: a
         # reportable state, not a broken edge. A workflow that FAILED on it would be
         # red on every push until somebody ran the regeneration PR, and the remedy is
@@ -145,13 +160,17 @@ jobs:
         # corpus checkout here is a depth-1 clone (the checkout step above), so the
         # report deepens it first and says `undecidable` when it cannot. A report
         # that stated a state it could not establish would be worse than no report.
+        #
+        # The report reads the CI-time pins from this workflow's own `env:` block
+        # and judges each producer's history itself, so it does not depend on the
+        # deploy's own checkouts or on the order the steps run in.
         run: |
           set -o pipefail
-          bash .github/docs-corpus/check_corpus_currency.sh . | tee /tmp/corpus-currency.txt
+          bash .github/scripts/check_pin_currency.sh . | tee /tmp/pin-currency.txt
           {
-            echo "### corpus pin"
+            echo "### pinned inputs"
             echo ""
-            cat /tmp/corpus-currency.txt
+            cat /tmp/pin-currency.txt
           } >>"$GITHUB_STEP_SUMMARY"
 
       - name: Fetch the pinned charly source (CI-time temp checkout, recursive for box/*)
@@ -161,12 +180,12 @@ jobs:
           # submodules: --recursive at clone time pulls each box at its default-branch HEAD,
           # but the committed docs content was generated against the box commits the pinned
           # charly checkout records — checkout-then-init pins them exactly.
-          git clone https://github.com/opencharly/charly.git /tmp/charly && git -C /tmp/charly checkout bafd8dbc3110904872831998fb4caa701cc2990c && git -C /tmp/charly submodule update --init --recursive
+          git clone "$CHARLY_REPO" /tmp/charly && git -C /tmp/charly checkout "$CHARLY_PIN" && git -C /tmp/charly submodule update --init --recursive
           # The four root narratives (SOUL.md/VISION.md/GRIEVANCES.md/LIBERATION.md) moved
           # from the charly root to the UMBRELLA root (opencharly/opencharly#357); the
           # generator reads them from the umbrella checkout passed as --narrative below.
           # No submodule init — only the root files are read.
-          git clone https://github.com/opencharly/opencharly.git /tmp/umbrella && git -C /tmp/umbrella checkout e631aacf32df4e26a66f2cb6a75fc9e85e212399
+          git clone "$UMBRELLA_REPO" /tmp/umbrella && git -C /tmp/umbrella checkout "$UMBRELLA_PIN"
 
       - uses: actions/setup-node@v7
         timeout-minutes: 10

@@ -14,4 +14,5 @@ title: "cachyos-pacstrap-builder"
 
 This box composes:
 
+- `cachyos-os-skills`
 - `@github.com/opencharly/layer-pacstrap-builder:v2026.272.0421`

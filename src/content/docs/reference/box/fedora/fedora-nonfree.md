@@ -14,4 +14,5 @@ title: "fedora-nonfree"
 
 This box composes:
 
+- `fedora-skills`
 - `@github.com/opencharly/layer-rpmfusion:v2026.272.0429`

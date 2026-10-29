@@ -14,6 +14,7 @@ title: "fedora-test"
 
 This box composes:
 
+- `fedora-skills`
 - `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
 - `@github.com/opencharly/pod-traefik:v2026.274.0627`
 - `@github.com/opencharly/pod-testapi:v2026.274.0637`

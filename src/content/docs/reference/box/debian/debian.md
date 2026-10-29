@@ -8,3 +8,10 @@ title: "debian"
 |---|---|
 | **Repo** | `box/debian` |
 | **Base** | `debian:13` |
+
+
+## Composition
+
+This box composes:
+
+- `debian-skills`

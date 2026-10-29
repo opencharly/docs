@@ -15,3 +15,4 @@ title: "ubuntu-debootstrap-builder"
 This box composes:
 
 - `@github.com/opencharly/layer-debootstrap-builder:v2026.272.0019`
+- `ubuntu-skills`

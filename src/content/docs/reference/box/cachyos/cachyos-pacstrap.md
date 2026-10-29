@@ -8,3 +8,10 @@ title: "cachyos-pacstrap"
 |---|---|
 | **Repo** | `box/cachyos` |
 | **Builder** | `builder:pacstrap` |
+
+
+## Composition
+
+This box composes:
+
+- `cachyos-os-skills`

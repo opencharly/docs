@@ -8,3 +8,10 @@ title: "ubuntu-debootstrap"
 |---|---|
 | **Repo** | `box/ubuntu` |
 | **Builder** | `builder:debootstrap` |
+
+
+## Composition
+
+This box composes:
+
+- `ubuntu-skills`

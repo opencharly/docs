@@ -14,9 +14,10 @@ title: "githubrunner"
 
 This box composes:
 
+- `cachyos-os-skills`
 - `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
 - `@github.com/opencharly/pod-github-runner:v2026.279.0028`
-- `@github.com/opencharly/layer-charly:v2026.274.0345`
+- `@github.com/opencharly/layer-charly:v2026.281.2113`
 - `@github.com/opencharly/layer-gh:v2026.272.0136`
 - `@github.com/opencharly/pod-dbus:v2026.274.0648`
 - `@github.com/opencharly/layer-container-nesting:v2026.271.2309`
