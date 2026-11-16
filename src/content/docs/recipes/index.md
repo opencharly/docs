@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-363 cards across 43 plugins, in four groups.
+355 cards across 44 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -101,7 +101,6 @@ Live-container evaluation and probe verbs — `charly check` orchestrator + per-
 - [dbus](/recipes/check/dbus/)
 - [jetkvm](/recipes/check/jetkvm/)
 - [libvirt](/recipes/check/libvirt/)
-- [openclaw](/recipes/check/openclaw/)
 - [openclaw-cmd](/recipes/check/openclaw-cmd/)
 - [punktfunk](/recipes/check/punktfunk/)
 - [quickshell](/recipes/check/quickshell/)
@@ -219,7 +218,6 @@ Schema authoring reference for `kind: vm` + bootc VM catalog — libvirt/QEMU ba
 - [arch-cloud-vm](/recipes/vm/arch-cloud-vm/)
 - [cachyos-bootstrap-vm](/recipes/vm/cachyos-bootstrap-vm/)
 - [debian-debootstrap-vm](/recipes/vm/debian-debootstrap-vm/)
-- [omarchy-vm](/recipes/vm/omarchy-vm/)
 - [ubuntu-debootstrap-vm](/recipes/vm/ubuntu-debootstrap-vm/)
 - [vm](/recipes/vm/vm/)
 - [vms-catalog](/recipes/vm/vms-catalog/)
@@ -317,13 +315,6 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [nested-podman-socket](/recipes/distros/nested-podman-socket/)
 - [nvidia](/recipes/distros/nvidia/)
 - [nvidia-layer](/recipes/distros/nvidia-layer/)
-- [omarchy](/recipes/distros/omarchy/)
-- [omarchy-base](/recipes/distros/omarchy-base/)
-- [omarchy-cstream](/recipes/distros/omarchy-cstream/)
-- [omarchy-eval](/recipes/distros/omarchy-eval/)
-- [omarchy-eval-cold-reader](/recipes/distros/omarchy-eval-cold-reader/)
-- [omarchy-eval-oracle](/recipes/distros/omarchy-eval-oracle/)
-- [omarchy-shell](/recipes/distros/omarchy-shell/)
 - [qemu-guest-agent](/recipes/distros/qemu-guest-agent/)
 - [rocm](/recipes/distros/rocm/)
 - [rpmfusion](/recipes/distros/rpmfusion/)
@@ -443,6 +434,7 @@ Self-contained skills for the openclaw image family (CachyOS base): the headless
 Self-contained skills for the openwebui chat-frontend image.
 
 - [openwebui](/recipes/openwebui/openwebui/)
+- [openwebui-cli](/recipes/openwebui/openwebui-cli/)
 - [openwebui-layer](/recipes/openwebui/openwebui-layer/)
 
 ### charly-punktfunk
@@ -457,6 +449,12 @@ Self-contained skills for the Qdrant vector-search service family: the pinned st
 
 - [qdrant](/recipes/qdrant/qdrant/)
 - [qdrant-cli](/recipes/qdrant/qdrant-cli/)
+
+### charly-qwen3-tts
+
+Self-contained skills for the Qwen3-TTS speech-service family: the OpenAI-compatible speech API (POST /v1/audio/speech, GET /v1/audio/voices) that Open WebUI's `openai` TTS engine calls, served over the upstream qwen-tts python API by a charly-owned shim.
+
+- [qwen3-tts](/recipes/qwen3-tts/qwen3-tts/)
 
 ### charly-selkies
 
@@ -522,7 +520,6 @@ CLI utilities and the charly binary deploy artifacts — ripgrep, himalaya, whis
 
 - [blogwatcher](/recipes/tools/blogwatcher/)
 - [charly](/recipes/tools/charly/)
-- [crabbox](/recipes/tools/crabbox/)
 - [crabbox-cli](/recipes/tools/crabbox-cli/)
 - [cue](/recipes/tools/cue/)
 - [docs-site](/recipes/tools/docs-site/)

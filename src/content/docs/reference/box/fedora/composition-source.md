@@ -15,4 +15,4 @@ title: "composition-source"
 This box composes:
 
 - `@github.com/opencharly/layer-supervisord:v2026.271.1817`
-- `@github.com/opencharly/layer-charly:v2026.274.0345`
+- `@github.com/opencharly/layer-charly:v2026.292.2352`
