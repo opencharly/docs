@@ -17,7 +17,7 @@ This box composes:
 - `fedora-skills`
 - `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
 - `@github.com/opencharly/layer-supervisord:v2026.271.1817`
-- `@github.com/opencharly/layer-charly:v2026.274.0345`
+- `@github.com/opencharly/layer-charly:v2026.292.2352`
 - `@github.com/opencharly/layer-golang:v2026.272.0137`
 - `@github.com/opencharly/layer-gh:v2026.272.0136`
 - `@github.com/opencharly/pod-sshd:v2026.272.0324`

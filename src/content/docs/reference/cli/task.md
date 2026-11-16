@@ -9,7 +9,7 @@ description: "The task command word, served by 2 plugin candies: plugin-task and
 |---|---|
 | **plugin-task — Served by** | [plugin-task](/reference/plugin/github-com-opencharly-plugin-task-v2026-276-1230/plugin-task/) |
 | **plugin-task — Placement** | compiled-in (in-process) |
-| **plugin-task — Served by** | [plugin-task](/reference/plugin/github-com-opencharly-plugin-task-v2026-300-0951/plugin-task/) |
+| **plugin-task — Served by** | [plugin-task](/reference/plugin/github-com-opencharly-plugin-task-v2026-316-2347/plugin-task/) |
 | **plugin-task — Placement** | compiled-in (in-process) |
 
 `task` is a command word served by 2 plugin candies — `plugin-task` and `plugin-task` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
@@ -60,9 +60,11 @@ into a candy/box/task plan). The engine reuses kit.RunPlan + a
 checkkit.VerbResolver over kit.ShellExecutor{} — the SAME engine
 candy/plugin-check drives — so there is no second execution engine. Any task
 a repository needs (build, test, lint, release, verify, notify) is a task
-entity; the task body is the base-schema #Task, validated host-side against
-#TaskValue (a task's `plan: [...#Step]` references the base #Step grammar,
-which a self-contained plugin schema cannot carry).
+entity; the task body is THIS plugin's CUE (`schema/task.cue`: `#Task`,
+host-validated against `#TaskValue`, which the `kind` capability declares as
+its `InputDef`). The schema imports the contract module for the SHARED
+`#Step`/#Op grammar, `#StrVal`, `#Duration`, `#EntityRef` and
+`#TaskParamSpec`, so a task's `plan:` cannot disagree with a candy plan's.
 
 Five GENERIC, domain-neutral MAINTENANCE verbs replace repository shell
 scripts, each parameterized by the repo's own data (paths/pairs/pins) so the
