@@ -7,7 +7,7 @@ title: "ubuntu"
 | | |
 |---|---|
 | **Repo** | `box/ubuntu` |
-| **Base** | `ubuntu:24.04` |
+| **Base** | `ubuntu:26.04` |
 
 
 ## Composition

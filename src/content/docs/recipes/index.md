@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-355 cards across 44 plugins, in four groups.
+361 cards across 45 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -232,6 +232,13 @@ Self-contained skills for the AgentTeams multi-agent stack (CachyOS base): the d
 - [agentteams](/recipes/agentteams/agentteams/)
 - [agentteams-cli](/recipes/agentteams/agentteams-cli/)
 
+### charly-ai-toolkit
+
+Self-contained skills for the Ostris AI Toolkit diffusion-training pod: the GUI/CLI trainer and the Z-Image LoRA path.
+
+- [ai-toolkit](/recipes/ai-toolkit/ai-toolkit/)
+- [ai-toolkit-layer](/recipes/ai-toolkit/ai-toolkit-layer/)
+
 ### charly-coder
 
 Self-contained skills + MCP wiring for charly coder/dev images (arch-coder, debian-coder, fedora-coder, ubuntu-coder, charly-arch).
@@ -239,6 +246,7 @@ Self-contained skills + MCP wiring for charly coder/dev images (arch-coder, debi
 - [arch-coder](/recipes/coder/arch-coder/)
 - [asciinema](/recipes/coder/asciinema/)
 - [build-toolchain](/recipes/coder/build-toolchain/)
+- [cachyos-coder-tools](/recipes/coder/cachyos-coder-tools/)
 - [charly-arch](/recipes/coder/charly-arch/)
 - [charly-mcp](/recipes/coder/charly-mcp/)
 - [claude-code](/recipes/coder/claude-code/)
@@ -296,6 +304,8 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [cachyos-extras](/recipes/distros/cachyos-extras/)
 - [cachyos-pacstrap](/recipes/distros/cachyos-pacstrap/)
 - [cachyos-pacstrap-builder](/recipes/distros/cachyos-pacstrap-builder/)
+- [cdi](/recipes/distros/cdi/)
+- [cdi-layer](/recipes/distros/cdi-layer/)
 - [charly-fedora](/recipes/distros/charly-fedora/)
 - [cloud-init](/recipes/distros/cloud-init/)
 - [container-nesting](/recipes/distros/container-nesting/)
@@ -346,12 +356,10 @@ Self-contained skills for the hermes agent image (hermes + hermes-playwright var
 
 ### charly-immich
 
-Self-contained skills for the immich photo-management image (immich + immich-ml variants).
+Self-contained skills for the immich photo-management image (one variant; the ML backend runs in the same image on port 3003).
 
 - [immich](/recipes/immich/immich/)
 - [immich-layer](/recipes/immich/immich-layer/)
-- [immich-ml](/recipes/immich/immich-ml/)
-- [immich-ml-layer](/recipes/immich/immich-ml-layer/)
 
 ### charly-infrastructure
 
@@ -526,6 +534,7 @@ CLI utilities and the charly binary deploy artifacts — ripgrep, himalaya, whis
 - [dsh](/recipes/tools/dsh/)
 - [dsh-cli](/recipes/tools/dsh-cli/)
 - [dsh-tui](/recipes/tools/dsh-tui/)
+- [generate-podcast](/recipes/tools/generate-podcast/)
 - [gifgrep](/recipes/tools/gifgrep/)
 - [gogcli](/recipes/tools/gogcli/)
 - [goplaces](/recipes/tools/goplaces/)
@@ -575,6 +584,7 @@ Development internals for charly contributors — Go source map, install-plan IR
 - [capabilities](/recipes/internals/capabilities/)
 - [cloud-init-renderer](/recipes/internals/cloud-init-renderer/)
 - [cutover-policy](/recipes/internals/cutover-policy/)
+- [design](/recipes/internals/design/)
 - [disposable](/recipes/internals/disposable/)
 - [egress](/recipes/internals/egress/)
 - [generate-source](/recipes/internals/generate-source/)
@@ -594,3 +604,4 @@ Development internals for charly contributors — Go source map, install-plan IR
 - [strict-policy](/recipes/internals/strict-policy/)
 - [vm-deploy-target](/recipes/internals/vm-deploy-target/)
 - [vm-spec](/recipes/internals/vm-spec/)
+- [xdg](/recipes/internals/xdg/)

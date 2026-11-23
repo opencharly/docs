@@ -111,6 +111,15 @@ The full class → name → "may hold" mapping is the umbrella `README.md`
 is in the umbrella `AGENTS.md` ("Repo classes and naming"). Do not copy either
 table into this skill: they are the canonical surfaces, and a copy drifts.
 
+**A repo whose only content is skills is not a class.** No prefix exists for it, and
+none may be invented. A `layer-*`, `distro-*`, `plugin-*`, `pod-*`, `vm-*`, `charly-*` or
+`pkg-*` repo must hold the code, plugin or config its name promises, with its skills
+beside that content (umbrella `AGENTS.md` Part II #5). A `*-skills` carrier REPO that
+exists only to own prose is retired by this rule. Its skills move to the repo of the
+entity they describe, or to the umbrella when they are general guidance. A carrier
+CANDY inside a repo that already holds code is a different thing and is unaffected:
+it is the shape image-owned skills need ([`/charly-internals:skills`](/recipes/internals/skills/)).
+
 Worked counter-example, because it happened: a product family was created as a
 bare `openclaw`. It held a box, a candy, a disposable bed and two skills — a
 `layer-<family>` shape — so the name did not fit its class and the repo was
@@ -119,26 +128,89 @@ an appliance is the defect this step exists to catch.
 
 ## Setting up a NEW repository (checklist)
 
-1. Create `opencharly/<name>` (non-fork; it must end up on default branch `main`).
-   The org ruleset then covers it automatically — no per-repo branch rules.
-   **Adopting an existing upstream is an explicit choice, not a defect:** either
-   land it NON-FORK (it gains the org gate and CalVer tags) or keep it a fork and
-   accept that it lands on its own CI (as `openclaw-enterprise` does) or its own
-   repo-scoped ruleset (as `crabbox` does), with no CalVer tag minted by the org.
-2. Add the per-repo `.github/workflows/tag-on-merge.yml` caller — REQUIRED for
-   CalVer tags and the CHANGELOG — plus the appropriate `deploy.yml`. The
-   org-required validator needs NO per-repo file (the old `pr-validator.yml`
-   dispatcher is retired by `retire-per-repo-dispatchers.yml`).
-3. The org owner applies the ONE org ruleset (the `org-ruleset.sh` owner script
-   in `opencharly/.github`, `apply` mode — an operator/CI action, not a charly
-   user command) so `allow_auto_merge` and `delete_branch_on_merge` are enforced
-   for the new repo.
-4. Land the first commit via a PR — never a direct push to `main`.
-5. Add it to the umbrella as a submodule and advance the pin via
-   `charly task sync` + PR (see [`/charly-internals:git-workflow`](/recipes/internals/git-workflow/) B8). **That verb
-   is an ORG-WIDE wave, not a one-repo operation: it advances EVERY pin the
-   umbrella declares** — read its scope before running it, and expect the PR's
-   diff to carry every pin it moved, not only the new repo's.
+The org ruleset's **`creation`** rule makes the naive path IMPOSSIBLE, and it is the first step every
+new repo gets wrong: a repo's first `main` cannot be created by `git push`, by the contents API, by
+`repo auto_init`, or by a branch rename — each fails with *"Cannot create ref due to creations being
+restricted"* (and `auto_init` leaves the repo with no refs at all). The only actor that can create that
+ref is the `charly-auto-merge` App, and the org ships a workflow that mints exactly that token for this
+purpose. So the order is:
+
+1. **Create the repo EMPTY and non-fork** — `gh repo create opencharly/<name> --public`, with **no**
+   `--add-readme`, `--gitignore`, license or `auto_init` (blocked anyway; see above). Adopting an
+   existing upstream is an explicit choice: NON-FORK (it gains the org gate and CalVer tags) or a fork
+   (it lands on its own CI, as `openclaw-enterprise` does, or on its own repo-scoped ruleset, as
+   `crabbox` does, and the org mints no tag for it).
+2. **Push ONE throwaway seed branch.** Creating any ref that is not `main` is allowed:
+   `git push origin HEAD:refs/heads/seed`. The seed must carry **no content you will ship** — `main` is
+   created at it, and a PR whose diff is empty is a no-op.
+3. **Bootstrap `main` with the org workflow**:
+   `gh workflow run bootstrap-repo-main.yml --repo opencharly/.github -f repos=<name>`. It mints the
+   App token, creates `refs/heads/main` at the seed, and **INSTALLS and asserts the per-repo
+   `.github/workflows/tag-on-merge.yml` caller** — so do NOT hand-add that file. The installed caller
+   IS the canonical `tag-on-merge-dispatcher.yml`; a committed copy differs by a byte (no final
+   newline) and fights every future template regeneration.
+4. **Set the three repository settings the App cannot** (it holds no `administration` permission):
+
+   ```sh
+   gh api --method PATCH repos/opencharly/<name> \
+     -f default_branch=main -f allow_auto_merge=true -f delete_branch_on_merge=true
+   ```
+
+   Until this runs the repo is **outside the org gate**: no required `validate / validate`, no CalVer
+   tag, no CHANGELOG (`org-ruleset.sh verify` reports it as `needs_operator_settings=<n>`). Do NOT
+   re-apply the org ruleset on its behalf — the ONE ruleset targets `~ALL` minus an explicit exclude
+   set, so a new repo is already covered; only these three settings have no org-level default.
+5. **Land the content as ONE PR off `main`** (never a direct push): a `feat/` branch, the commit, the
+   change-class gate on that tree, the whole body, one push, a ready PR. Because step 3 installed the
+   caller, the FIRST merge is tagged.
+6. **In the umbrella**, the gitlink and the pin's INTENT land in the SAME commit. `git submodule add
+   <url> <path>` writes **no** `branch =`, and a path with neither an `intent:` entry nor a `branch=`
+   is `unpinned` — which fails `charly task verify` **structurally**:
+
+   ```sh
+   git submodule add <url> <path>
+   git config -f .gitmodules submodule.<path>.branch main     # the pin's INTENT (a leaf)
+   ```
+
+   then the `import:` key (if the repo has entities to address), the README org-map row and the counts
+   that reconciler checks. The mechanism and the why are [`/charly-internals:git-workflow`](/recipes/internals/git-workflow/)
+   (its pin-intent-and-currency reference, "A submodule is BORN `unpinned`"); this checklist repeats
+   the two commands because a checklist is read on its own, and cites the owner of the rule rather than
+   restating the reasoning. Advance THIS pin with the narrow mechanism, NOT with `charly task sync`:
+   that verb is an ORG-WIDE wave (Part II #3), it advances every pin the umbrella declares, and it
+   holds the worktree's index while it runs.
+7. **Verify the org issue labels** (this is the whole label contract for a new repo):
+
+   a. **`opencharly/.github` owns everything label-related** — the taxonomy
+      (`labels/taxonomy.json`), the generic rules (`labels/category-rules.json`), the org issue
+      form (`.github/ISSUE_TEMPLATE/issue.yml`, the default community-health file), the
+      sync/audit workflows and the tests. **A repository ships no label configuration of its
+      own, ever.**
+   b. **The bootstrap sync provisions the labels.** `bootstrap-repo-main.yml` runs
+      `scripts/labels.sh sync --repo <name>`; the 12 labels (`category:runtime`,
+      `category:delivery`, `category:verification`, `category:experience`,
+      `category:governance`, `category:hygiene`; `type:fix`, `type:feat`, `type:design`,
+      `type:spec`, `type:docs`, `type:chore`) exist in every non-archived repo. Verify them:
+      `gh label list -R opencharly/<name> --limit 100 | grep -E '^(category|type):'` must show
+      all 12; if the sync has not run, run `gh workflow run label-sync.yml --repo
+      opencharly/.github -f repos=<name>`.
+   c. **Do not ship a repository-specific issue template** unless it carries the same four
+      required fields as the org form — Category, Type, Remedy / files the remedy will touch,
+      and Cited design decision or org-rulebook rule (or `none`). A repo template **overrides**
+      the org default (a GitHub limitation), so a template without those fields silently breaks
+      mandatory labelling for that repo. The safest choice is no template at all.
+   d. **No repository-specific label.** Labels are fully generic: the repository name is never
+      a classification signal, every category is available in every repo, and a new or future
+      repo needs no mapping. A label like `session:`, `owner:`, `priority:`, `severity:`,
+      `size:`, `status:` or any repo/product-named label is a defect the audit reports.
+   e. **File through the org form or `scripts/gh/cli.ts issue`**, which refuses without
+      `category:`, `type:`, remedy/files and the cited rule — never a bare `gh issue create`.
+      The full "which label" rules, the split protocol and the DESIGN/rulebook violation table
+      are in [`/charly-internals:git-workflow`](/recipes/internals/git-workflow/), under its issue-labels reference page.
+   f. **Expect the org `label-audit` to check the new repo** daily: it reports missing axes,
+      two values on one axis, retired/default labels and unknown labels (report-only by
+      default); `label-sync` re-provisions the 12 labels because GitHub recreates its 9
+      defaults on every new repository.
 
 ## The measured gap this checklist prevents
 

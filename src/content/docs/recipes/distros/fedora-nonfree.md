@@ -14,9 +14,9 @@ Fedora base with RPM Fusion free and non-free repositories enabled.
 **Owned by the `opencharly/distro-fedora` submodule.** Lives bare-local in the
 **`opencharly/distro-fedora`** submodule (mounted at `box/fedora`), alongside
 [`/charly-distros:fedora`](/recipes/distros/fedora/) + [`/charly-distros:fedora-builder`](/recipes/distros/fedora-builder/); the submodule is
-SELF-CONTAINED (`import: []`). Its consumers ([`/charly-immich:immich`](/recipes/immich/immich/),
-[`/charly-distros:nvidia`](/recipes/distros/nvidia/)) live in the same submodule and base on it as a
-bare-local `fedora-nonfree`. Its `rpmfusion`
+SELF-CONTAINED (`import: []`). Its consumers ([`/charly-distros:nvidia`](/recipes/distros/nvidia/), plus the
+local `fedora-rpmfusion` and `fedora-builder` boxes) live in the same submodule and
+base on it as a bare-local `fedora-nonfree`. Its `rpmfusion`
 candy is pinned as a github ref so the same definition resolves in both main and
 the submodule.
 
@@ -47,7 +47,10 @@ charly shell fedora-nonfree
 
 ## Derived Boxes
 
-- [`/charly-immich:immich`](/recipes/immich/immich/) — photo management with codec support
+- [`/charly-distros:nvidia`](/recipes/distros/nvidia/) — the GPU base's skill; the box it documents is `box/nvidia-cdi`
+  (non-free for the NVIDIA driver + CUDA stack)
+- `fedora-rpmfusion` — the RPM Fusion free + non-free base the consumer images compile on
+- [`/charly-distros:fedora-builder`](/recipes/distros/fedora-builder/) — the multi-stage builder image
 
 ## Related Boxes
 

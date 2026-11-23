@@ -29,14 +29,14 @@ The one rule that binds every reference below: **a bed run is R10-class —
 the commit is gated on a full final-code bed test (pasted), but beds run
 freely throughout to verify** (see [`references/parallel-bed-testing.md`](/recipes/internals/agents/parallel-bed-testing/)
 "The binding rule"). The project rulebook is `AGENTS.md`, the single
-harness-neutral rulebook carrying R0–R10; this skill never restates it,
+harness-neutral rulebook carrying R0–R11; this skill never restates it,
 only points to it.
 
 ## Index
 
 | Topic | Reference |
 |---|---|
-| Primitives per harness (Claude Code / Codex / Kimi); when to use a sub-agent vs. dynamic workflow vs. agent team; the charly agent roster (executors/enforcers); the shipped workflows (`/audit-deploy-configs`, `/triage-check-failure`, `/verify-status`); the agent-team primitive setup | [`references/agent-roster.md`](/recipes/internals/agents/agent-roster/) |
+| Primitives per harness (Claude Code / Codex / Kimi); when to use a sub-agent vs. dynamic workflow vs. agent team; the charly agent roster (executors/enforcers); the shipped workflows (`/audit-deploy-configs`, `/triage-verify-failure`, `/verify-status`); the agent-team primitive setup | [`references/agent-roster.md`](/recipes/internals/agents/agent-roster/) |
 | The default multi-agent execution model: orchestrator/teammate model-tier split, maximum parallelization, the slot budget, concurrent landing, the orchestrator's bidirectional verification duty, architectural-integrity ownership, the responsibility matrix and tie-breakers | [`references/orchestration-model.md`](/recipes/internals/agents/orchestration-model/) |
 | Program-wide alignment: the north-star protocol, the IOU register, per-merge measurement, migration-ledger discipline, crossed-ruling reconciliation, brief verification and stop-and-respawn, whack-a-mole escalation | [`references/program-discipline.md`](/recipes/internals/agents/program-discipline/) |
 | Bed-scoped parallel real-deployment testing: the concurrency ceilings (store lock, exclusive-resource tokens, long-bed ownership, in-tree build artifacts, per-worktree binaries) and their fixes; the charly binary in a multi-worktree setup; the binding rule for running a bed; implementation-workflow shape; speed levers | [`references/parallel-bed-testing.md`](/recipes/internals/agents/parallel-bed-testing/) |
@@ -129,8 +129,6 @@ A plugin is not one artifact and does not resolve from one ref. Its **code** may
 
 **Remedy.** Identify the submodule / ref the backend script resolves from; compare the pinned gitlink (or `@github` ref) against the commit that merged the script; then advance the pin the sanctioned way — `charly task sync` for an umbrella gitlink (a wave: it advances EVERY pin the umbrella declares), or a refs-list bump + `charly marketplace generate` for the marketplace corpus — never a hand-pin and never a checkout into the submodule.
 
-**Concrete case.** In one session `coord_comment` failed while `coord_watch` worked. Both are registered by the SAME plugin, loaded from the workspace — but `coord_comment` shells out to `marketplace/scripts/coord.sh` while `coord_watch` shells out to `marketplace/scripts/gh_watch.sh`. `gh_watch.sh` was already in the pinned `marketplace` gitlink; `coord.sh` had merged LATER and the gitlink had not advanced, so the tool reported "coord.sh not found — sync the marketplace pin". The failure was a stale `marketplace` gitlink, not a defect in the plugin that bound the script.
-
 ## Monitoring AND controlling agents in OpenCode (the `agent_progress` + `agent_control` tools)
 
 In OpenCode the orchestrator does not guess at a subagent's health — it reads the
@@ -209,6 +207,24 @@ The umbrella rulebook states this as a Part II rule (`AGENTS.md`, "Ledger and
 interruption safety") and points here for the detail. Where this guidance
 itself belongs is owned by the sibling [`/charly-internals:skills`](/recipes/internals/skills/) ("Where
 guidance belongs"): mandate in `AGENTS.md`, detail in the skill.
+
+## Command hygiene & context discipline
+
+Commands run with SIGPIPE ignored, so `grep <pat> <huge-file> | head -N` floods the
+output with `grep: write error: Broken pipe`. The umbrella rulebook states the mandate
+("Command hygiene & context discipline"); the how:
+
+- **`grep -m N` for "first N matches"** — never `grep | head`.
+- **Redirect a large output to a file** (`cmd > <scratch>/x.log 2>&1`), then read it
+  bounded (`grep -m N`, `sed -n 'a,bp'`, `tail -c`).
+- **Delegate output-heavy investigation** to a subagent that returns a verdict plus
+  evidence paths.
+- **Never re-issue the same diagnostic command in a loop** — change the approach.
+- **A piped exit code is not the command's exit code.** In `cmd | head` the shell
+  reports `head`'s status, so "it printed X and returned 0" can be false in both halves
+  at once. Capture the command's own status (`cmd > <scratch>/x.log 2>&1; rc=$?`) or
+  read `${PIPESTATUS[0]}`. Measured: a `rc=0` reported as proof that a verb dispatched
+  was the pager's exit code.
 
 ## A control that SKIPS is not a control
 

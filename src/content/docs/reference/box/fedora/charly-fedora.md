@@ -22,4 +22,3 @@ This box composes:
 - `@github.com/opencharly/layer-gh:v2026.272.0136`
 - `@github.com/opencharly/pod-sshd:v2026.272.0324`
 - `@github.com/opencharly/layer-container-nesting:v2026.271.2309`
-- `@github.com/opencharly/layer-nvidia:054aa7702ebe79e8be444764f91a03933ba45eec`

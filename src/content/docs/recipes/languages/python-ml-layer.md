@@ -46,7 +46,7 @@ Plus from `llama-cpp` sub-candy:
 ## Used In Boxes
 
 - [`/charly-languages:python-ml`](/recipes/languages/python-ml/)
-- [`/charly-immich:immich-ml`](/recipes/immich/immich-ml/)
+- [`/charly-immich:immich`](/recipes/immich/immich/)
 
 ## Related Candies
 

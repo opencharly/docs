@@ -29,14 +29,14 @@ Privileged builder image that ships the **debootstrap** toolchain (the
 
 The `debootstrap-builder` candy **stays in the main repo** and is shared with
 [`/charly-distros:debian-debootstrap-builder`](/recipes/distros/debian-debootstrap-builder/) — both pull it by github reference. The
-`ubuntu` distro config (`inherits: debian`; debootstrap suite `noble`, mirror
+`ubuntu` distro config (`inherits: debian`; debootstrap suite `resolute`, mirror
 `http://archive.ubuntu.com/ubuntu`, base packages) lives in the main repo's
 embedded `distro:` vocabulary (`charly/charly.yml`) and resolves automatically —
 the submodule imports nothing (`import: []`).
 
 ## Cross-References
 
-- [`/charly-distros:ubuntu`](/recipes/distros/ubuntu/) — the Docker-Hub base (`base: ubuntu:24.04`)
+- [`/charly-distros:ubuntu`](/recipes/distros/ubuntu/) — the Docker-Hub base (`base: ubuntu:26.04`)
 - [`/charly-distros:ubuntu-debootstrap`](/recipes/distros/ubuntu-debootstrap/) — the bootstrap-from-scratch rootfs it builds
 - [`/charly-vm:ubuntu-debootstrap-vm`](/recipes/vm/ubuntu-debootstrap-vm/) — the VM built via the same debootstrap path
 - [`/charly-distros:debian-debootstrap-builder`](/recipes/distros/debian-debootstrap-builder/) — the Debian sibling (same `base: debian:13`)

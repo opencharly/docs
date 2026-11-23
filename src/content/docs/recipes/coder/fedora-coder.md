@@ -11,7 +11,8 @@ description: "Kitchen-sink development box: coding + AI-coding CLIs + DevOps too
 
 The everyday-development counterpart to [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/): all the
 coding + AI + DevOps tooling a developer needs in one box, no desktop,
-no streaming. `fedora-coder` is headless and
+no streaming. Distinct from `openclaw-desktop` (which adds the
+browser-streamed Wayland desktop) — `fedora-coder` is headless and
 meant to be accessed via `ssh -p 2222` or `charly shell`.
 
 > **Location:** lives in the **`opencharly/distro-fedora`** repo (git submodule at
@@ -40,13 +41,13 @@ fedora-coder:
     - charly                          # the full toolchain: charly binary + virtualization + gocryptfs + socat
     - charly-mcp                      # MCP gateway for the entire charly CLI
     - container-nesting           # rootless nested podman/buildah/skopeo
-    - '@github.com/opencharly/pod-dbus'
-    - '@github.com/opencharly/layer-tmux'
+    - '@github.com/opencharly/pod-dbus:v2026.235.2115'
+    - '@github.com/opencharly/layer-tmux:v2026.235.2057'
 
     # Language runtimes + managers
     - language-runtimes           # Go + PHP + .NET 9 + nodejs-devel + python3-devel
-    - '@github.com/opencharly/layer-golang'
-    - '@github.com/opencharly/layer-nodejs'  # generic nodejs candy (Node 22 on Fedora)
+    - '@github.com/opencharly/layer-golang:v2026.235.2057'
+    - '@github.com/opencharly/layer-nodejs:v2026.235.2056'  # generic nodejs candy (Node 22 on Fedora)
     - rust
     - pixi
     - uv                          # direct-download binary (no pixi env)
@@ -63,7 +64,7 @@ fedora-coder:
     # AI coding CLIs
     - claude-code
     - codex
-    - '@github.com/opencharly/layer-gemini'
+    - '@github.com/opencharly/layer-gemini:v2026.235.2110'
     - forgecode                   # 5th CLI (astral-sh-style)
     - oracle
 
@@ -84,7 +85,8 @@ normal `-p host:container` remapping (e.g. running `arch-coder` alongside
 
 No `uid:` / `gid:` / `user:` / `security:` override — inherits
 `1000/1000/user` from `defaults` and the candy-level security from
-[`/charly-distros:container-nesting`](/recipes/distros/container-nesting/). Rootless-first by design.
+[`/charly-distros:container-nesting`](/recipes/distros/container-nesting/). Rootless-first by design (shares this
+posture with [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/)).
 
 ## Resolved security posture (OCI label)
 
@@ -132,8 +134,8 @@ includes `rpmfusion` explicitly.
 `supervisord`, `language-runtimes`, and `uv` all use system python3 from RPM,
 not the conda-forge pixi env, so none of them declares `require: python`.
 System Python is available via `language-runtimes` (`python3-devel` +
-`python3-ramalama`). Don't declare a defensive dependency: a `require:` that nothing in
-the candy uses is an unproven "to be safe" caution, not a need.
+`python3-ramalama`). See the "Key Rules" note in the project rulebook (`AGENTS.md` / `CLAUDE.md`) ("don't declare
+defensive deps").
 
 **`uv` is a direct-download binary** (no pixi involvement). Lives at
 `/usr/local/bin/uv` and `/usr/local/bin/uvx`, extracted from the
@@ -249,6 +251,7 @@ All four produce the same daily-dev surface (sshd on 2222, charly-mcp on 18765, 
 
 ## Related Boxes
 
+- [`/charly-openclaw:openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) — sibling rootless-first power-user box; same security posture + container-nesting, but adds the streaming desktop. Prefer when you want browser-accessible GUI + dev tools.
 - [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/) — minimal charly toolchain (no coding CLIs, no DevOps), also uid=1000 with sudo.
 - [`/charly-coder:charly-arch`](/recipes/coder/charly-arch/) — Arch Linux counterpart of charly-fedora.
 - [`/charly-distros:githubrunner`](/recipes/distros/githubrunner/) — self-hosted GitHub Actions runner; same uid=1000 posture.
@@ -270,7 +273,7 @@ All four produce the same daily-dev surface (sshd on 2222, charly-mcp on 18765, 
 
 - Building, deploying, or troubleshooting the `fedora-coder` box.
 - Picking the right power-user base image for a coding/dev workload (this
-  vs. `charly-fedora` vs. `charly-arch`).
+  vs. `charly-fedora` vs. `charly-arch` vs. `openclaw-desktop`).
 - Understanding the rootless-first architectural pattern shared by the
   four power-user boxes (kernel RCA belongs in
   [`/charly-distros:container-nesting`](/recipes/distros/container-nesting/); the composition that proves it works

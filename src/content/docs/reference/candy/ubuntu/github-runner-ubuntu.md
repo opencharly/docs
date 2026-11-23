@@ -35,6 +35,9 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 | `run` | install /etc/systemd/system/charly-docker-store-gc.service as 0644 |
 | `run` | install /etc/systemd/system/charly-docker-store-gc.timer as 0644 |
 | `run` | install /etc/sysctl.d/99-charly-ci-userns.conf as 0644 |
+| `run` | apply the userns sysctl now — a sysctl.d drop-in is inert until systemd-sysctl runs at boot |
+| `run` | install /etc/udev/rules.d/99-charly-kvm.rules as 0644 |
+| `run` | apply the kvm udev rule to the device that is already present |
 | `run` | install /etc/systemd/journald.conf.d/charly-ci.conf as 0644 |
 | `run` | step 1 — systemctl enable --now qemu-guest-agent |
 | `run` | step 2 — install -m 0755 -d /etc/apt/keyrings |

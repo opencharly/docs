@@ -7,7 +7,7 @@ title: "unsloth-studio"
 | | |
 |---|---|
 | **Repo** | `box/fedora` |
-| **Base** | `nvidia` |
+| **Base** | `nvidia-cdi` |
 
 
 ## Composition
