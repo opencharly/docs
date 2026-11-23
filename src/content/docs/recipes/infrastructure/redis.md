@@ -61,7 +61,6 @@ my-image:
 ## Used In Boxes
 
 - [`/charly-immich:immich`](/recipes/immich/immich/)
-- [`/charly-immich:immich-ml`](/recipes/immich/immich-ml/)
 
 ## Tests
 

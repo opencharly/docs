@@ -10,7 +10,7 @@ description: "The clean command word, served by 2 plugin candies: plugin-clean a
 | **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-242-0526/plugin-clean/) |
 | **plugin-clean — Placement** | compiled-in (in-process) |
 | **plugin-clean — Version** | `2026.202.1400` |
-| **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-287-2341/plugin-clean/) |
+| **plugin-clean — Served by** | [plugin-clean](/reference/plugin/github-com-opencharly-plugin-clean-v2026-322-1315/plugin-clean/) |
 | **plugin-clean — Placement** | compiled-in (in-process) |
 
 `clean` is a command word served by 2 plugin candies — `plugin-clean` and `plugin-clean` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
@@ -93,9 +93,18 @@ retention-defaults end-to-end for both the charly-labeled and the store-wide swe
 
 COMPILED-IN charly COMMAND-class plugin that OWNS the externalized `charly clean`
 CLI — the build-artifact retention/prune surface. The plugin owns the command end to
-end: the flag grammar (--dry-run / --images / --check / --deep / --cache / --keep / --invalidate),
-the category orchestration, and the report output. No plugin-specific command LOGIC is
-left in core.
+end: the flag grammar (--dry-run / --images / --check / --deep / --cache / --scopes /
+--build-cache / --store / --keep / --invalidate), the category orchestration, and the
+report output.
+No plugin-specific command LOGIC is left in core.
+
+The CATEGORY SET is declared once, in schema/clean.cue (`#CleanPlugin.categories`), and the
+Go grammar is DERIVED from it: newCleanFlagSet registers one flag per declared row with the
+row's own `contract:` as its help text, and cleanCategories computes the run set from the
+rows' `bare:`/`implies:` fields. So "naming a category flag suppresses the default set" and
+"--deep also reaps build scopes" are declared DATA, not a hand-written `anyCategory := …`
+chain plus a `doScopes = …` rule that every reader had to re-derive and every new category
+had to edit.
 
 --deep is the store-wide untagged/dangling-image purge category — the CLI-only-
 interface gap-closing capability for issue #173: a multi-stage build's INTERMEDIATE
@@ -187,6 +196,60 @@ build-activity lock is held. It runs by default and with --deep, and any other e
 category suppresses it. It needs neither the engine binary nor the resolved
 keep-defaults, so it is a CLI-only host-hygiene surface: no peer reaches it over
 verb:retention, and no new spec wire field carries it.
+
+The `build-cache` category reclaims the builder's PERSISTENT cache — the one large artefact
+a host accumulates during builds that no other category could see (opencharly/plugin-clean#23):
+`sdk/buildkitdrive` owns the daemon's `--root` at `CacheDir()/buildkitd` (`StateRoot`), and it
+is not one of charly's stores (D-STORE-3: a store tree IS an OCI Image Layout and nothing
+else — it carries no `oci-layout` marker and it MUST carry a `buildkitd.lock`), so
+`--images` (the engine's storage), `--check` (.check run dirs), `--deep` (dangling engine
+images), `--cache` (the OCI-layout stores under the cache root) and `--scopes` (systemd
+build scopes) all correctly never saw it. Measured on this host: the live root held 50 GiB
+and a QUARANTINED sibling (`buildkitd.broken-1794801825`) held 105 GiB — removed by hand
+with `sudo rm -rf` because no verb could reclaim it and nothing in the tree emitted that
+name. Two instruments, one category: the LIVE root is removed only when no daemon owns it
+(a running buildkitd holds an exclusive flock on `<root>/buildkitd.lock` — the lock IS the
+holder's liveness signal — so the sweep SEIZES that lock before touching the root, refuses
+with the daemon NAMED when it cannot, and no daemon can start while the sweep holds it),
+and every quarantined sibling (`buildkitd.broken-*`, dead by construction) is reclaimed
+unconditionally. Bytes are reported PER ROOT, `--dry-run` measures the same figures and
+touches nothing (it does not even create the lock file to ask), and nothing is removed
+implicitly on a bare `charly clean`. A tree this user cannot delete WHOLE — a rootless
+build leaves its store owned by container-mapped UIDs, measured at 301 708 files in that
+quarantined root — is reported BY NAME with the blocking path and uid and left exactly as
+it was: a half-deleted store is a corpse nobody can diagnose. One implementation: both
+paths come from `sdk/buildkitdrive` (`StateRoot`/`SocketPath`/`LockName`) and the roots from
+the ONE resolver behind them, never from a hand-built `<cache>/buildkitd`.
+
+The `store` category implements D-STORE-7 (DESIGN.md:2488) for the charly image store —
+the `registry` NAMED store under the cache root, whose entries are the artifacts every
+build appends (never replaces). "keeps what state references and evicts the rest within a
+size budget" is a REFERENCE rule, not a recency one: the sweep reads the host's charly
+state by name and resolver — the container engine's containers (`podman ps -a`, every
+container running or stopped, its image ref and its image ID) and the quadlet units
+(`$HOME/.config/containers/systemd/charly-*.container`, `Image=` — the only record of an
+ENABLED deploy whose container does not exist yet) — resolves each state reference through
+`ImageStore.Lookup` (tag → digest is the STORE's answer, and it is what makes a superseded
+rebuild of a referenced tag reclaimable), keeps every entry a reference or a content
+address reaches, and evicts the rest before reclaiming the blobs no surviving entry
+reaches. It REFUSES — and evicts nothing — when a state surface cannot be read: an
+unreadable surface is not an empty one, and assuming nothing is referenced would delete
+the image a running deployment was built from. The size budget is AUTHORED in
+schema/clean.cue (`#CleanPlugin.store_budget`, SDD) and never a Go constant; an
+over-budget store is REPORTED, because the only entries left are the ones state
+references. It never fires on a bare `charly clean`, and a live build makes it DECLINE.
+
+The `--cache` category's routing was fixed in the same change (opencharly/plugin-clean#27):
+the sweep used to run in two halves and SKIP the storekit half whenever the two store
+roots coincided — which `CHARLY_CACHE_DIR` makes them, so on the very hosts that isolate
+their cache the image store was handed to `spec/cache`'s image-blind GC, which deleted a
+live image's manifest, config and layers while leaving its entry answering `Lookup(ref)`
+for bytes that were gone. The reader is now chosen by the STORE'S OWN IDENTITY
+(`index.json` descriptor media types: storekit entry manifests → storekit, OCI image
+manifests → spec/cache), the two enumerations are deduped into ONE inventory, a store
+whose identity cannot be decided is REFUSED and reported, and storekit's own index lock
+lives in the runtime root so no `spec/cache` `.lock` is written inside a store tree
+(D-STORE-3).
 
 Two capabilities: command:clean dispatches through the COMPILED-IN registry path
 (registerCompiledPlugin → resolve(ClassCommand,"clean") → dispatchInProcCommand →

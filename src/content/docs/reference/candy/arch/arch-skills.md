@@ -15,9 +15,10 @@ file) and carries their bodies under .agents/skills/<name>/SKILL.md.
 It exists because a `skill:` node's owner must be a candy, not an image — an image has
 no source directory, so an image-owned node's prose is unreadable and the skill is
 absent from the ai.opencharly.skill OCI label (opencharly/sdk#434).
-Composed into every image that carries one of those skills; installs the tree at the
-uid-1000 account's ~/.agents/skills so a harness in the image reads the same prose the
-label carries.
+Composed into every image that carries one of those skills. Charly's generator installs
+the body of every skill an image composes under the image user's ~/.agents/skills
+(opencharly/sdk#598), so a harness in the image reads the same prose the label carries;
+this candy owns the nodes and ships no install step of its own.
 
 ## Acceptance plan
 
@@ -25,5 +26,4 @@ This candy's `plan:` — the runnable spec `charly check` executes against a liv
 
 | Intent | Step |
 |---|---|
-| `run` | install the skill tree at the uid-1000 account's Agent-Skills location |
 | `check` | every skill body this candy carries is installed under the uid-1000 account's ~/.agents/skills |

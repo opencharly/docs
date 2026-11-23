@@ -7,7 +7,7 @@ description: "The openwebui command word, served by the plugin-openwebui plugin 
 
 | | |
 |---|---|
-| **Served by** | [plugin-openwebui](/reference/plugin/github-com-opencharly-plugin-openwebui-v2026-317-2055/plugin-openwebui/) |
+| **Served by** | [plugin-openwebui](/reference/plugin/github-com-opencharly-plugin-openwebui-v2026-324-1215/plugin-openwebui/) |
 | **Placement** | runtime (out-of-process over gRPC) |
 
 `openwebui` is a command word served by the `plugin-openwebui` plugin candy. This plugin is **not** listed in `charly/charly.yml`'s `compiled_plugins:`. It is not part of the shipped binary: charly builds and loads it out-of-process over gRPC when a plan references one of its words (the coexist path).

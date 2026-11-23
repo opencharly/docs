@@ -61,9 +61,9 @@ permissions:
 # a gitlink by nature and needs no record here.
 env:
   CHARLY_REPO: https://github.com/opencharly/charly.git
-  CHARLY_PIN: 4c9a79e53a8ea9714b9b5cb2525ff0f7f2268b99
+  CHARLY_PIN: bd82136f877c4002f2da6b7a6057f4540fd9b4a3
   UMBRELLA_REPO: https://github.com/opencharly/opencharly.git
-  UMBRELLA_PIN: bfa37ca20389eb5f3c7bff49d3436740ca8ef7cf
+  UMBRELLA_PIN: c3fffc2e2677737bfdaa808b2e4ef917494e7448
 
 jobs:
   deploy:
@@ -230,7 +230,7 @@ jobs:
       # actually compiles here, rather than keying its cache on /tmp/charly.
       - name: Fetch the pinned docs generator
         timeout-minutes: 10
-        run: git clone --depth 1 --branch v2026.289.0814 https://github.com/opencharly/plugin-docs.git .docs-generator
+        run: git clone --depth 1 --branch v2026.327.1807 https://github.com/opencharly/plugin-docs.git .docs-generator
 
       - uses: actions/setup-go@v7
         timeout-minutes: 10

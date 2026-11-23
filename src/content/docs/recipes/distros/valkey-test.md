@@ -32,7 +32,6 @@ Used for testing the Valkey candy (Redis-compatible fork). Runs as a supervisord
 
 ## Related Boxes
 - [`/charly-distros:fedora`](/recipes/distros/fedora/) — parent base image
-- [`/charly-distros:fedora-test`](/recipes/distros/fedora-test/) — sibling test box
 
 ## Related Commands
 - [`/charly-build:build`](/recipes/build/build/) — build the valkey-test box

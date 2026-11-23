@@ -151,6 +151,26 @@ against or edit.
   the shell then parses that text, so a parameter carrying a shell metacharacter
   EXECUTES; a lower-case parameter is not substituted at all and the word
   VANISHES. A parameter is source, not data.
+- **A braced reference in a command's TEXT is the same trap, one step later.** The
+  plan runner claims a `${NAME}` it finds in a step's command and expands it against
+  the task's merged env, and an UNRESOLVABLE reference does not fail the step: it
+  SKIPS it, so the gate reads green over a check that never ran. A command step's
+  text therefore carries NO value. Read the environment at run time, out of the
+  process environment, so the expander never sees it: a bare `$NAME`, or, under
+  `set -eu`, `$(printenv NAME 2>/dev/null || true)`, so an unset variable cannot
+  abort the step before it runs. `node scripts/check-task-command-vars.mjs` holds
+  that line, in the pre-commit gate and in `charly task verify`.
+- **A fresh clone bootstraps in one order.** `bash scripts/init-submodules.sh` runs
+  first, because the project cannot load before its `import:` paths exist. Then
+  `./charly/scripts/bootstrap-charly.sh` builds the binary from the `charly` checkout.
+  `bash scripts/bootstrap.sh` runs that order, then installs the clone's hooks,
+  checks the skill binding and writes each harness's install records — ONE entrypoint
+  for a fresh clone, because an enabled harness plugin that was never installed loads
+  nothing. `charly task init` is the SAME materialization through the binary. Both
+  need `git` and `python3`, which the script DECLARES and CHECKS: a missing
+  requirement fails loud with its name and never becomes a silently empty working set.
+  The script is the PRE-bootstrap path; it cannot be the binary's own implementation,
+  because it runs before the binary exists.
 - **BLOBLESS, never shallow.** `--filter=blob:none` keeps every commit and every
   tree, so the ancestry question the pin contract asks stays DECIDABLE. A
   `--depth 1` clone makes that question undecidable — it answers "not an
@@ -165,6 +185,10 @@ against or edit.
   remote that does not serve the branch, a missing url, an unreadable source
   twin — a sync over a tree it could not fully advance must never report success.
   The daily tree is light, and so is a wave.
+- **A wave's order is sync → init → verify.** The sync writes the pins, the init
+  materializes the checkouts at those pins, and the verify judges them. On a tree
+  that was never materialized, the materialization comes FIRST, because the
+  project cannot load before its `import:` paths exist.
 - **The pin is the INDEX entry; the checkout follows it.** `charly task init` is
   the second half of a wave: it materializes a path the wave advanced without a
   checkout AT the pin the index now carries, and it advances an
@@ -182,6 +206,34 @@ live in the umbrella's own tree — `scripts/measure-clone.sh` MEASURES and
 widen the band to the union of the samples and re-derive it on the tree that
 carries it. Do not copy the numbers into this skill — a second copy of a figure
 is a second thing that can go stale.
+
+### A linked worktree's PRE-PUSH GATE can only judge what is materialized
+
+The umbrella's pre-push gate runs the DESIGN controls, and one of them (`scripts/design-cite.sh`) reads
+every citation into a pinned module **at that pin** — so a pin whose commit the module store does not
+hold is not "unjudged", it is a FAILURE:
+
+```
+FAIL dulling.tsv:command:marketplace: plugin-marketplace is pinned at fbb96fc9e8cf and its module
+  store does not hold that commit — run `git --git-dir <umbrella>/.git/modules/plugin-marketplace
+  fetch origin` (or `git submodule update --init -- plugin-marketplace`) to fetch it; the control
+  cannot judge a pin it cannot read
+```
+
+This bites a SESSION WORKTREE hardest, because a worktree materializes only the derived working set
+while the gate judges the WHOLE declared path set. The remedy is the one the message prints, and it is
+per-path and cheap:
+
+```sh
+git submodule update --init plugin-marketplace plugin-adb plugin-spice   # …the paths it names
+```
+
+Do this BEFORE the first push rather than after a BLOCKED push — a blocked push costs a full gate run
+and looks like a finding in your own change. The same shape applies to `design-pintag.sh`, which reads
+tag maps from each pin's module store ("a tag that was never fetched into a store is invisible to this
+reading"); it names the path too. **An unmaterialized checkout is a NOTICE for the pin contract
+(currency) and a FAILURE for a citation control** — two different verdicts for the same absence, and
+the difference is whether the control needs to READ the pinned bytes.
 
 ### Policy B — the edge mechanism, and the one question it cannot answer
 
