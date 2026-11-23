@@ -63,7 +63,7 @@ env:
   CHARLY_REPO: https://github.com/opencharly/charly.git
   CHARLY_PIN: bd82136f877c4002f2da6b7a6057f4540fd9b4a3
   UMBRELLA_REPO: https://github.com/opencharly/opencharly.git
-  UMBRELLA_PIN: c3fffc2e2677737bfdaa808b2e4ef917494e7448
+  UMBRELLA_PIN: 322480174509d317e67b081add28b6d987c5d28c
 
 jobs:
   deploy:
