@@ -32,4 +32,4 @@ charly check run check-herdr-pod
 
 ## Cross-References
 
-- [/charly-automation:herdr](/recipes/automation/herdr/) — the charly herdr CLI + herdr: check verb (plugin-herdr repo)
+- plugin-herdr — the charly herdr CLI + herdr: check verb

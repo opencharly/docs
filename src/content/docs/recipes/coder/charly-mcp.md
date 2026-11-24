@@ -137,7 +137,7 @@ handling for `HOST_PORT:<N>` env-var population.
 
 Practical impact: charly-mcp works on both bridge-networked boxes
 (e.g. [`/charly-coder:charly-arch`](/recipes/coder/charly-arch/)) and host-networked ones (e.g.
-[`/charly-coder:fedora-coder`](/recipes/coder/fedora-coder/), [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/)).
+[`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/)).
 
 ## Port choice rationale
 
@@ -152,7 +152,6 @@ Default `:18765` chosen for non-collision with sibling MCP candies:
 Compose `charly-mcp` into any box that should be reachable as an MCP
 gateway. Current users:
 
-- [`/charly-coder:fedora-coder`](/recipes/coder/fedora-coder/) — kitchen-sink dev box; uses pattern 3 (auto-fallback) by default, pattern 1 when the developer wants local edits visible.
 - [`/charly-coder:charly-arch`](/recipes/coder/charly-arch/) — Arch-based charly toolchain box (bridge network, ports 2222/18765).
 
 Boxes composing `charly-mcp` must publish port 18765 (either via

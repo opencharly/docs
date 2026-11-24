@@ -49,7 +49,7 @@ with no `--privileged` and no added capabilities; the walls are the container's,
 layer's.
 
 Scale that up and nothing about the model changes, only the contents. The
-[`fedora-coder`](/recipes/coder/fedora-coder/) box carries roughly thirty candies — five AI coding
+[`arch-coder`](/recipes/coder/arch-coder/) box carries roughly thirty candies — five AI coding
 CLIs, language runtimes, DevOps tooling — and still runs at uid 1000 with the same absence of a
 command allowlist. It also runs *nested* rootless containers and rootless libvirt VMs inside
 itself, without additive capabilities.

@@ -72,7 +72,6 @@ Three build-scope tests ship with the candy:
 
 ## Used In Boxes
 
-- [`/charly-coder:fedora-coder`](/recipes/coder/fedora-coder/) — the canonical kitchen-sink dev box.
 - Any box composing `hermes-full` or directly including `uv`.
 
 ## Related Candies
