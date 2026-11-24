@@ -97,6 +97,5 @@ composition-level assert catches the no-op.
 ## Related
 
 - [`/charly-distros:cachyos`](/recipes/distros/cachyos/) — the CachyOS base image and its family.
-- [`/charly-coder:fedora-coder`](/recipes/coder/fedora-coder/), [`/charly-coder:debian-coder`](/recipes/coder/debian-coder/), [`/charly-coder:ubuntu-coder`](/recipes/coder/ubuntu-coder/) — the
-  retired non-CachyOS siblings this image replaces as a gate.
+- the retired non-CachyOS coder siblings this image replaces as a gate.
 - [`/charly-check:check`](/recipes/check/check/) — the disposable beds and `plan:` authoring.

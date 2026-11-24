@@ -63,7 +63,7 @@ env:
   CHARLY_REPO: https://github.com/opencharly/charly.git
   CHARLY_PIN: bd82136f877c4002f2da6b7a6057f4540fd9b4a3
   UMBRELLA_REPO: https://github.com/opencharly/opencharly.git
-  UMBRELLA_PIN: 322480174509d317e67b081add28b6d987c5d28c
+  UMBRELLA_PIN: 7667f9fc8561fa580dd03cfcd40d9e2c4d6ee0a4
 
 jobs:
   deploy:
@@ -230,7 +230,7 @@ jobs:
       # actually compiles here, rather than keying its cache on /tmp/charly.
       - name: Fetch the pinned docs generator
         timeout-minutes: 10
-        run: git clone --depth 1 --branch v2026.327.1807 https://github.com/opencharly/plugin-docs.git .docs-generator
+        run: git clone --depth 1 --branch v2026.328.0705 https://github.com/opencharly/plugin-docs.git .docs-generator
 
       - uses: actions/setup-go@v7
         timeout-minutes: 10

@@ -105,16 +105,15 @@ Same file format, same validation, same acceptance plan as any other candy. See
 
 :::tip[Yes, it comes with the kitchen sink]
 The catalog does not stop at the three-layer box above. At the other end of the spectrum sit the
-**kitchen-sink dev boxes** — [`fedora-coder`](/recipes/coder/fedora-coder/) and its
-[`arch`](/recipes/coder/arch-coder/), [`debian`](/recipes/coder/debian-coder/) and
-[`ubuntu`](/recipes/coder/ubuntu-coder/) siblings — around thirty candies each: five AI coding
-CLIs, every language runtime, the DevOps tooling, nested containers, rootless VMs. Same recipe
-format as the small box above.
+**kitchen-sink dev box** — [`arch-coder`](/recipes/coder/arch-coder/) — around thirty candies:
+five AI coding CLIs, every language runtime, the DevOps tooling, nested containers, rootless
+VMs. Same recipe format as the small box above. (The Fedora, Debian and Ubuntu coder siblings
+were retired.)
 :::
 
 ## See also
 
 - **[The words](/concepts/00-vocabulary/)** — candy, box, candybox, plus polymorphism and nesting.
-- **[Candy reference](/reference/candy/github-com-opencharly-pod-sshd-v2026-239-1637/sshd/)** — every defined candy, with its acceptance plan.
+- **[Candy reference](/recipes/coder/sshd/)** — every defined candy, with its acceptance plan.
 - **[Box reference](/reference/box/fedora/tutorial-shell/)** — every defined box and what it composes.
 - **[The spec is the test](/concepts/06-the-spec-is-the-test/)** — what those `check:` steps are.

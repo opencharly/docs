@@ -43,7 +43,7 @@ charly --repo opencharly/distro-fedora check run check-charly-fedora-pod
 
 Inside that candybox, `charly` behaves exactly as it does outside — it builds boxes, launches
 nested rootless pods, and creates libvirt VMs, all at uid 1000 with no `--privileged`. The
-[`openclaw-desktop`](/recipes/openclaw/openclaw-desktop/) box goes furthest: a full streaming
+[`openclaw-desktop`](/recipes/openclaw/openclaw/) box goes furthest: a full streaming
 desktop with agent CLIs and a nested `charly`, reachable in a browser, where an agent can drive
 the entire loop from a terminal inside the candybox.
 

@@ -134,9 +134,9 @@ caught during `charly-arch` bring-up. See [`/charly-check:check`](/recipes/check
 ## Related Skills
 
 - [`/charly-distros:cloud-init`](/recipes/distros/cloud-init/) -- depends on sshd for VM provisioning
-- [`/charly-coder:ubuntu-coder`](/recipes/coder/ubuntu-coder/) -- canonical adopt-mode example; sudoers correctly targets `ubuntu` via getent
-- [`/charly-coder:debian-coder`](/recipes/coder/debian-coder/) -- canonical create-mode deb-family example; sudoers targets `user`
-- [`/charly-distros:ubuntu`](/recipes/distros/ubuntu/) -- declares the `base_user:` block that makes ubuntu-coder run as `ubuntu`
+- the retired Ubuntu coder box was the canonical adopt-mode example; sudoers correctly targets `ubuntu` via getent
+- the retired Debian coder box was the canonical create-mode deb-family example; sudoers targets `user`
+- [`/charly-distros:ubuntu`](/recipes/distros/ubuntu/) -- declares the `base_user:` block that makes an adopt-mode image run as `ubuntu`
 - [`/charly-check:check`](/recipes/check/check/) -- declarative testing framework (gotchas #10 and #11, `package_map:`, `exclude_distro:`)
 - [`/charly-image:image`](/recipes/image/image/) -- `user_policy:` field (create / adopt / auto) that drives which account this candy's sudoers targets
 - [`/charly-image:layer`](/recipes/image/layer/) -- candy authoring (`${VAR}` substitution scope, command: vs write:)

@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-361 cards across 45 plugins, in four groups.
+352 cards across 45 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -31,7 +31,6 @@ Automation/customization knobs — tmux verb, host-side wrappers (alias, udev), 
 - [alias](/recipes/automation/alias/)
 - [crabbox-deploy](/recipes/automation/crabbox-deploy/)
 - [enc](/recipes/automation/enc/)
-- [herdr](/recipes/automation/herdr/)
 - [herdr-box](/recipes/automation/herdr-box/)
 - [openclaw-deploy](/recipes/automation/openclaw-deploy/)
 - [sidecar](/recipes/automation/sidecar/)
@@ -251,12 +250,10 @@ Self-contained skills + MCP wiring for charly coder/dev images (arch-coder, debi
 - [charly-mcp](/recipes/coder/charly-mcp/)
 - [claude-code](/recipes/coder/claude-code/)
 - [codex](/recipes/coder/codex/)
-- [debian-coder](/recipes/coder/debian-coder/)
 - [dev-tools](/recipes/coder/dev-tools/)
 - [devops-tools](/recipes/coder/devops-tools/)
 - [direnv](/recipes/coder/direnv/)
 - [docker-ce](/recipes/coder/docker-ce/)
-- [fedora-coder](/recipes/coder/fedora-coder/)
 - [forgecode](/recipes/coder/forgecode/)
 - [gemini](/recipes/coder/gemini/)
 - [gh](/recipes/coder/gh/)
@@ -274,7 +271,6 @@ Self-contained skills + MCP wiring for charly coder/dev images (arch-coder, debi
 - [rust](/recipes/coder/rust/)
 - [sshd](/recipes/coder/sshd/)
 - [typst](/recipes/coder/typst/)
-- [ubuntu-coder](/recipes/coder/ubuntu-coder/)
 - [uv](/recipes/coder/uv/)
 
 ### charly-comfyui
@@ -317,7 +313,6 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [fedora](/recipes/distros/fedora/)
 - [fedora-builder](/recipes/distros/fedora-builder/)
 - [fedora-nonfree](/recipes/distros/fedora-nonfree/)
-- [fedora-test](/recipes/distros/fedora-test/)
 - [github-runner](/recipes/distros/github-runner/)
 - [githubrunner](/recipes/distros/githubrunner/)
 - [githubrunner-ubuntu](/recipes/distros/githubrunner-ubuntu/)
@@ -431,10 +426,6 @@ Self-contained skills for the openclaw image family (CachyOS base): the headless
 
 - [clawhub](/recipes/openclaw/clawhub/)
 - [openclaw](/recipes/openclaw/openclaw/)
-- [openclaw-desktop](/recipes/openclaw/openclaw-desktop/)
-- [openclaw-full](/recipes/openclaw/openclaw-full/)
-- [openclaw-full-layer](/recipes/openclaw/openclaw-full-layer/)
-- [openclaw-full-ml-layer](/recipes/openclaw/openclaw-full-ml-layer/)
 - [openclaw-layer](/recipes/openclaw/openclaw-layer/)
 
 ### charly-openwebui
