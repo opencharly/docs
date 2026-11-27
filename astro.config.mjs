@@ -12,7 +12,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'OpenCharly',
-      description: 'The wonky DevOps tool for you and your agents.',
+      description: 'The Agentic DevOps Factory for you and your agents.',
       favicon: '/brand/favicon-32.png',
       // The recovery page uses StarlightPage directly, so it owns the /404 route.
       disable404Route: true,
