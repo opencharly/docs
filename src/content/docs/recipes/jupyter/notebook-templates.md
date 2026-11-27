@@ -63,8 +63,6 @@ charly start jupyter
 ## Used In Boxes
 
 - [`/charly-jupyter:jupyter`](/recipes/jupyter/jupyter/)
-- [`/charly-jupyter:jupyter-ml`](/recipes/jupyter/jupyter-ml/)
-- [`/charly-jupyter:jupyter-ml-notebook`](/recipes/jupyter/jupyter-ml-notebook/)
 
 ## Related Skills
 
@@ -72,7 +70,6 @@ charly start jupyter
 - [`/charly-core:charly-config`](/recipes/core/charly-config/) -- data provisioning during `charly config` setup
 - [`/charly-core:deploy`](/recipes/core/deploy/) -- volume backing configuration (bind, named, encrypted)
 - [`/charly-jupyter:jupyter`](/recipes/jupyter/jupyter/) -- the JupyterLab candy that consumes the workspace volume
-- [`/charly-jupyter:jupyter`](/recipes/jupyter/jupyter/) -- the box that includes this candy
 
 ## When to Use This Skill
 

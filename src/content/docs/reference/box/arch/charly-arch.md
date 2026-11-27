@@ -14,11 +14,11 @@ title: "charly-arch"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
-- `@github.com/opencharly/pod-charly-mcp:v2026.274.0406`
-- `@github.com/opencharly/layer-golang:v2026.272.0137`
-- `@github.com/opencharly/layer-gh:v2026.272.0136`
-- `@github.com/opencharly/pod-sshd:v2026.272.0324`
-- `@github.com/opencharly/layer-container-nesting:v2026.271.2309`
-- `@github.com/opencharly/layer-nvidia:v2026.289.1705`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.314.0704`
+- `@github.com/opencharly/pod-charly-mcp:v2026.330.1726`
+- `@github.com/opencharly/layer-golang:v2026.314.0706`
+- `@github.com/opencharly/layer-gh:v2026.328.0725`
+- `@github.com/opencharly/pod-sshd:v2026.328.0748`
+- `@github.com/opencharly/layer-container-nesting:v2026.321.0754`
+- `@github.com/opencharly/layer-nvidia:v2026.327.0533`
 - `arch-skills`

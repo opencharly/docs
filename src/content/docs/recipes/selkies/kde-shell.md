@@ -35,7 +35,6 @@ bluedevil, kinfocenter, partitionmanager, kdeconnect, media players.
 
 ## Related
 
-- [`/charly-selkies:kde-selkies`](/recipes/selkies/kde-selkies/) — headless streamed Plasma consumer (pod).
 - [`/charly-check:wl`](/recipes/check/wl/) — uses this candy's `kdotool` for KWin window management.
 - [`/charly-distros:cachyos`](/recipes/distros/cachyos/) — the CachyOS/Arch base (Plasma packages are pac/AUR).
 - [`/charly-image:layer`](/recipes/image/layer/) — package-section authoring (`distro.arch.package`).

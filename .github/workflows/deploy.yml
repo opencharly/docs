@@ -61,9 +61,9 @@ permissions:
 # a gitlink by nature and needs no record here.
 env:
   CHARLY_REPO: https://github.com/opencharly/charly.git
-  CHARLY_PIN: bd82136f877c4002f2da6b7a6057f4540fd9b4a3
+  CHARLY_PIN: 52996979a08ec029c5fc748a7eeeca02e412ca7c
   UMBRELLA_REPO: https://github.com/opencharly/opencharly.git
-  UMBRELLA_PIN: 7667f9fc8561fa580dd03cfcd40d9e2c4d6ee0a4
+  UMBRELLA_PIN: e5b3af9ddd4a6a0f5b5a38c550c120dc6cb78754
 
 jobs:
   deploy:

@@ -10,7 +10,7 @@ description: "The status command word, served by 2 plugin candies: plugin-status
 | **plugin-status — Served by** | [plugin-status](/reference/plugin/github-com-opencharly-plugin-status-v2026-242-0531/plugin-status/) |
 | **plugin-status — Placement** | compiled-in (in-process) |
 | **plugin-status — Version** | `2026.194.1600` |
-| **plugin-status — Served by** | [plugin-status](/reference/plugin/github-com-opencharly-plugin-status-v2026-272-0442/plugin-status/) |
+| **plugin-status — Served by** | [plugin-status](/reference/plugin/github-com-opencharly-plugin-status-v2026-331-0916/plugin-status/) |
 | **plugin-status — Placement** | compiled-in (in-process) |
 
 `status` is a command word served by 2 plugin candies — `plugin-status` and `plugin-status` — at different points in the command tree. Both are real invocations; `charly --help` prints which is which.
@@ -80,7 +80,7 @@ nestedChildStatus/claimFlatRow), and the render output (render.go, moved verbati
 from charly/status_render.go). No plugin-specific command LOGIC is left in core.
 
 The ONE thing the plugin cannot do itself is the LIVE collection engine — fan out
-across every deployment substrate (pod/vm/kubernetes/local/android) and probe live tools.
+across every deployment substrate (pod/vm/kubernetes/local) and probe live tools.
 That engine now lives in candy/plugin-substrate (status_flat.go's flatCollector,
 K6 — the former charly/status_collector.go, whole-file moved; the earlier "stays
 core, registry-boundary blocker" verdict on it was reopened and reversed) and is

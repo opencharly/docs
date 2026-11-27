@@ -261,7 +261,6 @@ Rules that are load-bearing:
 - [`/charly-jupyter:jupyter`](/recipes/jupyter/jupyter/) — deploy alongside for MCP notebooks and code execution
 - [`/charly-ollama:ollama`](/recipes/ollama/ollama/) — deploy alongside for local LLM inference
 - [`/charly-hermes:hermes`](/recipes/hermes/hermes/) — alternative AI frontend (CLI agent vs web UI)
-- [`/charly-selkies:selkies-labwc`](/recipes/selkies/selkies-labwc/) — deploy alongside for shared Chrome browser
 
 ## Verification
 

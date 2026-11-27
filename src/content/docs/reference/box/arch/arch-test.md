@@ -14,7 +14,7 @@ title: "arch-test"
 
 This box composes:
 
-- `@github.com/opencharly/layer-agent-forwarding:v2026.274.0608`
+- `@github.com/opencharly/layer-agent-forwarding:v2026.314.0704`
 - `arch-pac-test`
 - `arch-aur-test`
 - `arch-skills`

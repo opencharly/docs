@@ -41,12 +41,12 @@ from the submodule: `charly -C box/cachyos box build cachyos` (or
 
 ## main → cachyos coupling
 
-The `cachyos` base and its derived boxes — `versa`,
-`githubrunner`, `android-emulator`, `charly-selftest`, and the `selkies-*` GPU
-desktops — all live in the **`opencharly/distro-cachyos`** submodule, discovered as
+The `cachyos` base and its derived boxes — `githubrunner`,
+`charly-selftest`, `comfyui`, `immich-cdi` and the other GPU boxes — all live in the
+**`opencharly/distro-cachyos`** submodule, discovered as
 `box/<name>/charly.yml` boxes. The main repo imports that submodule under the
 `cachyos` import namespace to reference the relocated boxes from its own
-`check`/`vm`/`local`/`kubernetes`/`android` entities:
+`check`/`vm`/`local`/`kubernetes` entities:
 
 ```yaml
 # main charly.yml
@@ -64,7 +64,7 @@ main → cachyos → arch — the loader resolves it to a single materialization
 repo identity**, so main's namespace pins win and a stale transitive pin inside a
 published submodule release never drags a divergent snapshot into the load (see
 [`/charly-internals:go`](/recipes/internals/go/) "import-namespace loader"). The image DAG
-`versa → cachyos → docker.io/cachyos-v3` is itself acyclic. `versa` lives in the
+`comfyui-cdi → cachyos → docker.io/cachyos-v3` is itself acyclic. `comfyui-cdi` lives in the
 same submodule as its `base: cachyos`, so it inherits the cachyos base's
 `distro:`/`build:` values AND its `builder:` map (pixi/npm/cargo/aur →
 `arch.arch-builder`) directly — there is no namespace boundary between them. The
@@ -84,9 +84,8 @@ ships `yay`). Anything that builds on arch builds on cachyos:
   declares) runs the AUR builder stage (`<candy>-aur-build`). It builds each
   candy's packages into the candy's own directory, which pacman then installs. A
   box that cannot run the aur builder fails the build naming the candy, never
-  ships without the package (opencharly/sdk#608). Worked example: the selkies
-  boxes build `google-chrome` (chrome candy) + `wlrctl` (wl-tools candy) from
-  the AUR.
+  ships without the package (opencharly/sdk#608). A box that declares
+  `distro.arch.aur.package` builds it through this route.
 - Candies author AUR packages under `distro.arch.aur.package` (see
   [`/charly-image:layer`](/recipes/image/layer/) "AUR"); the `arch` distro tag is what cachyos boxes match
   (their `distro:` is `[cachyos, arch]`), so the same `distro.arch` sections used
@@ -111,7 +110,6 @@ charly shell cachyos -c "pacman --version"
 - [`/charly-distros:cachyos-pacstrap`](/recipes/distros/cachyos-pacstrap/) — bootstrap-from-scratch rootfs (builds end-to-end)
 - [`/charly-vm:cachyos-bootstrap-vm`](/recipes/vm/cachyos-bootstrap-vm/) — bootstrap VM (`cachyos-vm`) + `check-cachyos-vm` check bed
 - [`/charly-local:charly-cachyos`](/recipes/local/charly-cachyos/) — the operator CachyOS workstation profile
-- [`/charly-versa:versa`](/recipes/versa/versa/) — CachyOS-rooted notebook/OSM image in this submodule (`base: cachyos`)
 
 ### CachyOS GPU box family
 
@@ -123,14 +121,11 @@ so they compose unchanged on CachyOS):
 
 - `cachyos.nvidia` — the GPU base (cachyos + agent-forwarding + nvidia + cuda)
 - `cachyos.python-ml` — ML Python environment
-- `cachyos.jupyter-ml` — CUDA ML JupyterLab
-- `cachyos.ollama` — Ollama LLM server
-- `cachyos.comfyui` — ComfyUI image generation
-- `cachyos.unsloth-studio` — Unsloth Studio fine-tuning UI
+- `cachyos.jupyter-ml-cdi` — CUDA ML JupyterLab
+- `cachyos.ollama-cdi` — Ollama LLM server
+- `cachyos.comfyui-cdi` — ComfyUI image generation
+- `cachyos.unsloth-studio-cdi` — Unsloth Studio fine-tuning UI
 - `cachyos.immich-cdi` — the whole Immich stack in ONE image: server + web + the in-process CUDA ML backend on port 3003 (no separate ML image)
-- `cachyos.selkies-labwc-nvidia` — GPU NVENC Selkies streaming desktop (labwc flavor)
-- `cachyos.selkies-kde-nvidia` — GPU NVENC Selkies streaming desktop (full KDE Plasma flavor)
-- `cachyos.selkies-kde` — full KDE Plasma Selkies flavor on the plain cachyos base (VAAPI on an AMD/Intel render node, software x264 otherwise; the `-nvidia` sibling adds NVENC). The labwc cpu/amd flavor (`selkies-labwc`) lives in this same `box/cachyos` submodule.
 
 ## Why Docker Hub instead of pacstrap
 
@@ -147,11 +142,11 @@ builds and also builds end-to-end (the pacstrap renderer derives
 After `charly -C box/cachyos box build cachyos`:
 - `charly box list` — box appears
 - `charly shell cachyos -c "pacman --version"` — pacman available
-- `charly box inspect versa --format base` (from main) → `cachyos.cachyos` (the `cachyos` import namespace resolves)
+- `charly box inspect comfyui-cdi --format base` (from main) → `cachyos.cachyos` (the `cachyos` import namespace resolves)
 - `charly check box cachyos` — build-scope check: 3 probes pass (os-release `ID=cachyos`,
   `pacman --version`, `pacman-conf --repo-list` contains `cachyos-v3`). These also
   pass when `cachyos` is built from main via the `cachyos` import namespace, and are
-  inherited by `versa` through the base chain.
+  inherited by every derived box through the base chain.
 
 ## When to Use This Skill
 
