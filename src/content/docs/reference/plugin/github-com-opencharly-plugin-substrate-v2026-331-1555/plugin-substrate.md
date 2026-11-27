@@ -1172,7 +1172,13 @@ _kubevirtNetworkModelWord: [for w, _ in _kubevirtNetworkModel {w}]
 // generated type either.
 //
 // It DOCUMENTS the substrate provider's kind/command/verb words and the deploy traits they carry. The rich substrate VALUES are validated HOST-SIDE against the kept `#<Kind>Value` defs. EVERY served kind declares `InputDef:"#<Word>Value"` and owns its body in this schema dir (`schema/<word>.cue`), so the host resolves the gate def from that DECLARATION and reads it out of the composed unit rather than the base's `spec.KindValueDefs` compatibility fallback.
-#SubstratePlugin: {
+// ⚑ PLUGIN-SCOPED NAME. This def used the plugin word unprefixed, which the POD kind's plugin
+// also declares; the host splice unifies same-name definitions across sources, so the merged shape
+// matched neither plugin's input and `charly deploy add` refused the whole deploy plugin set
+// (opencharly/plugin-substrate#53). Two consumers name it today — charly's
+// kind_value_composed_test.go resolves it, and the CHANGELOG records it — so a rename must
+// move them in the same wave. Never rename it back to a name another plugin declares.
+#SubstrateProvider: {
 	// The structural deploy kind words this provider serves.
 	kinds: [...string]
 
@@ -1324,4 +1330,4 @@ _vmKindWord: [for w, _ in _vmKind {w}]
 
 ---
 
-See also the [candy reference](/reference/candy/github-com-opencharly-plugin-substrate-v2026-331-0933/plugin-substrate/) for this candy's install surface.
+See also the [candy reference](/reference/candy/github-com-opencharly-plugin-substrate-v2026-331-1555/plugin-substrate/) for this candy's install surface.

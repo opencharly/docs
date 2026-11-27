@@ -56,10 +56,15 @@ plugin-authoring	v2026.242.0525
 plugin-oci	v2026.242.0531
 plugin-status	v2026.242.0531
 plugin-check	v2026.242.2127
-plugin-agentteams	v2026.242.0525
 plugin-dsh	v2026.242.0528
 plugin-ollama	v2026.242.0532
 plugin-bpf	v2026.260.1008
 plugin-cardwire	v2026.260.0911
 plugin-herdr	v2026.251.0850
 pod-herdr	v2026.251.0850
+plugin-cdp	v2026.330.1608
+plugin-wl	v2026.330.1938
+plugin-vnc	v2026.331.1105
+plugin-dbus	v2026.314.0712
+plugin-cstream	v2026.325.1242
+plugin-punktfunk	v2026.314.0715

@@ -7,8 +7,8 @@ description: "The BUILD-DRIVE plugin: it OWNS the build drive — BuildKit is th
 
 | | |
 |---|---|
-| **Repo** | `box/github.com/opencharly/plugin-build:v2026.328.0001` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-build-v2026-328-0001/plugin-build/) |
+| **Repo** | `box/github.com/opencharly/plugin-build:v2026.331.1456` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-build-v2026-331-1456/plugin-build/) |
 
 The BUILD-DRIVE plugin: it OWNS the build drive — BuildKit is the builder (the build-order loop, the
 per-image build lock, the push, and the merge gate) for `build:box` (the `charly box

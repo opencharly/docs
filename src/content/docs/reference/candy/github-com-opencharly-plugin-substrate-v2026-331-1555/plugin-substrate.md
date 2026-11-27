@@ -7,8 +7,8 @@ description: "The SUBSTRATE structural deploy KINDS — pod / vm / kubernetes / 
 
 | | |
 |---|---|
-| **Repo** | `box/github.com/opencharly/plugin-substrate:v2026.331.0933` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-substrate-v2026-331-0933/plugin-substrate/) |
+| **Repo** | `box/github.com/opencharly/plugin-substrate:v2026.331.1555` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-substrate-v2026-331-1555/plugin-substrate/) |
 
 The SUBSTRATE structural deploy KINDS — pod / vm / kubernetes / local / kubevirt / kindcluster / firecracker — relocated into
 ONE candy (C2-substrate; formerly the shared built-in standaloneKind). Each substrate kind is
