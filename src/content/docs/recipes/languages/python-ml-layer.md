@@ -50,7 +50,7 @@ Plus from `llama-cpp` sub-candy:
 
 ## Related Candies
 
-- [`/charly-jupyter:llama-cpp`](/recipes/jupyter/llama-cpp/) — Sub-candy: llama.cpp binaries (composed via `candy:`)
+- [`/charly-ollama:llama-cpp`](/recipes/ollama/llama-cpp/) — Sub-candy: llama.cpp binaries (composed via `candy:`)
 - [`/charly-distros:cuda`](/recipes/distros/cuda/) — CUDA toolkit dependency
 
 ## When to Use This Skill

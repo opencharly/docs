@@ -7,8 +7,8 @@ description: "The `charly start`/`stop`/`restart`/`config`/`shell`/`service`/`lo
 
 | | |
 |---|---|
-| **Repo** | `box/github.com/opencharly/plugin-pod:v2026.274.0652` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-pod-v2026-274-0652/plugin-pod/) |
+| **Repo** | `box/github.com/opencharly/plugin-pod:v2026.332.0049` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-pod-v2026-332-0049/plugin-pod/) |
 
 The `charly start`/`stop`/`restart`/`config`/`shell`/`service`/`logs`/`remove`/`cp`/
 `volume` pod-lifecycle CLI — a COMMAND-class charly plugin (github.com/opencharly/sdk),

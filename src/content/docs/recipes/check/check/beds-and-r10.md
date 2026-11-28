@@ -181,7 +181,6 @@ bed name against the live tree before launching it.
 | `check-commands-local` / `check-agent-local` | local | `host: local` | the externalized CLI command witnesses that compose MULTIPLE plugin owners (clean/settings/candy/box/authoring/status) and the agent de-type — no single owning repo |
 | `check-sway-browser-vnc-pod` | pod | `image: sway-browser-vnc` | cdp/wl/vnc/dbus/mcp/record + pod-side file/service/port/process/http |
 | `check-pod` | pod | `image: check-pod` | combined mechanism bed: `candy:` image build + `candy:` layer composition order + `kind: pod` runtime (nc :18794 + supervisord) + every deploy-target rendering path |
-| `check-jupyter-pod` / `check-jupyter-ml-pod` | pod | `image: jupyter` / `image: jupyter-ml` | jupyter-mcp regression coverage; jupyter-ml spacy/quarto + GPU MCP probes |
 | `check-versa-pod` | pod | `image: versa` | versa OSM analytics + vector-tile + marimo MCP |
 | `check-cachyos-gpu-vm` / `check-selkies-labwc-nvidia-vm` / `check-selkies-kde-nvidia-vm` | vm | `from: cachyos-gpu-vm` | VFIO GPU-passthrough + nested selkies NVENC streaming (`requires_exclusive: [nvidia-gpu]` — serialized) |
 | `check-arch-pacstrap-vm` / `check-arch-vm` / `check-cachyos-vm` / `check-debian-debootstrap-vm` / `check-ubuntu-debootstrap-vm` / `check-fedora-vm` | vm | `from: <distro>-vm` | the distro bootstrap-VM beds (pacstrap / debootstrap) |
@@ -189,7 +188,7 @@ bed name against the live tree before launching it.
 | `check-preempt-arbiter-pod` / `check-preempt-live-pod` / `check-preempt-vm-live` | pod/vm | — | the resource-arbitration (preempt) beds |
 | `check-enc-pod` / `check-enc-port-pod` / `check-tunnel-pod` / `check-tutorial-shell` / `check-addcandy-pod` / `check-stepkind-emit-pod` / `check-ollama-pod` / `check-fedora-coder-pod` / `check-charly-fedora-pod` / `check-fedora-test-pod` | pod | — | the fedora mechanism + tooling beds |
 | `check-arch-vscode-pod` / `check-tmux-pod` / `check-agent-pod` / `check-agent-live` / `check-agent-live-claude` | pod | — | the arch tooling + agent beds |
-| `check-cachyos-jupyter-ml-pod` / `check-cachyos-ollama-pod` / `check-cachyos-ollama-rocm-pod` / `check-cachyos-comfyui-pod` / `check-cachyos-unsloth-studio-pod` / `check-cachyos-immich-pod` / `check-selkies-kde-pod` / `check-selkies-labwc-pod` / `check-charly-selftest-pod` / `check-githubrunner-pod` | pod | — | the cachyos ML/desktop/tooling beds |
+| `check-cachyos-ollama-pod` / `check-cachyos-ollama-rocm-pod` / `check-cachyos-comfyui-pod` / `check-cachyos-immich-pod` / `check-selkies-kde-pod` / `check-selkies-labwc-pod` / `check-charly-selftest-pod` / `check-githubrunner-pod` | pod | — | the cachyos ML/desktop/tooling beds |
 | `check-debian-coder-pod` / `check-ubuntu-coder-pod` | pod | — | the debian/ubuntu coder pods |
 
 Bed homes: a bed lives in the repo that OWNS the artifact it tests — the
@@ -675,14 +674,13 @@ Reference numbers from the last end-to-end session:
 | Image | Tests | Pass | Fail | Skipped |
 |-------|-------|------|------|---------|
 | `filebrowser` | 24 | 24 | 0 | 0 |
-| `jupyter` | 32 | 32 | 0 | 0 (includes 3 declarative `mcp:` checks) |
 | `openwebui` | 24 | 24 | 0 | 0 |
 | `hermes` | 50 | 50 | 0 | 0 |
 | `immich-cdi` | 125 | 102 | 0 | 23 |
 | `selkies-desktop` | 91 | 91 | 0 | 0 |
 | `sway-browser-vnc` | 92 | 92 | 0 | 0 (includes 7 declarative cdp/wl/dbus/vnc/mcp checks; 2 mcp tests come from the chrome-devtools-mcp layer) |
 
-**Total: 438 checks across 7 images (0 failing).**
+**Total: 406 checks across 6 images (0 failing).**
 
 The "skipped" entries are intentional — they reference ports that
 aren't mapped in the containing image's `port:` block. Skipping them
@@ -700,11 +698,10 @@ per-phase durations (measured solving all 92/92 across 9 iterations on a
 | 1 | single-pod-system-state | ~10 min | trivial pod deploy |
 | 2 | network-and-http | ~few min (cumulative scoring keeps phase 1 in scope) | nginx + curl in fedora:43 |
 | 3 | cross-pod-nonce-traffic | ~few min | redis + redis-client; EVAL_NONCE_KEY/VALUE substituted per iter |
-| 4 | mcp-protocol-probe | ~14 min | jupyter image build (~6 min) + check steps |
-| 5 | kubernetes-cluster | ~20-30 min | k3s/kwok cluster bring-up |
-| 6 | desktop-display-and-input | ~50 min iter1, ~10 min iter2 | sway-browser-vnc image build (~14 min) + 13 cdp/wl/vnc checks; commonly takes 2 iters due to Chrome SIGBUS instability |
-| 7 | vm-control-libvirt-spice | ~40-50 min | libvirt domain (cloud-init, qemu-guest-agent) + 9 checks |
-| 8 | nested-deployment-chain | ~40 min | socket-passthrough nested pods + 9 cross-hop checks |
+| 4 | kubernetes-cluster | ~20-30 min | k3s/kwok cluster bring-up |
+| 5 | desktop-display-and-input | ~50 min iter1, ~10 min iter2 | sway-browser-vnc image build (~14 min) + 13 cdp/wl/vnc checks; commonly takes 2 iters due to Chrome SIGBUS instability |
+| 6 | vm-control-libvirt-spice | ~40-50 min | libvirt domain (cloud-init, qemu-guest-agent) + 9 checks |
+| 7 | nested-deployment-chain | ~40 min | socket-passthrough nested pods + 9 cross-hop checks |
 
 **Total wall-clock for a fresh `charly check run default`**: typically
 5-7 hours on dev-class hardware. Set expectations accordingly — this

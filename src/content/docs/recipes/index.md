@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-292 cards across 45 plugins, in four groups.
+283 cards across 44 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -363,21 +363,6 @@ Infrastructure services and system layers — postgresql, redis, valkey, vectorc
 - [vectorchord](/recipes/infrastructure/vectorchord/)
 - [virtualization](/recipes/infrastructure/virtualization/)
 
-### charly-jupyter
-
-Self-contained skills + MCP wiring for the jupyter image family (jupyter, jupyter-ml, jupyter-ml-notebook, unsloth-studio).
-
-- [jupyter](/recipes/jupyter/jupyter/)
-- [jupyter-layer](/recipes/jupyter/jupyter-layer/)
-- [jupyter-mcp](/recipes/jupyter/jupyter-mcp/)
-- [llama-cpp](/recipes/jupyter/llama-cpp/)
-- [notebook-finetuning](/recipes/jupyter/notebook-finetuning/)
-- [notebook-llm-on-supercomputers](/recipes/jupyter/notebook-llm-on-supercomputers/)
-- [notebook-ollama](/recipes/jupyter/notebook-ollama/)
-- [notebook-openrouter](/recipes/jupyter/notebook-openrouter/)
-- [notebook-templates](/recipes/jupyter/notebook-templates/)
-- [unsloth](/recipes/jupyter/unsloth/)
-
 ### charly-languages
 
 Programming language runtimes and package managers — python, python-ml, pixi (others like golang/rust/nodejs live in `charly-coder`).
@@ -391,6 +376,7 @@ Programming language runtimes and package managers — python, python-ml, pixi (
 
 Self-contained skills for running the ollama LLM-server image.
 
+- [llama-cpp](/recipes/ollama/llama-cpp/)
 - [ollama](/recipes/ollama/ollama/)
 - [ollama-cli](/recipes/ollama/ollama-cli/)
 - [ollama-layer](/recipes/ollama/ollama-layer/)

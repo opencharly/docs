@@ -7,7 +7,7 @@ description: "The remove command word, served by the plugin-pod plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-274-0652/plugin-pod/) |
+| **Served by** | [plugin-pod](/reference/plugin/github-com-opencharly-plugin-pod-v2026-332-0049/plugin-pod/) |
 | **Placement** | compiled-in (in-process) |
 
 `remove` is a command word served by the `plugin-pod` plugin candy. This plugin is listed in `charly/charly.yml`'s `compiled_plugins:`, so its providers are compiled into the `charly` binary and register in-process.

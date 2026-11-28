@@ -121,10 +121,8 @@ so they compose unchanged on CachyOS):
 
 - `cachyos.nvidia` — the GPU base (cachyos + agent-forwarding + nvidia + cuda)
 - `cachyos.python-ml` — ML Python environment
-- `cachyos.jupyter-ml-cdi` — CUDA ML JupyterLab
 - `cachyos.ollama-cdi` — Ollama LLM server
 - `cachyos.comfyui-cdi` — ComfyUI image generation
-- `cachyos.unsloth-studio-cdi` — Unsloth Studio fine-tuning UI
 - `cachyos.immich-cdi` — the whole Immich stack in ONE image: server + web + the in-process CUDA ML backend on port 3003 (no separate ML image)
 
 ## Why Docker Hub instead of pacstrap

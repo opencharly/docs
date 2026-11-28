@@ -158,7 +158,7 @@ Creates Vulkan ICD compatibility symlinks for nvidia-ctk CDI device injection.
 
 - [`/charly-distros:cuda`](/recipes/distros/cuda/) — CUDA development toolkit (depends on nvidia)
 - [`/charly-distros:rocm`](/recipes/distros/rocm/) — AMD GPU counterpart (ROCm runtime + OpenCL), uses the same `appendAutoDetectedEnv()` DRINODE injection
-- [`/charly-languages:python-ml`](/recipes/languages/python-ml/), [`/charly-jupyter:llama-cpp`](/recipes/jupyter/llama-cpp/) — CUDA ML stacks that depend on this candy
+- [`/charly-languages:python-ml`](/recipes/languages/python-ml/), [`/charly-ollama:llama-cpp`](/recipes/ollama/llama-cpp/) — CUDA ML stacks that depend on this candy
 
 ## Related Commands
 
