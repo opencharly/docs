@@ -47,20 +47,29 @@ load_tensors: offloaded 0/29 layers to GPU
 The server answers, the API returns 200, and the work runs on the CPU. Nothing in the application
 reports it. This is measured, not hypothetical: opencharly/layer-cuda#21.
 
-**And an image acquires driver user-space without ever asking for it.** On the pac path
-`pacman -S cuda` **depends on `nvidia-utils`**; on rpm paths the CUDA packages pull the driver
-user-space too. Installing the toolkit is enough to bake the driver.
+**And an image acquires driver user-space without ever asking for it.** Measured on Arch/CachyOS
+(`cuda 13.5.0-1`): `cuda` depends on `cccl`, `opencl-nvidia` and `python` — **not** `nvidia-utils`.
+`opencl-nvidia` is the whole contamination (`libnvidia-opencl.so{,.1,.<ver>}` plus
+`/etc/OpenCL/vendors/nvidia.icd`); `nvidia-utils` is not in the closure at all. So the cost of
+installing the toolkit is exactly those driver files — and a bundled-runtime image avoids them
+outright by not installing the toolkit. See **Consumer classes** below.
 
 ## The contract, in three parts
 
-1. **Remove.** After the last package install that can pull a driver package, delete the
-   host-coupled user-space: `libnvidia-*.so*`, `libcuda.so*`, `libcudadebugger.so*`,
+1. **No driver user-space in the image.** The rule is that the image never carries
+   `libnvidia-*`, `libcuda` or an `nvidia*` binary; the way to satisfy it is to install nothing that
+   carries them (see **Consumer classes**). `layer-cuda`'s current **transitional** enforcement is a
+   strip after the last package install that can pull a driver package — and where that strip still
+   runs, it must delete the host-coupled user-space: `libnvidia-*.so*`, `libcuda.so*`,
+   `libcudadebugger.so*`,
    `libnvcuvid*`, `libnvoptix*`, `libGLX/EGL/GLES*_nvidia*`, the `nvidia`/`vdpau` trees and the xorg
    driver — **including the versioned files**, because the CDI `create-symlinks` hook re-creates
    every SONAME link from whatever versioned file it finds. Delete the whole `nvidia*` binary set
    too: `nvidia-smi`,
    `nvidia-cuda-mps-*`, `nvidia-debugdump`, `nvidia-persistenced`, `nvidia-xconfig`, `nvidia-ctk` and
-   the `nvidia-container-*` wrappers are all injected or host-only.
+   the `nvidia-container-*` wrappers. The first five are host-only (the stock spec also injects
+   them); `nvidia-ctk` and the `nvidia-container-*` wrappers are a second CDI implementation and must
+   never live in an image — they are **not** injected.
 
    The pattern is **anchored, never a prefix glob**. `libcuda*.so*` also spans `libcudart*` and
    `libcudadevrt*` — the CUDA runtime and the virtual-device runtime, which the toolkit layer
@@ -71,86 +80,230 @@ user-space too. Installing the toolkit is enough to bake the driver.
    has no injection, so any match there is unambiguously image content; a check may run in a
    GPU-attached container where the host's identical libraries sit at the same paths and only
    `/proc/self/mountinfo` could tell them apart.
-3. **Prove it at run time.** In the deployed container, compare the version it **resolved** against
-   the running kernel module:
+3. **Prove it at run time, from the library.** In the deployed container, ask NVML what version it
+   resolved and compare that against the running kernel module:
 
-   ```
-   uv=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader | head -1)
+   ```sh
+   uv=$(python3 - <<'PY'
+   import ctypes
+   n = ctypes.CDLL("libnvidia-ml.so.1")
+   assert n.nvmlInit_v2() == 0
+   buf = ctypes.create_string_buffer(80)   # 80 bytes: NVML writes the whole buffer
+   n.nvmlSystemGetDriverVersion(buf, 80)
+   print(buf.value.decode())
+   PY
+   )
    km=$(grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' /proc/driver/nvidia/version | head -1)
    [ "$uv" = "$km" ]
    ```
 
+   **Why not `nvidia-smi`:** the derived devices-only spec drops the spec's `mounts`, and
+   `nvidia-smi` is one of the binaries those mounts delivered — so under the keep-id shape it is
+   **absent** (measured). A probe that needs it fails for the wrong reason. Ask the library instead,
+   and give the version buffer its real 80-byte size: a `char**` there segfaults (measured, rc=139).
+
    This is the only assertion that catches the shadowing bug, because it is the only one that looks
    at what the container ended up with rather than at what it was supposed to get.
 
-## A CDI device and a user-namespace MAPPING are mutually exclusive
+## Keep-id, a bind mount, and a GPU: what actually fails
 
-Before you compose this layer onto a pod that also mounts a host directory, know the wall — it is a
-kernel rule, not a podman setting, and it was measured the hard way on the first pod in the org with
-BOTH a CDI device and a bind mount (opencharly/plugin-deploy-pod#81):
+**CDI and a user volume mount work together.** What fails under `--userns=keep-id` is the CDI
+spec's `mounts` section — not the device. Measured (podman 6.2.0, crun 1.31, rootless,
+`/etc/subuid` `atrawog:100000:65536`, image `ghcr.io/opencharly/immich-cdi`):
 
 ```
-$ podman run --rm --userns=keep-id --device nvidia.com/gpu=all <image> true
+# stock spec (/etc/cdi/nvidia.yaml carries `mounts`)
+$ podman run --rm --userns=keep-id:uid=1000,gid=1000 --user 1000 \
+    --device nvidia.com/gpu=all <image> true
 Error: crun: mount_setattr `/usr/bin/nvidia-cuda-mps-control`: Operation not permitted: OCI permission denied
+
+# devices-only spec + the driver libraries as read-only binds
+$ podman run --rm --userns=keep-id:uid=1000,gid=1000 --user 1000 \
+    --cdi-spec-dir /tmp/cdi-devonly --device nvidia.com/gpu=all \
+    -v /usr/lib/libcuda.so.615.78.08:/usr/lib/libcuda.so.1:ro \
+    -v /usr/lib/libnvidia-ml.so.615.78.08:/usr/lib/libnvidia-ml.so.1:ro \
+    -v /usr/lib/libnvidia-ptxjitcompiler.so.615.78.08:/usr/lib/libnvidia-ptxjitcompiler.so.1:ro \
+    --entrypoint /bin/sh <image> -c 'id -un; id -u; python3 -c "import ctypes;l=ctypes.CDLL(\"libcuda.so.1\");print(\"cuInit=\",l.cuInit(0))"'
+user
+1000
+cuInit= 0
 ```
 
-`strace -f -e trace=mount,mount_setattr` names the step: `mount_setattr(…, AT_RECURSIVE,
-MOUNT_ATTR_IDMAP, …) = EPERM` — crun applying an **idmapped mount** to the injected CDI mount. An
-idmapped mount needs `CAP_SYS_ADMIN` in the user namespace that owns the **filesystem's superblock**;
-the CDI sources are host files on the host filesystem, whose superblock belongs to the INITIAL user
-namespace, which a rootless container can never hold.
+Why: crun applies each CDI mount with `mount_setattr(…, MOUNT_ATTR_IDMAP, …)`, and an idmapped mount
+needs `CAP_SYS_ADMIN` in the user namespace that owns the **file's superblock**. The CDI sources are
+host files on the host filesystem, whose superblock belongs to the initial user namespace, which a
+rootless keep-id container never holds — hence EPERM. The device nodes need no such mount and apply
+normally. `--userns=host` avoids the idmap by removing the mapping — and that is the container-root
+shape this org forbids (D-HW-10): **no charly pod runs as container root**, and a bind mount is not a
+`privilege: rootful` need.
 
-Podman asks for that idmap precisely because the container carries a userns MAPPING: host root is
-unmapped there, so root-owned injected files would read as `nobody`, and podman marks the mounts
-`idmap` to present them as root. With **no mapping** (`--userns=host`) no idmap is requested and the
-injection works.
+### The rule
 
-Measured, so nobody re-derives it — the image is irrelevant (two images) and so is the filesystem
-(a `:idmap` bind of a file fails identically from **btrfs AND tmpfs**, and tmpfs supports idmapped
-mounts):
+1. **Run as the image user under keep-id.** A unit with a bind mount carries
+   `UserNS=keep-id:uid=<uid>,gid=<gid>`. Under keep-id the image user **is** the invoking host user,
+   so a host-owned bind or a gocryptfs plaintext directory is writable as-is: no chown, no root.
+2. **Keep the CDI device.** `AddDevice=nvidia.com/gpu=all` goes on every GPU unit, bind or not.
+3. **Give it a devices-only spec.** Derive it from the host's spec (`/etc/cdi/nvidia.yaml`): keep the
+   `deviceNodes`, drop `mounts` and `hooks`, and point the engine at that directory with
+   `--cdi-spec-dir`. `nvidia-ctk cdi generate` has no mounts-free mode — even restricted to
+   `devices.csv` it emits `mounts` and `hooks` — so the spec is a derived artifact, regenerated when
+   the host driver moves. It is not a second injection mechanism.
+4. **Bind the driver libraries** the stock spec delivered as mounts, read-only, to their SONAME
+   paths (`libcuda.so.1`, `libnvidia-ml.so.1`, `libnvidia-ptxjitcompiler.so.1`), from the same
+   `hostPath` values. They are versioned host files: never bake them into an image (the ICD/SONAME
+   resolution would pick the image's copy and report a driver/library version mismatch).
 
-| flags | result |
+   **And name their directory on `LD_LIBRARY_PATH`.** The binds are invisible to the loader's
+   cache: the derived spec drops the toolkit's hooks, and the hooks are what refreshed
+   `/etc/ld.so.cache` at container start. Measured: in the keep-id container the cache keeps its
+   **image-build** timestamp and holds **0** `libcuda` entries, while the stock-spec container's
+   cache mtime is the **container start** and holds **4** — and in both, `/usr/lib/libcuda.so`,
+   `.so.1` and the versioned file are present. (Two different containers, hence two different
+   images; the causal proof is a bed's before/after pair on one image, which is what
+   opencharly/plugin-deploy-pod#104 gates.) So a consumer that resolves the driver *through the
+   cache* fails while a direct `dlopen` user still works: `triton`'s `libcuda_dirs()` reads
+   `ldconfig -p` and falls back to `LD_LIBRARY_PATH`, and with neither it asserts `libcuda.so cannot
+   found!` — the first synthesis is a 500 with the library sitting at `/usr/lib`
+   (opencharly/plugin-deploy-pod#102). Refreshing the cache inside the container is not available to
+   the image user (`/sbin/ldconfig` → *Can't create temporary cache file `/etc/ld.so.cache~`:
+   Permission denied*, measured), so the unit carries the directories itself:
+   `Environment=LD_LIBRARY_PATH=<the binds' directory>[:<any value the image already set>]`, the
+   derived directory first.
+
+Measured in that shape: `cuInit=0`, device `NVIDIA GeForce RTX 4080 SUPER`, `cuCtxCreate=0`, a
+16 MiB `cuMemAlloc` returning a pointer, ONNX Runtime profiling `MatMul` on
+`CUDAExecutionProvider`, and the workload `user`/uid 1000.
+
+**`GroupAdd=keep-groups` does not change that.** The CDI EPERM above is the stock spec's `mounts`,
+not the group mapping: a unit carrying `GroupAdd=keep-groups` — so the image user keeps the host's
+GPU groups instead of the image's — in the SAME keep-id + devices-only-spec + read-only-lib-bind
+shape starts and runs. Measured on the `charly-comfyui-cdi` unit: `UserNS=keep-id:uid=1000,gid=1000`,
+`GroupAdd=keep-groups`, `PodmanArgs=--cdi-spec-dir …` and 105 `/usr/lib/lib*` read-only binds;
+`/proc/self/uid_map` reads `1000 0 1` then `1001 1001 64536` (container uid 1000 maps to the
+invoking host user; `id -u` inside is 1000); a live `comfyui-system-stats` check passes and a real
+prompt completes.
+A failing `keep-id + keep-groups` row elsewhere was measured against the **stock** spec, which still
+carries the mounts — the spec, not the group flag, is what EPERMs.
+
+What does **not** work, measured: `--userns=host --user <image uid>` with an idmapped volume
+(`-v src:dst:idmap` and `--mount …,idmap` both denied — idmap is a no-op under `userns=host`); any CDI
+spec carrying mounts under keep-id (EPERM); and pre-creating the mount targets in the image (EPERM
+identically).
+
+A deploy never sets `HOME` to compensate for a root workload — the image user's home is already
+correct ([`/charly-internals:xdg`](/recipes/internals/xdg/)).
+
+## FUSE and encrypted volumes (gocryptfs) on a CDI pod
+
+A gocryptfs plaintext is a FUSE mount, and FUSE adds its own owner check on top of Unix modes.
+Measured on this host (rootless podman 6.2.0, gocryptfs 2.7.0):
+
+| Shape | Result |
 |---|---|
-| `--device nvidia.com/gpu=all` | works |
-| `--userns=host --device nvidia.com/gpu=all` | works |
-| `--userns=keep-id[:uid=…] --device nvidia.com/gpu=all` | **EPERM**, always |
-| `--userns=keep-id --group-add keep-groups --device …` | **EPERM** |
-| `--userns=keep-id` with NO device | works (so it is the pair, not either half) |
-| the same CDI failure with the target paths PRE-CREATED in the image | **EPERM** (so "create the mount points" is not the fix) |
+| keep-id + bind, mounted **without** `-allow_other` | the container does not start: `crun: cannot stat 'self/fd/5': Permission denied` |
+| `-allow_root` (the "stricter" alternative) | **not a gocryptfs flag** — `unknown flag: --allow_root` |
+| `userns=host --user 1000` + bind (even **with** `-allow_other`) | starts, but writes are denied — and it is the forbidden root shape |
+| keep-id + `:idmap` bind | `mount_setattr … Invalid argument` |
+| keep-id + bind, mounted **with** `-allow_other` | write OK as uid 1000, and CUDA initialises |
+| in-pod mount **without** `SYS_ADMIN` (fusermount3 bound, setuid) | `fusermount3: mount failed: Operation not permitted` |
 
-### The two legal shapes
+So `-allow_other` **is required for the host-bind shape** and has no stricter flag; the only shape that
+avoids it is mounting gocryptfs **inside** the pod, which then requires `CAP_SYS_ADMIN` (the bound
+setuid `fusermount3` is neutralised). There is no third shape with neither. `-allow_other` is not
+itself an exposure: gocryptfs enables `default_permissions`, so the security control is the
+**mode of the plaintext root** — `0700` denies an unrelated uid (measured with uid 65534), `0755`
+lets it read world-readable files (measured).
 
-1. **A host bind the workload must write** → `--userns=host` with the workload as **container root**.
-   Under a rootless pod that uid 0 *is the invoking host user*: files it creates land on the host
-   owned by you, `podman info` still reports `rootless=true`, and nothing on the host is root.
-   Measured on a real GPU pod: `--userns=host --user 0 --cap-drop ALL --security-opt
-   no-new-privileges --device nvidia.com/gpu=all` with the bind runs the whole stack (supervisord →
-   service → `nvidia-smi` resolves the injected driver), so the workload needs NO capability at all.
-   (`#Security` in `spec/schema` cannot yet express `cap_drop` — opencharly/spec#398 — so a pod
-   declares `security_opt: [no-new-privileges]` and drops the rest once the field exists.)
-2. **A named volume** → `--userns=keep-id` is fine (podman chowns the volume to the container user),
-   because there is no host-owned bind for the mapping to protect.
+The rule:
 
-There is no third shape: container uid 1000 can only write a host-owned bind if it IS the host user,
-which is exactly the mapping that forbids the CDI mount. Do not "solve" it by baking the driver
-(rejected above), by pre-creating the mount targets (measured, does not work), or by hand-mounting
-the host's libraries (a second implementation of CDI, R2/R3).
+1. **Mount with `-allow_other`, and keep the plaintext root `0700`** (files `0600`). `allow_other`
+   relaxes only the FUSE owner check; Unix modes still apply. Never mount a world-traversable
+   plaintext root.
+2. `/etc/fuse.conf` must carry `user_allow_other` (rootless FUSE).
+3. The plaintext is durable user data and belongs under `$XDG_DATA_HOME/charly` (D-STORE-12),
+   resolved by `spec/storeroot`.
+4. **For a pod that must never place plaintext on the host**, create and mount gocryptfs *inside*
+   the container, as the image user. Measured with `--userns=keep-id --user 1000 --device /dev/fuse
+   --cap-add SYS_ADMIN`, a `gocryptfs` + `fusermount3` binary in the image, the cipher directory
+   bound, and the passphrase supplied from a secret: the volume was **created and mounted inside the
+   pod** (uid 1000), files were written and read back there, and the host held only ciphertext — no
+   plaintext path existed anywhere on it. Two constraints: the mountpoint must be writable by the
+   image user (use `$HOME/<dir>`, never `/`), and `CAP_SYS_ADMIN` is the cost — scoped to the
+   container's user namespace, but still a capability the host-mount shape does not need. The
+   passphrase must come from a secret/tmpfs, never a durable file.
+   For the host-mount shape (item 1), the same protection is `0700` on the plaintext root plus the
+   cipher directory: an unrelated uid cannot traverse either, even with `-allow_other`.
+5. `userns=host` and `:idmap` are **not** solutions (measured above).
 
-Practical consequence for an author: a pod image that composes this layer AND declares a bind volume
-MUST be deployed with `--userns=host` and a container-root workload. `plugin-deploy-pod` decides that
-from the RESOLVED deploy (a CDI device present), so the deploy inherits it automatically — but a hand
-`podman run` or a new emitter must apply the same rule.
+## Bind mounts and XDG paths — the real shape
+
+A GPU pod's durable data is host binds (or named volumes) on the paths the **image declares in its
+environment**, and the mechanism that makes them work is the container user being the host owner.
+Measured with the real `immich-cdi` image under `--userns=keep-id --user 1000`:
+
+- the image declares `HF_HOME=/home/user/.immich/models`,
+  `IMMICH_MEDIA_LOCATION=/home/user/.immich/library`, `PGDATA=/home/user/.postgresql/data` and
+  `XDG_RUNTIME_DIR=/tmp/xdg-runtime`;
+- bound to host directories, the **whole stack came up** — postgres on 5432, redis on 6379, the
+  server on 2283 answering `{"res":"pong"}`, ML on 3003 — and every file it wrote landed on the host
+  owned by the user (`1000:1000`), pgdata files at `0600`;
+- the image does **not** ship `/home/user/.cache`: a bind (or volume) must supply any path the image
+  lacks, and a missing one is simply absent;
+- a **read-only** bind fails the app's own write (`touch: Permission denied`);
+- a missing `POSTGRES_PASSWORD` stops postgres before `initdb` (supervisor shows `BACKOFF`) — the
+  secret is part of the deploy, not an afterthought;
+- supervisor `RUNNING` is not readiness: the port binds only after the DB migration.
+
+**The migration trap, measured:** the old `userns=host` + `User=0:0` shape leaves `PGDATA` owned by
+an **unmapped subuid** (`100967:100967`) because the entrypoint re-execs as the `postgres` user, and
+postgres then goes FATAL. A later keep-id deploy (uid 1000) cannot read that data. Any host volume
+written under the old shape must be re-owned (or migrated) when the deploy moves to keep-id.
+
+## Consumer classes — what a GPU image gets from where
+
+Every GPU image gets the **driver** from CDI and nothing else. What differs is its **CUDA runtime**:
+some apps ship it, some link the toolkit's, and some compile against it. Measured on this host
+(2026-11-25, driver 615.78.08) across the images the org actually deploys:
+
+| Class | What the app does | Measured examples | What the image composes |
+|---|---|---|---|
+| **Bundled** | ships its own CUDA runtime (wheel, venv, engine payload) | `qwen3-tts` (torch `nvidia/cu13` wheels), `comfyui-cdi` (torch wheel), `immich-cdi` (onnxruntime venv), `strata-cdi` (the engine ships `libcudart.so.13`) | **the CDI contract only** — no toolkit |
+| **Links the toolkit** | links `libcudart`/`libcublas`/`libcublasLt` it does not ship | `ollama-cdi`: `libggml-cuda.so` → `/opt/cuda/lib64/lib{cudart,cublas,cublasLt}.so.13` | **the toolkit's runtime libraries** (not the compiler) |
+| **Compiles** | builds against CUDA | `cuda-smoke` / `cuda-check-cdi`, `cuda-arch-builder` (`nvcc`) | **the full toolkit** |
+
+The rule:
+
+1. **Bundled → the contract only.** Composing the toolkit here buys nothing and installs
+   driver-adjacent packages (the `opencl-nvidia` files above). This is the defect that made every
+   pod carry them.
+2. **Links the toolkit → the runtime libraries, not the compiler.** Keep `nvcc`, headers and the
+   link-time stub out; where the distro has no runtime-only package, take the toolkit from a
+   driver-free source (a vendored tarball) — **never** a post-install strip, and **not** pacman
+   `NoExtract`. Measured: `NoExtract` neither prevented the driver file (the package's scriptlet
+   recreated the symlink) nor left the tree clean (`pacman -Qkk` reported a modification-time
+   warning), and installing the distro `cuda` package pulled `opencl-nvidia 620.73.04` against a
+   `615.78.08` host — the exact shadowing hazard.
+3. **Compiles → the full toolkit.** The only class that needs `nvcc`, the headers and the link-time
+   `libcuda.so` stub under `/opt/cuda/stubs`.
+
+Every class composes `layer-cdi` (this contract). `layer-nvidia` is **never** composed by a pod — it
+is the VM contract. And `pod-cdi` must not pull the toolkit into the bundled class: an image that
+ships its runtime and also carries `/opt/cuda` is class 1 with class 3's bytes, which is how the
+driver contamination crept in.
 
 ## What the image legitimately owns
 
 - the **CUDA toolkit** under `/opt/cuda` (nvcc, cudart, cuDNN, headers) and the **link-time stub**
-  `libcuda.so` under `.../stubs` — build and link, not run;
+  `libcuda.so` under `.../stubs` — for compiling, and, for the **links-the-toolkit** class, its
+  runtime libraries at run time (`libcudart`, `libcublas`, `libcublasLt`). It never supplies the
+  **driver** libraries; those are injected;
 - the **ICD JSONs** (`nvidia_icd.json`, `nvidia_layers.json`): they name a SONAME, not a version, so
   the link the injection creates satisfies them;
 - application-level backends (`libggml-cuda.so`, torch's CUDA wheels, …).
 
 ## Where this lives
 
-`candy/cdi` in this repo. `layer-cuda` owns the toolkit; this layer owns the contract, and every GPU
-image composes both. A box that composes a GPU runtime is named with a `-cdi` suffix so that nobody
-mistakes it for one that serves on CPU.
+`candy/cdi` in this repo. `layer-cuda` owns the toolkit; this layer owns the contract. **Every GPU
+image composes the contract; only a "links the toolkit" or "compiles" image composes the toolkit**
+(see **Consumer classes**) — the bundled-runtime class must not. A box that composes a GPU runtime is
+named with a `-cdi` suffix so that nobody mistakes it for one that serves on CPU.

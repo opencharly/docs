@@ -7,7 +7,7 @@ description: "Detail page of the git-workflow recipe card."
 
 *Detail page of the [git-workflow](/recipes/internals/git-workflow/) recipe card.*
 
-## Umbrella mechanics (the ~400-submodule view)
+## Umbrella mechanics (the ~325-submodule view)
 
 When the work happens in the umbrella checkout itself — pin bumps, gitlinks,
 the aggregate view — the umbrella `AGENTS.md` governs: Part I is the org-wide
@@ -49,6 +49,11 @@ gh repo list opencharly --limit 2000 --json name,isFork,isArchived,isPrivate
 #   then diff (name -> submodule path) against `git config -f .gitmodules --get-regexp path`
 ```
 
+> **Superseded 2026-11-26.** The 2026-10-15 census below is kept as history. That
+> change retired the `pi-*`, `rpiv-*`, `vm-nvidia` and the desktop/selkies/maps/
+> AgentTeams `pod-*`/`layer-*` pins (opencharly/opencharly#1293), so the `pi-*`
+> forks no longer exist in the umbrella; the figures describe the tree as it was.
+
 Measured on 2026-10-15 by exactly that walk. **The two counts are not a
 subtraction**, and a coverage claim turns entirely on why:
 
@@ -61,12 +66,12 @@ subtraction**, and a coverage claim turns entirely on why:
 `438 − 429 = 9` is **not** the operation, because those two 429s are different
 lists. The differences are exactly the thing a reader must see:
 
-- **10 of the pinned repos are NOT among the 438:** 7 forks and 3 archived repos
-  (`clawsweeper`, `crabbox`, `crabhelm`, `gst-wayland-display`, `lobster`,
-  `openclaw`, `openclaw-enterprise`, `pi-asciinema` are/contain forks;
+- **10 of the pinned repos were NOT among the 438 (as measured then):** 7 forks and
+  3 archived repos (`clawsweeper`, `crabbox`, `crabhelm`, `gst-wayland-display`,
+  `lobster`, `openclaw`, `openclaw-enterprise`, `pi-asciinema` are/contain forks;
   `layer-check-tier1-layer`, `pi-asciinema`, `pi-review-action` are archived). They
-  are pinned DELIBERATELY — the `pi-*` plugin forks exist in the umbrella by
-  design — so "the pinned set" and "the active org set" are not the same set.
+  were pinned deliberately at the time — the `pi-*` plugin forks existed in the
+  umbrella then — so "the pinned set" and "the active org set" are not the same set.
 - **ONE path is named after nothing:** `dotgithub` pins `opencharly/.github`. So
   the path list and the repo-name list differ by exactly that one spelling: the
   path is top-level and well-formed, and its NAME is the only thing wrong with it.
@@ -225,7 +230,7 @@ while the gate judges the WHOLE declared path set. The remedy is the one the mes
 per-path and cheap:
 
 ```sh
-git submodule update --init plugin-marketplace plugin-adb plugin-spice   # …the paths it names
+git submodule update --init plugin-marketplace plugin-spice   # …the paths it names
 ```
 
 Do this BEFORE the first push rather than after a BLOCKED push — a blocked push costs a full gate run
@@ -317,14 +322,12 @@ and the producer-first leg order: [`references/pin-intent-and-currency.md`](/rec
   the paths it has no checkout for — only over the paths it cannot advance at
   all. See "`task sync` and the commit gate" below.
 - **A pin advance that brings in a NEW marketplace corpus family must bind it in
-  BOTH harness-config surfaces, in the same commit.** The umbrella binds the
-  corpus by hand in two places — `reasonix.toml`'s `[skills] paths` (one
-  `marketplace/<family>/skills` entry per skill-bearing family, plus
-  `<family>/agents` for the two roster dirs) and the tracked symlink farm
-  `.dsh/skills/<name>` -> `../../marketplace/<family>/skills/<name>` — and
-  `charly task verify`'s harness-config step FAILS while either is missing
-  (`missing: marketplace/<family>/skills`, then
-  `<N> corpus skills, missing: <family>:<name>`). Without them the family loads
+  the harness-config derivation, in the same commit.** The umbrella binds the
+  corpus with the tracked symlink farm
+  `.dsh/skills/<name>` -> `../../marketplace/<family>/skills/<name>`, re-derived
+  from the corpus by `scripts/sync-skill-bindings.mjs` on the pin advance — and
+  `charly task verify`'s harness-config step FAILS while it is missing
+  (`<N> corpus skills, missing: <family>:<name>`). Without it the family loads
   as ZERO skills: silent, and a capability loss nothing else reports. Measured on
   the wave that first pinned `marketplace/firecracker` — and note the follow-on
   signal: that gate's `--self-test` then reports *"the unmutated copy of this

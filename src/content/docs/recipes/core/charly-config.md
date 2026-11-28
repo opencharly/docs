@@ -264,7 +264,7 @@ Warning: port conflicts detected:
 Wrote /home/user/.config/containers/systemd/charly-<image>-<instance>.container
 ```
 
-The quadlet is still written with the conflicting port, so `charly start` will fail at bind time unless you either free the port, re-run `charly config` with a remap, or edit `charly.yml`. Detection uses a local `net.Listen` probe per published port at configure time. Handy for multi-instance deployments alongside a production fleet (e.g., running [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/) as a test instance while [`/charly-selkies:selkies-labwc`](/recipes/selkies/selkies-labwc/) holds the canonical 3000/9222/9224/2222 range).
+The quadlet is still written with the conflicting port, so `charly start` will fail at bind time unless you either free the port, re-run `charly config` with a remap, or edit `charly.yml`. Detection uses a local `net.Listen` probe per published port at configure time. Handy for multi-instance deployments alongside a production fleet (e.g., running [`/charly-distros:charly-fedora`](/recipes/distros/charly-fedora/) as a test instance while a production deployment holds the canonical 3000/9222/9224/2222 range).
 
 ## Deploy State
 
@@ -593,7 +593,6 @@ Source: `spec/hostenv/envfile.go` (`normalizeNoProxy`), `sdk/deploykit/deploy_st
 - [`/charly-selkies:chrome`](/recipes/selkies/chrome/) — Chrome HTTP proxy (`env_accept`), NO_PROXY auto-enrichment, cgroup resource caps
 - [`/charly-infrastructure:supervisord`](/recipes/infrastructure/supervisord/) — Event listener pattern that pairs with the resource caps
 - [`/charly-distros:nvidia`](/recipes/distros/nvidia/), [`/charly-distros:rocm`](/recipes/distros/rocm/) — GPU layers that consume DRINODE auto-injection
-- [`/charly-selkies:selkies`](/recipes/selkies/selkies/) — Pixelflux DRINODE consumer + ScreenCapture singleton
 
 ## When to Use This Skill
 

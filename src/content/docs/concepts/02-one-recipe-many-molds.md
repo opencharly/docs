@@ -95,7 +95,7 @@ No second vocabulary. That is the whole tenet.
 ### The third role: a candy can extend charly itself
 
 A candy carrying a `plugin:` block does not install software into a box — it teaches `charly` a
-new verb, kind, or command. [`plugin-example`](/reference/candy/github-com-opencharly-plugin-example-v2026-242-0529/plugin-example/) is the canonical
+new verb, kind, or command. [`plugin-example`](/reference/candy/github-com-opencharly-plugin-example-v2026-272-0057/plugin-example/) is the canonical
 one: a `plugin:` block whose `source:` points at its own repo
 (`github.com/opencharly/plugin-example/candy/plugin-example`) and whose `providers:` list declares
 `verb:exampleprobe`.

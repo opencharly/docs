@@ -189,7 +189,7 @@ dead code/`unused`, `ineffassign`, `unconvert`, `staticcheck` correctness, `gocr
   against a charly-managed resource OUTSIDE the orchestration path.
 - Idiomatic `errcheck` ignores: `defer x.Close()`, `fmt.Fprint*` to stderr/stdout, `os.Setenv`
   in tests — the fix is an explicit `_ = …` (makes intent visible), not handling.
-- Named, justified `time.Sleep` polls in device/container/mount liveness (adb, gocryptfs) where
+- Named, justified `time.Sleep` polls in device/container/mount liveness (gocryptfs) where
   no event/sync primitive is exposed by the underlying tool.
 - Standard mode bits (`0o755`/`0o644`/`0o600`), well-known ports/IDs documented in domain code.
 
@@ -235,7 +235,7 @@ separate from the R10 gate.** The `pre-commit-gate.sh` hook (`.claude/hooks/`) r
 CONFIGURED `golangci-lint run` on every module a commit's `*.go` change touches and blocks
 a commit that is not lint-clean (fail-open when golangci-lint is absent). It is wired as a
 `PreToolUse(Bash)` hook in `.claude/settings.json` (Claude Code, since umbrella `5e485a8`,
-2026-08-28), in `.reasonix/settings.json`, and via `~/.kimi-code/config.toml`, which
+2026-08-28) and via `~/.kimi-code/config.toml`, which
 delegates to `.claude/hooks/`. Where it runs, it does NOT replace the bed R10 gate (a green
 linter proves compilation, not behaviour); it only guarantees the `golangci-lint` smoke is
 green at commit time. Doctrine: [`/charly-internals:agents`](/recipes/internals/agents/) "Hooks doctrine".

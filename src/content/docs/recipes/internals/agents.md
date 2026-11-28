@@ -29,7 +29,7 @@ The one rule that binds every reference below: **a bed run is R10-class —
 the commit is gated on a full final-code bed test (pasted), but beds run
 freely throughout to verify** (see [`references/parallel-bed-testing.md`](/recipes/internals/agents/parallel-bed-testing/)
 "The binding rule"). The project rulebook is `AGENTS.md`, the single
-harness-neutral rulebook carrying R0–R11; this skill never restates it,
+harness-neutral rulebook carrying R0–R12; this skill never restates it,
 only points to it.
 
 ## Index
@@ -93,10 +93,20 @@ command; the worker discovers the value at run time. Full rule and the measured
 `.github#141` evidence: [`references/program-discipline.md`](/recipes/internals/agents/program-discipline/) ("Volatile facts are
 DISCOVERED, never baked into a brief").
 
+**A spike round can be delegated, one candidate per worker.** The R12 round spikes
+every plausible solution for a named cause, and the candidates are independent, so a
+parent may hand each one to its own worker. The brief names the RCA's cause, the one
+candidate, and the instrument (a `disposable: true` bed, or the real generator or
+artifact). The worker returns its commands, outputs and exit codes verbatim, plus a
+works / fails result — never a summary — and discards the spike code. The parent
+picks the winner and owns the `### Spike` block. A worker that changes the cause, or
+ships its spike, has left its brief. The round's form: [`/charly-internals:strict-policy`](/recipes/internals/strict-policy/)
+("Spike-first").
+
 ## The harness-config LOCATION (umbrella-only; layer-charly-internals#49)
 
 ALL harness config lives in the **umbrella root** (`opencharly/opencharly`) and
-NOWHERE else: `.claude/`, `.opencode/`, `.codex/`, `.pi/`, `.reasonix/`, and
+NOWHERE else: `.claude/`, `.opencode/`, `.codex/`, `.pi/`, and
 `opencode.json`. No submodule or sibling repo — `.github`, a `distro-*`/`layer-*`/
 `pod-*`/`plugin-*` repo, or `charly/` — carries a copy, and there is **no parity
 gate**: the former `charly task harness` (which compared umbrella↔`charly/`
@@ -207,6 +217,27 @@ The umbrella rulebook states this as a Part II rule (`AGENTS.md`, "Ledger and
 interruption safety") and points here for the detail. Where this guidance
 itself belongs is owned by the sibling [`/charly-internals:skills`](/recipes/internals/skills/) ("Where
 guidance belongs"): mandate in `AGENTS.md`, detail in the skill.
+
+## Waiting — the watcher catalogue (closed set; all mandatory where they apply)
+
+Every wait is ONE `node scripts/gh/cli.ts watch` over every item it covers. The event set is
+**CLOSED** (`EVENT_NAMES` in `scripts/gh/lib/watch.ts`) — `verdict`, `merged`, `closed`, `conflict`,
+`comment`, `stall` — and the rulebook's "Agents, Workflows & Teams" owns the wait-class → event
+mapping. This skill's half is the lifecycle:
+
+- arm the watcher **before** the wait, as a managed background command (never `&`/`disown`);
+- arm it with the **UNION** of the events its waits require. An own PR defaults to
+  `verdict,merged,closed,conflict`; add `comment` whenever a reply is owed; a blocking item owned
+  elsewhere takes `merged,closed,stall` (plus `comment`);
+- a **long bed or command** is its own managed background job — its exit is the wake; a
+  **file/log/stream** is the Monitor;
+- **one watcher per session**: re-arming REPLACES it (stop the live one first; `pgrep` is the
+  authority, not the launcher);
+- after a wake, act and re-arm. **A wait without its watcher is not a wait** (rulebook "Continuous
+  operation").
+
+The command syntax, the wake lines and the exit codes: [`/charly-internals:git-workflow`](/recipes/internals/git-workflow/)
+("Waiting — the ONE watcher").
 
 ## Command hygiene & context discipline
 

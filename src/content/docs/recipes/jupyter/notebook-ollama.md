@@ -132,10 +132,6 @@ charly shell ollama -c "ollama pull llama3.2"
 # Open http://localhost:8888 -> navigate to ollama/
 ```
 
-## Used In Boxes
-
-- [`/charly-jupyter:jupyter-ml-notebook`](/recipes/jupyter/jupyter-ml-notebook/)
-
 ## Related Skills
 
 - [`/charly-image:layer`](/recipes/image/layer/) — data field documentation and candy authoring rules
@@ -145,7 +141,6 @@ charly shell ollama -c "ollama pull llama3.2"
 - [`/charly-jupyter:notebook-templates`](/recipes/jupyter/notebook-templates/) — sibling data candy pattern (starter notebooks)
 - [`/charly-ollama:ollama`](/recipes/ollama/ollama/) — the Ollama binary candy (server side)
 - [`/charly-ollama:ollama`](/recipes/ollama/ollama/) — the standalone Ollama box (must be running for notebooks to connect)
-- [`/charly-jupyter:jupyter-ml-notebook`](/recipes/jupyter/jupyter-ml-notebook/) — the box that includes this candy
 
 ## When to Use This Skill
 
