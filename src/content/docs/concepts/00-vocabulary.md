@@ -100,7 +100,7 @@ All three are real and shipped:
 `base:` and a list of candies to compose: on the bare Fedora base it stacks a tool layer
 (`ripgrep`), a service layer (`sshd`), and the `supervisord` init.
 
-**A plugin** — [`plugin-example`](/reference/candy/github-com-opencharly-plugin-example-v2026-242-0529/plugin-example/) is the layer shape plus a
+**A plugin** — [`plugin-example`](/reference/candy/github-com-opencharly-plugin-example-v2026-272-0057/plugin-example/) is the layer shape plus a
 `plugin:` block, and it teaches `charly` a new check verb: its `providers:` list declares
 `verb:exampleprobe`, and its `source:` points at its own repo,
 `github.com/opencharly/plugin-example/candy/plugin-example`.

@@ -59,13 +59,12 @@ This ensures sway has set the output resolution (default 1920x1080) before wayvn
 
 ## Used In Boxes
 
-Part of [`/charly-selkies:sway-desktop`](/recipes/selkies/sway-desktop/) composition.
+Part of the desktop composition.
 
 ## Related Candies
 
 - [`/charly-infrastructure:supervisord`](/recipes/infrastructure/supervisord/) -- process manager dependency
 - [`/charly-selkies:sway`](/recipes/selkies/sway/) -- Wayland compositor (provides display)
-- [`/charly-selkies:sway-desktop`](/recipes/selkies/sway-desktop/) -- composition that includes wayvnc
 - [`/charly-selkies:pipewire`](/recipes/selkies/pipewire/) -- sibling in desktop stack
 
 ## Related Commands

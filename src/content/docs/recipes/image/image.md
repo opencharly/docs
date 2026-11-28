@@ -487,9 +487,9 @@ See [`/charly-vm:vms-catalog`](/recipes/vm/vms-catalog/) for the full VmSpec sch
 **Boxes do NOT declare ports.** A box's published ports are inherited from EVERY candy in its base chain — the candy that runs a service declares the container port (the candy body's `port:` list), and `CollectBoxPorts` (`sdk/deploykit/ports_collect.go`, over the shared `boxCandyChain` walk in `sdk/kit/ports.go`) collects the full set. The same set feeds both the `ai.opencharly.port` OCI label and the Containerfile `EXPOSE` directives, so they can never diverge. A residual box-level `port:` is a hard load error pointing at `charly migrate`.
 
 ```bash
-charly box inspect android-emulator --format ports
-# 2222   (sshd)         3000  (selkies)      4723 (appium-server)
-# 5037   (android adb)  9222  (chrome-cdp)   9224 (chrome-devtools-mcp)
+charly box inspect sway-browser-vnc --format ports
+# 22     (sshd)         3000  (selkies)      6080 (vnc)
+# 9222   (chrome-cdp)   9224  (chrome-devtools-mcp)
 # — all inherited from the candy chain; the box declares no `port:`
 ```
 
@@ -523,7 +523,7 @@ The label→config apply path **explicitly skips reading** any tunnel label when
 
 1. **Per-instance divergence.** One selkies-desktop image may be deployed with a Tailscale tunnel in one environment and no tunnel in another. Baking the tunnel choice into the image forecloses that.
 2. **`--update-all` safety.** Propagating config changes across deployed services must not accidentally rewrite tunnel settings from image labels and blow away per-instance overrides.
-3. **Instance inheritance gap.** Tunnel config is **not** auto-inherited from the base `charly config <image>` call to an `charly config <image> -i <instance>` call. This is a deliberate gap — see [`/charly-selkies:selkies-labwc`](/recipes/selkies/selkies-labwc/) (Multi-Instance Proxy Deployment) for the manual workaround and [`/charly-core:deploy`](/recipes/core/deploy/) (Instance Tunnel Inheritance) for the full lifecycle.
+3. **Instance inheritance gap.** Tunnel config is **not** auto-inherited from the base `charly config <image>` call to an `charly config <image> -i <instance>` call. This is a deliberate gap — see [`/charly-core:deploy`](/recipes/core/deploy/) (Instance Tunnel Inheritance) for the full lifecycle.
 
 **Practical implication:** you can inspect an image's tunnel declaration with `charly box inspect <image>` and see nothing useful — that's correct. To see a tunnel's actual state, read `charly.yml` directly (`charly deploy show <image>`) or the generated quadlet (`charly status <image>`).
 
@@ -648,7 +648,7 @@ The arch and fedora base-distro stacks are no longer carried by the main repo �
 - **`box/fedora`** owns `fedora` + `fedora-builder` + `fedora-nonfree` (+ the `nvidia` / `python-ml` GPU bases), bare-local, and is SELF-CONTAINED (`import: []`).
 - **`box/cachyos`** owns the `cachyos` base (+ the pacstrap pair and the selkies GPU desktops) and imports the `arch` namespace to reach `arch.arch` / `arch.arch-builder` / `arch.cuda-arch-builder`.
 
-The main repo imports all three submodules (`arch` / `cachyos` / `fedora` namespaces) to reference their relocated boxes from its own `check`/`vm`/`local`/`kubernetes`/`android` entities (one-directional — the submodules import nothing back from main). The distro/builder/init build vocabulary is embedded in the `charly` binary (no `build.yml` import). See [`/charly-distros:arch`](/recipes/distros/arch/), [`/charly-distros:fedora`](/recipes/distros/fedora/), [`/charly-distros:cachyos`](/recipes/distros/cachyos/).
+The main repo imports all three submodules (`arch` / `cachyos` / `fedora` namespaces) to reference their relocated boxes from its own `check`/`vm`/`local`/`kubernetes` entities (one-directional — the submodules import nothing back from main). The distro/builder/init build vocabulary is embedded in the `charly` binary (no `build.yml` import). See [`/charly-distros:arch`](/recipes/distros/arch/), [`/charly-distros:fedora`](/recipes/distros/fedora/), [`/charly-distros:cachyos`](/recipes/distros/cachyos/).
 
 ## When to Use This Skill
 

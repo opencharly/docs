@@ -142,4 +142,3 @@ Introspects a service object's interfaces, methods, signals, and properties.
 - [`/charly-core:cmd`](/recipes/core/cmd/) -- single command execution in running containers (its best-effort completion notification drives the session bus via `gdbus` from the host).
 - [`/charly-core:shell`](/recipes/core/shell/) -- interactive shell access
 - [`/charly-infrastructure:dbus-layer`](/recipes/infrastructure/dbus-layer/) -- D-Bus session bus layer configuration
-- [`/charly-selkies:swaync`](/recipes/selkies/swaync/) -- notification daemon layer

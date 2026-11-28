@@ -27,7 +27,7 @@ This box composes:
 
 - `cachyos-app-skills`
 - `@github.com/opencharly/pod-sshd:v2026.272.0324`
-- `@github.com/opencharly/layer-pixi:v2026.272.0440`
+- `@github.com/opencharly/layer-pixi:v2026.330.1550`
 - `@github.com/opencharly/layer-language-runtimes:v2026.273.1816`
 - `@github.com/opencharly/layer-typst:v2026.272.0407`
 - `@github.com/opencharly/layer-github-actions:v2026.272.0135`

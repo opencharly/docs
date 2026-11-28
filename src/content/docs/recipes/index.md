@@ -7,7 +7,7 @@ description: "A dedicated page for every candy, box, verb and subsystem — the 
 
 Every candy, box, verb and subsystem in OpenCharly ships a **recipe card**: the vocabulary the compiler runs on, and what an agent loads as a skill. Each card is a dedicated page describing what the thing does, how it is made, and how it should behave — the same cards an agent loads while working on the project, published here unchanged.
 
-352 cards across 45 plugins, in four groups.
+292 cards across 45 plugins, in four groups.
 
 ## Commands — runtime CLI verbs
 
@@ -85,11 +85,6 @@ The `charly cardwire` surface served by candy/plugin-cardwire.
 
 Live-container evaluation and probe verbs — `charly check` orchestrator + per-protocol live probes (cdp, wl, wl-overlay, dbus, vnc, spice, libvirt, record).
 
-- [adb](/recipes/check/adb/)
-- [android](/recipes/check/android/)
-- [android-sdk](/recipes/check/android-sdk/)
-- [android-test-apps](/recipes/check/android-test-apps/)
-- [appium](/recipes/check/appium/)
 - [cdp](/recipes/check/cdp/)
 - [check](/recipes/check/check/)
 - [check-sway-browser-vnc](/recipes/check/check-sway-browser-vnc/)
@@ -98,7 +93,6 @@ Live-container evaluation and probe verbs — `charly check` orchestrator + per-
 - [crabbox](/recipes/check/crabbox/)
 - [cua](/recipes/check/cua/)
 - [dbus](/recipes/check/dbus/)
-- [jetkvm](/recipes/check/jetkvm/)
 - [libvirt](/recipes/check/libvirt/)
 - [openclaw-cmd](/recipes/check/openclaw-cmd/)
 - [punktfunk](/recipes/check/punktfunk/)
@@ -224,13 +218,6 @@ Schema authoring reference for `kind: vm` + bootc VM catalog — libvirt/QEMU ba
 
 ## Images — the deployable catalog
 
-### charly-agentteams
-
-Self-contained skills for the AgentTeams multi-agent stack (CachyOS base): the decomposed agentteams box — minio, matrix/tuwunel, element, higress, controller — on pod and vm substrates, plus the compiled-in `charly agentteams` management CLI.
-
-- [agentteams](/recipes/agentteams/agentteams/)
-- [agentteams-cli](/recipes/agentteams/agentteams-cli/)
-
 ### charly-ai-toolkit
 
 Self-contained skills for the Ostris AI Toolkit diffusion-training pod: the GUI/CLI trainer and the Z-Image LoRA path.
@@ -331,13 +318,6 @@ Base OS images and hardware runtime — arch, fedora, debian, ubuntu, aurora, ba
 - [valkey-test](/recipes/distros/valkey-test/)
 - [workspace-mount](/recipes/distros/workspace-mount/)
 
-### charly-filebrowser
-
-Self-contained skills for the filebrowser image (web-based file management on top of an charly volume).
-
-- [filebrowser](/recipes/filebrowser/filebrowser/)
-- [filebrowser-layer](/recipes/filebrowser/filebrowser-layer/)
-
 ### charly-hermes
 
 Self-contained skills for the hermes agent image (hermes + hermes-playwright variants).
@@ -390,9 +370,6 @@ Self-contained skills + MCP wiring for the jupyter image family (jupyter, jupyte
 - [jupyter](/recipes/jupyter/jupyter/)
 - [jupyter-layer](/recipes/jupyter/jupyter-layer/)
 - [jupyter-mcp](/recipes/jupyter/jupyter-mcp/)
-- [jupyter-ml](/recipes/jupyter/jupyter-ml/)
-- [jupyter-ml-layer](/recipes/jupyter/jupyter-ml-layer/)
-- [jupyter-ml-notebook](/recipes/jupyter/jupyter-ml-notebook/)
 - [llama-cpp](/recipes/jupyter/llama-cpp/)
 - [notebook-finetuning](/recipes/jupyter/notebook-finetuning/)
 - [notebook-llm-on-supercomputers](/recipes/jupyter/notebook-llm-on-supercomputers/)
@@ -400,8 +377,6 @@ Self-contained skills + MCP wiring for the jupyter image family (jupyter, jupyte
 - [notebook-openrouter](/recipes/jupyter/notebook-openrouter/)
 - [notebook-templates](/recipes/jupyter/notebook-templates/)
 - [unsloth](/recipes/jupyter/unsloth/)
-- [unsloth-studio](/recipes/jupyter/unsloth-studio/)
-- [unsloth-studio-layer](/recipes/jupyter/unsloth-studio-layer/)
 
 ### charly-languages
 
@@ -459,50 +434,21 @@ Self-contained skills for the Qwen3-TTS speech-service family: the OpenAI-compat
 
 Self-contained skills + MCP wiring for the selkies-desktop family (Wayland desktop in a container with VNC + Chrome).
 
-- [a11y-tools](/recipes/selkies/a11y-tools/)
 - [camsnap](/recipes/selkies/camsnap/)
 - [chrome](/recipes/selkies/chrome/)
-- [chrome-devtools-mcp](/recipes/selkies/chrome-devtools-mcp/)
-- [chrome-sway](/recipes/selkies/chrome-sway/)
 - [desktop-fonts](/recipes/selkies/desktop-fonts/)
 - [desktop-media](/recipes/selkies/desktop-media/)
-- [fastfetch](/recipes/selkies/fastfetch/)
 - [ffmpeg](/recipes/selkies/ffmpeg/)
 - [fonts-extended](/recipes/selkies/fonts-extended/)
-- [heroic](/recipes/selkies/heroic/)
-- [kde-selkies](/recipes/selkies/kde-selkies/)
+- [kde-nested](/recipes/selkies/kde-nested/)
 - [kde-shell](/recipes/selkies/kde-shell/)
-- [labwc](/recipes/selkies/labwc/)
+- [kde-vnc](/recipes/selkies/kde-vnc/)
+- [kde-vnc-cdp](/recipes/selkies/kde-vnc-cdp/)
 - [libnotify](/recipes/selkies/libnotify/)
-- [pavucontrol](/recipes/selkies/pavucontrol/)
 - [pipewire](/recipes/selkies/pipewire/)
-- [selkies](/recipes/selkies/selkies/)
-- [selkies-core](/recipes/selkies/selkies-core/)
-- [selkies-desktop-layer](/recipes/selkies/selkies-desktop-layer/)
-- [selkies-kde](/recipes/selkies/selkies-kde/)
-- [selkies-kde-desktop](/recipes/selkies/selkies-kde-desktop/)
-- [selkies-kde-nvidia](/recipes/selkies/selkies-kde-nvidia/)
-- [selkies-labwc](/recipes/selkies/selkies-labwc/)
-- [selkies-labwc-nvidia](/recipes/selkies/selkies-labwc-nvidia/)
-- [steam](/recipes/selkies/steam/)
 - [sway](/recipes/selkies/sway/)
-- [sway-browser-vnc](/recipes/selkies/sway-browser-vnc/)
-- [sway-desktop](/recipes/selkies/sway-desktop/)
-- [sway-desktop-vnc](/recipes/selkies/sway-desktop-vnc/)
-- [swaync](/recipes/selkies/swaync/)
-- [thunar](/recipes/selkies/thunar/)
 - [wacli](/recipes/selkies/wacli/)
-- [waybar](/recipes/selkies/waybar/)
-- [waybar-labwc](/recipes/selkies/waybar-labwc/)
 - [wayvnc](/recipes/selkies/wayvnc/)
-- [wf-recorder](/recipes/selkies/wf-recorder/)
-- [wl-overlay-layer](/recipes/selkies/wl-overlay-layer/)
-- [wl-record-pixelflux](/recipes/selkies/wl-record-pixelflux/)
-- [wl-screenshot-grim](/recipes/selkies/wl-screenshot-grim/)
-- [wl-screenshot-pixelflux](/recipes/selkies/wl-screenshot-pixelflux/)
-- [wl-tools](/recipes/selkies/wl-tools/)
-- [xdg-portal](/recipes/selkies/xdg-portal/)
-- [xfce4-terminal](/recipes/selkies/xfce4-terminal/)
 - [xterm](/recipes/selkies/xterm/)
 
 ### charly-strata
@@ -542,27 +488,6 @@ CLI utilities and the charly binary deploy artifacts — ripgrep, himalaya, whis
 - [whisper](/recipes/tools/whisper/)
 - [xurl](/recipes/tools/xurl/)
 - [yay](/recipes/tools/yay/)
-
-### charly-versa
-
-Self-contained skills + MCP wiring for the versa image — a marimo notebook environment (marimo + Airflow + OSM/GTFS analytics + martin vector tiles + five PMTiles generation pipelines: tippecanoe / gpq-tiles / DuckDB ST_AsMVT / DuckDB → freestiler / Shortbread-via-Tilemaker, plus PMTiles Viewer SPA on port 28001 + VersaTiles Frontend on port 28002 + versatiles serve as second tile server on port 28090).
-
-- [airflow-layer](/recipes/versa/airflow-layer/)
-- [debug-tools-layer](/recipes/versa/debug-tools-layer/)
-- [maplibre-versatiles-styler](/recipes/versa/maplibre-versatiles-styler/)
-- [maputnik-layer](/recipes/versa/maputnik-layer/)
-- [marimo-layer](/recipes/versa/marimo-layer/)
-- [marimo-mcp](/recipes/versa/marimo-mcp/)
-- [notebook-osm](/recipes/versa/notebook-osm/)
-- [osm-tools-layer](/recipes/versa/osm-tools-layer/)
-- [pmtiles-viewer](/recipes/versa/pmtiles-viewer/)
-- [shortbread](/recipes/versa/shortbread/)
-- [sway-browser-ecovoyage](/recipes/versa/sway-browser-ecovoyage/)
-- [versa](/recipes/versa/versa/)
-- [versatiles](/recipes/versa/versatiles/)
-- [versatiles-fonts](/recipes/versa/versatiles-fonts/)
-- [versatiles-frontend](/recipes/versa/versatiles-frontend/)
-- [versatiles-style](/recipes/versa/versatiles-style/)
 
 
 ## Development — contributor internals
