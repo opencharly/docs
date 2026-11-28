@@ -1,14 +1,13 @@
 ---
 title: One recipe, many molds
-description: A candy list composes into an image — and the same list installs onto a host, a VM, a cluster, or a phone.
+description: A candy list composes into an image — and the same list installs onto a host, a VM, or a cluster.
 sidebar:
   order: 2
 ---
 
 > **One recipe, many boxes.** A single declarative recipe — candies stacked into a box — pours
-> into every mold: an interactive shell, a managed pod, a host workstation, a kubernetes cluster, a
-> bootable VM, an Android device. Write the recipe once; let `charly` set it in whatever shape
-> the moment needs.
+> into every mold: a managed pod, a bootable VM, a kubernetes workload, a host install. Write the
+> recipe once; let `charly` set it in whatever shape the moment needs.
 >
 > — [tenet 2](/vision/)
 
@@ -21,7 +20,7 @@ ordering ("this must be installed first"), `candy:` expresses composition ("spli
 The distinction between a candy and a box is deliberately thin — a box *is* a candy, just one that
 names a base. That thinness is what makes the second half of the tenet possible. Because a box is
 only a candy list plus a starting point, the same list can be applied somewhere that has no image
-at all: a host, a VM guest, a phone. You are always applying candies; only the substrate changes.
+at all: a host or a VM guest. You are always applying candies; only the substrate changes.
 
 Every substrate consumes the same intermediate representation, so adding one does not add a
 vocabulary. Reversal is part of that IR rather than bolted on per substrate: a step can record the
@@ -87,7 +86,6 @@ mean to change your workstation.
 | your workstation | `local:` | candies applied to a host, over a shell or SSH |
 | a virtual machine | `vm:` | libvirt/QEMU guests, candies applied inside over SSH |
 | a cluster | `kubernetes:` | generated Kustomize manifests |
-| a phone | `android:` | apps installed onto a device over adb |
 | a container | `pod:` | the managed-pod case |
 
 No second vocabulary. That is the whole tenet.
