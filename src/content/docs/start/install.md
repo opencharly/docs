@@ -85,8 +85,7 @@ Each repository carries three packages:
 | `charly-minimal` | doctor, clean, settings |
 
 There is also an [OpenWrt feed](https://github.com/opencharly/charly-openwrt) — the binary installs
-and runs there, but OpenWrt carries no podman or libvirt — and a build for the
-[JetKVM appliance](https://github.com/opencharly/charly-jetkvm).
+and runs there, but OpenWrt carries no podman or libvirt.
 
 ### Check the install
 

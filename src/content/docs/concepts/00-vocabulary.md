@@ -26,19 +26,18 @@ redefining.
 | **OCI image** | A container image, named after the Open Container Initiative format that defines it — synonymous with **container image**. | |
 | **candybox** | The running, isolated form of a box — a container, a VM guest, or a check bed. **This is the security boundary.** | Not the image. Not the config file. |
 | **container** | The running OCI process — the candybox's form on a `pod:` deploy. | Not the image, not the box. |
-| **substrate** | The destination kind a deploy lands on: `pod:` `vm:` `kubernetes:` `local:` `android:`. A substrate is a place, not an artifact: the image is the payload, the substrate is where it runs. | Not the image. |
+| **substrate** | The destination kind a deploy lands on: `pod:` `vm:` `kubernetes:` `local:`. A substrate is a place, not an artifact: the image is the payload, the substrate is where it runs. | Not the image. |
 | **pod** | The container substrate — a `pod:` deploy runs a box's image as a container. | Not a Kubernetes Pod (the `kubernetes:` backend emits real ones). |
 | **vm** | The guest substrate — a `vm:` deploy boots a **vm image** as a rootless libvirt guest, reached over SSH. | |
 | **vm image** | The bootable disk a `vm:` deploy boots — a `cloud_image` qcow2 or a bootc image. A *different* artifact from a container image. | Not a container image. |
 | **kubernetes** | The Kubernetes substrate — a `kubernetes:` deploy emits a Kustomize overlay. | |
 | **local** | The host substrate — a `local:` deploy installs onto the machine charly runs on, or onto a remote machine when it carries **host**. | |
-| **android** | The device substrate — an `android:` deploy installs APKs onto a device or emulator. | |
 | **host** | A field on a `local:` deploy naming the machine to install onto — `host: local` (or absent) is the machine charly runs on, `host: <user@machine>` is an SSH target. | |
-| **deploy** | A named placement of a box on a substrate, written as `pod:` `vm:` `kubernetes:` `local:` `android:`. When running, its candybox is the live thing. | Not the box. |
+| **deploy** | A named placement of a box on a substrate, written as `pod:` `vm:` `kubernetes:` `local:`. When running, its candybox is the live thing. | Not the box. |
 | **plugin** | A candy that teaches charly a new word — it carries a `plugin:` block registering the words it provides, each of which is a **provider**. A plugin lives in the layer shape, but its role is extending charly, not installing a concern. | |
 | **provider** | A word a plugin registers, which routes to that plugin when charly sees it — a **kind**, **verb**, **command**, **step**, **builder**, or **substrate**. | |
 | **kind** | The class of a top-level name in a `charly.yml` — the entity keywords (`candy`, `distro`, `builder`, `agent`). | |
-| **verb** | A probe a `plan:` step can call — the check vocabulary (`file`, `http`, `cdp`, `vnc`, `adb`, `kube`). | |
+| **verb** | A probe a `plan:` step can call — the check vocabulary (`file`, `http`, `cdp`, `vnc`, `kube`). | |
 | **command** | A `charly` subcommand — the CLI vocabulary (`deploy`, `check`, `candy`, `clean`). | |
 | **step** | An install operation in a `plan:` — (`file`, `service-custom`, `reboot`). | |
 | **builder** | A multi-stage build pattern a box can select — (`pixi`, `npm`, `cargo`, `aur`). | |
@@ -117,9 +116,9 @@ candy, regenerated on every docs build.
 
 | Class | Examples |
 |---|---|
-| **deploy** substrates | `pod` `vm` `kubernetes` `local` `android` |
+| **deploy** substrates | `pod` `vm` `kubernetes` `local` |
 | **kind** — the entity keywords themselves | `candy` `distro` `builder` `agent` |
-| **verb** — probes a `plan:` can call | `file` `http` `cdp` `vnc` `adb` `kube` |
+| **verb** — probes a `plan:` can call | `file` `http` `cdp` `vnc` `kube` |
 | **command** — `charly` subcommands | `deploy` `check` `candy` `clean` `marketplace` |
 | **step** — install operations | `file` `service-custom` `reboot` |
 | **builder** — multi-stage build patterns | `pixi` `npm` `cargo` `aur` |
@@ -188,7 +187,7 @@ site uses, each expanded once here so no page has to stop and explain it again.
 |---|---|---|
 | **OCI** | Open Container Initiative | the standard governing container image format and metadata. A candy's `plan:` ships as an OCI **label** — a key/value pair stored in the image itself, so it travels with the artifact |
 | **CUE** | *Configure, Unify, Execute* — a language, not an initialism you need to expand in speech | the schema language charly's config is defined in. One `.cue` file is the single source for both the Go types and the load-time validation, so a schema change cannot reach one without the other |
-| **IR** | intermediate representation | the shared install plan every substrate compiles to. A compiler term: the neutral form in the middle, produced once from your candy list and consumed by the container, VM, cluster, host and Android backends alike. It is why `pod:` → `vm:` is a keyword change |
+| **IR** | intermediate representation | the shared install plan every substrate compiles to. A compiler term: the neutral form in the middle, produced once from your candy list and consumed by the container, VM, cluster and host backends alike. It is why `pod:` → `vm:` is a keyword change |
 | **MCP** | Model Context Protocol | the open standard for exposing tools to an AI agent. `charly mcp serve` publishes the whole command tree over it |
 | **ADE** | Agent Driven Evaluation | this project's name for "the spec is the test" — every candy ships a runnable `plan:`, and an agent can both author and grade it |
 | **RDD** | Risk Driven Development | prove the riskiest assumption early, on a disposable bed, before building on it |
@@ -198,7 +197,6 @@ site uses, each expanded once here so no page has to stop and explain it again.
 | **SDK** | software development kit | `github.com/opencharly/sdk`, the module a plugin imports to be a plugin |
 | **CDP** | Chrome DevTools Protocol | how the `cdp:` check verb drives and inspects a real browser inside a running candybox |
 | **VNC** | Virtual Network Computing | the remote-framebuffer protocol behind the `vnc:` verb, which lets a check assert what a desktop is actually displaying |
-| **ADB** | Android Debug Bridge | the tool the `adb:` verb uses to reach an Android device or emulator |
 
 ## A note on the names
 
