@@ -1,6 +1,6 @@
 ---
 title: OpenCharly
-description: "The agentic DevOps tool for you and your agents."
+description: "The Agentic DevOps Factory for you and your agents."
 # `doc` rather than `splash`, deliberately: Starlight hard-codes the table of contents to false for
 # splash pages and ignores the `tableOfContents` frontmatter entirely, and `hasSidebar` is likewise
 # `template !== 'splash'`. So a splash landing page cannot have either sidebar. The hero renders on
@@ -11,9 +11,9 @@ template: doc
 # only; every other page keeps the useful "Page | OpenCharly" form.
 head:
   - tag: title
-    content: "OpenCharly — The agentic DevOps tool for you and your agents"
+    content: "OpenCharly — The Agentic DevOps Factory for you and your agents"
 hero:
-  tagline: "The agentic DevOps tool for you and your agents."
+  tagline: "The Agentic DevOps Factory for you and your agents."
   actions:
     - text: Get started
       link: /start/install/

@@ -83,4 +83,4 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 
 ---
 
-See also the [candy reference](/reference/candy/github-com-opencharly-plugin-pod-v2026-274-0652/plugin-pod/) for this candy's install surface.
+See also the [candy reference](/reference/candy/github-com-opencharly-plugin-pod-v2026-332-0049/plugin-pod/) for this candy's install surface.

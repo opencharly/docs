@@ -17,7 +17,7 @@ description: "Hermes self-improving AI agent by Nous Research with voice, messag
 | Volumes | `data` -> `/opt/data` |
 | Aliases | `hermes` -> `hermes`, `hermes-agent` -> `hermes-agent` |
 | Services | `hermes` (supervisord, autostart), `hermes-whatsapp` (supervisord, manual) |
-| MCP accepts | `jupyter`, `chrome-devtools` |
+| MCP accepts | `chrome-devtools` |
 | Install files | `pixi.toml`, `build.sh`, `task:` |
 | RPM packages | `alsa-lib`, `portaudio` |
 
@@ -56,7 +56,7 @@ The `hermes-entrypoint` performs a **single-phase, first-start-only** configurat
 | 3 | `OPENROUTER_API_KEY` | OpenRouter (built-in) | `qwen/qwen3.6-plus:free` |
 
 **How it works:**
-- **First start:** Registers ALL providers whose env vars are set into `config.yaml` as `custom_providers` entries, and configures any discovered MCP servers from `CHARLY_MCP_SERVERS` (e.g., `jupyter` at `:8888/mcp`, `chrome-devtools` at `:9224/mcp`). Priority determines only the default model and auxiliary task routing. Writes a `# charly:auto-configured` sentinel to prevent re-patching after user customization
+- **First start:** Registers ALL providers whose env vars are set into `config.yaml` as `custom_providers` entries, and configures any discovered MCP servers from `CHARLY_MCP_SERVERS` (e.g., `chrome-devtools` at `:9224/mcp`). Priority determines only the default model and auxiliary task routing. Writes a `# charly:auto-configured` sentinel to prevent re-patching after user customization
 - **Key insight:** When new MCP servers are added to `CHARLY_MCP_SERVERS` after initial configuration, hermes will NOT pick them up automatically. Delete `config.yaml` and restart: `charly shell <image> -c "rm /opt/data/config.yaml" && charly service restart <image> hermes`
 - **Every start:** Syncs API keys to `.env` to handle key rotation
 - Override the default model with `HERMES_MODEL` env var
@@ -75,7 +75,7 @@ The hermes entrypoint auto-discovers MCP servers from the `CHARLY_MCP_SERVERS` e
 - Tools are registered as `mcp_<server_name>_<tool_name>`
 - Reload MCP servers at runtime: `/reload-mcp` in interactive chat
 
-**Example:** The `jupyter` candy provides the notebook tools (notebook_list, cell_execute, cell_update, etc.) via its MCP server at `http://<container>:8888/mcp`. Noun-shaped surface (notebook_*/cell_* + notebook_list_users + room_list); clients do not manage CRDT rooms.
+**Example:** A provider candy ships its own tool catalog on its MCP server; hermes registers those tools as `mcp_<server_name>_<tool_name>` after discovery.
 
 ## Architecture
 
@@ -160,20 +160,18 @@ hermes:
 - [`/charly-selkies:pipewire`](/recipes/selkies/pipewire/) -- audio support for voice features
 - [`/charly-hermes:hermes-playwright`](/recipes/hermes/hermes-playwright/) -- optional Playwright Chromium browser (standalone headless mode)
 - [`/charly-selkies:chrome`](/recipes/selkies/chrome/) -- provides `BROWSER_CDP_URL` via `env_provide` for shared browser in desktop boxes
-- [`/charly-jupyter:jupyter`](/recipes/jupyter/jupyter/) -- MCP server provider (`mcp_provide: jupyter`)
 
 ## Related Commands
 
 - [`/charly-check:cdp`](/recipes/check/cdp/) — CDP automation; hermes uses the same Chrome endpoint via `BROWSER_CDP_URL`
 - [`/charly-core:charly-config`](/recipes/core/charly-config/) — Injects `BROWSER_CDP_URL` and `CHARLY_MCP_SERVERS` via pod-aware `env_provide`/`mcp_provide`
-- [`/charly-build:charly-mcp-cmd`](/recipes/build/charly-mcp-cmd/) — verify that the MCP servers hermes discovers (`jupyter`, `chrome-devtools`) are alive and exposing expected tools before hermes tries to call them: `charly check live jupyter --filter mcp`, `charly check live <image> --filter mcp`. Useful when hermes reports tool-call failures and you need to isolate whether the server or the agent is at fault.
+- [`/charly-build:charly-mcp-cmd`](/recipes/build/charly-mcp-cmd/) — verify that the MCP servers hermes discovers (`chrome-devtools`) are alive and exposing expected tools before hermes tries to call them: `charly check live <image> --filter mcp`. Useful when hermes reports tool-call failures and you need to isolate whether the server or the agent is at fault.
 
 ## Related Boxes
 
 - [`/charly-hermes:hermes`](/recipes/hermes/hermes/) -- full-featured standalone (claude-code + codex + gemini + dev-tools + devops-tools + charly)
 - [`/charly-hermes:hermes-playwright`](/recipes/hermes/hermes-playwright/) -- agent with Playwright Chromium (standalone headless)
 - [`/charly-openwebui:openwebui`](/recipes/openwebui/openwebui/) -- alternative web UI frontend with similar MCP/LLM auto-config pattern
-- [`/charly-jupyter:jupyter`](/recipes/jupyter/jupyter/) -- deploy alongside for MCP notebook access (cross-container MCP)
 
 ## When to Use This Skill
 

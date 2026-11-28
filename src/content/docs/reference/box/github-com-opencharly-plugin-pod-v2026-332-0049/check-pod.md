@@ -7,7 +7,7 @@ description: "Combined fast check fixture — image/layer/pod/deploy-target mech
 
 | | |
 |---|---|
-| **Repo** | `box/github.com/opencharly/plugin-pod:v2026.274.0652` |
+| **Repo** | `box/github.com/opencharly/plugin-pod:v2026.332.0049` |
 | **Base** | `quay.io/fedora/fedora-minimal:43` |
 
 Combined fast check fixture — image/layer/pod/deploy-target mechanism smoke

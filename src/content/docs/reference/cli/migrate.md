@@ -7,7 +7,7 @@ description: "The migrate command word, served by the plugin-migrate plugin cand
 
 | | |
 |---|---|
-| **Served by** | [plugin-migrate](/reference/plugin/github-com-opencharly-plugin-migrate-v2026-295-1526/plugin-migrate/) |
+| **Served by** | [plugin-migrate](/reference/plugin/github-com-opencharly-plugin-migrate-v2026-332-0323/plugin-migrate/) |
 | **Placement** | compiled-in (in-process) |
 
 `migrate` is a command word served by the `plugin-migrate` plugin candy. This plugin is listed in `charly/charly.yml`'s `compiled_plugins:`, so its providers are compiled into the `charly` binary and register in-process.

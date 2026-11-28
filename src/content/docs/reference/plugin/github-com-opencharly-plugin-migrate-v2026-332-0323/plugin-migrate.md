@@ -118,7 +118,7 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 #Scope: "root" | "any" @go(-)
 
 // The declarative op vocabulary — one closed arm per op, discriminated by `op:`.
-#MigrationOp: #RenameKey | #DeleteKey | #RemapScalar | #MoveKey @go(-)
+#MigrationOp: #RenameKey | #DeleteKey | #RemapScalar | #MoveKey | #RemoveListValue @go(-)
 
 // Rename a mapping key, preserving its value + comments.
 #RenameKey: close({op: "rename_key", from: string, to: string, scope: #Scope | *"any", under_kind?: string}) @go(-)
@@ -129,6 +129,11 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 // Remap a scalar value under a key (e.g. target: host -> target: local).
 #RemapScalar: close({op: "remap_scalar", key: string, from: string, to: string, under_kind?: string}) @go(-)
 
+// Remove a scalar value from a key's list (e.g. `aur` from a box's `build:` list). A list the
+// removal empties, or a key whose scalar value is exactly `value`, loses the key entirely, so the
+// field falls back to its default instead of being left an empty or retired value.
+#RemoveListValue: close({op: "remove_list_value", key: string, value: string, under_kind?: string}) @go(-)
+
 // Relocate a key/value pair from one child mapping to another (simple reparent).
 #MoveKey: close({op: "move_key", key: string, from_parent: string, to_parent: string, under_kind?: string}) @go(-)
 ```
@@ -136,4 +141,4 @@ The CUE schema below is the authoritative grammar for this plugin's input. It is
 
 ---
 
-See also the [candy reference](/reference/candy/github-com-opencharly-plugin-migrate-v2026-295-1526/plugin-migrate/) for this candy's install surface.
+See also the [candy reference](/reference/candy/github-com-opencharly-plugin-migrate-v2026-332-0323/plugin-migrate/) for this candy's install surface.

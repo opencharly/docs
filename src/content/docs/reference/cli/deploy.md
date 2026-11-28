@@ -7,7 +7,7 @@ description: "The deploy command word, served by the plugin-fleet plugin candy."
 
 | | |
 |---|---|
-| **Served by** | [plugin-fleet](/reference/plugin/github-com-opencharly-plugin-fleet-v2026-331-0847/plugin-fleet/) |
+| **Served by** | [plugin-fleet](/reference/plugin/github-com-opencharly-plugin-fleet-v2026-332-0004/plugin-fleet/) |
 | **Placement** | compiled-in (in-process) |
 
 `deploy` is a command word served by the `plugin-fleet` plugin candy. This plugin is listed in `charly/charly.yml`'s `compiled_plugins:`, so its providers are compiled into the `charly` binary and register in-process.

@@ -59,8 +59,7 @@ hermes:
 - [`/charly-tools:charly`](/recipes/tools/charly/) — OpenCharly CLI binary
 - [`/charly-infrastructure:tmux-layer`](/recipes/infrastructure/tmux-layer/) — Terminal multiplexer used by typed persistent terminal providers
 - [`/charly-selkies:chrome`](/recipes/selkies/chrome/) — Provides `BROWSER_CDP_URL` (cross-container, from selkies-desktop)
-- [`/charly-jupyter:jupyter-mcp`](/recipes/jupyter/jupyter-mcp/) — JupyterLab CRDT MCP server (auto-discovered via `mcp_provide`, the notebook tools: notebook_*/cell_* + notebook_list_users + room_list; auto-attach single-room invariant)
-- [`/charly-build:charly-mcp-cmd`](/recipes/build/charly-mcp-cmd/) — the declarative `mcp:` check verb (run via `charly check live <image> --filter mcp`), served out-of-process by candy/plugin-mcp, to verify either of the above is alive and exposing the expected tool catalog before hermes tries to invoke them
+- [`/charly-build:charly-mcp-cmd`](/recipes/build/charly-mcp-cmd/) — the declarative `mcp:` check verb (run via `charly check live <image> --filter mcp`), served out-of-process by candy/plugin-mcp, to verify a co-deployed provider's MCP server is alive and exposing the expected tool catalog before hermes tries to invoke it
 
 ## Related Boxes
 

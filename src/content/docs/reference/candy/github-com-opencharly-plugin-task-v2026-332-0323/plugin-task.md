@@ -7,8 +7,8 @@ description: "The generic declarative TASK runner for charly — the replacement
 
 | | |
 |---|---|
-| **Repo** | `box/github.com/opencharly/plugin-task:v2026.316.2347` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-task-v2026-316-2347/plugin-task/) |
+| **Repo** | `box/github.com/opencharly/plugin-task:v2026.332.0323` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-task-v2026-332-0323/plugin-task/) |
 
 The generic declarative TASK runner for charly — the replacement for a
 Taskfile. Serves three task capabilities plus five generic maintenance
@@ -28,8 +28,8 @@ its `InputDef`). The schema imports the contract module for the SHARED
 
 Five GENERIC, domain-neutral MAINTENANCE verbs replace repository shell
 scripts, each parameterized by the repo's own data (paths/pairs/pins) so the
-plugin stays reusable by any repository: `verb:git-submodules` (status/bump/
-verify `.gitmodules` pins, incl. the EDGE comparison of a repo's pins
+plugin stays reusable by any repository: `verb:git-submodules` (status/ff/
+verify/currency `.gitmodules` pins, incl. the EDGE comparison of a repo's pins
 against a pinned checkout's gitlinks), `verb:file-parity` (check/sync that
 paired files are byte-identical), `verb:splice-region` (splice a marked
 region from a fragment into a target), `verb:module-pins` (adopt a

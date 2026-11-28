@@ -124,7 +124,6 @@ http://localhost:8188/?template=image_z_image_turbo_int8&source=default
 
 | Name | Description |
 |------|-------------|
-| `jupyter` | JupyterLab CRDT MCP server for notebook manipulation |
 | `chrome-devtools` | Chrome DevTools MCP server for browser automation |
 
 ## Secrets (Two-Tier Architecture)
@@ -252,7 +251,6 @@ openwebui:
 ## Related Boxes
 
 - [`/charly-openwebui:openwebui`](/recipes/openwebui/openwebui/) -- the deployed box
-- [`/charly-jupyter:jupyter`](/recipes/jupyter/jupyter/) -- deploy alongside for MCP notebook access and code execution
 - [`/charly-ollama:ollama`](/recipes/ollama/ollama/) -- deploy alongside for local LLM inference
 - [`/charly-hermes:hermes`](/recipes/hermes/hermes/) -- alternative AI frontend (CLI-based agent vs web UI)
 

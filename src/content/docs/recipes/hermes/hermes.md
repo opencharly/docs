@@ -9,7 +9,7 @@ description: "Full-featured standalone Hermes AI agent with AI CLIs, dev tools, 
 
 # Box: hermes
 
-Full-featured standalone Hermes AI agent. No browser or desktop — designed for cross-container deployment: alongside `jupyter` for MCP notebooks via `CHARLY_MCP_SERVERS`, and alongside any box that composes the `chrome` candy for shared Chrome via `BROWSER_CDP_URL`.
+Full-featured standalone Hermes AI agent. No browser or desktop — designed for cross-container deployment: alongside any MCP-providing box via `CHARLY_MCP_SERVERS`, and alongside any box that composes the `chrome` candy for shared Chrome via `BROWSER_CDP_URL`.
 
 ## Definition
 
@@ -87,27 +87,23 @@ The data volume (`/opt/data`) persists: sessions, skills, memories, logs, config
 Deploy alongside provider containers for full functionality:
 
 ```bash
-# 1. Deploy jupyter (provides the jupyter MCP server)
-charly config jupyter --update-all
-charly start jupyter
-
-# 2. Deploy hermes (consumes it)
+# Deploy hermes (it discovers every MCP server its accepted providers supply)
 charly config hermes -e OLLAMA_API_KEY=... --update-all
 charly start hermes
 ```
 
 Hermes receives:
-- `CHARLY_MCP_SERVERS=[{"name":"jupyter","url":"http://charly-jupyter:8888/mcp"}]` — notebook manipulation
+- `CHARLY_MCP_SERVERS=[...]` — the MCP servers supplied by every co-deployed provider its `mcp_accept` list covers
 - `BROWSER_CDP_URL` — set by the `chrome` candy's `env_provide` when hermes is co-deployed with a box that composes it; absent otherwise
 
 ## MCP Server Discovery
 
-When co-deployed with services that declare `mcp_provide` (e.g., jupyter), hermes auto-discovers and connects to their MCP servers at first start. The `CHARLY_MCP_SERVERS` JSON env var is injected by `charly config` and the entrypoint writes the servers into `config.yaml` under `mcp_servers:`.
+When co-deployed with services that declare `mcp_provide` (for example, a `chrome-devtools` provider), hermes auto-discovers and connects to their MCP servers at first start. The `CHARLY_MCP_SERVERS` JSON env var is injected by `charly config` and the entrypoint writes the servers into `config.yaml` under `mcp_servers:`.
 
 ```bash
 # Verify MCP connection
 charly shell hermes -c "hermes mcp list"                    # Shows registered servers
-charly shell hermes -c "hermes mcp test jupyter"      # Tests connection (expects the tool catalog)
+charly shell hermes -c "hermes mcp test <name>"        # Tests connection (expects the tool catalog)
 ```
 
 ## Key Candies
@@ -119,7 +115,6 @@ charly shell hermes -c "hermes mcp test jupyter"      # Tests connection (expect
 ## Related Boxes
 
 - [`/charly-hermes:hermes-playwright`](/recipes/hermes/hermes-playwright/) — Hermes with local Playwright Chromium
-- [`/charly-jupyter:jupyter`](/recipes/jupyter/jupyter/) — JupyterLab with MCP (cross-container MCP provider)
 
 ## Verification
 
@@ -155,7 +150,6 @@ liveness (hermes-whatsapp is autostart=false — see [`/charly-check:check`](/re
 - [`/charly-check:check`](/recipes/check/check/) — declarative testing framework + supervisord gotchas
 - [`/charly-core:charly-config`](/recipes/core/charly-config/) — `CHARLY_MCP_SERVERS` auto-discovery + secret provisioning
 - [`/charly-build:charly-mcp-cmd`](/recipes/build/charly-mcp-cmd/) — verify each MCP server in `CHARLY_MCP_SERVERS` is actually alive before debugging hermes tool-call failures; `charly check live <provider-image> --filter mcp` shows exactly what hermes will see
-- [`/charly-jupyter:jupyter`](/recipes/jupyter/jupyter/) — MCP notebook tools auto-discovered
 
 ## When to Use This Skill
 

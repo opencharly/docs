@@ -7,8 +7,8 @@ description: "COMPILED-IN charly plugin owning the config-schema MIGRATION ENGIN
 
 | | |
 |---|---|
-| **Repo** | `box/github.com/opencharly/plugin-migrate:v2026.295.1526` |
-| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-migrate-v2026-295-1526/plugin-migrate/) |
+| **Repo** | `box/github.com/opencharly/plugin-migrate:v2026.332.0323` |
+| **Plugin** | yes — see the [plugin reference](/reference/plugin/github-com-opencharly-plugin-migrate-v2026-332-0323/plugin-migrate/) |
 
 COMPILED-IN charly plugin owning the config-schema MIGRATION ENGINE (M15 — migrate
 OUT of core). It serves ONE capability:

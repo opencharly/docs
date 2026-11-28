@@ -215,6 +215,9 @@ Disambiguation: if an image declares multiple `mcp_provide` entries,
 add `mcp_name: <server>` on the check; otherwise the single entry
 auto-picks.
 
+The example's tool names are the live `pod-mcp-layer` fixture
+(`harness-mcp-fixture`: `list_items`, `insert_item`, `execute_item`).
+
 ```yaml
 plan:
     - check: the MCP server answers a ping
@@ -223,20 +226,20 @@ plan:
       mcp: ping
       timeout: 10s              # optional; default 30s
 
-    - check: the MCP server lists its notebook tools
+    - check: the MCP server lists its fixture tools
       id: mcp-list-tools
       context: [runtime]
       mcp: list-tools
       stdout:
-          - contains: insert_cell   # plaintext "name\tdescription" per line
-          - contains: execute_cell
+          - contains: insert_item   # plaintext "name\tdescription" per line
+          - contains: execute_item
 
-    - check: calling list_notebooks succeeds (no IsError)
+    - check: calling list_items succeeds (no IsError)
       id: mcp-call-tool
       context: [runtime]
       mcp:
           method: call
-          tool: list_notebooks  # required
+          tool: list_items  # required
           input: "{}"           # optional JSON arg blob
       exit_status: 0            # assert no IsError
 

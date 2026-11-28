@@ -47,8 +47,8 @@ its `InputDef`). The schema imports the contract module for the SHARED
 
 Five GENERIC, domain-neutral MAINTENANCE verbs replace repository shell
 scripts, each parameterized by the repo's own data (paths/pairs/pins) so the
-plugin stays reusable by any repository: `verb:git-submodules` (status/bump/
-verify `.gitmodules` pins, incl. the EDGE comparison of a repo's pins
+plugin stays reusable by any repository: `verb:git-submodules` (status/ff/
+verify/currency `.gitmodules` pins, incl. the EDGE comparison of a repo's pins
 against a pinned checkout's gitlinks), `verb:file-parity` (check/sync that
 paired files are byte-identical), `verb:splice-region` (splice a marked
 region from a fragment into a target), `verb:module-pins` (adopt a
@@ -110,17 +110,22 @@ import "github.com/opencharly/spec/schema"
 
 // #GitSubmodulesInput drives `.gitmodules` pin maintenance.
 #GitSubmodulesInput: {
-	// mode: status lists; bump stages new gitlinks; verify asserts CONSISTENCY —
-	// that every checkout matches the gitlink the index records. currency asks the
-	// OTHER question, which needs no checkout at all: whether each recorded pin is
-	// the value its owning repo actually serves (a green verify is not a currency
-	// claim; it passes on a tree whose submodules are all behind their remotes).
+	// mode: status lists; ff FAST-FORWARDS every pin; verify asserts CONSISTENCY —
+	// that every checkout matches the gitlink the index records. currency asserts
+	// CURRENCY: that every recorded gitlink EQUALS the tip of the branch `.gitmodules`
+	// declares (a green verify is not a currency claim; it passes on a tree whose
+	// submodules are all behind their remotes, and `behind` FAILS here).
+	//
+	// ff only ever ADVANCES: it refuses a move whose target does not descend from the
+	// checkout's current HEAD, leaving that submodule exactly as it was — not switched,
+	// not staged, its nested checkouts not reconciled.
 	mode: or(_submodulesModeWord)
 	// pinned_from is a checkout path whose gitlinks are authoritative for the
 	// entries named in pin_map (e.g. "charly"). Empty => no pinned set.
 	pinned_from?: string @go(PinnedFrom)
 	// pin_map maps a submodule PATH in this repo to its twin PATH in pinned_from.
-	// On bump, every submodule NOT in pin_map rolls to its own default-branch HEAD.
+	// On ff, every submodule NOT in pin_map is fast-forwarded to its own
+	// default-branch HEAD.
 	pin_map?: {[string]: string} @go(PinMap)
 	// intent declares WHY each pin holds the value it does, so CURRENCY is
 	// answerable rather than assumed. Two shapes, and they are not interchangeable:
@@ -137,18 +142,6 @@ import "github.com/opencharly/spec/schema"
 	intent?: {[string]: string} @go(Intent)
 	// skip lists submodule paths the verb must not touch.
 	skip?: [...string]
-	// stale_after is the OWNER's bound on its OWN bookkeeping, and it is opt-in: unset
-	// => the knob is off and the currency verdict is the structural one alone.
-	//
-	// It is a duration ("168h"). A pin that is not current AND that this repo has not
-	// advanced for LONGER than this bound is STALE, and a stale pin FAILS.
-	//
-	// The bound is on the AGE of this repo's last advance of that path — NOT on the
-	// pin's distance from the ref it names. The distance is CHURN: a busy upstream is
-	// behind between every wave, so a gate that failed on the distance would be
-	// permanently red on a healthy tree, and a permanently red gate trains every reader
-	// to ignore it. The age is NEGLECT, and neglect is the defect this bounds.
-	stale_after?: string @go(StaleAfter)
 }
 
 // #FileParityInput asserts (or syncs) that paired files are byte-identical.
@@ -238,7 +231,7 @@ import "github.com/opencharly/spec/schema"
 // THREE tables cover FIVE `mode` fields: `_checkSync` is the one two-word set that
 // three verbs share, so it has ONE home and three consumers rather than three
 // copies that could drift apart.
-_submodulesMode: {status: {}, bump: {}, verify: {}, currency: {}} @vocab(task)
+_submodulesMode: {status: {}, ff: {}, verify: {}, currency: {}} @vocab(task)
 _submodulesModeWord: [for w, _ in _submodulesMode {w}]
 
 _checkSync: {check: {}, sync: {}} @vocab(task)
@@ -330,4 +323,4 @@ _pruneModeWord: [for w, _ in _pruneMode {w}]
 
 ---
 
-See also the [candy reference](/reference/candy/github-com-opencharly-plugin-task-v2026-316-2347/plugin-task/) for this candy's install surface.
+See also the [candy reference](/reference/candy/github-com-opencharly-plugin-task-v2026-332-0323/plugin-task/) for this candy's install surface.

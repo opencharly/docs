@@ -137,7 +137,6 @@ gpu-vm:
 - [`/charly-selkies:ffmpeg`](/recipes/selkies/ffmpeg/) — FFmpeg multimedia (nonfree codecs) — required dependency
 - [`/charly-distros:rocm`](/recipes/distros/rocm/) — AMD GPU counterpart (ROCm runtime + OpenCL)
 - [`/charly-languages:python-ml`](/recipes/languages/python-ml/) — ML Python environment (depends on cuda)
-- [`/charly-jupyter:jupyter`](/recipes/jupyter/jupyter/) — Jupyter notebooks (depends on cuda)
 - [`/charly-ollama:ollama`](/recipes/ollama/ollama/) — LLM server (depends on cuda)
 - [`/charly-comfyui:comfyui`](/recipes/comfyui/comfyui/) — image generation (depends on cuda)
 
