@@ -4,7 +4,7 @@
 
 ## Design identity
 
-OpenCharly is the agentic DevOps tool for people and their agents. The website should feel like a premium chocolatier's workshop fused with precision engineering: cinematic, richly rendered, warm, whimsical and technically credible. **A kinder internet.**
+OpenCharly is the agentic DevOps Factory for people and their agents. The website should feel like a premium chocolatier's workshop fused with precision engineering: cinematic, richly rendered, warm, whimsical and technically credible. **A kinder internet.**
 
 Use the original gold crown with colored droplets and the original OpenCharly wordmark. **Do not redraw the logo as generic flat SVG geometry.** The supplied Charly illustration is the canonical mascot: cream armor, copper mechanisms, black faceplate, amber eyes and chocolate apron with a gold crown. Keep its proportions and materials.
 
